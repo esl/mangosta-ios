@@ -1,2 +1,2 @@
 # Mangosta
-MonggooseIM client for iOS
+MongooseIM client for iOS
