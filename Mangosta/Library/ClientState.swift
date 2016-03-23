@@ -9,14 +9,19 @@
 import Foundation
 
 public struct ClientState {
-	enum FeatureAvailability {
+	public enum FeatureAvailability {
 		case Available
 		case Unavailable
 	}
 	
 	var presence: FeatureAvailability = FeatureAvailability.Unavailable
+	var clientAvailability: FeatureAvailability = FeatureAvailability.Unavailable
 	
 	mutating func changePresence(newPresence: FeatureAvailability) {
 		self.presence = newPresence
+	}
+	
+	mutating func changeClientAvailability(newAvailability: FeatureAvailability) {
+		self.clientAvailability = newAvailability
 	}
 }

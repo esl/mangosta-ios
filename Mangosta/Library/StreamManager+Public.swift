@@ -14,6 +14,10 @@ extension StreamManager {
 		return self.clientState.presence == ClientState.FeatureAvailability.Available
 	}
 	
+	public func isAvailable() -> Bool {
+		return self.clientState.clientAvailability == ClientState.FeatureAvailability.Available
+	}
+	
 	public func toggleCarbons(enabled: Bool) {
 		if enabled {
 			self.messageCarbons.enableMessageCarbons()
@@ -24,5 +28,15 @@ extension StreamManager {
 	
 	public func messageCarbonsEnabled() -> Bool {
 		return self.messageCarbons.messageCarbonsEnabled
+	}
+	
+	public func becomeAvailable() {
+		self.clientState.changeClientAvailability(ClientState.FeatureAvailability.Available)
+		self.sendClientState(ClientState.FeatureAvailability.Available)
+	}
+	
+	public func becomeUnavailable() {
+		self.clientState.changeClientAvailability(ClientState.FeatureAvailability.Unavailable)
+		self.sendClientState(ClientState.FeatureAvailability.Unavailable)
 	}
 }

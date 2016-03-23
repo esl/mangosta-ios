@@ -64,7 +64,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 		case SettingsCells.LastMessageCorrection.rawValue:
 			title = "Last Message Correction"
 		case SettingsCells.ClientStateIndication.rawValue:
-			title = "Client State Indication"
+			title = "Client State Indication: " + (StreamManager.manager.isAvailable() ? " Available" : "Unavailable")
 		default:
 			title = "Whoops"
 		}
@@ -96,7 +96,13 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 		case SettingsCells.LastMessageCorrection.rawValue:
 			()
 		case SettingsCells.ClientStateIndication.rawValue:
-			()
+			let availability = StreamManager.manager.clientState.clientAvailability
+			if availability == ClientState.FeatureAvailability.Available {
+				StreamManager.manager.becomeUnavailable()
+			} else {
+				StreamManager.manager.becomeAvailable()
+			}
+			self.tableView.reloadData()
 		default:
 			()
 		}

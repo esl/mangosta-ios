@@ -97,7 +97,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		let sections = self.fetchedResultsController?.sections
 		if section < sections!.count {
-			let sectionInfo = sections![section] 
+			let sectionInfo = sections![section]
 			return sectionInfo.numberOfObjects
 		}
 		return 0
@@ -106,6 +106,19 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
 		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
+		if let firstResource = user.resources.first {
+			if let pres = firstResource.valueForKey("presence") {
+				if pres.type == "available" {
+					cell.textLabel?.textColor = UIColor.blueColor()
+				} else {
+					cell.textLabel?.textColor = UIColor.darkGrayColor()
+				}
+				
+			}
+		} else {
+			cell.textLabel?.textColor = UIColor.darkGrayColor()
+		}
+		
 		cell.textLabel?.text = user.jidStr
 		return cell
 	}

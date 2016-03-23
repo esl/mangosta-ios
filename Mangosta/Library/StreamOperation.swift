@@ -40,8 +40,6 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 	}
 	
 	private init(stream: XMPPStream, password: String) {
-		//self.rosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
-		
 		self.status = StreamStatus.Connected
 		self.password = password
 		self.stream = stream

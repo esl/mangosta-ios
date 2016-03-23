@@ -127,7 +127,7 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.queue.suspended = false
 		
-		let rosterOperation = RosterOperation.retrieveRoster(self.stream, rosterStorage:  self.rosterStorage) { completed, roster in
+		let rosterOperation = RosterOperation.retrieveRoster(self.stream, roster: self.roster, rosterStorage:  self.rosterStorage) { completed, roster in
 			print("Got roster")
 
 			self.roster = roster
@@ -149,18 +149,12 @@ public class StreamManager : NSObject {
 		
 		self.carbonsEnabled = self.messageCarbons.messageCarbonsEnabled
 		
-//		if self.carbonsEnabled {
-//			self.messageCarbons.enableMessageCarbons()
-//		} else {
-//			self.messageCarbons.disableMessageCarbons()
-//		}
-		
-		//StreamManager.manager.sendPresence(true)
-		
 		let roomListOperation = RoomListOperation.retrieveRooms() { response in
 			
 		}
 		StreamManager.manager.addOperation(roomListOperation)
+		
+		self.becomeAvailable()
 		
 		if let completion = self.connectCompletion {
 			completion()
@@ -174,6 +168,16 @@ public class StreamManager : NSObject {
 		let finalPath = path.stringByAppendingPathComponent(filename)
 		
 		return finalPath
+	}
+	
+	internal func sendClientState(clientState: ClientState.FeatureAvailability) {
+		var element: NSXMLElement
+		if clientState == ClientState.FeatureAvailability.Available {
+			element = NSXMLElement.indicateActiveElement()
+		} else {
+			element = NSXMLElement.indicateInactiveElement()
+		}
+		self.sendElement(element)
 	}
 }
 
@@ -215,6 +219,10 @@ extension StreamManager : XMPPStreamDelegate {
 		return true
 	}
 	
+	public func xmppStream(sender: XMPPStream!, didSendCustomElement element: DDXMLElement!) {
+		print("sent custom element: \(element)")
+	}
+	
 	public func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
 		print(error)
 	}
@@ -248,6 +256,21 @@ extension StreamManager : XMPPStreamDelegate {
 			return fetchedRoom
 		}
 		return nil
+	}
+}
+
+extension StreamManager: XMPPRosterDelegate {
+	// MARK: RosterDelegate
+	public func xmppRosterDidBeginPopulating(sender: XMPPRoster!, withVersion version: String!) {
+		//print(version)
+	}
+	
+	public func xmppRosterDidEndPopulating(sender: XMPPRoster!) {
+		print("End Populating")
+	}
+	
+	public func xmppRoster(sender: XMPPRoster!, didReceiveRosterItem item: DDXMLElement!) {
+		print(item)
 	}
 }
 

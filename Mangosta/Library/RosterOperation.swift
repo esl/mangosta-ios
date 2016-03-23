@@ -15,10 +15,14 @@ class RosterOperation: AsyncOperation, XMPPRosterDelegate {
 	var xmppStream: XMPPStream
 	var completion: ((result: Bool, roster: XMPPRoster) -> Void)?
 	
-	private init(xmppStream: XMPPStream, rosterStorage: XMPPRosterCoreDataStorage) {
+	private init(xmppStream: XMPPStream, roster: XMPPRoster?, rosterStorage: XMPPRosterCoreDataStorage) {
 		self.xmppStream = xmppStream
 		self.rosterStorage = rosterStorage
-		self.roster = XMPPRoster(rosterStorage: self.rosterStorage)
+		if roster == nil {
+			self.roster = XMPPRoster(rosterStorage: self.rosterStorage)
+		} else {
+			self.roster = roster!
+		}
 		
 		super.init()
 	}
@@ -27,8 +31,8 @@ class RosterOperation: AsyncOperation, XMPPRosterDelegate {
 		self.retrieveRoster()
 	}
 	
-	class func retrieveRoster(xmppStream: XMPPStream, rosterStorage: XMPPRosterCoreDataStorage, completion: (result: Bool, roster: XMPPRoster) -> Void) -> RosterOperation {
-		let rosterOperation = RosterOperation(xmppStream: xmppStream, rosterStorage: rosterStorage)
+	class func retrieveRoster(xmppStream: XMPPStream, roster: XMPPRoster?, rosterStorage: XMPPRosterCoreDataStorage, completion: (result: Bool, roster: XMPPRoster) -> Void) -> RosterOperation {
+		let rosterOperation = RosterOperation(xmppStream: xmppStream, roster: roster, rosterStorage: rosterStorage)
 		rosterOperation.completion = completion
 		return rosterOperation
 	}
