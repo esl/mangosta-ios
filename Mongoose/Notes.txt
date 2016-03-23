@@ -1,0 +1,96 @@
+Notes
+
+https://blog.process-one.net/building-an-xmpp-ios-client-in-swift-2/
+
+Ideally, no XMPP* classes will be exposed in the library; Swift Structs should be the only thing visible to the consumer of this library.
+
+XEP-0313: Message Archive Management
+	• Will require implementing XEP-0059 (Result Set Management)
+	• Paging will be supported
+	• Implemented in XMPPFramework
+XEP-0280: Message Carbons
+	• Client must send a stanza to enable Carbons
+	• Implemented in XMPPFramework
+Presence
+	
+XEP-0198: Stream Management
+	• XMPPFramework has this
+XEP-0352: Client State Indication
+	• If this is enabled, do Remote Notifications have any role in the implementation? (I assume not)
+	• Implemented in XMPPFramework
+	
+===========================================
+XEP-0198: Stream Management
+There are 2 main features implemented in Stream Management:
+• Stanza Acknowledgements
+• Stream resumption
+
+Stream Management can only be enabled on the client after the stream has finished authenticating and resource binding.
+	
+XMPPFramework Stream Management is *mostly* done, but the storage of acks is in-memory only. A proper disk-based storage (CoreData) must be written if stream resumption is to be implemented.
+
+
+===========================================
+XEP-0280: Message Carbons
+Messages are eligible for Carbon delivery if they are of type 'chat' or of type 'normal', and contain a body element. Messages of type 'error' in most circumstances are not eligible, but there may be times where they are, rarely.
+
+Chat State messages (XEP-0085 is explicitly mentioned, but XEP-0352, which we are implementing, is not mentioned) are Carbon Copied.
+
+Please note that MUC messages (and any private messages from MUC participants) are NOT eligible for Carbon Copies
+
+Client is allowed to send any number of enable/disable requests.
+
+1) Enable Carbons
+	• IQ of type 'set', with an enable element
+		a) Server sends a result iq OR
+		b) Server sends an error (forbidden or not-allowed)
+2) Disable Carbons
+	• IQ of type 'set', with a disable element
+		a) Server sends a result iq OR
+		b) Server sends an error (not-allowed)
+		
+Structure
+A typical message has the following structure:
+	message
+		body
+		thread
+		
+For received messages, the corresponding Carbon Copy will have this structure:
+	message
+		received
+			forwarded
+				message <--- this is the actual message
+					body
+					thread
+This wrapping structure conforms to XEP-0297 (Stanza Forwarding).
+
+For sent messages, the corresponding Carbon Copy will have this structure:
+	message
+		sent
+			forwarded
+				message <--- this is the actual message
+					body
+					thread
+					
+To prevent a single message from being Carbon Copied, add a 'private' element
+	message <-- 'to' must have a resource in order to be private
+		body
+		thread
+		private xmlns='urn:xmpp:carbons:2'
+	
+===========================================
+XEP-0363: HTTP File Upload
+1) Request a Slot
+	• filename (required)
+	• file size (required)
+	• Content Type (optional)
+	a) Return values
+		1 PUT url (this is where the file will be uploaded)
+		2 GET url (this is the remote address of the file, once it is uploaded)
+	b) Error conditions
+		1 file size too large (error type 'modify')
+		2 quota exceeded (error type 'wait')
+		3 client not allowed to upload (error type 'cancel')
+2) Perform the upload
+	• PUT request should be rejected if the actual file size does not match the size indicated in the slot request
+	• Response status 201 indicates the file is now ready to be downloaded.
