@@ -23,7 +23,7 @@ xcuserdata
 *.xcuserstate
 *.xcscmblueprint
 
-Podfile.lock
-Pods/
+#Podfile.lock
+#Pods/
 
 .DS_Store

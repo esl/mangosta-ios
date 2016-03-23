@@ -42,12 +42,21 @@ class ChatViewController: UIViewController {
 	
 	internal func showChatAlert(sender: AnyObject?) {
 		let alertController = UIAlertController(title: "Warning!", message: "It will send Yo! to the recipient, continue ?", preferredStyle: UIAlertControllerStyle.Alert)
+		
+		alertController.addTextFieldWithConfigurationHandler { (textField) in
+			
+		}
 		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
 			alertController.dismissViewControllerAnimated(true, completion: nil)
 		}))
 		
 		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			let message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
+			var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
+			
+			if let messageText = alertController.textFields?.first?.text {
+				message = messageText
+			}
+			
 			let senderJID = self.userJID
 			let msg = XMPPMessage(type: "chat", to: senderJID)
 			
