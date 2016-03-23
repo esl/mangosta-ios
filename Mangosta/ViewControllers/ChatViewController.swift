@@ -92,6 +92,9 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
 		let message = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPMessageArchiving_Message_CoreDataObject
+		
+		cell.backgroundColor = message.isOutgoing ? UIColor.lightGrayColor() : UIColor.whiteColor()
+		
 		cell.textLabel?.text = message.body
 		return cell
 	}
