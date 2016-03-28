@@ -27,11 +27,20 @@ extension StreamManager {
 		
 		self.isAttemptingConnection = true
 		
-		let connectOperation = StreamOperation.createAndConnectStream("192.168.100.109", userJID: auth.jid, password: auth.password) { (stream) -> Void in
+		let hostName = (auth.serverName != nil) ? auth.serverName! : "192.168.100.109"
+
+		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: auth.jid, password: auth.password) { stream in
 			if let createdStream = stream {
 				self.stream = createdStream
 				self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 				
+				// MARK: Dammit cannot yet figure out how to variably initialize rosterStorage
+//				self.rosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
+//				self.roster = XMPPRoster(rosterStorage: self.rosterStorage, dispatchQueue: dispatch_get_main_queue())
+//				
+//				if let myRoster = self.roster {
+//					myRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+//				}
 				
 				self.onConnectOrReconnect()
 			} else {
@@ -63,11 +72,15 @@ extension StreamManager {
 		self.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
 		self.roster = nil
 		
-		if let liveStream = self.stream {
-			liveStream.disconnect()
+		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in
+			if let liveStream = self.stream {
+				liveStream.disconnect()
+			}
+			
+			self.stream = nil
 		}
+		self.addOperation(disconnectOperation)
 		
-		self.stream = nil
 	}
 	
 	public func isOnline() -> Bool {

@@ -11,6 +11,7 @@ import UIKit
 class LoginViewController: UIViewController {
 	@IBOutlet private var jidField: UITextField!
 	@IBOutlet private var passwordField: UITextField!
+	@IBOutlet private var serverNameField: UITextField!
 	var loginDelegate: LoginControllerDelegate?
 	
 	override func viewDidLoad() {
@@ -18,6 +19,10 @@ class LoginViewController: UIViewController {
 	}
 	
 	@IBAction func logIn(sender: AnyObject?) {
+		if let serverText = self.serverNameField.text {
+			let auth = AuthenticationModel(jidString: self.jidField.text!, serverName: serverText, password: self.passwordField.text!)
+			auth.save()
+		}
 		let auth = AuthenticationModel(jidString: self.jidField.text!, password: self.passwordField.text!)
 		auth.save()
 		

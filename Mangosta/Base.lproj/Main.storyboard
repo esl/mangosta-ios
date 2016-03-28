@@ -33,7 +33,7 @@
                                                     <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -176,20 +176,28 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Server (optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LTe-J0-v40">
+                                        <rect key="frame" x="8" y="168" width="270" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92156862750000001" green="0.1647058824" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="D1u-dC-eML" firstAttribute="top" secondItem="LcR-hp-4NL" secondAttribute="top" constant="79" id="4W2-NS-bGM"/>
+                                    <constraint firstItem="LTe-J0-v40" firstAttribute="leading" secondItem="LcR-hp-4NL" secondAttribute="leading" constant="8" id="CkD-kg-8fY"/>
                                     <constraint firstAttribute="width" constant="286" id="N6N-4y-4pS"/>
                                     <constraint firstAttribute="trailing" secondItem="Ztn-I8-ZQu" secondAttribute="trailing" constant="8" id="W2L-zJ-RVd"/>
                                     <constraint firstItem="Ztn-I8-ZQu" firstAttribute="leading" secondItem="LcR-hp-4NL" secondAttribute="leading" constant="8" id="WT6-Rl-Uqa"/>
                                     <constraint firstAttribute="trailing" secondItem="D1u-dC-eML" secondAttribute="trailing" constant="8" id="WTQ-6X-xa4"/>
+                                    <constraint firstItem="LTe-J0-v40" firstAttribute="top" secondItem="Ztn-I8-ZQu" secondAttribute="bottom" constant="15" id="dfN-QP-ANn"/>
                                     <constraint firstItem="Ztn-I8-ZQu" firstAttribute="top" secondItem="D1u-dC-eML" secondAttribute="bottom" constant="14" id="dfi-vS-CS6"/>
                                     <constraint firstItem="D1u-dC-eML" firstAttribute="leading" secondItem="LcR-hp-4NL" secondAttribute="leading" constant="8" id="euo-vU-43b"/>
+                                    <constraint firstAttribute="trailing" secondItem="LTe-J0-v40" secondAttribute="trailing" constant="8" id="fxt-Ur-wgW"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aPJ-ju-0gq">
-                                <rect key="frame" x="267" y="186" width="67" height="30"/>
+                                <rect key="frame" x="267" y="236" width="67" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="67" id="fSN-vv-7OE"/>
                                 </constraints>
@@ -201,16 +209,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="aPJ-ju-0gq" firstAttribute="top" secondItem="Ztn-I8-ZQu" secondAttribute="bottom" constant="13" id="30j-Rp-xwb"/>
                             <constraint firstItem="LcR-hp-4NL" firstAttribute="top" secondItem="udP-bh-nQd" secondAttribute="bottom" id="ANO-9l-0Q0"/>
                             <constraint firstItem="LcR-hp-4NL" firstAttribute="centerX" secondItem="dKd-nN-ELs" secondAttribute="centerX" id="AwS-2b-lKG"/>
                             <constraint firstItem="aPJ-ju-0gq" firstAttribute="centerX" secondItem="LcR-hp-4NL" secondAttribute="centerX" id="bTw-ce-trA"/>
+                            <constraint firstItem="aPJ-ju-0gq" firstAttribute="top" secondItem="LTe-J0-v40" secondAttribute="bottom" constant="18" id="f4A-4g-arB"/>
                             <constraint firstItem="61q-SD-IzG" firstAttribute="top" secondItem="LcR-hp-4NL" secondAttribute="bottom" constant="38" id="fBn-ii-2Om"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="jidField" destination="D1u-dC-eML" id="eDF-q6-o6D"/>
                         <outlet property="passwordField" destination="Ztn-I8-ZQu" id="58E-Ru-AIs"/>
+                        <outlet property="serverNameField" destination="LTe-J0-v40" id="6O5-Sc-Muy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fdd-pI-XOh" userLabel="First Responder" sceneMemberID="firstResponder"/>

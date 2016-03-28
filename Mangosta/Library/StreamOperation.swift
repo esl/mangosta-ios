@@ -10,7 +10,7 @@ import Foundation
 import XMPPFramework
 
 enum StreamStatus {
-	case Ready, Connected, Authenticated, Failed
+	case Ready, Connected, Authenticated, Failed, ReadyToDisconnect, Disconnected
 }
 
 class StreamOperation: AsyncOperation, XMPPStreamDelegate {
@@ -51,6 +51,18 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 		self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 	
+	private init(stream: XMPPStream) {
+		self.status = StreamStatus.Connected
+		self.password = ""
+		self.stream = stream
+		self.userJID = stream.myJID
+		self.hostName = stream.hostName
+		
+		super.init()
+		
+		self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+	}
+	
 	class func createAndConnectStream(hostName: String, userJID: XMPPJID, password: String, completion: (stream: XMPPStream?) -> Void) -> StreamOperation {
 		let streamOperation = StreamOperation(hostName: hostName, userJID: userJID, password: password)
 		streamOperation.completion = completion
@@ -63,6 +75,13 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 		return streamOperation
 	}
 	
+	class func disconnectStream(stream: XMPPStream, completion: (stream: XMPPStream?) -> Void) -> StreamOperation {
+		let streamOperation = StreamOperation(stream: stream)
+		streamOperation.status = .ReadyToDisconnect
+		streamOperation.completion = completion
+		return streamOperation
+	}
+	
 	override func execute() {
 		switch self.status {
 		case .Ready:
@@ -70,6 +89,18 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 		case .Connected:
 			self.authenticate()
 		case .Authenticated:
+			if let success = self.completion {
+				success(stream: self.stream)
+			}
+			self.finish()
+		case .ReadyToDisconnect:
+			self.disconnect()
+		case .Disconnected:
+			if let success = self.completion {
+				success(stream: self.stream)
+			}
+			self.finish()
+		case .Failed:
 			if let success = self.completion {
 				success(stream: self.stream)
 			}
@@ -102,6 +133,10 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 		if error != nil {
 			status = .Failed
 		}
+	}
+	
+	private func disconnect() {
+		self.stream.disconnect()
 	}
 	
 	// MARK: Connection delegates
