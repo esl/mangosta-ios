@@ -41,7 +41,8 @@ class ChatViewController: UIViewController {
 	}
 	
 	internal func showChatAlert(sender: AnyObject?) {
-		let alertController = UIAlertController(title: "Warning!", message: "It will send Yo! to the recipient, continue ?", preferredStyle: UIAlertControllerStyle.Alert)
+		var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
+		let alertController = UIAlertController(title: "Warning!", message: "It will send \(message) by default. Continue?", preferredStyle: UIAlertControllerStyle.Alert)
 		
 		alertController.addTextFieldWithConfigurationHandler { (textField) in
 			
@@ -51,7 +52,6 @@ class ChatViewController: UIViewController {
 		}))
 		
 		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
 			
 			if let messageText = alertController.textFields?.first?.text {
 				message = messageText
@@ -61,6 +61,7 @@ class ChatViewController: UIViewController {
 			let msg = XMPPMessage(type: "chat", to: senderJID)
 			
 			msg.addBody(message)
+			
 			StreamManager.manager.stream.sendElement(msg)
 		}))
 		self.presentViewController(alertController, animated: true, completion: nil)
@@ -68,12 +69,14 @@ class ChatViewController: UIViewController {
 }
 
 extension ChatViewController: NSFetchedResultsControllerDelegate {
+	//MARK: NSFetchedResultsControllerDelegate
 	func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
 		self.tableView.reloadData()
 	}
 }
 
 extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
+	//MARK: UITableViewDataSource, UITableViewDelegate
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		if let sections = self.fetchedResultsController?.sections {
 			return sections.count

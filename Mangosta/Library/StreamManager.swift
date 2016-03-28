@@ -10,35 +10,32 @@ import Foundation
 import XMPPFramework
 
 public class StreamManager : NSObject {
+	//MARK: Private variables
+	private var capabilities: XMPPCapabilities
+	private var capabilitiesStorage : XMPPCapabilitiesCoreDataStorage
+	
+	//MARK: Public variables
 	public static let manager = StreamManager()
 	public var stream: XMPPStream!
 	public var authenticationModel: AuthenticationModel?
-	private var queue: NSOperationQueue
-	private var connectionQueue: NSOperationQueue
 	public var connectCompletion: VoidCompletion?
-	private var isAttemptingConnection = false
 	public var onlineJIDs : Set<String>
 	public var carbonsEnabled = true
 	public var fetchedResultsController: NSFetchedResultsController!
 	public var roster: XMPPRoster?
 	public var clientState = ClientState()
 	
-	var capabilities: XMPPCapabilities
-	var capabilitiesStorage : XMPPCapabilitiesCoreDataStorage
+	//MARK: Internal Variables
+	internal var isAttemptingConnection = false
+	internal var queue: NSOperationQueue
+	internal var connectionQueue: NSOperationQueue
+	internal var messageArchiving: XMPPMessageArchiving
+	internal var roomStorage: XMPPRoomCoreDataStorage
+	internal var rosterStorage: XMPPRosterCoreDataStorage
+	internal var messageCarbons: XMPPMessageCarbons
+	internal var messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	
-	var roomStorage: XMPPRoomCoreDataStorage
-	
-	var rosterStorage: XMPPRosterCoreDataStorage
-	
-	var messageArchiving: XMPPMessageArchiving
-	var messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
-	
-	var messageCarbons: XMPPMessageCarbons
-	
-	public func addOperation(operation: NSOperation) {
-		self.queue.addOperation(operation)
-	}
-	
+	//MARK: Private functions
 	private override init() {
 		self.queue = NSOperationQueue()
 		self.queue.maxConcurrentOperationCount = 1
@@ -67,63 +64,8 @@ public class StreamManager : NSObject {
 		self.fetchedResultsController = self.createFetchedResultsControllerForAllMessages()
 	}
 	
-	public func begin(completion: VoidCompletion = {}) {
-		self.connectCompletion = completion
-		
-		if self.isAttemptingConnection { return }
-		
-		guard let auth = AuthenticationModel.load() else {
-			return
-		}
-		
-		self.authenticationModel = auth
-		
-		self.isAttemptingConnection = true
-		
-		let connectOperation = StreamOperation.createAndConnectStream("192.168.100.109", userJID: auth.jid, password: auth.password) { (stream) -> Void in
-			if let createdStream = stream {
-				self.stream = createdStream
-				self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-				
-				
-				self.onConnectOrReconnect()
-			} else {
-				self.isAttemptingConnection = false
-			}
-			
-			
-		}
-		self.connectionQueue.addOperation(connectOperation)
-	}
-	
-	public func sendElement(element: DDXMLElement, completion: VoidCompletion = {}) {
-		if StreamManager.manager.stream == nil {
-			StreamManager.manager.begin() { finished in
-				StreamManager.manager.stream.sendElement(element)
-				completion()
-			}
-		} else {
-			StreamManager.manager.stream.sendElement(element)
-			completion()
-		}
-	}
-	
-	public func disconnect() {
-		AuthenticationModel.remove()
-		self.sendPresence(false)
-		self.isAttemptingConnection = false
-		self.roster?.removeDelegate(self)
-		self.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
-		self.roster = nil
-		
-		if let liveStream = self.stream {
-			liveStream.disconnect()
-		}
-		
-		self.stream = nil
-	}
-	
-	private func onConnectOrReconnect() {
+	//MARK: Internal functions
+	internal func onConnectOrReconnect() {
 		self.isAttemptingConnection = false
 		self.queue.suspended = false
 		
@@ -162,14 +104,6 @@ public class StreamManager : NSObject {
 		self.connectCompletion = nil
 	}
 	
-	private func rosterFileDirectoryPath() -> String {
-		let path = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0] as NSString
-		let filename = self.stream.myJID.bare()
-		let finalPath = path.stringByAppendingPathComponent(filename)
-		
-		return finalPath
-	}
-	
 	internal func sendClientState(clientState: ClientState.FeatureAvailability) {
 		var element: NSXMLElement
 		if clientState == ClientState.FeatureAvailability.Available {
@@ -181,6 +115,8 @@ public class StreamManager : NSObject {
 	}
 }
 
+//MARK: -
+//MARK: XMPPStreamDelegate
 extension StreamManager : XMPPStreamDelegate {
 	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
 		print(message)
@@ -259,8 +195,9 @@ extension StreamManager : XMPPStreamDelegate {
 	}
 }
 
+//MARK: -
+//MARK: RosterDelegate
 extension StreamManager: XMPPRosterDelegate {
-	// MARK: RosterDelegate
 	public func xmppRosterDidBeginPopulating(sender: XMPPRoster!, withVersion version: String!) {
 		//print(version)
 	}
@@ -274,6 +211,8 @@ extension StreamManager: XMPPRosterDelegate {
 	}
 }
 
+//MARK: -
+//MARK: XMPPCapabilitiesDelegate
 extension StreamManager : XMPPCapabilitiesDelegate {
 	public func xmppCapabilities(sender: XMPPCapabilities!, collectingMyCapabilities query: DDXMLElement!) {
 		print(query)
@@ -291,6 +230,8 @@ extension StreamManager : XMPPCapabilitiesDelegate {
 	}
 }
 
+//MARK: -
+//MARK: XMPPMessageCarbonsDelegate
 extension StreamManager: XMPPMessageCarbonsDelegate {
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, didReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
 		//
