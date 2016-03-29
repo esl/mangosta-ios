@@ -20,7 +20,6 @@ public class StreamManager : NSObject {
 	public var connectCompletion: VoidCompletion?
 	public var onlineJIDs : Set<String>
 	public var carbonsEnabled = true
-	public var fetchedResultsController: NSFetchedResultsController!
 	public var clientState = ClientState()
 	
 	//MARK: Internal Variables
@@ -45,7 +44,6 @@ public class StreamManager : NSObject {
 		
 		super.init()
 		
-		self.fetchedResultsController = self.createFetchedResultsControllerForAllMessages()
 	}
 	
 	//MARK: Internal functions
@@ -85,12 +83,10 @@ public class StreamManager : NSObject {
 		self.queue.addOperation(operation)
 	}
 	
-	public func begin(authentication: AuthenticationModel, completion: VoidCompletion = {}) {
+	public func begin(authentication authentication: AuthenticationModel, completion: VoidCompletion = {}) {
 		self.connectCompletion = completion
 		
 		if self.isAttemptingConnection { return }
-		
-		
 		
 		self.authenticationModel = authentication
 		
@@ -115,7 +111,7 @@ public class StreamManager : NSObject {
 	
 	public func sendElement(element: DDXMLElement, completion: VoidCompletion = {}) {
 		if StreamManager.manager.stream == nil {
-			StreamManager.manager.begin(self.authenticationModel!) { finished in
+			StreamManager.manager.begin(authentication: self.authenticationModel!) { finished in
 				StreamManager.manager.stream.sendElement(element)
 				completion()
 			}
@@ -184,6 +180,13 @@ public class StreamManager : NSObject {
 		self.clientState.changeClientAvailability(ClientState.FeatureAvailability.Unavailable)
 		self.sendClientState(ClientState.FeatureAvailability.Unavailable)
 	}
+	
+	public func supportsCapability(capability: StreamController.CapabilityTypes) -> Bool {
+		guard let controller = self.streamController else {
+			return false
+		}
+		return controller.capabilityTypes.contains(capability)
+	}
 }
 
 //MARK: -
@@ -232,28 +235,6 @@ extension StreamManager : XMPPStreamDelegate {
 	
 	public func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
 		print(error)
-	}
-	
-	//MARK: Room stuff
-	public func createFetchedResultsControllerForAllMessages() -> NSFetchedResultsController {
-		let context = self.roomStorage.mainThreadManagedObjectContext
-		let entity = self.roomStorage.occupantEntity(context)
-		let sd1 = NSSortDescriptor(key: "createdAt", ascending: true)
-		let fetchRequest = NSFetchRequest()
-		fetchRequest.entity = entity
-		fetchRequest.fetchBatchSize = 1
-		fetchRequest.sortDescriptors = [sd1]
-		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-		return fetchedResultsController
-	}
-	
-	public func roomForJid(jid: XMPPJID) -> XMPPRoom? {
-		try! self.fetchedResultsController.performFetch()
-		if let rooms = self.fetchedResultsController.fetchedObjects as? [XMPPRoom] {
-			let fetchedRoom = rooms.filter { $0.roomJID.bare() == jid.bare() }.first
-			return fetchedRoom
-		}
-		return nil
 	}
 }
 
