@@ -23,18 +23,14 @@ public class StreamManager : NSObject {
 	public var onlineJIDs : Set<String>
 	public var carbonsEnabled = true
 	public var fetchedResultsController: NSFetchedResultsController!
-	public var roster: XMPPRoster?
 	public var clientState = ClientState()
 	
 	//MARK: Internal Variables
 	internal var isAttemptingConnection = false
 	internal var queue: NSOperationQueue
 	internal var connectionQueue: NSOperationQueue
-	internal var messageArchiving: XMPPMessageArchiving
 	internal var roomStorage: XMPPRoomCoreDataStorage
-	//internal var rosterStorage: XMPPRosterCoreDataStorage
 	internal var messageCarbons: XMPPMessageCarbons
-	internal var messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	
 	//MARK: Private functions
 	private override init() {
@@ -47,11 +43,8 @@ public class StreamManager : NSObject {
 		
 		self.capabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
 		self.roomStorage = XMPPRoomCoreDataStorage.sharedInstance()
-		//self.rosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
-		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
 		
 		self.capabilities = XMPPCapabilities(capabilitiesStorage: self.capabilitiesStorage)
-		self.messageArchiving = XMPPMessageArchiving(messageArchivingStorage: self.messageArchivingStorage)
 		
 		self.messageCarbons = XMPPMessageCarbons()
 		//self.capabilities.autoFetchMyServerCapabilities = true
@@ -70,28 +63,20 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.queue.suspended = false
 		
-		self.streamController = StreamController(stream: self.stream)
-		
-		self.streamController?.retrieveRoster() { (success, roster) in
+		self.streamController = StreamController(authentication: self.authenticationModel!, stream: self.stream) { completion in
+			print("done")
 		}
+		self.streamController?.finish()
 		
-//		let rosterOperation = RosterOperation.retrieveRoster(self.stream, roster: self.roster, rosterStorage:  self.rosterStorage) { completed, roster in
-//			print("Got roster")
-//
-//			self.roster = roster
-//			if let myRoster = self.roster {
-//				myRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-//			}
+//		self.streamController?.retrieveRoster() { (success, roster) in
 //		}
-//		
-//		StreamManager.manager.addOperation(rosterOperation)
 		
 		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.capabilities.activate(self.stream)
 		self.capabilities.recollectMyCapabilities()
 		
-		self.messageArchiving.activate(self.stream)
+		//self.messageArchiving.activate(self.stream)
 		
 		self.messageCarbons.activate(self.stream)
 		
@@ -169,15 +154,6 @@ extension StreamManager : XMPPStreamDelegate {
 		print(error)
 	}
 	
-	public func sendPresence(available: Bool) {
-		let verb = available ? "available" : "unavailable"
-		let presence = XMPPPresence(type: verb)
-		let priority = DDXMLElement(name: "priority", stringValue: "24")
-		presence.addChild(priority)
-		StreamManager.manager.sendElement(presence)
-		StreamManager.manager.clientState.changePresence(available ? ClientState.FeatureAvailability.Available : ClientState.FeatureAvailability.Unavailable)
-	}
-	
 	//MARK: Room stuff
 	public func createFetchedResultsControllerForAllMessages() -> NSFetchedResultsController {
 		let context = self.roomStorage.mainThreadManagedObjectContext
@@ -198,22 +174,6 @@ extension StreamManager : XMPPStreamDelegate {
 			return fetchedRoom
 		}
 		return nil
-	}
-}
-
-//MARK: -
-//MARK: RosterDelegate
-extension StreamManager: XMPPRosterDelegate {
-	public func xmppRosterDidBeginPopulating(sender: XMPPRoster!, withVersion version: String!) {
-		//print(version)
-	}
-	
-	public func xmppRosterDidEndPopulating(sender: XMPPRoster!) {
-		print("End Populating")
-	}
-	
-	public func xmppRoster(sender: XMPPRoster!, didReceiveRosterItem item: DDXMLElement!) {
-		print(item)
 	}
 }
 

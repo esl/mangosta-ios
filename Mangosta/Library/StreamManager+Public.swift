@@ -14,22 +14,20 @@ extension StreamManager {
 		self.queue.addOperation(operation)
 	}
 	
-	public func begin(completion: VoidCompletion = {}) {
+	public func begin(authentication: AuthenticationModel, completion: VoidCompletion = {}) {
 		self.connectCompletion = completion
 		
 		if self.isAttemptingConnection { return }
 		
-		guard let auth = AuthenticationModel.load() else {
-			return
-		}
 		
-		self.authenticationModel = auth
+		
+		self.authenticationModel = authentication
 		
 		self.isAttemptingConnection = true
 		
-		let hostName = (auth.serverName != nil) ? auth.serverName! : "192.168.100.109"
+		let hostName = (self.authenticationModel!.serverName != nil) ? self.authenticationModel!.serverName! : "192.168.100.109"
 
-		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: auth.jid, password: auth.password) { stream in
+		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: self.authenticationModel!.jid, password: self.authenticationModel!.password) { stream in
 			if let createdStream = stream {
 				self.stream = createdStream
 				self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
@@ -46,7 +44,7 @@ extension StreamManager {
 	
 	public func sendElement(element: DDXMLElement, completion: VoidCompletion = {}) {
 		if StreamManager.manager.stream == nil {
-			StreamManager.manager.begin() { finished in
+			StreamManager.manager.begin(self.authenticationModel!) { finished in
 				StreamManager.manager.stream.sendElement(element)
 				completion()
 			}
@@ -60,10 +58,10 @@ extension StreamManager {
 		AuthenticationModel.remove()
 		self.sendPresence(false)
 		self.isAttemptingConnection = false
-		self.roster?.removeDelegate(self)
+		self.streamController!.roster.removeDelegate(self)
 		self.streamController?.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
 		//self.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
-		self.roster = nil
+		self.streamController = nil
 		
 		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in
 			if let liveStream = self.stream {
@@ -74,6 +72,16 @@ extension StreamManager {
 		}
 		self.addOperation(disconnectOperation)
 		
+	}
+	
+	public func sendPresence(available: Bool) {
+		let verb = available ? "available" : "unavailable"
+		let presence = XMPPPresence(type: verb)
+		let priority = DDXMLElement(name: "priority", stringValue: "24")
+		presence.addChild(priority)
+		StreamManager.manager.sendElement(presence)
+		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notifications.RosterWasUpdated, object: nil)
+		StreamManager.manager.clientState.changePresence(available ? ClientState.FeatureAvailability.Available : ClientState.FeatureAvailability.Unavailable)
 	}
 	
 	public func isOnline() -> Bool {

@@ -23,21 +23,23 @@ class ChatViewController: UIViewController {
 	}
 	
 	private func createFetchedResultsController() -> NSFetchedResultsController {
-		let context = StreamManager.manager.messageArchivingStorage.mainThreadManagedObjectContext
-		let entity = NSEntityDescription.entityForName("XMPPMessageArchiving_Message_CoreDataObject", inManagedObjectContext: context)
-		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID.bare())
-		let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
-		
-		let request = NSFetchRequest()
-		request.entity = entity
-		request.predicate = predicate
-		request.sortDescriptors = [sortDescriptor]
-		
-		let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-		controller.delegate = self
-		try! controller.performFetch()
-		
-		return controller
+		if let streamController = StreamManager.manager.streamController, let context = streamController.messageArchivingStorage.mainThreadManagedObjectContext {
+			let entity = NSEntityDescription.entityForName("XMPPMessageArchiving_Message_CoreDataObject", inManagedObjectContext: context)
+			let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID.bare())
+			let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+			
+			let request = NSFetchRequest()
+			request.entity = entity
+			request.predicate = predicate
+			request.sortDescriptors = [sortDescriptor]
+			
+			let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+			controller.delegate = self
+			try! controller.performFetch()
+			
+			return controller
+		}
+		return NSFetchedResultsController()
 	}
 	
 	internal func showChatAlert(sender: AnyObject?) {

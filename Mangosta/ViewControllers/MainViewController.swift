@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
 		super.viewDidLoad()
 		self.title = "Roster"
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasCreated, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
 		
 		self.startup()
 		
@@ -71,7 +71,7 @@ class MainViewController: UIViewController {
 		var logButton: UIBarButtonItem = UIBarButtonItem()
 		
 		if let auth = AuthenticationModel.load() {
-			StreamManager.manager.begin() { finished in
+			StreamManager.manager.begin(auth) { finished in
 				if let rooms = StreamManager.manager.fetchedResultsController.fetchedObjects {
 					print(rooms)
 				}
@@ -107,21 +107,25 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
-		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
-		if let firstResource = user.resources.first {
-			if let pres = firstResource.valueForKey("presence") {
-				if pres.type == "available" {
-					cell.textLabel?.textColor = UIColor.blueColor()
-				} else {
-					cell.textLabel?.textColor = UIColor.darkGrayColor()
+		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+			if let firstResource = user.resources.first {
+				if let pres = firstResource.valueForKey("presence") {
+					if pres.type == "available" {
+						cell.textLabel?.textColor = UIColor.blueColor()
+					} else {
+						cell.textLabel?.textColor = UIColor.darkGrayColor()
+					}
+					
 				}
-				
+			} else {
+				cell.textLabel?.textColor = UIColor.darkGrayColor()
 			}
+			
+			cell.textLabel?.text = user.jidStr
 		} else {
-			cell.textLabel?.textColor = UIColor.darkGrayColor()
+			cell.textLabel?.text = "nope"
 		}
 		
-		cell.textLabel?.text = user.jidStr
 		return cell
 	}
 	
