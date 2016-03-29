@@ -34,14 +34,6 @@ extension StreamManager {
 				self.stream = createdStream
 				self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 				
-				// MARK: Dammit cannot yet figure out how to variably initialize rosterStorage
-//				self.rosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
-//				self.roster = XMPPRoster(rosterStorage: self.rosterStorage, dispatchQueue: dispatch_get_main_queue())
-//				
-//				if let myRoster = self.roster {
-//					myRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-//				}
-				
 				self.onConnectOrReconnect()
 			} else {
 				self.isAttemptingConnection = false
@@ -69,7 +61,8 @@ extension StreamManager {
 		self.sendPresence(false)
 		self.isAttemptingConnection = false
 		self.roster?.removeDelegate(self)
-		self.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
+		self.streamController?.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
+		//self.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
 		self.roster = nil
 		
 		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in

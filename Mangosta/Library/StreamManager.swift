@@ -15,6 +15,7 @@ public class StreamManager : NSObject {
 	private var capabilitiesStorage : XMPPCapabilitiesCoreDataStorage
 	
 	//MARK: Public variables
+	public var streamController: StreamController?
 	public static let manager = StreamManager()
 	public var stream: XMPPStream!
 	public var authenticationModel: AuthenticationModel?
@@ -31,7 +32,7 @@ public class StreamManager : NSObject {
 	internal var connectionQueue: NSOperationQueue
 	internal var messageArchiving: XMPPMessageArchiving
 	internal var roomStorage: XMPPRoomCoreDataStorage
-	internal var rosterStorage: XMPPRosterCoreDataStorage
+	//internal var rosterStorage: XMPPRosterCoreDataStorage
 	internal var messageCarbons: XMPPMessageCarbons
 	internal var messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	
@@ -46,7 +47,7 @@ public class StreamManager : NSObject {
 		
 		self.capabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
 		self.roomStorage = XMPPRoomCoreDataStorage.sharedInstance()
-		self.rosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
+		//self.rosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
 		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
 		
 		self.capabilities = XMPPCapabilities(capabilitiesStorage: self.capabilitiesStorage)
@@ -69,16 +70,21 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.queue.suspended = false
 		
-		let rosterOperation = RosterOperation.retrieveRoster(self.stream, roster: self.roster, rosterStorage:  self.rosterStorage) { completed, roster in
-			print("Got roster")
-
-			self.roster = roster
-			if let myRoster = self.roster {
-				myRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			}
+		self.streamController = StreamController(stream: self.stream)
+		
+		self.streamController?.retrieveRoster() { (success, roster) in
 		}
 		
-		StreamManager.manager.addOperation(rosterOperation)
+//		let rosterOperation = RosterOperation.retrieveRoster(self.stream, roster: self.roster, rosterStorage:  self.rosterStorage) { completed, roster in
+//			print("Got roster")
+//
+//			self.roster = roster
+//			if let myRoster = self.roster {
+//				myRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+//			}
+//		}
+//		
+//		StreamManager.manager.addOperation(rosterOperation)
 		
 		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())

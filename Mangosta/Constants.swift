@@ -12,10 +12,22 @@ import XMPPFramework
 public typealias VoidCompletion = () -> ()
 public typealias BoolCompletion = (success: Bool) -> ()
 public typealias RoomListCompletion = (([XMPPRoom]?)->())
+public typealias RosterCompletion = ((result: Bool, roster: XMPPRoster) -> Void)
 
 public struct Constants {
 	public struct Preferences {
 		public static let Authentication = "AuthenticationPreferenceName"
+	}
+	
+	public struct Notifications {
+		public static let StreamControllerWasCreated = "StreamControllerWasCreatedNotificationName"
+		public static let RosterWasCreated = "RosterWasCreatedNotificationName"
+	}
+	
+	public static func applicationSupportDirectory() -> String {
+		let cacheDirectories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+		
+		return cacheDirectories.first!
 	}
 }
 

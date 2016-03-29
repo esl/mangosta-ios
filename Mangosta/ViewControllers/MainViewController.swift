@@ -17,6 +17,8 @@ class MainViewController: UIViewController {
 		super.viewDidLoad()
 		self.title = "Roster"
 		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasCreated, object: nil)
+		
 		self.startup()
 		
 	}
@@ -25,7 +27,7 @@ class MainViewController: UIViewController {
 		if self.fetchedResultsController != nil {
 			self.fetchedResultsController = nil
 		}
-		if let context = StreamManager.manager.rosterStorage.mainThreadManagedObjectContext {
+		if let streamController = StreamManager.manager.streamController, context = streamController.rosterStorage.mainThreadManagedObjectContext {
 			let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: context)
 			let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
 			let sd2 = NSSortDescriptor(key: "displayName", ascending: true)
@@ -40,8 +42,8 @@ class MainViewController: UIViewController {
 			
 			let objects = self.fetchedResultsController?.fetchedObjects
 			print(objects)
+			self.tableView.reloadData()
 		}
-		
 	}
 	
 	internal func logout(sender: AnyObject?) {
