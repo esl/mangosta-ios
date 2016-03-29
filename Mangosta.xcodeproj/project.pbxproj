@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		811C5AA81CAABB40008346FE /* StreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AA71CAABB40008346FE /* StreamController.swift */; };
 		8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */; };
-		813266A11CA189B300D4EDC0 /* StreamManager+Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A01CA189B300D4EDC0 /* StreamManager+Public.swift */; };
 		813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA61C970EA800AB28FA /* StreamManager.swift */; };
@@ -54,7 +53,6 @@
 		030FC81F912655F12909CC55 /* Pods_Mangosta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		811C5AA71CAABB40008346FE /* StreamController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamController.swift; sourceTree = "<group>"; };
 		8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		813266A01CA189B300D4EDC0 /* StreamManager+Public.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StreamManager+Public.swift"; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
 		813266A71CA2B72100D4EDC0 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Mangosta-Bridging-Header.h"; path = "Library/Subclasses/Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
 		814D4CA41C970E6900AB28FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -123,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				814D4CA61C970EA800AB28FA /* StreamManager.swift */,
-				813266A01CA189B300D4EDC0 /* StreamManager+Public.swift */,
 				811C5AA71CAABB40008346FE /* StreamController.swift */,
 				814D4CA81C970F0D00AB28FA /* AuthenticationModel.swift */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
@@ -432,7 +429,6 @@
 				81F607B31C9C673800B1D269 /* MessageCarbonOperation.swift in Sources */,
 				8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
-				813266A11CA189B300D4EDC0 /* StreamManager+Public.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				814D4CB01C984A9400AB28FA /* AsyncOperation.swift in Sources */,

@@ -11,8 +11,6 @@ import XMPPFramework
 
 public class StreamManager : NSObject {
 	//MARK: Private variables
-	private var capabilities: XMPPCapabilities
-	private var capabilitiesStorage : XMPPCapabilitiesCoreDataStorage
 	
 	//MARK: Public variables
 	public var streamController: StreamController?
@@ -30,8 +28,8 @@ public class StreamManager : NSObject {
 	internal var queue: NSOperationQueue
 	internal var connectionQueue: NSOperationQueue
 	internal var roomStorage: XMPPRoomCoreDataStorage
-	internal var messageCarbons: XMPPMessageCarbons
 	
+	//MARK: -
 	//MARK: Private functions
 	private override init() {
 		self.queue = NSOperationQueue()
@@ -40,17 +38,9 @@ public class StreamManager : NSObject {
 		
 		self.connectionQueue = NSOperationQueue()
 		self.connectionQueue.maxConcurrentOperationCount = 2
-		
-		self.capabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
+
 		self.roomStorage = XMPPRoomCoreDataStorage.sharedInstance()
-		
-		self.capabilities = XMPPCapabilities(capabilitiesStorage: self.capabilitiesStorage)
-		
-		self.messageCarbons = XMPPMessageCarbons()
-		//self.capabilities.autoFetchMyServerCapabilities = true
-		//self.capabilities.autoFetchHashedCapabilities = true
-		
-		
+
 		self.onlineJIDs = []
 		
 		super.init()
@@ -66,32 +56,16 @@ public class StreamManager : NSObject {
 		self.streamController = StreamController(authentication: self.authenticationModel!, stream: self.stream) { completion in
 			print("done")
 		}
-		self.streamController?.finish()
 		
-//		self.streamController?.retrieveRoster() { (success, roster) in
-//		}
 		
-		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.capabilities.activate(self.stream)
-		self.capabilities.recollectMyCapabilities()
+		let roomListOperation = RoomListOperation.retrieveRooms()
 		
-		//self.messageArchiving.activate(self.stream)
-		
-		self.messageCarbons.activate(self.stream)
-		
-		self.carbonsEnabled = self.messageCarbons.messageCarbonsEnabled
-		
-		let roomListOperation = RoomListOperation.retrieveRooms() { response in
-			
-		}
 		StreamManager.manager.addOperation(roomListOperation)
 		
 		self.becomeAvailable()
 		
-		if let completion = self.connectCompletion {
-			completion()
-		}
+		self.connectCompletion?()
+
 		self.connectCompletion = nil
 	}
 	
@@ -103,6 +77,112 @@ public class StreamManager : NSObject {
 			element = NSXMLElement.indicateInactiveElement()
 		}
 		self.sendElement(element)
+	}
+	
+	//MARK: -
+	//MARK: Public functions
+	public func addOperation(operation: NSOperation) {
+		self.queue.addOperation(operation)
+	}
+	
+	public func begin(authentication: AuthenticationModel, completion: VoidCompletion = {}) {
+		self.connectCompletion = completion
+		
+		if self.isAttemptingConnection { return }
+		
+		
+		
+		self.authenticationModel = authentication
+		
+		self.isAttemptingConnection = true
+		
+		let hostName = (self.authenticationModel!.serverName != nil) ? self.authenticationModel!.serverName! : "192.168.100.109"
+		
+		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: self.authenticationModel!.jid, password: self.authenticationModel!.password) { stream in
+			if let createdStream = stream {
+				self.stream = createdStream
+				self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				
+				self.onConnectOrReconnect()
+			} else {
+				self.isAttemptingConnection = false
+			}
+			
+			
+		}
+		self.connectionQueue.addOperation(connectOperation)
+	}
+	
+	public func sendElement(element: DDXMLElement, completion: VoidCompletion = {}) {
+		if StreamManager.manager.stream == nil {
+			StreamManager.manager.begin(self.authenticationModel!) { finished in
+				StreamManager.manager.stream.sendElement(element)
+				completion()
+			}
+		} else {
+			StreamManager.manager.stream.sendElement(element)
+			completion()
+		}
+	}
+	
+	public func disconnect() {
+		AuthenticationModel.remove()
+		self.sendPresence(false)
+		self.isAttemptingConnection = false
+		self.streamController!.roster.removeDelegate(self)
+		self.streamController?.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
+		//self.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
+		self.streamController = nil
+		
+		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in
+			if let liveStream = self.stream {
+				liveStream.disconnect()
+			}
+			
+			self.stream = nil
+		}
+		self.addOperation(disconnectOperation)
+		
+	}
+	
+	public func sendPresence(available: Bool) {
+		let verb = available ? "available" : "unavailable"
+		let presence = XMPPPresence(type: verb)
+		let priority = DDXMLElement(name: "priority", stringValue: "24")
+		presence.addChild(priority)
+		StreamManager.manager.sendElement(presence)
+		NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notifications.RosterWasUpdated, object: nil)
+		StreamManager.manager.clientState.changePresence(available ? ClientState.FeatureAvailability.Available : ClientState.FeatureAvailability.Unavailable)
+	}
+	
+	public func isOnline() -> Bool {
+		return self.clientState.presence == ClientState.FeatureAvailability.Available
+	}
+	
+	public func isAvailable() -> Bool {
+		return self.clientState.clientAvailability == ClientState.FeatureAvailability.Available
+	}
+	
+	public func toggleCarbons(enabled: Bool) {
+		if enabled {
+			self.streamController!.messageCarbons.enableMessageCarbons()
+		} else {
+			self.streamController!.messageCarbons.disableMessageCarbons()
+		}
+	}
+	
+	public func messageCarbonsEnabled() -> Bool {
+		return self.streamController!.messageCarbons.messageCarbonsEnabled
+	}
+	
+	public func becomeAvailable() {
+		self.clientState.changeClientAvailability(ClientState.FeatureAvailability.Available)
+		self.sendClientState(ClientState.FeatureAvailability.Available)
+	}
+	
+	public func becomeUnavailable() {
+		self.clientState.changeClientAvailability(ClientState.FeatureAvailability.Unavailable)
+		self.sendClientState(ClientState.FeatureAvailability.Unavailable)
 	}
 }
 
@@ -177,34 +257,4 @@ extension StreamManager : XMPPStreamDelegate {
 	}
 }
 
-//MARK: -
-//MARK: XMPPCapabilitiesDelegate
-extension StreamManager : XMPPCapabilitiesDelegate {
-	public func xmppCapabilities(sender: XMPPCapabilities!, collectingMyCapabilities query: DDXMLElement!) {
-		print(query)
-	}
-	public func xmppCapabilities(sender: XMPPCapabilities!, didDiscoverCapabilities caps: DDXMLElement!, forJID jid: XMPPJID!) {
-		print(caps)
-	}
-	public func myFeaturesForXMPPCapabilities(sender: XMPPCapabilities!) -> [AnyObject]! {
-		if self.capabilitiesStorage.areCapabilitiesKnownForJID(self.stream.myJID, xmppStream: self.stream) {
-			let val = self.capabilitiesStorage.capabilitiesForJID(self.stream.myJID, xmppStream: self.stream)
-			return [val]
-		} else {
-			return []
-		}
-	}
-}
-
-//MARK: -
-//MARK: XMPPMessageCarbonsDelegate
-extension StreamManager: XMPPMessageCarbonsDelegate {
-	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, didReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
-		//
-	}
-	
-	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, willReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
-		//
-	}
-}
 

@@ -21,6 +21,11 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	let messageArchiving: XMPPMessageArchiving
 	let messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	
+	let capabilities: XMPPCapabilities
+	let capabilitiesStorage: XMPPCapabilitiesCoreDataStorage
+	
+	var messageCarbons: XMPPMessageCarbons
+	
 	public init(authentication: AuthenticationModel, stream: XMPPStream, streamCompletion: StreamCompletion) {
 		self.stream = stream
 		self.authenticationModel = authentication
@@ -35,12 +40,23 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
 		self.messageArchiving = XMPPMessageArchiving(messageArchivingStorage: self.messageArchivingStorage)
 		
+		self.capabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
+		self.capabilities = XMPPCapabilities(capabilitiesStorage: self.capabilitiesStorage)
+		
+		self.messageCarbons = XMPPMessageCarbons()
+		
 		super.init()
+		
+		self.finish()
 	}
 	
 	public func finish() {
 		self.roster.activate(self.stream)
 		self.messageArchiving.activate(self.stream)
+		
+		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.capabilities.activate(self.stream)
+		self.capabilities.recollectMyCapabilities()
 		
 		self.roster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.messageArchiving.addDelegate(self, delegateQueue: dispatch_get_main_queue())
@@ -49,6 +65,9 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 			StreamManager.manager.sendPresence(true)
 		}
 		self.streamCompletion(stream: self.stream)
+		
+		self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.messageCarbons.activate(self.stream)
 	}
 	
 	public func retrieveRoster(completion: RosterCompletion) {
@@ -78,5 +97,37 @@ extension StreamController: XMPPRosterDelegate {
 	
 	public func xmppRoster(sender: XMPPRoster!, didReceiveRosterItem item: DDXMLElement!) {
 		print(item)
+	}
+}
+
+//MARK: -
+//MARK: XMPPCapabilitiesDelegate
+extension StreamController: XMPPCapabilitiesDelegate {
+	public func xmppCapabilities(sender: XMPPCapabilities!, collectingMyCapabilities query: DDXMLElement!) {
+		print(query)
+	}
+	public func xmppCapabilities(sender: XMPPCapabilities!, didDiscoverCapabilities caps: DDXMLElement!, forJID jid: XMPPJID!) {
+		print(caps)
+	}
+	public func myFeaturesForXMPPCapabilities(sender: XMPPCapabilities!) -> [AnyObject]! {
+		if self.capabilitiesStorage.areCapabilitiesKnownForJID(self.stream.myJID, xmppStream: self.stream) {
+			let val = self.capabilitiesStorage.capabilitiesForJID(self.stream.myJID, xmppStream: self.stream)
+			return [val]
+		} else {
+			return []
+		}
+	}
+}
+
+
+//MARK: -
+//MARK: XMPPMessageCarbonsDelegate
+extension StreamController: XMPPMessageCarbonsDelegate {
+	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, didReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
+		//
+	}
+	
+	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, willReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
+		//
 	}
 }

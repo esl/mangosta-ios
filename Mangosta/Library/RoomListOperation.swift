@@ -21,7 +21,7 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 		self.muc.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 	
-	class func retrieveRooms(completion: RoomListCompletion) -> RoomListOperation {
+	class func retrieveRooms(completion: RoomListCompletion = {_ in }) -> RoomListOperation {
 		let chatRoomListOperation = RoomListOperation()
 		chatRoomListOperation.completion = completion
 		return chatRoomListOperation
