@@ -117,7 +117,6 @@ public class StreamManager : NSObject {
 	}
 	
 	public func disconnect() {
-		AuthenticationModel.remove()
 		self.sendPresence(false)
 		self.isAttemptingConnection = false
 		self.streamController!.roster.removeDelegate(self)

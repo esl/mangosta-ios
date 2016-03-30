@@ -49,6 +49,8 @@ class MainViewController: UIViewController {
 	internal func logout(sender: AnyObject?) {
 		StreamManager.manager.disconnect()
 		
+		AuthenticationModel.remove()
+		
 		self.startup()
 		
 		
