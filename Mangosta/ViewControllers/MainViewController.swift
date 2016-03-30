@@ -73,7 +73,7 @@ class MainViewController: UIViewController {
 		var logButton: UIBarButtonItem = UIBarButtonItem()
 		
 		if let auth = AuthenticationModel.load() {
-			StreamManager.manager.begin(authentication: auth)
+			StreamManager.manager.begin(auth.jid.bare(), password: auth.password, serverName: auth.serverName)
 			
 			logButton = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logout(_:)))
 		} else {

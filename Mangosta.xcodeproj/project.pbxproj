@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		811C5AA81CAABB40008346FE /* StreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AA71CAABB40008346FE /* StreamController.swift */; };
+		811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */; };
 		813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA61C970EA800AB28FA /* StreamManager.swift */; };
-		814D4CA91C970F0D00AB28FA /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA81C970F0D00AB28FA /* AuthenticationModel.swift */; };
-		814D4CAB1C97157300AB28FA /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA81C970F0D00AB28FA /* AuthenticationModel.swift */; };
 		814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CAD1C984A8400AB28FA /* StreamOperation.swift */; };
 		814D4CB01C984A9400AB28FA /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CAF1C984A9400AB28FA /* AsyncOperation.swift */; };
 		814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CB11C9C1DE600AB28FA /* RosterOperation.swift */; };
@@ -52,12 +51,12 @@
 /* Begin PBXFileReference section */
 		030FC81F912655F12909CC55 /* Pods_Mangosta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		811C5AA71CAABB40008346FE /* StreamController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamController.swift; sourceTree = "<group>"; };
+		811C5AB31CAC094D008346FE /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
 		813266A71CA2B72100D4EDC0 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Mangosta-Bridging-Header.h"; path = "Library/Subclasses/Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
 		814D4CA41C970E6900AB28FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		814D4CA61C970EA800AB28FA /* StreamManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamManager.swift; sourceTree = "<group>"; };
-		814D4CA81C970F0D00AB28FA /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		814D4CAA1C970F5500AB28FA /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		814D4CAD1C984A8400AB28FA /* StreamOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamOperation.swift; sourceTree = "<group>"; };
 		814D4CAF1C984A9400AB28FA /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
@@ -110,6 +109,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		811C5AB21CAC094D008346FE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				811C5AB31CAC094D008346FE /* AuthenticationModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		813266A41CA2B63600D4EDC0 /* Subclasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,7 +129,6 @@
 			children = (
 				814D4CA61C970EA800AB28FA /* StreamManager.swift */,
 				811C5AA71CAABB40008346FE /* StreamController.swift */,
-				814D4CA81C970F0D00AB28FA /* AuthenticationModel.swift */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
 				813266A41CA2B63600D4EDC0 /* Subclasses */,
 				814D4CAC1C984A6900AB28FA /* Operations */,
@@ -168,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */,
+				811C5AB21CAC094D008346FE /* Model */,
 				81F8E8361CA024EB008099D1 /* ViewModels */,
 				81F8E8311CA02369008099D1 /* ViewControllers */,
 				81ECA3531C92CDE4000602F2 /* Main.storyboard */,
@@ -422,8 +429,8 @@
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
-				814D4CA91C970F0D00AB28FA /* AuthenticationModel.swift in Sources */,
 				81F607B51C9C7FB100B1D269 /* RoomListOperation.swift in Sources */,
+				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
 				81F607B31C9C673800B1D269 /* MessageCarbonOperation.swift in Sources */,
@@ -442,7 +449,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				81ECA3651C92CDE5000602F2 /* MangostaTests.swift in Sources */,
-				814D4CAB1C97157300AB28FA /* AuthenticationModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

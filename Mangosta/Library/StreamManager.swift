@@ -11,12 +11,13 @@ import XMPPFramework
 
 public class StreamManager : NSObject {
 	//MARK: Private variables
-	
+	private var jidString: String?
+	private var password: String?
+	private var serverName: String?
 	//MARK: Public variables
 	public var streamController: StreamController?
 	public static let manager = StreamManager()
 	public var stream: XMPPStream!
-	public var authenticationModel: AuthenticationModel?
 	public var connectCompletion: VoidCompletion?
 	public var onlineJIDs : Set<String>
 	public var carbonsEnabled = true
@@ -78,18 +79,21 @@ public class StreamManager : NSObject {
 		self.queue.addOperation(operation)
 	}
 	
-	public func begin(authentication authentication: AuthenticationModel, completion: VoidCompletion = {}) {
+	public func begin(jidString: String, password: String, serverName: String?, completion: VoidCompletion = {}) {
 		self.connectCompletion = completion
+		
+		self.jidString = jidString
+		self.password = password
+		self.serverName = serverName
 		
 		if self.isAttemptingConnection { return }
 		
-		self.authenticationModel = authentication
-		
 		self.isAttemptingConnection = true
 		
-		let hostName = (self.authenticationModel!.serverName != nil) ? self.authenticationModel!.serverName! : "192.168.100.109"
+		let hostName = (serverName != nil) ? serverName! : "192.168.100.109"
+		let jid = XMPPJID.jidWithString(jidString)
 		
-		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: self.authenticationModel!.jid, password: self.authenticationModel!.password) { stream in
+		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: jid, password: password) { stream in
 			if let createdStream = stream {
 				self.stream = createdStream
 				self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
@@ -106,10 +110,13 @@ public class StreamManager : NSObject {
 	
 	public func sendElement(element: DDXMLElement, completion: VoidCompletion = {}) {
 		if StreamManager.manager.stream == nil {
-			StreamManager.manager.begin(authentication: self.authenticationModel!) { finished in
-				StreamManager.manager.stream.sendElement(element)
-				completion()
+			if let jidString = self.jidString, password = self.password {
+				StreamManager.manager.begin(jidString, password: password, serverName: self.serverName) { finished in
+					StreamManager.manager.stream.sendElement(element)
+					completion()
+				}
 			}
+			
 		} else {
 			StreamManager.manager.stream.sendElement(element)
 			completion()
@@ -188,8 +195,8 @@ extension StreamManager : XMPPStreamDelegate {
 	}
 	
 	public func xmppStreamDidConnect(sender: XMPPStream!) {
-		if let stream = sender {
-			let authenticationOperation = StreamOperation.authenticateStream(stream, password: self.authenticationModel!.password) { (stream) -> Void in
+		if let stream = sender, password = self.password {
+			let authenticationOperation = StreamOperation.authenticateStream(stream, password: password) { (stream) -> Void in
 				if let _ = stream {
 					self.onConnectOrReconnect()
 				}
