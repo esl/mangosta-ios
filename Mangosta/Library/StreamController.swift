@@ -27,7 +27,6 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	}
 	let stream: XMPPStream
 	let roster: XMPPRoster
-	let authenticationModel: AuthenticationModel
 	
 	let rosterStorage: XMPPRosterCoreDataStorage
 	var rosterCompletion: RosterCompletion?
@@ -42,9 +41,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	
 	var messageCarbons: XMPPMessageCarbons
 	
-	public init(authentication: AuthenticationModel, stream: XMPPStream, streamCompletion: StreamCompletion) {
+	public init(stream: XMPPStream, streamCompletion: StreamCompletion) {
 		self.stream = stream
-		self.authenticationModel = authentication
 		self.streamCompletion = streamCompletion
 		
 		let rosterFileName = "roster-\(stream.myJID.user).sqlite"

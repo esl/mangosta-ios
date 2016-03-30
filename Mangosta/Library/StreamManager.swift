@@ -51,7 +51,7 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.queue.suspended = false
 		
-		self.streamController = StreamController(authentication: self.authenticationModel!, stream: self.stream) { completion in
+		self.streamController = StreamController(stream: self.stream) { completion in
 			print("done")
 		}
 		
