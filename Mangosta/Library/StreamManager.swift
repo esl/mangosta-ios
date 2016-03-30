@@ -55,11 +55,6 @@ public class StreamManager : NSObject {
 			print("done")
 		}
 		
-		
-		let roomListOperation = RoomListOperation.retrieveRooms()
-		
-		StreamManager.manager.addOperation(roomListOperation)
-		
 		self.becomeAvailable()
 		
 		self.connectCompletion?()
@@ -131,9 +126,6 @@ public class StreamManager : NSObject {
 		self.streamController = nil
 		
 		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in
-			if let liveStream = self.stream {
-				liveStream.disconnect()
-			}
 			
 			self.stream = nil
 		}
