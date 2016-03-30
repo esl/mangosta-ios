@@ -185,6 +185,16 @@ public class StreamManager : NSObject {
 		}
 		return controller.capabilityTypes.contains(capability)
 	}
+	
+	public func toggleCapability(capability: StreamController.CapabilityTypes) {
+		let supports = self.supportsCapability(capability)
+		
+		if !supports {
+			self.streamController?.enableCapability(capability)
+		} else {
+			self.streamController?.disableCapability(capability)
+		}
+	}
 }
 
 //MARK: -
