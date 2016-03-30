@@ -39,6 +39,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	let capabilities: XMPPCapabilities
 	let capabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 	
+	let messageDeliveryReceipts: XMPPMessageDeliveryReceipts
+	
 	var messageCarbons: XMPPMessageCarbons
 	
 	public init(stream: XMPPStream, streamCompletion: StreamCompletion) {
@@ -48,7 +50,7 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		let rosterFileName = "roster-\(stream.myJID.user).sqlite"
 		let messagingFileName = "messaging-\(stream.myJID.user).sqlite"
 		
-		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: rosterFileName)
+	XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: rosterFileName)
 		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: messagingFileName)
 
 		self.rosterStorage = XMPPRosterCoreDataStorage(databaseFilename: rosterFileName, storeOptions: nil)
@@ -63,6 +65,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		self.messageCarbons = XMPPMessageCarbons()
 		
+		self.messageDeliveryReceipts = XMPPMessageDeliveryReceipts()
+		
 		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving]
 		
 		super.init()
@@ -71,11 +75,19 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	}
 	
 	private func finish() {
+		if self.capabilityTypes.contains(.MessageDeliveryReceipts) {
+			self.messageDeliveryReceipts.autoSendMessageDeliveryReceipts = true
+			self.messageDeliveryReceipts.autoSendMessageDeliveryRequests = true
+			self.messageDeliveryReceipts.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.messageDeliveryReceipts.activate(self.stream)
+		}
+		
 		self.capabilities.autoFetchHashedCapabilities = true;
-		self.capabilities.autoFetchNonHashedCapabilities = false;
+		self.capabilities.autoFetchNonHashedCapabilities = true;
 		
 		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.capabilities.activate(self.stream)
+		self.capabilities.fetchCapabilitiesForJID(self.stream.myJID)
 		self.capabilities.recollectMyCapabilities()
 		
 		if self.capabilityTypes.contains(CapabilityTypes.Roster) {
@@ -97,6 +109,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 			self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 			self.messageCarbons.activate(self.stream)
 		}
+		
+		
 		
 		self.streamCompletion(stream: self.stream)
 	}

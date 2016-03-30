@@ -90,7 +90,7 @@ public class StreamManager : NSObject {
 		
 		self.isAttemptingConnection = true
 		
-		let hostName = (serverName != nil) ? serverName! : "192.168.100.109"
+		let hostName = (serverName != nil) ? serverName! : "192.168.1.55"
 		let jid = XMPPJID.jidWithString(jidString)
 		
 		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: jid, password: password) { stream in

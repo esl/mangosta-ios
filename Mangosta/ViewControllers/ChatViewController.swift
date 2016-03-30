@@ -60,8 +60,7 @@ class ChatViewController: UIViewController {
 			}
 			
 			let senderJID = self.userJID
-			let msg = XMPPMessage(type: "chat", to: senderJID)
-			
+			let msg = XMPPMessage(type: "chat", to: senderJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
 			
 			StreamManager.manager.stream.sendElement(msg)
