@@ -102,8 +102,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 		case SettingsCells.PushNotifications.rawValue:
 			()
 		case SettingsCells.MessageCarbons.rawValue:
-			let enabled = StreamManager.manager.messageCarbonsEnabled()
-			StreamManager.manager.toggleCarbons(!enabled)
+			StreamManager.manager.toggleCapability(.MessageCarbons)
 			
 			delay(2.0) {
 				tableView.reloadData()
@@ -112,7 +111,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 		case SettingsCells.StreamManagement.rawValue:
 			()
 		case SettingsCells.MessageDeliveryReceipts.rawValue:
-			()
+			StreamManager.manager.toggleCapability(.MessageDeliveryReceipts)
+			self.tableView.reloadData()
 		case SettingsCells.LastMessageCorrection.rawValue:
 			()
 		case SettingsCells.ClientStateIndication.rawValue:

@@ -90,7 +90,7 @@ public class StreamManager : NSObject {
 		
 		self.isAttemptingConnection = true
 		
-		let hostName = (serverName != nil) ? serverName! : "192.168.100.109"
+		let hostName = (serverName != nil) ? serverName! : "192.168.1.55"
 		let jid = XMPPJID.jidWithString(jidString)
 		
 		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: jid, password: password) { stream in
@@ -184,6 +184,16 @@ public class StreamManager : NSObject {
 			return false
 		}
 		return controller.capabilityTypes.contains(capability)
+	}
+	
+	public func toggleCapability(capability: StreamController.CapabilityTypes) {
+		let supports = self.supportsCapability(capability)
+		
+		if !supports {
+			self.streamController?.enableCapability(capability)
+		} else {
+			self.streamController?.disableCapability(capability)
+		}
 	}
 }
 

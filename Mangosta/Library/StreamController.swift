@@ -39,6 +39,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	let capabilities: XMPPCapabilities
 	let capabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 	
+	let messageDeliveryReceipts: XMPPMessageDeliveryReceipts
+	
 	var messageCarbons: XMPPMessageCarbons
 	
 	public init(stream: XMPPStream, streamCompletion: StreamCompletion) {
@@ -48,7 +50,7 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		let rosterFileName = "roster-\(stream.myJID.user).sqlite"
 		let messagingFileName = "messaging-\(stream.myJID.user).sqlite"
 		
-		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: rosterFileName)
+	XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: rosterFileName)
 		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: messagingFileName)
 
 		self.rosterStorage = XMPPRosterCoreDataStorage(databaseFilename: rosterFileName, storeOptions: nil)
@@ -63,6 +65,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		self.messageCarbons = XMPPMessageCarbons()
 		
+		self.messageDeliveryReceipts = XMPPMessageDeliveryReceipts()
+		
 		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving]
 		
 		super.init()
@@ -71,17 +75,20 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	}
 	
 	private func finish() {
+		if self.capabilityTypes.contains(.MessageDeliveryReceipts) {
+			self.enableCapability(.MessageDeliveryReceipts)
+		}
+		
 		self.capabilities.autoFetchHashedCapabilities = true;
-		self.capabilities.autoFetchNonHashedCapabilities = false;
+		self.capabilities.autoFetchNonHashedCapabilities = true;
 		
 		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.capabilities.activate(self.stream)
+		self.capabilities.fetchCapabilitiesForJID(self.stream.myJID)
 		self.capabilities.recollectMyCapabilities()
 		
 		if self.capabilityTypes.contains(CapabilityTypes.Roster) {
-			self.rosterStorage.autoRecreateDatabaseFile = true
-			self.roster.activate(self.stream)
-			self.roster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.enableCapability(.Roster)
 			
 			self.retrieveRoster() { (success, roster) in
 				StreamManager.manager.sendPresence(true)
@@ -89,16 +96,80 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		}
 		
 		if self.capabilityTypes.contains(CapabilityTypes.MessageArchiving) {
-			self.messageArchiving.activate(self.stream)
-			self.messageArchiving.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.enableCapability(.MessageArchiving)
 		}
 		
 		if self.capabilityTypes.contains(.MessageCarbons) {
-			self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.messageCarbons.activate(self.stream)
+			self.enableCapability(.MessageCarbons)
 		}
 		
 		self.streamCompletion(stream: self.stream)
+	}
+	
+	public func enableCapability(capability: CapabilityTypes) {
+		
+		switch capability {
+		case CapabilityTypes.ClientStateIndication:
+			break
+		case CapabilityTypes.LastMessageCorrection:
+			break
+		case CapabilityTypes.MessageArchiving:
+			self.messageArchiving.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.messageArchiving.activate(self.stream)
+		case CapabilityTypes.MessageCarbons:
+			self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.messageCarbons.activate(self.stream)
+		case CapabilityTypes.MessageDeliveryReceipts:
+			self.messageDeliveryReceipts.autoSendMessageDeliveryReceipts = true
+			self.messageDeliveryReceipts.autoSendMessageDeliveryRequests = true
+			self.messageDeliveryReceipts.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.messageDeliveryReceipts.activate(self.stream)
+		case CapabilityTypes.PushNotifications:
+			break
+		case CapabilityTypes.Roster:
+			self.rosterStorage.autoRecreateDatabaseFile = true
+			self.roster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.roster.activate(self.stream)
+		case CapabilityTypes.StreamManagement:
+			break
+		default:
+			()
+		}
+		if !self.capabilityTypes.contains(capability) {
+			self.capabilityTypes.append(capability)
+		}
+	}
+	
+	public func disableCapability(capability: CapabilityTypes) {
+		switch capability {
+		case CapabilityTypes.ClientStateIndication:
+			break
+		case CapabilityTypes.LastMessageCorrection:
+			break
+		case CapabilityTypes.MessageArchiving:
+			self.messageArchiving.removeDelegate(self)
+			self.messageArchiving.deactivate()
+		case CapabilityTypes.MessageCarbons:
+			self.messageCarbons.removeDelegate(self)
+			self.messageCarbons.deactivate()
+		case CapabilityTypes.MessageDeliveryReceipts:
+			self.messageDeliveryReceipts.removeDelegate(self)
+			self.messageDeliveryReceipts.deactivate()
+		case CapabilityTypes.PushNotifications:
+			break
+		case CapabilityTypes.Roster:
+			self.roster.removeDelegate(self)
+			self.roster.deactivate()
+		case CapabilityTypes.StreamManagement:
+			break
+		default:
+			()
+		}
+		if self.capabilityTypes.contains(capability) {
+			if let index = self.capabilityTypes.indexOf(capability) {
+				self.capabilityTypes.removeAtIndex(index)
+			}
+		}
 	}
 	
 	public func retrieveRoster(completion: RosterCompletion) {
