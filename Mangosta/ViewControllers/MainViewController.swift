@@ -17,6 +17,8 @@ class MainViewController: UIViewController {
 		super.viewDidLoad()
 		self.title = "Roster"
 		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
+		
 		self.startup()
 		
 	}
@@ -25,7 +27,7 @@ class MainViewController: UIViewController {
 		if self.fetchedResultsController != nil {
 			self.fetchedResultsController = nil
 		}
-		if let context = StreamManager.manager.rosterStorage.mainThreadManagedObjectContext {
+		if let streamController = StreamManager.manager.streamController, context = streamController.rosterStorage.mainThreadManagedObjectContext {
 			let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: context)
 			let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
 			let sd2 = NSSortDescriptor(key: "displayName", ascending: true)
@@ -40,12 +42,14 @@ class MainViewController: UIViewController {
 			
 			let objects = self.fetchedResultsController?.fetchedObjects
 			print(objects)
+			self.tableView.reloadData()
 		}
-		
 	}
 	
 	internal func logout(sender: AnyObject?) {
 		StreamManager.manager.disconnect()
+		
+		AuthenticationModel.remove()
 		
 		self.startup()
 		
@@ -69,11 +73,8 @@ class MainViewController: UIViewController {
 		var logButton: UIBarButtonItem = UIBarButtonItem()
 		
 		if let auth = AuthenticationModel.load() {
-			StreamManager.manager.begin() { finished in
-				if let rooms = StreamManager.manager.fetchedResultsController.fetchedObjects {
-					print(rooms)
-				}
-			}
+			StreamManager.manager.begin(auth.jid.bare(), password: auth.password, serverName: auth.serverName)
+			
 			logButton = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logout(_:)))
 		} else {
 			logButton = UIBarButtonItem(title: "Log In", style: UIBarButtonItemStyle.Done, target: self, action: #selector(login(_:)))
@@ -105,21 +106,25 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
-		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
-		if let firstResource = user.resources.first {
-			if let pres = firstResource.valueForKey("presence") {
-				if pres.type == "available" {
-					cell.textLabel?.textColor = UIColor.blueColor()
-				} else {
-					cell.textLabel?.textColor = UIColor.darkGrayColor()
+		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+			if let firstResource = user.resources.first {
+				if let pres = firstResource.valueForKey("presence") {
+					if pres.type == "available" {
+						cell.textLabel?.textColor = UIColor.blueColor()
+					} else {
+						cell.textLabel?.textColor = UIColor.darkGrayColor()
+					}
+					
 				}
-				
+			} else {
+				cell.textLabel?.textColor = UIColor.darkGrayColor()
 			}
+			
+			cell.textLabel?.text = user.jidStr
 		} else {
-			cell.textLabel?.textColor = UIColor.darkGrayColor()
+			cell.textLabel?.text = "nope"
 		}
 		
-		cell.textLabel?.text = user.jidStr
 		return cell
 	}
 	

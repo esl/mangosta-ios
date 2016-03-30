@@ -21,7 +21,7 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 		self.muc.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 	
-	class func retrieveRooms(completion: RoomListCompletion) -> RoomListOperation {
+	class func retrieveRooms(completion: RoomListCompletion = {_ in }) -> RoomListOperation {
 		let chatRoomListOperation = RoomListOperation()
 		chatRoomListOperation.completion = completion
 		return chatRoomListOperation
@@ -46,8 +46,8 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 			self.finishedRetrievingRooms(nil)
 			return
 		}
-		let parsedRooms = RoomListOperation.parseRoomsFromXMLRooms(xmlRooms)
-		self.finishedRetrievingRooms(parsedRooms)
+		//let parsedRooms = RoomListOperation.parseRoomsFromXMLRooms(xmlRooms)
+		//self.finishedRetrievingRooms(parsedRooms)
 	}
 	
 	func xmppMUC(sender: XMPPMUC!, failedToDiscoverRoomsForServiceNamed serviceName: String!, withError error: NSError!) {
@@ -67,23 +67,5 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 			}
 		}
 		self.finishAndRemoveDelegates()
-	}
-	
-	class func parseRoomsFromXMLRooms(xmlRooms: [DDXMLElement]) -> [XMPPRoom]{
-		var parsedRooms = [XMPPRoom]()
-		for rawElement in xmlRooms {
-			let rawJid = rawElement.attributeStringValueForName("jid")
-			let rawName = rawElement.attributeStringValueForName("name")
-			let jid = XMPPJID.jidWithString(rawJid)
-			if let room = StreamManager.manager.roomForJid(jid) {
-				//room.attachAndActivateXmppMucLightRoom()
-				parsedRooms.append(room)
-			} else {
-				let r = XMPPRoom(roomStorage: StreamManager.manager.roomStorage, jid: jid)
-				
-				parsedRooms.append(r)
-			}
-		}
-		return parsedRooms
 	}
 }

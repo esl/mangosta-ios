@@ -54,17 +54,37 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 			cell.textLabel?.textColor = UIColor.blueColor()
 		case SettingsCells.PushNotifications.rawValue:
 			title = "Push Notifications"
+			if !StreamManager.manager.supportsCapability(StreamController.CapabilityTypes.PushNotifications) {
+				cell.textLabel?.textColor = UIColor.redColor()
+			}
 		case SettingsCells.MessageCarbons.rawValue:
 			title = "Message Carbons Enabled: " + (StreamManager.manager.messageCarbonsEnabled() ? "Yes" : "No")
-			cell.textLabel?.textColor = UIColor.blueColor()
+			if !StreamManager.manager.supportsCapability(StreamController.CapabilityTypes.MessageCarbons) {
+				cell.textLabel?.textColor = UIColor.redColor()
+			} else {
+				cell.textLabel?.textColor = UIColor.blueColor()
+			}
+			
 		case SettingsCells.StreamManagement.rawValue:
 			title = "Stream Management"
+			if !StreamManager.manager.supportsCapability(StreamController.CapabilityTypes.StreamManagement) {
+				cell.textLabel?.textColor = UIColor.redColor()
+			}
 		case SettingsCells.MessageDeliveryReceipts.rawValue:
 			title = "Message Delivery Receipts"
+			if !StreamManager.manager.supportsCapability(StreamController.CapabilityTypes.MessageDeliveryReceipts) {
+				cell.textLabel?.textColor = UIColor.redColor()
+			}
 		case SettingsCells.LastMessageCorrection.rawValue:
 			title = "Last Message Correction"
+			if !StreamManager.manager.supportsCapability(StreamController.CapabilityTypes.LastMessageCorrection) {
+				cell.textLabel?.textColor = UIColor.redColor()
+			}
 		case SettingsCells.ClientStateIndication.rawValue:
 			title = "Client State Indication: " + (StreamManager.manager.isAvailable() ? " Available" : "Unavailable")
+			if !StreamManager.manager.supportsCapability(StreamController.CapabilityTypes.ClientStateIndication) {
+				cell.textLabel?.textColor = UIColor.redColor()
+			}
 		default:
 			title = "Whoops"
 		}
