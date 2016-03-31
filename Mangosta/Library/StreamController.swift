@@ -239,7 +239,7 @@ extension StreamController: XMPPCapabilitiesDelegate {
 //MARK: XMPPMessageCarbonsDelegate
 extension StreamController: XMPPMessageCarbonsDelegate {
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, didReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
-		//
+		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: isOutgoing, xmppStream: self.stream)
 	}
 	
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, willReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
