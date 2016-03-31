@@ -104,6 +104,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		}
 		
 		if self.capabilityTypes.contains(.MessageCarbons) {
+			self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.messageCarbons.activate(self.stream)
 			self.enableCapability(.MessageCarbons)
 		}
 		
@@ -127,8 +129,6 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 			self.messageArchiving.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 			self.messageArchiving.activate(self.stream)
 		case CapabilityTypes.MessageCarbons:
-			self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.messageCarbons.activate(self.stream)
 			self.messageCarbons.autoEnableMessageCarbons = true
 			self.messageCarbons.enableMessageCarbons()
 		case CapabilityTypes.MessageDeliveryReceipts:
