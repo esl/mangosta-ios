@@ -27,7 +27,6 @@ public class StreamManager : NSObject {
 	internal var isAttemptingConnection = false
 	internal var queue: NSOperationQueue
 	internal var connectionQueue: NSOperationQueue
-	internal var roomStorage: XMPPRoomCoreDataStorage
 	
 	//MARK: -
 	//MARK: Private functions
@@ -38,8 +37,6 @@ public class StreamManager : NSObject {
 		
 		self.connectionQueue = NSOperationQueue()
 		self.connectionQueue.maxConcurrentOperationCount = 2
-
-		self.roomStorage = XMPPRoomCoreDataStorage.sharedInstance()
 
 		self.onlineJIDs = []
 		
@@ -90,7 +87,7 @@ public class StreamManager : NSObject {
 		
 		self.isAttemptingConnection = true
 		
-		let hostName = (serverName != nil) ? serverName! : "192.168.1.55"
+		let hostName = (serverName != nil) ? serverName! : "192.168.100.109"
 		let jid = XMPPJID.jidWithString(jidString)
 		
 		let connectOperation = StreamOperation.createAndConnectStream(hostName, userJID: jid, password: password) { stream in
@@ -155,14 +152,6 @@ public class StreamManager : NSObject {
 	
 	public func isAvailable() -> Bool {
 		return self.clientState.clientAvailability == ClientState.FeatureAvailability.Available
-	}
-	
-	public func toggleCarbons(enabled: Bool) {
-		if enabled {
-			self.streamController!.messageCarbons.enableMessageCarbons()
-		} else {
-			self.streamController!.messageCarbons.disableMessageCarbons()
-		}
 	}
 	
 	public func messageCarbonsEnabled() -> Bool {

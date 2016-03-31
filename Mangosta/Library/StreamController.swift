@@ -30,6 +30,9 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	
 	let rosterStorage: XMPPRosterCoreDataStorage
 	var rosterCompletion: RosterCompletion?
+	
+	let roomStorage: XMPPRoomCoreDataStorage
+	
 	let streamCompletion: StreamCompletion
 	
 	let messageArchiving: XMPPMessageArchiving
@@ -49,12 +52,13 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		let rosterFileName = "roster-\(stream.myJID.user).sqlite"
 		let messagingFileName = "messaging-\(stream.myJID.user).sqlite"
+		let roomFileName = "rooms-\(stream.myJID.user).sqlite"
 		
-	XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: rosterFileName)
+		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: rosterFileName)
 		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: messagingFileName)
 
 		self.rosterStorage = XMPPRosterCoreDataStorage(databaseFilename: rosterFileName, storeOptions: nil)
-		
+		self.roomStorage = XMPPRoomCoreDataStorage(databaseFilename: roomFileName, storeOptions: nil)
 		self.roster = XMPPRoster(rosterStorage: self.rosterStorage)
 		
 		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
@@ -100,8 +104,16 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		}
 		
 		if self.capabilityTypes.contains(.MessageCarbons) {
+			self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.messageCarbons.activate(self.stream)
 			self.enableCapability(.MessageCarbons)
 		}
+		
+		let roomListOperation = RoomListOperation.retrieveRooms() { rooms in
+			print(rooms)
+		}
+		
+		StreamManager.manager.addOperation(roomListOperation)
 		
 		self.streamCompletion(stream: self.stream)
 	}
@@ -117,8 +129,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 			self.messageArchiving.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 			self.messageArchiving.activate(self.stream)
 		case CapabilityTypes.MessageCarbons:
-			self.messageCarbons.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.messageCarbons.activate(self.stream)
+			self.messageCarbons.autoEnableMessageCarbons = true
+			self.messageCarbons.enableMessageCarbons()
 		case CapabilityTypes.MessageDeliveryReceipts:
 			self.messageDeliveryReceipts.autoSendMessageDeliveryReceipts = true
 			self.messageDeliveryReceipts.autoSendMessageDeliveryRequests = true
@@ -150,8 +162,11 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 			self.messageArchiving.removeDelegate(self)
 			self.messageArchiving.deactivate()
 		case CapabilityTypes.MessageCarbons:
-			self.messageCarbons.removeDelegate(self)
-			self.messageCarbons.deactivate()
+			self.messageCarbons.autoEnableMessageCarbons = false
+			//self.messageCarbons.setValue(false, forKey: "messageCarbonsEnabled")
+			self.messageCarbons.disableMessageCarbons()
+			//self.messageCarbons.removeDelegate(self)
+			//self.messageCarbons.deactivate()
 		case CapabilityTypes.MessageDeliveryReceipts:
 			self.messageDeliveryReceipts.removeDelegate(self)
 			self.messageDeliveryReceipts.deactivate()
@@ -224,7 +239,7 @@ extension StreamController: XMPPCapabilitiesDelegate {
 //MARK: XMPPMessageCarbonsDelegate
 extension StreamController: XMPPMessageCarbonsDelegate {
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, didReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
-		//
+		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: isOutgoing, xmppStream: self.stream)
 	}
 	
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, willReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {

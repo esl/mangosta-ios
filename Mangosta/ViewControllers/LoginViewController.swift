@@ -22,14 +22,13 @@ class LoginViewController: UIViewController {
 		if let serverText = self.serverNameField.text {
 			let auth = AuthenticationModel(jidString: self.jidField.text!, serverName: serverText, password: self.passwordField.text!)
 			auth.save()
+		} else {
+			let auth = AuthenticationModel(jidString: self.jidField.text!, password: self.passwordField.text!)
+			auth.save()
 		}
-		let auth = AuthenticationModel(jidString: self.jidField.text!, password: self.passwordField.text!)
-		auth.save()
-		
-		//StreamManager.manager.begin() { finished in
-			self.loginDelegate?.didLogIn()
-			self.dismissViewControllerAnimated(true, completion: nil)
-		//}
+
+		self.loginDelegate?.didLogIn()
+		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 }
 
