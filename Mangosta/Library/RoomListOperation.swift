@@ -39,6 +39,19 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 		finish()
 	}
 	
+	class func parseRoomsFromXMLRooms(xmlRooms: [DDXMLElement]) -> [XMPPRoom]{
+		var parsedRooms = [XMPPRoom]()
+		for rawElement in xmlRooms {
+			let rawJid = rawElement.attributeStringValueForName("jid")
+			let rawName = rawElement.attributeStringValueForName("name")
+			let jid = XMPPJID.jidWithString(rawJid)
+			let r = XMPPRoom(roomStorage: StreamManager.manager.streamController!.roomStorage, jid: jid)
+			r.setValue(rawName, forKey: "roomSubject")
+			parsedRooms.append(r)
+		}
+		return parsedRooms
+	}
+	
 	// MARK: - XMPPMUCDelegate
 	
 	func xmppMUC(sender: XMPPMUC!, didDiscoverRooms rooms: [AnyObject]!, forServiceNamed serviceName: String!) {
@@ -46,8 +59,8 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 			self.finishedRetrievingRooms(nil)
 			return
 		}
-		//let parsedRooms = RoomListOperation.parseRoomsFromXMLRooms(xmlRooms)
-		//self.finishedRetrievingRooms(parsedRooms)
+		let parsedRooms = RoomListOperation.parseRoomsFromXMLRooms(xmlRooms)
+		self.finishedRetrievingRooms(parsedRooms)
 	}
 	
 	func xmppMUC(sender: XMPPMUC!, failedToDiscoverRoomsForServiceNamed serviceName: String!, withError error: NSError!) {
