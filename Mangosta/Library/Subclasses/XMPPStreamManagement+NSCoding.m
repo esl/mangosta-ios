@@ -42,6 +42,7 @@
 	[[NSUserDefaults standardUserDefaults] setObject:payload forKey:XMPPStreamManagementPreferenceName];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 - (void)loadState {
 	NSDictionary *payload = [[NSUserDefaults standardUserDefaults] objectForKey:XMPPStreamManagementPreferenceName];
 	
@@ -64,6 +65,10 @@
 	if (payload[@"lastDisconnect"] && payload[@"lastHandledByClient"] && payload[@"lastHandledByServer"]) {
 		[memoryStorage setLastDisconnect:payload[@"lastDisconnect"] lastHandledByClient:[payload[@"lastHandledByClient"] unsignedIntValue] lastHandledByServer:[payload[@"lastHandledByServer"] unsignedIntValue] pendingOutgoingStanzas:objectStanzas forStream:self.xmppStream];
 	}
+}
+
+- (void)deleteState {
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:XMPPStreamManagementPreferenceName];
 }
 
 @end
