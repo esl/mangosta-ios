@@ -125,7 +125,7 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.streamController!.roster.removeDelegate(self)
 		self.streamController?.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
-		//self.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
+		self.streamController?.streamManagement.deleteState()
 		self.streamController = nil
 		
 		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in

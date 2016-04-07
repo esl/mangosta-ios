@@ -164,16 +164,16 @@ PODS:
     - XMPPFramework/Core
 
 DEPENDENCIES:
-  - XMPPFramework (from `https://github.com/robbiehanson/XMPPFramework`)
+  - XMPPFramework (from `https://github.com/esl/XMPPFramework/`)
 
 EXTERNAL SOURCES:
   XMPPFramework:
-    :git: https://github.com/robbiehanson/XMPPFramework
+    :git: https://github.com/esl/XMPPFramework/
 
 CHECKOUT OPTIONS:
   XMPPFramework:
     :commit: f9fa43e00f9669839f2b7050010d791109ebad4a
-    :git: https://github.com/robbiehanson/XMPPFramework
+    :git: https://github.com/esl/XMPPFramework/
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
