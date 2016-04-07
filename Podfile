@@ -8,7 +8,7 @@ use_frameworks!
 workspace 'Mangosta'
 
 def main_app_pods
-  pod 'XMPPFramework', git: 'https://github.com/robbiehanson/XMPPFramework'
+   pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/'
 end
 
 target 'Mangosta' do
