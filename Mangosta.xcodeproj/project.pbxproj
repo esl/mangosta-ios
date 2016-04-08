@@ -12,6 +12,8 @@
 		8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */; };
 		813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
 		8142B82E1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B82D1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m */; };
+		8142B8361CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B8351CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m */; };
+		8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA61C970EA800AB28FA /* StreamManager.swift */; };
 		814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CAD1C984A8400AB28FA /* StreamOperation.swift */; };
@@ -58,6 +60,10 @@
 		8142B82C1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPStreamManagement+NSCoding.h"; sourceTree = "<group>"; };
 		8142B82D1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPStreamManagement+NSCoding.m"; sourceTree = "<group>"; };
 		8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
+		8142B8341CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMessageArchiveManagement.h; sourceTree = "<group>"; };
+		8142B8351CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMessageArchiveManagement.m; sourceTree = "<group>"; };
+		8142B8371CB7F5630095FCF1 /* XMPPMessage+XEP_0313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0313.h"; sourceTree = "<group>"; };
+		8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0313.m"; sourceTree = "<group>"; };
 		814D4CA41C970E6900AB28FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		814D4CA61C970EA800AB28FA /* StreamManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamManager.swift; sourceTree = "<group>"; };
 		814D4CAA1C970F5500AB28FA /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -129,6 +135,17 @@
 			path = Subclasses;
 			sourceTree = "<group>";
 		};
+		8142B8331CB7EFFD0095FCF1 /* XEP-0313 */ = {
+			isa = PBXGroup;
+			children = (
+				8142B8341CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.h */,
+				8142B8351CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m */,
+				8142B8371CB7F5630095FCF1 /* XMPPMessage+XEP_0313.h */,
+				8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */,
+			);
+			name = "XEP-0313";
+			sourceTree = "<group>";
+		};
 		814D4CA31C970E5B00AB28FA /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +153,7 @@
 				814D4CA61C970EA800AB28FA /* StreamManager.swift */,
 				811C5AA71CAABB40008346FE /* StreamController.swift */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
+				8142B8331CB7EFFD0095FCF1 /* XEP-0313 */,
 				813266A41CA2B63600D4EDC0 /* Subclasses */,
 				814D4CAC1C984A6900AB28FA /* Operations */,
 			);
@@ -432,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81F8E8381CA024FB008099D1 /* AuthenticationViewModel.swift in Sources */,
+				8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
@@ -447,6 +466,7 @@
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				814D4CB01C984A9400AB28FA /* AsyncOperation.swift in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
+				8142B8361CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m in Sources */,
 				811C5AA81CAABB40008346FE /* StreamController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
