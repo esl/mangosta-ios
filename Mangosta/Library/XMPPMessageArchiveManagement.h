@@ -13,8 +13,10 @@
 
 @interface XMPPMessageArchiveManagement : XMPPModule {
 	XMPPIDTracker *xmppIDTracker;
+	BOOL retrievingMessageArchive;
 }
 
+- (void)retrieveMessageArchive;
 @end
 
 @protocol XMPPMessageArchiveManagementDelegate <NSObject>

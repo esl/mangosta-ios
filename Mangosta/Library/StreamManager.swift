@@ -233,6 +233,9 @@ extension StreamManager : XMPPStreamDelegate {
 	public func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
 		print(error)
 	}
+	public func xmppStream(sender: XMPPStream!, didSendIQ iq: XMPPIQ!) {
+		print("sent iq: \(iq)")
+	}
 }
 
 

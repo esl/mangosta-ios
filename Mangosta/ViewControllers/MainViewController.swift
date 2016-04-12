@@ -56,13 +56,6 @@ class MainViewController: UIViewController {
 		
 	}
 	
-	internal func showSettings(sender: AnyObject?) {
-		let settingsController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsViewController")
-		let navController = UINavigationController(rootViewController: settingsController!)
-		
-		self.navigationController?.presentViewController(navController, animated: true, completion: nil)
-	}
-	
 	internal func login(sender: AnyObject?) {
 		let loginController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
 		loginController.loginDelegate = self
@@ -80,9 +73,6 @@ class MainViewController: UIViewController {
 			logButton = UIBarButtonItem(title: "Log In", style: UIBarButtonItemStyle.Done, target: self, action: #selector(login(_:)))
 		}
 		self.navigationItem.leftBarButtonItem = logButton
-		
-		let settingsButton = UIBarButtonItem(title: "Settings", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showSettings(_:)))
-		self.navigationItem.rightBarButtonItem = settingsButton
 		
 		self.setupFetchedResultsController()
 	}

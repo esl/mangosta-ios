@@ -16,6 +16,9 @@ class ChatViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+		self.title = "Chatting with \(self.userJID.user)"
+		
 		self.fetchedResultsController = self.createFetchedResultsController()
 		
 		let chatButton = UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:)))

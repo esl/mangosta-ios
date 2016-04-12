@@ -24,7 +24,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_VERBOSE; // | XMPP_LOG_FLAG_TRACE
 static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 #endif
 
-#define XMLSN_XMPP_MAM @"ur:xmpp:mam:tmp"
+#define XMLNS_XMPP_MAM @"urn:xmpp:mam:1"
 
 @implementation XMPPMessageArchiveManagement
 
@@ -38,12 +38,38 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 	return self;
 }
 
+- (void)retrieveMessageArchive {
+	dispatch_block_t block = ^{
+		
+		if (!retrievingMessageArchive && [xmppIDTracker numberOfIDs] == 0) {
+			retrievingMessageArchive = YES;
+			
+			XMPPIQ *setIq = [XMPPIQ iqWithType:@"set"];
+			[setIq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
+			DDXMLElement *queryElement = [DDXMLElement elementWithName:@"query" xmlns:XMLNS_XMPP_MAM];
+			[queryElement addAttributeWithName:@"queryId" stringValue:[XMPPStream generateUUID]];
+			[setIq addChild:queryElement];
+			
+			[xmppIDTracker addElement:setIq target:self selector:@selector(enableMessageArchiveIQ:withInfo:) timeout:XMPPIDTrackerTimeoutNone];
+			
+			[xmppStream sendElement:setIq];
+		}
+	};
+	
+	if (dispatch_get_specific(moduleQueueTag)) {
+		block();
+	} else {
+		dispatch_sync(moduleQueue, block);
+	}
+}
+
 - (BOOL)activate:(XMPPStream *)aXmppStream {
 	XMPPLogTrace();
 	
 	if ([super activate:aXmppStream]) {
 		XMPPLogVerbose(@"%@: Activated", THIS_FILE);
 		xmppIDTracker = [[XMPPIDTracker alloc] initWithDispatchQueue:moduleQueue];
+		
 		
 		return YES;
 	}
@@ -70,6 +96,15 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark XMPPStream Delegate
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+- (void)enableMessageArchiveIQ:(XMPPIQ *)iq withInfo:(XMPPBasicTrackingInfo *)trackerInfo {
+	XMPPLogTrace();
+	
+	if ([iq isResultIQ]) {
+		
+	}
+}
 
 - (XMPPMessage *)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
 	if ([message isMessageArchive]) {
