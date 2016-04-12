@@ -16,13 +16,6 @@ class SettingsViewController: UIViewController {
 		super.viewDidLoad()
 		
 		self.title = "Settings"
-		
-		let closeButton = UIBarButtonItem(title: "Close", style: UIBarButtonItemStyle.Done, target: self, action: #selector(close(_:)))
-		self.navigationItem.rightBarButtonItem = closeButton
-	}
-	
-	internal func close(sender: AnyObject?) {
-		self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
 	}
 }
 
