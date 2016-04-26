@@ -14,6 +14,9 @@
 		8142B82E1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B82D1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m */; };
 		8142B8361CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B8351CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m */; };
 		8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */; };
+		81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
+		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
+		81473D921CC10E7F006FCEC9 /* MUCOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D911CC10E7F006FCEC9 /* MUCOperation.swift */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA61C970EA800AB28FA /* StreamManager.swift */; };
 		814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CAD1C984A8400AB28FA /* StreamOperation.swift */; };
@@ -64,6 +67,9 @@
 		8142B8351CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMessageArchiveManagement.m; sourceTree = "<group>"; };
 		8142B8371CB7F5630095FCF1 /* XMPPMessage+XEP_0313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0313.h"; sourceTree = "<group>"; };
 		8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0313.m"; sourceTree = "<group>"; };
+		81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomViewController.swift; sourceTree = "<group>"; };
+		81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomCreateViewController.swift; sourceTree = "<group>"; };
+		81473D911CC10E7F006FCEC9 /* MUCOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCOperation.swift; sourceTree = "<group>"; };
 		814D4CA41C970E6900AB28FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		814D4CA61C970EA800AB28FA /* StreamManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamManager.swift; sourceTree = "<group>"; };
 		814D4CAA1C970F5500AB28FA /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -146,6 +152,15 @@
 			name = "XEP-0313";
 			sourceTree = "<group>";
 		};
+		81473D8E1CC1092D006FCEC9 /* MUC Rooms */ = {
+			isa = PBXGroup;
+			children = (
+				81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */,
+				81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */,
+			);
+			name = "MUC Rooms";
+			sourceTree = "<group>";
+		};
 		814D4CA31C970E5B00AB28FA /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +183,7 @@
 				814D4CB11C9C1DE600AB28FA /* RosterOperation.swift */,
 				81F607B21C9C673800B1D269 /* MessageCarbonOperation.swift */,
 				81F607B41C9C7FB100B1D269 /* RoomListOperation.swift */,
+				81473D911CC10E7F006FCEC9 /* MUCOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -237,6 +253,7 @@
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */,
+				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -452,6 +469,7 @@
 				81F8E8381CA024FB008099D1 /* AuthenticationViewModel.swift in Sources */,
 				8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
+				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
 				81F607B51C9C7FB100B1D269 /* RoomListOperation.swift in Sources */,
@@ -463,7 +481,9 @@
 				8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
+				81473D921CC10E7F006FCEC9 /* MUCOperation.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
+				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
 				814D4CB01C984A9400AB28FA /* AsyncOperation.swift in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				8142B8361CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m in Sources */,

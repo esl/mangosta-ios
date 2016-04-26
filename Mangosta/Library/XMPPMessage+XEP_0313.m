@@ -35,7 +35,7 @@
 		DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];
 		DDXMLElement *internalMessage = [resultElement forwardedMessage];
 		//[XMPPMessage messageFromElement:[self elementForName:@"message"]];
-		DDXMLElement *delay = [self elementForName:@"delay"];
+		DDXMLElement *delay = [[self elementForName:@"delay"] copy];
 		NSString *resultId = [self attributeStringValueForName:@"id"];
 		
 		XMPPMessage *message = [XMPPMessage messageFromElement:internalMessage];

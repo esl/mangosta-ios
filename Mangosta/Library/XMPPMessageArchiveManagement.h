@@ -20,6 +20,8 @@
 @end
 
 @protocol XMPPMessageArchiveManagementDelegate <NSObject>
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMessageCount:(NSInteger)messageCount;
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didFinishReceivingMessages:(NSInteger)messageCount;
 - (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMessage:(XMPPMessage *)message;
 //- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveError:(DDXMLElement *)error;
 @end

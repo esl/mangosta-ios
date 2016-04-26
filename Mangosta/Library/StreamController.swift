@@ -80,8 +80,7 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		self.messageDeliveryReceipts = XMPPMessageDeliveryReceipts()
 		
-		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving, .MessageArchiveManagement]
-		
+		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving, .MessageArchiveManagement, .MUC]
 		
 		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
 		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
@@ -281,6 +280,12 @@ extension StreamController: XMPPMessageCarbonsDelegate {
 //MARK: -
 //MARK: XMPPMessageArchiveManagemet
 extension StreamController: XMPPMessageArchiveManagementDelegate {
+	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessageCount messageCount: Int) {
+		print("Got this message count: \(messageCount)")
+	}
+	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessages messageCount: Int) {
+		print("finished retrieving messages: \(messageCount)")
+	}
 	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessage message: XMPPMessage!) {
 		let outgoing = message.from().bare() == self.stream.myJID.bare()
 		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: outgoing, xmppStream: self.stream)
