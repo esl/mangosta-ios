@@ -1,9 +1,9 @@
 //
 //  RosterOperation.swift
-//  SqorMobileiOS
+//  Mangosta
 //
-//  Created by Andres on 9/10/15.
-//  Copyright (c) 2015 Sqor, Inc. All rights reserved.
+//  Created by Andres Canal on 4/26/16.
+//  Copyright © 2016 Inaka. All rights reserved.
 //
 
 import UIKit

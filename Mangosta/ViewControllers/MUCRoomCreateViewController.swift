@@ -14,16 +14,18 @@ class MUCRoomCreateViewController: UIViewController {
 	@IBOutlet internal var roomNameField: UITextField!
 	@IBOutlet internal var rosterTableView: UITableView!
 	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController!
-	
+
+	var usersForRoom = Set<XMPPJID>()
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Create Room"
-		
+
 		let createButton = UIBarButtonItem(title: "Create", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(createRoom(_:)))
 		let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(cancelCreation(_:)))
-		
+
 		self.navigationItem.rightBarButtonItems = [cancelButton, createButton]
-		
+
 		self.setupFetchedResultsController()
 	}
 	
@@ -34,7 +36,7 @@ class MUCRoomCreateViewController: UIViewController {
 	internal func cancelCreation(sender: UIBarButtonItem) {
 		self.navigationController?.popViewControllerAnimated(true)
 	}
-	
+
 	internal func setupFetchedResultsController() {
 		if self.fetchedResultsController != nil {
 			self.fetchedResultsController = nil
@@ -85,15 +87,25 @@ extension MUCRoomCreateViewController: UITableViewDelegate, UITableViewDataSourc
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
 		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+			cell?.accessoryType = self.usersForRoom.contains(user.jid) ? .Checkmark : .None
 			cell.textLabel?.text = user.jidStr
 		} else {
 			cell.textLabel?.text = "nope"
 		}
-		
+
 		return cell
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
+		let cell = self.rosterTableView.cellForRowAtIndexPath(indexPath)
+		
+		if self.usersForRoom.contains(user.jid) {
+			self.usersForRoom.remove(user.jid)
+			cell?.accessoryType = .None
+		} else {
+			self.usersForRoom.insert(user.jid)
+			cell?.accessoryType = .Checkmark
+		}
 	}
 }

@@ -105,7 +105,6 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 				success(stream: self.stream)
 			}
 			self.finish()
-		default:()
 		}
 	}
 	

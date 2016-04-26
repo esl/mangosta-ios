@@ -25,7 +25,6 @@ class MUCOperation: AsyncOperation, XMPPMUCDelegate {
 			if let authDomain = auth.serverName {
 				self.domain = "muc.\(authDomain)"
 			}
-			
 		}
 	}
 	
