@@ -151,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uWi-eG-NTB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3160" y="149"/>
+            <point key="canvasLocation" x="3972" y="149"/>
         </scene>
         <!--Log In-->
         <scene sceneID="Cfw-7g-Fb8">
@@ -227,7 +227,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fdd-pI-XOh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1061" y="277"/>
+            <point key="canvasLocation" x="1873" y="277"/>
         </scene>
         <!--Roster-->
         <scene sceneID="y7w-Sq-Z4R">
@@ -260,11 +260,93 @@
                     <connections>
                         <segue destination="c5H-RZ-Y30" kind="relationship" relationship="viewControllers" id="Ybx-5Q-2lA"/>
                         <segue destination="07z-Jo-Lr6" kind="relationship" relationship="viewControllers" id="Xak-Do-Abi"/>
+                        <segue destination="Sum-Mk-BHr" kind="relationship" relationship="viewControllers" id="uaQ-Zi-8VX"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J2h-Ke-HIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="195" y="-420"/>
+        </scene>
+        <!--Room View Controller-->
+        <scene sceneID="wv8-EA-gW2">
+            <objects>
+                <viewController storyboardIdentifier="MUCRoomViewController" id="tSZ-nS-4Jz" customClass="MUCRoomViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JsL-km-ltd"/>
+                        <viewControllerLayoutGuide type="bottom" id="mof-z0-Wu2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Dky-iu-AyK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6Q2-Ie-cU5">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="wid-lu-cCx">
+                            <connections>
+                                <segue destination="bA3-gl-tko" kind="show" id="0bu-fF-7fZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FRK-Mu-wOO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1277" y="496"/>
+        </scene>
+        <!--Room Create View Controller-->
+        <scene sceneID="rxH-VC-7HD">
+            <objects>
+                <viewController id="bA3-gl-tko" customClass="MUCRoomCreateViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bDP-Ve-ZYl"/>
+                        <viewControllerLayoutGuide type="bottom" id="DLp-Ym-sC0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xkK-0d-4w8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wdw-h0-RYk">
+                                <rect key="frame" x="20" y="88" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5Xu-Ea-D8t">
+                                <rect key="frame" x="20" y="141" width="560" height="410"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="Lfe-t0-PJq">
+                                        <rect key="frame" x="0.0" y="28" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lfe-t0-PJq" id="ylL-0v-A7e">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="bA3-gl-tko" id="dct-gy-mrn"/>
+                                    <outlet property="delegate" destination="bA3-gl-tko" id="h17-YN-vdu"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="5Xu-Ea-D8t" secondAttribute="leading" id="Bbk-wO-42j"/>
+                            <constraint firstItem="Wdw-h0-RYk" firstAttribute="top" secondItem="bDP-Ve-ZYl" secondAttribute="bottom" constant="24" id="Lcg-c7-Vdc"/>
+                            <constraint firstItem="DLp-Ym-sC0" firstAttribute="top" secondItem="5Xu-Ea-D8t" secondAttribute="bottom" id="aHX-QM-fTz"/>
+                            <constraint firstItem="5Xu-Ea-D8t" firstAttribute="top" secondItem="Wdw-h0-RYk" secondAttribute="bottom" constant="23" id="bSb-Rk-vGf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Wdw-h0-RYk" secondAttribute="trailing" id="nnm-v4-uPO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5Xu-Ea-D8t" secondAttribute="trailing" id="x2Y-FN-2dh"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Wdw-h0-RYk" secondAttribute="leading" id="xQF-AO-6Ma"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="roomNameField" destination="Wdw-h0-RYk" id="1NL-vh-kW9"/>
+                        <outlet property="rosterTableView" destination="5Xu-Ea-D8t" id="muw-mG-eyY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uIq-xw-J2G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1277" y="1186"/>
         </scene>
         <!--Settings-->
         <scene sceneID="DRQ-Zy-82d">
@@ -283,7 +365,26 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxe-nT-QNK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2348" y="149"/>
+            <point key="canvasLocation" x="3160" y="149"/>
+        </scene>
+        <!--Rooms-->
+        <scene sceneID="Xfw-Fw-5fc">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Sum-Mk-BHr" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Rooms" id="qcO-Jj-pF4"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GpT-BK-dDF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="tSZ-nS-4Jz" kind="relationship" relationship="rootViewController" id="hmD-GV-he7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gOL-hB-xog" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="465" y="496"/>
         </scene>
     </scenes>
 </document>

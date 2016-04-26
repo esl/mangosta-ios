@@ -80,8 +80,7 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		self.messageDeliveryReceipts = XMPPMessageDeliveryReceipts()
 		
-		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving, .MessageArchiveManagement]
-		
+		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving, .MessageArchiveManagement, .MUC]
 		
 		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
 		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
