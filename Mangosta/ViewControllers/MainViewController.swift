@@ -17,10 +17,32 @@ class MainViewController: UIViewController {
 		super.viewDidLoad()
 		self.title = "Roster"
 		
+		let addFriendButton = UIBarButtonItem(title: "Add Friend", style: UIBarButtonItemStyle.Done, target: self, action: #selector(addFriend(_:)))
+		self.navigationItem.rightBarButtonItem = addFriendButton
+		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
 		
 		self.startup()
+	}
+	
+	func addFriend(sender: UIBarButtonItem){
+		let alertController = UIAlertController(title: "Add Friend", message: "Enter the JID of the user.", preferredStyle: UIAlertControllerStyle.Alert)
+		alertController.addTextFieldWithConfigurationHandler(nil)
+
+		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+			alertController.dismissViewControllerAnimated(true, completion: nil)
+		}))
 		
+		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
+				alertController.dismissViewControllerAnimated(true, completion: nil)
+				return
+			}
+			// roster.addUser doesn't check if there is a roster... we have to fix this.
+			let userJID = XMPPJID.jidWithString(userJIDString)!
+			StreamManager.manager.streamController?.roster.addUser(userJID, withNickname: nil)
+		}))
+		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
 	internal func setupFetchedResultsController() {

@@ -142,7 +142,7 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		if self.capabilityTypes.contains(.MessageArchiveManagement) {
 			self.messageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 			self.messageArchiveManagement.activate(self.stream)
-			[self.messageArchiveManagement .retrieveMessageArchive()];
+			self.messageArchiveManagement.retrieveMessageArchive()
 		}
 
 		self.streamCompletion(stream: self.stream)

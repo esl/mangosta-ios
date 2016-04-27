@@ -58,10 +58,10 @@ class ChatViewController: UIViewController {
 		
 		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
 			
-			if let messageText = alertController.textFields?.first?.text {
+			if let messageText = alertController.textFields?.first?.text where messageText.characters.count > 0 {
 				message = messageText
 			}
-			
+
 			let senderJID = self.userJID
 			let msg = XMPPMessage(type: "chat", to: senderJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
