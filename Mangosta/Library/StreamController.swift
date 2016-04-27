@@ -49,6 +49,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	let capabilities: XMPPCapabilities
 	let capabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 	
+	let serviceDiscovery: XMPPServiceDiscovery
+	
 	let messageDeliveryReceipts: XMPPMessageDeliveryReceipts
 	
 	var messageCarbons: XMPPMessageCarbons
@@ -75,6 +77,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		self.capabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
 		self.capabilities = XMPPCapabilities(capabilitiesStorage: self.capabilitiesStorage)
+		
+		self.serviceDiscovery = XMPPServiceDiscovery()
 		
 		self.messageCarbons = XMPPMessageCarbons()
 		
@@ -103,8 +107,12 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.capabilities.activate(self.stream)
-		self.capabilities.fetchCapabilitiesForJID(self.stream.myJID)
+		self.capabilities.fetchCapabilitiesForJID(self.stream.myJID.domainJID())
 		self.capabilities.recollectMyCapabilities()
+		
+		self.serviceDiscovery.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.serviceDiscovery.activate(self.stream)
+		self.serviceDiscovery.fetchItemsForJID(self.stream.myJID.domainJID())
 		
 		if self.capabilityTypes.contains(CapabilityTypes.Roster) {
 			self.enableCapability(.Roster)
@@ -254,6 +262,7 @@ extension StreamController: XMPPCapabilitiesDelegate {
 	public func xmppCapabilities(sender: XMPPCapabilities!, didDiscoverCapabilities caps: DDXMLElement!, forJID jid: XMPPJID!) {
 		print(caps)
 	}
+
 	public func myFeaturesForXMPPCapabilities(sender: XMPPCapabilities!) -> [AnyObject]! {
 		if self.capabilitiesStorage.areCapabilitiesKnownForJID(self.stream.myJID, xmppStream: self.stream) {
 			let val = self.capabilitiesStorage.capabilitiesForJID(self.stream.myJID, xmppStream: self.stream)
@@ -261,6 +270,14 @@ extension StreamController: XMPPCapabilitiesDelegate {
 		} else {
 			return []
 		}
+	}
+}
+
+//MARK:
+extension StreamController: XMPPServiceDiscoveryDelegate {
+	
+	public func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, collectingMyCapabilities query: DDXMLElement!) {
+		print("SARASASASASA")
 	}
 }
 

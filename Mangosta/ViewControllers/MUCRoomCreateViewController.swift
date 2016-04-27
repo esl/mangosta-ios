@@ -30,7 +30,15 @@ class MUCRoomCreateViewController: UIViewController {
 	}
 	
 	internal func createRoom(sender: UIBarButtonItem) {
-		
+
+		let createRoomOperation = MUCOperation.createRoom(name: self.roomNameField.text!) { (result, room) in
+			let inviteUsersOperation = MUCOperation.invite(room: room, userJIDs: Array(self.usersForRoom), completion: { (result, room) in
+				print("Created")
+			})
+			StreamManager.manager.addOperation(inviteUsersOperation)
+		}
+
+		StreamManager.manager.addOperation(createRoomOperation)
 	}
 	
 	internal func cancelCreation(sender: UIBarButtonItem) {

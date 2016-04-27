@@ -46,7 +46,12 @@ class MUCOperation: AsyncOperation, XMPPMUCDelegate {
 		self.mainOperation?(room: self.room!)
 	}
 	
-	class func createRoom(name name: String, completion: (result: Bool, Room: XMPPRoom) -> ()) -> MUCOperation {
+	internal func finishAndRemoveDelegates() {
+		self.room?.removeDelegate(self)
+		finish()
+	}
+
+	class func createRoom(name name: String, completion: (result: Bool, room: XMPPRoom) -> ()) -> MUCOperation {
 		let createRoomOperation = MUCOperation()
 		createRoomOperation.mainOperation = { (room: XMPPRoom) -> () in
 			
@@ -59,18 +64,18 @@ class MUCOperation: AsyncOperation, XMPPMUCDelegate {
 			let roomNameConfig = DDXMLElement(name: "field")
 			roomNameConfig.addAttributeWithName("var", stringValue: "roomname")
 			roomNameConfig.addChild(DDXMLElement(name: "value", stringValue: name))
-			
+
 			config.addChild(formTypeConfig)
 			config.addChild(roomNameConfig)
-			
+
 			room.configureRoomUsingOptions(config)
 		}
 		createRoomOperation.completion = completion
-		
+
 		return createRoomOperation
 	}
 	
-	class func invite(room room: XMPPRoom, userJIDs: [XMPPJID], completion: (result: Bool, Room: XMPPRoom) -> ()) -> MUCOperation {
+	class func invite(room room: XMPPRoom, userJIDs: [XMPPJID], completion: (result: Bool, room: XMPPRoom) -> ()) -> MUCOperation {
 		let operation = MUCOperation(room)
 		operation.mainOperation = { (room: XMPPRoom) -> () in
 			for jid in userJIDs {
@@ -80,5 +85,16 @@ class MUCOperation: AsyncOperation, XMPPMUCDelegate {
 		operation.completion = completion
 		
 		return operation
+	}
+	
+	//MARK: Configuration delegates
+	func xmppRoom(sender: XMPPRoom!, didConfigure iqResult: XMPPIQ!) {
+		completion!(result: true, room: sender)
+		self.finishAndRemoveDelegates()
+	}
+	
+	func xmppRoom(sender: XMPPRoom!, didNotConfigure iqResult: XMPPIQ!) {
+		completion!(result: false, room: sender)
+		self.finishAndRemoveDelegates()
 	}
 }

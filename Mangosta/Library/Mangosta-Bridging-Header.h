@@ -3,3 +3,4 @@
 //
 #import "XMPPStreamManagement+NSCoding.h"
 #import "XMPPMessageArchiveManagement.h"
+#import "XMPPServiceDiscovery.h"

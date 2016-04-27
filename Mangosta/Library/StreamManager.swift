@@ -192,18 +192,7 @@ extension StreamManager : XMPPStreamDelegate {
 	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
 		print(message)
 	}
-	
-	public func xmppStreamDidConnect(sender: XMPPStream!) {
-		if let stream = sender, password = self.password {
-			let authenticationOperation = StreamOperation.authenticateStream(stream, password: password) { (stream) -> Void in
-				if let _ = stream {
-					self.onConnectOrReconnect()
-				}
-			}
-			self.connectionQueue.addOperation(authenticationOperation)
-		}
-	}
-	
+
 	public func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
 		self.queue.suspended = true
 	}
