@@ -133,7 +133,7 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		}
 		
 		if self.capabilityTypes.contains(.MUC) {
-			let roomListOperation = RoomListOperation.retrieveRooms() { rooms in
+			let roomListOperation = XMPPMUCOperation.retrieveRooms() { rooms in
 				print(rooms)
 			}
 			

@@ -1,5 +1,5 @@
 //
-//  MUCOperation.swift
+//  XMPPRoomOperation.swfit
 //  Mangosta
 //
 //  Created by Tom Ryan on 4/15/16.
@@ -9,23 +9,17 @@
 import Foundation
 import XMPPFramework
 
-class MUCOperation: AsyncOperation, XMPPMUCDelegate {
+class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 	var room: XMPPRoom?
 	var mainOperation: ((room: XMPPRoom) -> ())?
 	var completion: ((result: Bool, room: XMPPRoom) -> ())?
 	var fetchConfigurationCompletion: ((result: Bool, name: String) -> ())?
-	var domain: String?
-	
 	var roomJID: XMPPJID?
-	
+	let domain = "muc.erlang-solutions.com"
+	var roomName = ""
+
 	init(_ muc: XMPPRoom? = nil) {
 		self.room = muc
-		
-		if let auth = AuthenticationModel.load() {
-			if let authDomain = auth.serverName {
-				self.domain = "muc.\(authDomain)"
-			}
-		}
 	}
 	
 	override func execute() {
@@ -51,40 +45,52 @@ class MUCOperation: AsyncOperation, XMPPMUCDelegate {
 		finish()
 	}
 
-	class func createRoom(name name: String, completion: (result: Bool, room: XMPPRoom) -> ()) -> MUCOperation {
-		let createRoomOperation = MUCOperation()
+	class func createRoom(name name: String, completion: (result: Bool, room: XMPPRoom) -> ()) -> XMPPRoomOperation {
+		let createRoomOperation = XMPPRoomOperation()
+		createRoomOperation.roomName = name
 		createRoomOperation.mainOperation = { (room: XMPPRoom) -> () in
-			
-			let config = DDXMLElement(name: "x", xmlns: "jabber:x:data")
-			
-			let formTypeConfig = DDXMLElement(name: "field")
-			formTypeConfig.addAttributeWithName("var", stringValue: "FORM_TYPE")
-			formTypeConfig.addChild(DDXMLElement(name: "value", stringValue: "http://jabber.org/protocol/muc#roomconfig"))
-			
-			let roomNameConfig = DDXMLElement(name: "field")
-			roomNameConfig.addAttributeWithName("var", stringValue: "roomname")
-			roomNameConfig.addChild(DDXMLElement(name: "value", stringValue: name))
-
-			config.addChild(formTypeConfig)
-			config.addChild(roomNameConfig)
-
-			room.configureRoomUsingOptions(config)
+			room.joinRoomUsingNickname("no-name", history: nil)
 		}
 		createRoomOperation.completion = completion
 
 		return createRoomOperation
 	}
 	
-	class func invite(room room: XMPPRoom, userJIDs: [XMPPJID], completion: (result: Bool, room: XMPPRoom) -> ()) -> MUCOperation {
-		let operation = MUCOperation(room)
-		operation.mainOperation = { (room: XMPPRoom) -> () in
+	class func invite(room room: XMPPRoom, userJIDs: [XMPPJID], completion: (result: Bool, room: XMPPRoom) -> ()) -> XMPPRoomOperation {
+		let operation = XMPPRoomOperation(room)
+		operation.mainOperation = { [unowned operation] (room: XMPPRoom) in
 			for jid in userJIDs {
 				room.inviteUser(jid, withMessage: room.roomSubject)
 			}
+
+			dispatch_async(dispatch_get_main_queue()) {
+				operation.completion!(result: true, room: room)
+			}
+
+			operation.finishAndRemoveDelegates()
 		}
 		operation.completion = completion
 		
 		return operation
+	}
+
+	//MARK: Create delegate
+	func xmppRoomDidCreate(sender: XMPPRoom!) {
+		let xElement = NSXMLElement(name: "x", xmlns: "jabber:x:data")
+		xElement.addAttributeWithName("type", stringValue: "submit")
+		
+		let value = NSXMLElement(name: "value")
+		value.setStringValue(self.roomName)
+		
+		let field = NSXMLElement(name: "field")
+		field.addAttributeWithName("var", stringValue: "muc#roomconfig_roomname")
+		field.addChild(value)
+		
+		xElement.addChild(field)
+
+		sender.configureRoomUsingOptions(xElement)
+		completion!(result: true, room: sender)
+		self.finishAndRemoveDelegates()
 	}
 	
 	//MARK: Configuration delegates

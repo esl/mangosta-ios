@@ -16,7 +16,7 @@
 		8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */; };
 		81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
 		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
-		81473D921CC10E7F006FCEC9 /* MUCOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D911CC10E7F006FCEC9 /* MUCOperation.swift */; };
+		81473D921CC10E7F006FCEC9 /* XMPPRoomOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D911CC10E7F006FCEC9 /* XMPPRoomOperation.swift */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA61C970EA800AB28FA /* StreamManager.swift */; };
 		814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CAD1C984A8400AB28FA /* StreamOperation.swift */; };
@@ -29,7 +29,7 @@
 		81ECA3651C92CDE5000602F2 /* MangostaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA3641C92CDE5000602F2 /* MangostaTests.swift */; };
 		81ECA3701C92CDE5000602F2 /* MangostaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA36F1C92CDE5000602F2 /* MangostaUITests.swift */; };
 		81F607B31C9C673800B1D269 /* MessageCarbonOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F607B21C9C673800B1D269 /* MessageCarbonOperation.swift */; };
-		81F607B51C9C7FB100B1D269 /* RoomListOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F607B41C9C7FB100B1D269 /* RoomListOperation.swift */; };
+		81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F607B41C9C7FB100B1D269 /* XMPPMUCOperation.swift */; };
 		81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E8381CA024FB008099D1 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8371CA024FB008099D1 /* AuthenticationViewModel.swift */; };
@@ -71,7 +71,7 @@
 		8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0313.m"; sourceTree = "<group>"; };
 		81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomViewController.swift; sourceTree = "<group>"; };
 		81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomCreateViewController.swift; sourceTree = "<group>"; };
-		81473D911CC10E7F006FCEC9 /* MUCOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCOperation.swift; sourceTree = "<group>"; };
+		81473D911CC10E7F006FCEC9 /* XMPPRoomOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPRoomOperation.swift; sourceTree = "<group>"; };
 		814D4CA41C970E6900AB28FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		814D4CA61C970EA800AB28FA /* StreamManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamManager.swift; sourceTree = "<group>"; };
 		814D4CAA1C970F5500AB28FA /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 		81ECA36F1C92CDE5000602F2 /* MangostaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangostaUITests.swift; sourceTree = "<group>"; };
 		81ECA3711C92CDE5000602F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81F607B21C9C673800B1D269 /* MessageCarbonOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCarbonOperation.swift; sourceTree = "<group>"; };
-		81F607B41C9C7FB100B1D269 /* RoomListOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomListOperation.swift; sourceTree = "<group>"; };
+		81F607B41C9C7FB100B1D269 /* XMPPMUCOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPMUCOperation.swift; sourceTree = "<group>"; };
 		81F8E8321CA0236A008099D1 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81F8E8371CA024FB008099D1 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
@@ -190,8 +190,8 @@
 				814D4CAD1C984A8400AB28FA /* StreamOperation.swift */,
 				814D4CB11C9C1DE600AB28FA /* RosterOperation.swift */,
 				81F607B21C9C673800B1D269 /* MessageCarbonOperation.swift */,
-				81F607B41C9C7FB100B1D269 /* RoomListOperation.swift */,
-				81473D911CC10E7F006FCEC9 /* MUCOperation.swift */,
+				81F607B41C9C7FB100B1D269 /* XMPPMUCOperation.swift */,
+				81473D911CC10E7F006FCEC9 /* XMPPRoomOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -498,7 +498,7 @@
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
-				81F607B51C9C7FB100B1D269 /* RoomListOperation.swift in Sources */,
+				81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */,
 				8142B82E1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */,
@@ -508,7 +508,7 @@
 				8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
-				81473D921CC10E7F006FCEC9 /* MUCOperation.swift in Sources */,
+				81473D921CC10E7F006FCEC9 /* XMPPRoomOperation.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
 				814D4CB01C984A9400AB28FA /* AsyncOperation.swift in Sources */,

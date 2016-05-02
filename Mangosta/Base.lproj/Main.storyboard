@@ -270,7 +270,7 @@
         <!--Room View Controller-->
         <scene sceneID="wv8-EA-gW2">
             <objects>
-                <viewController storyboardIdentifier="MUCRoomViewController" id="tSZ-nS-4Jz" customClass="MUCRoomViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MUCRoomViewController" automaticallyAdjustsScrollViewInsets="NO" id="tSZ-nS-4Jz" customClass="MUCRoomViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JsL-km-ltd"/>
                         <viewControllerLayoutGuide type="bottom" id="mof-z0-Wu2"/>
@@ -278,7 +278,29 @@
                     <view key="view" contentMode="scaleToFill" id="Dky-iu-AyK">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mOE-Pm-2NK">
+                                <rect key="frame" x="20" y="64" width="560" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="1Bz-Mi-Itb">
+                                        <rect key="frame" x="0.0" y="28" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Bz-Mi-Itb" id="O8H-fC-BvT">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mOE-Pm-2NK" firstAttribute="leading" secondItem="Dky-iu-AyK" secondAttribute="leadingMargin" id="NQp-bM-GKU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mOE-Pm-2NK" secondAttribute="trailing" id="cIq-BW-uay"/>
+                            <constraint firstItem="mOE-Pm-2NK" firstAttribute="top" secondItem="JsL-km-ltd" secondAttribute="bottom" id="iKW-pT-BrU"/>
+                            <constraint firstItem="mof-z0-Wu2" firstAttribute="top" secondItem="mOE-Pm-2NK" secondAttribute="bottom" id="yux-6F-hpR"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6Q2-Ie-cU5">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wid-lu-cCx">
@@ -287,6 +309,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="mOE-Pm-2NK" id="9st-eQ-R9R"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FRK-Mu-wOO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
