@@ -78,19 +78,24 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 	func xmppRoomDidCreate(sender: XMPPRoom!) {
 		let xElement = NSXMLElement(name: "x", xmlns: "jabber:x:data")
 		xElement.addAttributeWithName("type", stringValue: "submit")
-		
-		let value = NSXMLElement(name: "value")
-		value.setStringValue(self.roomName)
-		
-		let field = NSXMLElement(name: "field")
-		field.addAttributeWithName("var", stringValue: "muc#roomconfig_roomname")
-		field.addChild(value)
-		
-		xElement.addChild(field)
 
+		xElement.addChild(self.configuration("muc#roomconfig_roomname", configValue: self.roomName))
+		xElement.addChild(self.configuration("muc#roomconfig_persistentroom", configValue: "1"))
+		
 		sender.configureRoomUsingOptions(xElement)
 		completion!(result: true, room: sender)
 		self.finishAndRemoveDelegates()
+	}
+	
+	private func configuration(name: String, configValue: String) -> NSXMLElement {
+		let value = NSXMLElement(name: "value")
+		value.setStringValue(configValue)
+		
+		let field = NSXMLElement(name: "field")
+		field.addAttributeWithName("var", stringValue: name)
+		field.addChild(value)
+		
+		return field
 	}
 	
 	//MARK: Configuration delegates
