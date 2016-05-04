@@ -9,7 +9,7 @@
 import Foundation
 import XMPPFramework
 
-public class StreamController: NSObject, XMPPStreamDelegate {
+public class StreamController: NSObject {
 	public struct CapabilityTypes: OptionSetType {
 		public let rawValue: UInt16
 		
@@ -35,7 +35,11 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	
 	let roomStorage: XMPPRoomCoreDataStorage
 	
+	let mucStorage: XMPPMUCCoreDataStorage
+	let xmppMUCStorer: XMPPMUCStorer
+
 	let streamCompletion: StreamCompletion
+	
 	
 	let messageArchiving: XMPPMessageArchiving
 	let messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
@@ -70,6 +74,10 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		self.roomStorage = XMPPRoomCoreDataStorage(databaseFilename: roomFileName, storeOptions: nil)
 		self.roster = XMPPRoster(rosterStorage: self.rosterStorage)
 		
+		self.mucStorage = XMPPMUCCoreDataStorage(databaseFilename: "sarasa.sqlite", storeOptions: nil)
+		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.mucStorage)
+		
+		
 		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
 		self.messageArchiving = XMPPMessageArchiving(messageArchivingStorage: self.messageArchivingStorage)
 		
@@ -89,15 +97,22 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
 		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
 		
+//		self.xmppRoom = XMPPRoom(roomStorage: self.roomStorage, jid: XMPPJID())
+//		self.xmppRoom.activate(self.stream)
+		
 		super.init()
 		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplicationWillResignActiveNotification, object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
-		
+
 		self.finish()
 	}
 	
 	private func finish() {
+		
+		self.xmppMUCStorer.activate(self.stream)
+		self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		
 		if self.capabilityTypes.contains(.MessageDeliveryReceipts) {
 			self.enableCapability(.MessageDeliveryReceipts)
 		}
@@ -273,12 +288,19 @@ extension StreamController: XMPPCapabilitiesDelegate {
 	}
 }
 
+
 //MARK:
-extension StreamController: XMPPServiceDiscoveryDelegate {
+extension StreamController: XMPPStreamDelegate {
 	
-	public func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, collectingMyCapabilities query: DDXMLElement!) {
-		print("SARASASASASA")
+	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
+		print(message)
 	}
+}
+
+//MARK:
+extension StreamController: XMPPRoomDelegate {
+	
+	
 }
 
 

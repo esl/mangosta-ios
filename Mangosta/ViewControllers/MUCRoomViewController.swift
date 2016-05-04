@@ -26,11 +26,23 @@ class MUCRoomViewController: UIViewController {
 		
 		let retrieveRooms = XMPPMUCOperation.retrieveRooms { rooms in
 			if let receivedRooms = rooms {
-				self.rooms = receivedRooms
-				self.tableView.reloadData()
+				self.xmppRoomsHandling(receivedRooms)
 			}
 		}
 		StreamManager.manager.addOperation(retrieveRooms)
+	}
+	
+	
+	func xmppRoomsHandling(rooms: [XMPPRoom]) {
+		self.rooms = rooms
+		self.rooms.forEach { (room) in
+			let joinRoomOp = XMPPRoomOperation.joinRoom(room) { (result, room) in
+				print(room.isJoined)
+			}
+			StreamManager.manager.addOperation(joinRoomOp)
+		}
+		
+		self.tableView.reloadData()
 	}
 }
 
@@ -49,6 +61,11 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		print("hi")
+		let room = self.rooms[indexPath.row]
+		
+		let chatController = self.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController!
+		chatController.room = room
+		
+		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 }

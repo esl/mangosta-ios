@@ -10,11 +10,11 @@ import Foundation
 import XMPPFramework
 
 public class StreamManager : NSObject {
-	//MARK: Private variables
+	
 	private var jidString: String?
 	private var password: String?
 	private var serverName: String?
-	//MARK: Public variables
+	
 	public var streamController: StreamController?
 	public static let manager = StreamManager()
 	public var stream: XMPPStream!
@@ -23,12 +23,11 @@ public class StreamManager : NSObject {
 	public var carbonsEnabled = true
 	public var clientState = ClientState()
 	
-	//MARK: Internal Variables
 	internal var isAttemptingConnection = false
 	internal var queue: NSOperationQueue
 	internal var connectionQueue: NSOperationQueue
 	
-	//MARK: -
+	
 	//MARK: Private functions
 	private override init() {
 		self.queue = NSOperationQueue()

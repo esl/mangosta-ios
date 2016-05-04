@@ -36,6 +36,8 @@
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		C160B9161CCFD45A00ADAD99 /* XMPPMUCLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */; };
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
+		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
+		C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
 		D335FF41B39E6529CB2B8E8A /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030FC81F912655F12909CC55 /* Pods_Mangosta.framework */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +102,10 @@
 		C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCLight.m; sourceTree = "<group>"; };
 		C160B9181CD1371B00ADAD99 /* XMPPServiceDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPServiceDiscovery.h; sourceTree = "<group>"; };
 		C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPServiceDiscovery.m; sourceTree = "<group>"; };
+		C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCStorer.h; sourceTree = "<group>"; };
+		C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCStorer.m; sourceTree = "<group>"; };
+		C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCCoreDataStorage.h; sourceTree = "<group>"; };
+		C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCCoreDataStorage.m; sourceTree = "<group>"; };
 		C9DC3204A61F8A334C3E45FE /* Pods-Mangosta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.debug.xcconfig"; sourceTree = "<group>"; };
 		D7586712F63B46A549B9633A /* Pods-Mangosta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,6 +185,10 @@
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
 				813266A41CA2B63600D4EDC0 /* Subclasses */,
 				814D4CAC1C984A6900AB28FA /* Operations */,
+				C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */,
+				C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */,
+				C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */,
+				C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -497,6 +507,7 @@
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,
+				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
 				81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */,
 				8142B82E1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m in Sources */,
@@ -515,6 +526,7 @@
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				8142B8361CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m in Sources */,
 				811C5AA81CAABB40008346FE /* StreamController.swift in Sources */,
+				C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */,
 				C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

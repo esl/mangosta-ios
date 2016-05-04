@@ -17,6 +17,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 	var roomJID: XMPPJID?
 	let domain = "muc.erlang-solutions.com"
 	var roomName = ""
+	var joinRoomFlag = false
 
 	init(_ muc: XMPPRoom? = nil) {
 		self.room = muc
@@ -49,7 +50,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		let createRoomOperation = XMPPRoomOperation()
 		createRoomOperation.roomName = name
 		createRoomOperation.mainOperation = { (room: XMPPRoom) -> () in
-			room.joinRoomUsingNickname("no-name", history: nil)
+			room.joinRoomUsingNickname(XMPPStream.generateUUID(), history: nil)
 		}
 		createRoomOperation.completion = completion
 
@@ -73,6 +74,32 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		
 		return operation
 	}
+	
+	class func joinRoom(room: XMPPRoom, completion: (result: Bool, room: XMPPRoom) -> ()) -> XMPPRoomOperation {
+		let joinRoomOperation = XMPPRoomOperation(room)
+		joinRoomOperation.joinRoomFlag = true
+		joinRoomOperation.mainOperation = { (room: XMPPRoom) -> () in
+			room.joinRoomUsingNickname(XMPPStream.generateUUID(), history: nil)
+		}
+		joinRoomOperation.completion = completion
+		
+		return joinRoomOperation
+	}
+	
+	//MARK: Join Room
+	
+	func xmppRoomDidJoin(sender: XMPPRoom!) {
+		if !self.joinRoomFlag {
+			return
+		}
+
+		self.completion!(result: true, room: sender)
+		self.finishAndRemoveDelegates()
+	}
+	
+	func xmppRoomDidLeave(sender: XMPPRoom!) {
+		print(sender)
+	}
 
 	//MARK: Create delegate
 	func xmppRoomDidCreate(sender: XMPPRoom!) {
@@ -83,7 +110,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		xElement.addChild(self.configuration("muc#roomconfig_persistentroom", configValue: "1"))
 		
 		sender.configureRoomUsingOptions(xElement)
-		completion!(result: true, room: sender)
+		self.completion!(result: true, room: sender)
 		self.finishAndRemoveDelegates()
 	}
 	
