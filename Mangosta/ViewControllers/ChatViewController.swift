@@ -32,7 +32,7 @@ class ChatViewController: UIViewController {
 	}
 	
 	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
-		if let streamController = StreamManager.manager.streamController, let context = streamController.roomStorage.mainThreadManagedObjectContext {
+		if let streamController = StreamManager.manager.streamController, let context = streamController.mucStorage.mainThreadManagedObjectContext {
 			let entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: context)
 			let predicate = NSPredicate(format: "jidStr = %@", self.room!.roomJID.bare())
 			let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: false)

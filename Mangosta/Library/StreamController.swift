@@ -33,8 +33,6 @@ public class StreamController: NSObject {
 	let rosterStorage: XMPPRosterCoreDataStorage
 	var rosterCompletion: RosterCompletion?
 	
-	let roomStorage: XMPPRoomCoreDataStorage
-	
 	let mucStorage: XMPPMUCCoreDataStorage
 	let xmppMUCStorer: XMPPMUCStorer
 
@@ -71,12 +69,10 @@ public class StreamController: NSObject {
 		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: messagingFileName)
 
 		self.rosterStorage = XMPPRosterCoreDataStorage(databaseFilename: rosterFileName, storeOptions: nil)
-		self.roomStorage = XMPPRoomCoreDataStorage(databaseFilename: roomFileName, storeOptions: nil)
 		self.roster = XMPPRoster(rosterStorage: self.rosterStorage)
 		
-		self.mucStorage = XMPPMUCCoreDataStorage(databaseFilename: "sarasa.sqlite", storeOptions: nil)
+		self.mucStorage = XMPPMUCCoreDataStorage(databaseFilename: roomFileName, storeOptions: nil)
 		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.mucStorage)
-		
 		
 		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
 		self.messageArchiving = XMPPMessageArchiving(messageArchivingStorage: self.messageArchivingStorage)
@@ -96,9 +92,6 @@ public class StreamController: NSObject {
 		
 		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
 		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
-		
-//		self.xmppRoom = XMPPRoom(roomStorage: self.roomStorage, jid: XMPPJID())
-//		self.xmppRoom.activate(self.stream)
 		
 		super.init()
 		

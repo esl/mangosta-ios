@@ -46,7 +46,7 @@ class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 			let rawJid = rawElement.attributeStringValueForName("jid")
 			let rawName = rawElement.attributeStringValueForName("name")
 			let jid = XMPPJID.jidWithString(rawJid)
-			let r = XMPPRoom(roomStorage: StreamManager.manager.streamController!.roomStorage, jid: jid)
+			let r = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
 			r.setValue(rawName, forKey: "roomSubject")
 			parsedRooms.append(r)
 		}

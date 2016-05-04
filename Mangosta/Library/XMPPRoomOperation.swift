@@ -31,8 +31,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		if let xmppRoom = self.room where xmppRoom.xmppStream == nil {
 			xmppRoom.activate(StreamManager.manager.stream)
 		} else if self.room == nil {
-			let storage = StreamManager.manager.streamController?.roomStorage
-			self.room = XMPPRoom(roomStorage: storage, jid: roomJID, dispatchQueue: dispatch_get_main_queue())
+			self.room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: roomJID, dispatchQueue: dispatch_get_main_queue())
 			self.room?.activate(StreamManager.manager.stream)
 		}
 		
