@@ -14,5 +14,6 @@
 @interface XMPPMUCCoreDataStorage : XMPPCoreDataStorage
 
 - (void)handleIncomingMessage:(XMPPMessage *)message stream:(XMPPStream *) stream;
+- (void)handleOutgoingMessage:(XMPPMessage *)message stream:(XMPPStream *)stream;
 
 @end

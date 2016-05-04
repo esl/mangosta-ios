@@ -79,7 +79,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		let joinRoomOperation = XMPPRoomOperation(room)
 		joinRoomOperation.joinRoomFlag = true
 		joinRoomOperation.mainOperation = { (room: XMPPRoom) -> () in
-			room.joinRoomUsingNickname(XMPPStream.generateUUID(), history: nil)
+			room.joinRoomUsingNickname(room.xmppStream.myJID.user, history: nil)
 		}
 		joinRoomOperation.completion = completion
 		

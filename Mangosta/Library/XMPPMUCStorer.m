@@ -24,11 +24,7 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-	// This method is invoked on the moduleQueue.
-
-	NSLog(@"%@",message);
-	
-	if(!([message isGroupChatMessage] && [message.from isFull])){
+	if(!([message isGroupChatMessageWithBody] && [message.from isFull])){
 		return;
 	}
 	
@@ -47,6 +43,13 @@
 	[self.xmppMUCStorage handleIncomingMessage:message stream:self.xmppStream];
 }
 
+- (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message
+{
+	if(!([message isGroupChatMessageWithBody] && message.from == nil)){
+		return;
+	}
 
+	[self.xmppMUCStorage handleOutgoingMessage:message stream:self.xmppStream];
+}
 
 @end
