@@ -9,10 +9,12 @@
 import Foundation
 import XMPPFramework
 
-class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
+class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, XMPPRoomExtraActionsDelegate {
 	var room: XMPPRoom?
 	var mainOperation: ((room: XMPPRoom) -> ())?
 	var completion: ((result: Bool, room: XMPPRoom) -> ())?
+	var boolCompletion: ((result: Bool) -> ())?
+
 	var fetchConfigurationCompletion: ((result: Bool, name: String) -> ())?
 	var roomJID: XMPPJID?
 	let domain = "muc.erlang-solutions.com"
@@ -35,6 +37,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 			self.room?.activate(StreamManager.manager.stream)
 		}
 		
+		self.room?.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.room?.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
 		self.mainOperation?(room: self.room!)
@@ -74,6 +77,16 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		return operation
 	}
 	
+	class func leave(room room: XMPPRoom, completion: (result: Bool) -> ()) -> XMPPRoomOperation {
+		let operation = XMPPRoomOperation(room)
+		operation.mainOperation = { (room: XMPPRoom) in
+			room.changeAffiliation(room.xmppStream.myJID, affiliation: "none")
+		}
+		operation.boolCompletion = completion
+		
+		return operation
+	}
+	
 	class func joinRoom(room: XMPPRoom, completion: (result: Bool, room: XMPPRoom) -> ()) -> XMPPRoomOperation {
 		let joinRoomOperation = XMPPRoomOperation(room)
 		joinRoomOperation.joinRoomFlag = true
@@ -85,8 +98,18 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		return joinRoomOperation
 	}
 	
+	//MARK: Change Affiliation
+	func xmppRoom(sender: XMPPRoom!, didChangeAffiliationTo occupantJID: XMPPJID!) {
+		self.boolCompletion?(result: true)
+		self.finishAndRemoveDelegates()
+	}
+
+	func xmppRoom(sender: XMPPRoom!, didFailToChangeAffiliationTo occupantJID: XMPPJID!) {
+		self.boolCompletion?(result: false)
+		self.finishAndRemoveDelegates()
+	}
+
 	//MARK: Join Room
-	
 	func xmppRoomDidJoin(sender: XMPPRoom!) {
 		if !self.joinRoomFlag {
 			return
@@ -97,7 +120,8 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 	}
 	
 	func xmppRoomDidLeave(sender: XMPPRoom!) {
-		print(sender)
+		self.boolCompletion!(result: false)
+		self.finishAndRemoveDelegates()
 	}
 
 	//MARK: Create delegate
@@ -124,6 +148,21 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate {
 		return field
 	}
 	
+	//MARK: Presence delegates
+	
+	func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
+		let from = presence.from()
+		
+		if (!self.room!.roomJID.isEqualToJID(from, options: XMPPJIDCompareBare)) {
+			return
+		}
+		
+		if((presence.elementForName("error")) != nil) {
+			completion!(result: true, room: room!)
+			self.finishAndRemoveDelegates()
+		}
+	}
+
 	//MARK: Configuration delegates
 	func xmppRoom(sender: XMPPRoom!, didConfigure iqResult: XMPPIQ!) {
 		completion!(result: true, room: sender)

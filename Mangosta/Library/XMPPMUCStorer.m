@@ -22,6 +22,10 @@
 	return self;
 }
 
+- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
+	NSLog(@"%@", presence);
+}
+
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
 	if(!([message isGroupChatMessageWithBody] && [message.from isFull])){

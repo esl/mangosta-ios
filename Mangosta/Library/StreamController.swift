@@ -93,12 +93,14 @@ public class StreamController: NSObject {
 		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
 		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
 		
+		
 		super.init()
 		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplicationWillResignActiveNotification, object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
 
 		self.finish()
+
 	}
 	
 	private func finish() {
@@ -151,7 +153,7 @@ public class StreamController: NSObject {
 		if self.capabilityTypes.contains(.StreamManagement) {
 			self.streamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 			self.streamManagement.activate(self.stream)
-			self.streamManagement.enableStreamManagementWithResumption(true, maxTimeout: 500)
+			self.streamManagement.enableStreamManagementWithResumption(true, maxTimeout: 0)
 			self.streamManagement.autoResume = true
 		}
 		

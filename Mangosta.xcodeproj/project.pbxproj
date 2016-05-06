@@ -34,6 +34,7 @@
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E8381CA024FB008099D1 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8371CA024FB008099D1 /* AuthenticationViewModel.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
 		C160B9161CCFD45A00ADAD99 /* XMPPMUCLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */; };
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
 		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
@@ -98,6 +99,8 @@
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81F8E8371CA024FB008099D1 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
+		C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoom+ExtraActions.m"; sourceTree = "<group>"; };
 		C160B9141CCFD45A00ADAD99 /* XMPPMUCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCLight.h; sourceTree = "<group>"; };
 		C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCLight.m; sourceTree = "<group>"; };
 		C160B9181CD1371B00ADAD99 /* XMPPServiceDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPServiceDiscovery.h; sourceTree = "<group>"; };
@@ -180,6 +183,7 @@
 				814D4CA61C970EA800AB28FA /* StreamManager.swift */,
 				811C5AA71CAABB40008346FE /* StreamController.swift */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
+				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
 				C160B9131CCFD3EC00ADAD99 /* MUCLight */,
 				8142B8331CB7EFFD0095FCF1 /* XEP-0313 */,
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
@@ -291,6 +295,15 @@
 				D7586712F63B46A549B9633A /* Pods-Mangosta.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C12EA9511CDD16EF00F29606 /* XEP-0045 */ = {
+			isa = PBXGroup;
+			children = (
+				C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */,
+				C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */,
+			);
+			name = "XEP-0045";
 			sourceTree = "<group>";
 		};
 		C160B9131CCFD3EC00ADAD99 /* MUCLight */ = {
@@ -509,6 +522,7 @@
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
+				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */,
 				8142B82E1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,

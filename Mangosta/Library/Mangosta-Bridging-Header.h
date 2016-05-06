@@ -6,3 +6,4 @@
 #import "XMPPServiceDiscovery.h"
 #import "XMPPMUCStorer.h"
 #import "XMPPMUCCoreDataStorage.h"
+#import "XMPPRoom+ExtraActions.h"

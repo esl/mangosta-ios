@@ -17,24 +17,25 @@ class ChatViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
+		var rightBarButtonItems: [UIBarButtonItem] = []
+		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
+		
 		self.title = "Chatting with \(self.userJID?.user ?? self.room?.roomSubject ?? "")"
 
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
 		} else {
+			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
 			self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
 		}
-		
-		
-		let chatButton = UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:)))
-		self.navigationItem.rightBarButtonItem = chatButton
+
+		self.navigationItem.rightBarButtonItems = rightBarButtonItems
 	}
 	
 	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
 		if let streamController = StreamManager.manager.streamController, let context = streamController.mucStorage.mainThreadManagedObjectContext {
 			let entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: context)
-			let predicate = NSPredicate(format: "jidStr = %@", self.room!.roomJID.bare())
+			let predicate = NSPredicate(format: "roomJIDStr = %@", self.room!.roomJID.bare())
 			let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: false)
 			
 			let request = NSFetchRequest()
@@ -94,6 +95,30 @@ class ChatViewController: UIViewController {
 			msg.addBody(message)
 			
 			StreamManager.manager.stream.sendElement(msg)
+		}))
+		self.presentViewController(alertController, animated: true, completion: nil)
+	}
+	
+	internal func invite(sender: AnyObject?) {
+		let alertController = UIAlertController(title: "Add Friend", message: "Enter the JID of the user.", preferredStyle: UIAlertControllerStyle.Alert)
+		alertController.addTextFieldWithConfigurationHandler(nil)
+		
+		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+			alertController.dismissViewControllerAnimated(true, completion: nil)
+		}))
+		
+		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
+				alertController.dismissViewControllerAnimated(true, completion: nil)
+				return
+			}
+			// roster.addUser doesn't check if there is a roster... we have to fix this.
+			let userJID = XMPPJID.jidWithString(userJIDString)!
+			
+			StreamManager.manager.addOperation(XMPPRoomOperation.invite(room: self.room!, userJIDs: [userJID], completion: { (result, room) in
+				print("Success!")
+			}))
+
 		}))
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}

@@ -72,6 +72,14 @@ public class StreamManager : NSObject {
 	//MARK: -
 	//MARK: Public functions
 	public func addOperation(operation: NSOperation) {
+		print("========================")
+		print(self.queue.operationCount)
+		print("========================")
+		
+		if let oper = operation as? XMPPRoomOperation {
+			print(oper.room?.roomJID)
+		}
+
 		self.queue.addOperation(operation)
 	}
 	
