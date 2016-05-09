@@ -16,6 +16,7 @@ enum StreamStatus {
 class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 	var completion: ((stream: XMPPStream?) -> ())?
 	var stream: XMPPStream
+	var streamManagement: XMPPStreamManagement?
 	var status = StreamStatus.Ready
 	var password: String
 	var hostName: String
@@ -87,11 +88,24 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 		case .Ready:
 			self.connect()
 		case .Connected:
+
+			if let streamManagement = self.streamManagement {
+				streamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				streamManagement.activate(self.stream)
+				streamManagement.autoResume = true
+			}
+			
 			self.authenticate()
 		case .Authenticated:
+
 			if let success = self.completion {
 				success(stream: self.stream)
 			}
+
+			if let streamManagement = self.streamManagement {
+				streamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1)
+			}
+			
 			self.finish()
 		case .ReadyToDisconnect:
 			self.disconnect()
@@ -173,7 +187,7 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 		print(iq)
 		return true
 	}
-	
+
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
 		status = .Failed
 		self.finish()

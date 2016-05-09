@@ -26,6 +26,9 @@ public class StreamManager : NSObject {
 	internal var isAttemptingConnection = false
 	internal var queue: NSOperationQueue
 	internal var connectionQueue: NSOperationQueue
+
+	let streamManagement: XMPPStreamManagement
+	let streamManagementStorage: XMPPStreamManagementMemoryStorage
 	
 	
 	//MARK: Private functions
@@ -37,10 +40,17 @@ public class StreamManager : NSObject {
 		self.connectionQueue = NSOperationQueue()
 		self.connectionQueue.maxConcurrentOperationCount = 2
 
+		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
+		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
+		
 		self.onlineJIDs = []
-		
+
 		super.init()
+
+		self.streamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplicationWillResignActiveNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
 	}
 	
 	//MARK: Internal functions
@@ -106,9 +116,8 @@ public class StreamManager : NSObject {
 			} else {
 				self.isAttemptingConnection = false
 			}
-			
-			
 		}
+		connectOperation.streamManagement = streamManagement
 		self.connectionQueue.addOperation(connectOperation)
 	}
 	
@@ -132,7 +141,7 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.streamController?.roster.removeDelegate(self)
 		self.streamController?.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
-		self.streamController?.streamManagement.deleteState()
+		self.streamManagement.deleteState()
 		self.streamController = nil
 		
 		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in
@@ -194,6 +203,24 @@ public class StreamManager : NSObject {
 }
 
 //MARK: -
+
+//MARK: UIApplicationDelegate
+extension StreamManager: UIApplicationDelegate {
+	
+	public func applicationWillResignActive(application: UIApplication) {
+		self.saveStreamManagementState()
+	}
+	
+	public func applicationWillEnterForeground(application: UIApplication) {
+		self.streamManagement.loadState()
+		self.streamManagement.requestAck()
+	}
+	
+	private func saveStreamManagementState() {
+		self.streamManagement.saveState()
+	}
+}
+
 //MARK: XMPPStreamDelegate
 extension StreamManager : XMPPStreamDelegate {
 	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {

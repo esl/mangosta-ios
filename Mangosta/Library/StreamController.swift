@@ -44,8 +44,6 @@ public class StreamController: NSObject {
 	
 	let messageArchiveManagement: XMPPMessageArchiveManagement
 	
-	let streamManagement: XMPPStreamManagement
-	let streamManagementStorage: XMPPStreamManagementMemoryStorage
 	
 	var capabilityTypes: [CapabilityTypes]
 	let capabilities: XMPPCapabilities
@@ -89,18 +87,10 @@ public class StreamController: NSObject {
 		self.messageDeliveryReceipts = XMPPMessageDeliveryReceipts()
 		
 		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving, .MessageArchiveManagement, .MUC]
-		
-		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
-		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
-		
-		
+
 		super.init()
-		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplicationWillResignActiveNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
 
 		self.finish()
-
 	}
 	
 	private func finish() {
@@ -149,14 +139,7 @@ public class StreamController: NSObject {
 			
 			StreamManager.manager.addOperation(roomListOperation)
 		}
-		
-		if self.capabilityTypes.contains(.StreamManagement) {
-			self.streamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.streamManagement.activate(self.stream)
-			self.streamManagement.enableStreamManagementWithResumption(true, maxTimeout: 0)
-			self.streamManagement.autoResume = true
-		}
-		
+
 		if self.capabilityTypes.contains(.MessageArchiveManagement) {
 			self.messageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 			self.messageArchiveManagement.activate(self.stream)
@@ -335,23 +318,5 @@ extension StreamController: XMPPStreamManagementDelegate {
 	
 	public func xmppStreamManagement(sender: XMPPStreamManagement!, wasNotEnabled failed: DDXMLElement!) {
 		print("Stream Management was not enabled")
-	}
-}
-
-//MARK: -
-//MARK: UIApplicationDelegate
-extension StreamController: UIApplicationDelegate {
-	
-	public func applicationWillResignActive(application: UIApplication) {
-		self.saveStreamManagementState()
-	}
-	
-	public func applicationWillEnterForeground(application: UIApplication) {
-		self.streamManagement.loadState()
-		self.streamManagement.requestAck()
-	}
-	
-	private func saveStreamManagementState() {
-		self.streamManagement.saveState()
 	}
 }
