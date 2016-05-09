@@ -7,3 +7,4 @@
 #import "XMPPMUCStorer.h"
 #import "XMPPMUCCoreDataStorage.h"
 #import "XMPPRoom+ExtraActions.h"
+#import "XMPPStreamManagementDiscStorage.h"

@@ -103,7 +103,7 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 			}
 
 			if let streamManagement = self.streamManagement {
-				streamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1)
+				streamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1000)
 			}
 			
 			self.finish()

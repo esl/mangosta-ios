@@ -28,7 +28,7 @@ public class StreamManager : NSObject {
 	internal var connectionQueue: NSOperationQueue
 
 	let streamManagement: XMPPStreamManagement
-	let streamManagementStorage: XMPPStreamManagementMemoryStorage
+	let streamManagementStorage: XMPPStreamManagementDiscStorage
 	
 	
 	//MARK: Private functions
@@ -40,7 +40,7 @@ public class StreamManager : NSObject {
 		self.connectionQueue = NSOperationQueue()
 		self.connectionQueue.maxConcurrentOperationCount = 2
 
-		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
+		self.streamManagementStorage = XMPPStreamManagementDiscStorage()
 		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
 		
 		self.onlineJIDs = []
