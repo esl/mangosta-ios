@@ -8,7 +8,7 @@
         <!--Chat View Controller-->
         <scene sceneID="Kch-Vl-9HJ">
             <objects>
-                <viewController storyboardIdentifier="ChatViewController" id="ORb-oK-1Ea" customClass="ChatViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatViewController" automaticallyAdjustsScrollViewInsets="NO" id="ORb-oK-1Ea" customClass="ChatViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Akb-o3-9N0"/>
                         <viewControllerLayoutGuide type="bottom" id="hAE-Do-TPr"/>
@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8oW-Qf-pxe">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8oW-Qf-pxe">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -37,6 +37,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8oW-Qf-pxe" firstAttribute="leading" secondItem="ijV-px-9x3" secondAttribute="leading" id="0Qf-46-Zmt"/>
+                            <constraint firstAttribute="trailing" secondItem="8oW-Qf-pxe" secondAttribute="trailing" id="J6w-EW-MRL"/>
+                            <constraint firstItem="hAE-Do-TPr" firstAttribute="top" secondItem="8oW-Qf-pxe" secondAttribute="bottom" id="eaY-pd-sYn"/>
+                            <constraint firstItem="8oW-Qf-pxe" firstAttribute="top" secondItem="ijV-px-9x3" secondAttribute="top" id="fEm-Wm-1Dy"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>

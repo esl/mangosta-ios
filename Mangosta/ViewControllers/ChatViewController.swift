@@ -96,6 +96,7 @@ class ChatViewController: UIViewController {
 			
 			StreamManager.manager.stream.sendElement(msg)
 		}))
+		alertController.view.setNeedsLayout()
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
@@ -120,6 +121,7 @@ class ChatViewController: UIViewController {
 			}))
 
 		}))
+		alertController.view.setNeedsLayout()
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 }

@@ -61,7 +61,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 	
 	class func invite(room room: XMPPRoom, userJIDs: [XMPPJID], completion: (result: Bool, room: XMPPRoom) -> ()) -> XMPPRoomOperation {
 		let operation = XMPPRoomOperation(room)
-		operation.mainOperation = { [unowned operation] (room: XMPPRoom) in
+		operation.mainOperation = { (room: XMPPRoom) in
 			for jid in userJIDs {
 				room.inviteUser(jid, withMessage: room.roomSubject)
 			}
