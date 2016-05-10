@@ -31,7 +31,6 @@
 		81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F607B41C9C7FB100B1D269 /* XMPPMUCOperation.swift */; };
 		81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
-		81F8E8381CA024FB008099D1 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8371CA024FB008099D1 /* AuthenticationViewModel.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
 		C160B9161CCFD45A00ADAD99 /* XMPPMUCLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */; };
@@ -95,7 +94,6 @@
 		81F607B41C9C7FB100B1D269 /* XMPPMUCOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPMUCOperation.swift; sourceTree = "<group>"; };
 		81F8E8321CA0236A008099D1 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		81F8E8371CA024FB008099D1 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
 		C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoom+ExtraActions.m"; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 			children = (
 				81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */,
 				811C5AB21CAC094D008346FE /* Model */,
-				81F8E8361CA024EB008099D1 /* ViewModels */,
 				81F8E8311CA02369008099D1 /* ViewControllers */,
 				81ECA3531C92CDE4000602F2 /* Main.storyboard */,
 				81ECA3561C92CDE4000602F2 /* Assets.xcassets */,
@@ -279,14 +276,6 @@
 				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		81F8E8361CA024EB008099D1 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				81F8E8371CA024FB008099D1 /* AuthenticationViewModel.swift */,
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		9162AB1822D16DE88DF71E07 /* Pods */ = {
@@ -516,7 +505,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81F8E8381CA024FB008099D1 /* AuthenticationViewModel.swift in Sources */,
 				8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
