@@ -19,7 +19,6 @@ class MUCRoomViewController: UIViewController {
 		super.viewDidLoad()
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
-		self.tableView.allowsMultipleSelectionDuringEditing = false
 	}
 	
 	override func viewWillAppear(animated: Bool) {
@@ -36,14 +35,6 @@ class MUCRoomViewController: UIViewController {
 	
 	func xmppRoomsHandling(rooms: [XMPPRoom]) {
 		self.rooms = rooms
-		self.rooms.forEach { (room) in
-			if !room.isJoined {
-				let joinRoomOp = XMPPRoomOperation.joinRoom(room) { (result, room) in
-					print(room.isJoined)
-				}
-				StreamManager.manager.addOperation(joinRoomOp)
-			}
-		}
 		self.tableView.reloadData()
 	}
 }
@@ -68,24 +59,14 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 		let chatController = self.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController!
 		chatController.room = room
 		
+		if !room.isJoined {
+			let joinRoomOp = XMPPRoomOperation.joinRoom(room) { (result, room) in
+				print("Joined Room: \(room.roomSubject)")
+			}
+			StreamManager.manager.addOperation(joinRoomOp)
+		}
+
 		self.navigationController?.pushViewController(chatController, animated: true)
 	}
-	
-	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		
-		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
-			let room = self.rooms[indexPath.row]
-			StreamManager.manager.addOperation(XMPPRoomOperation.leave(room: room){ result in
-				print("----")
-				print(result)
-				print("----")
-			})
-		}
-		leave.backgroundColor = UIColor.orangeColor()
-		return [leave]
-	}
 
-	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-		return true
-	}
 }

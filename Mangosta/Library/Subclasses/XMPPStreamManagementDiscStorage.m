@@ -263,14 +263,19 @@
 - (void)saveState {
 	NSMutableDictionary *payload = [NSMutableDictionary dictionary];
 	
-	[payload setObject:resumptionId forKey:@"resumptionId"];
 	[payload setObject:@(timeout) forKey:@"timeout"];
 	[payload setObject:@(lastHandledByClient) forKey:@"lastHandledByClient"];
 	[payload setObject:@(lastHandledByServer) forKey:@"lastHandledByServer"];
 	if (lastDisconnect) {
 		[payload setObject:lastDisconnect forKey:@"lastDisconnect"];
 	}
-	
+
+	if (resumptionId) {
+		[payload setObject:resumptionId forKey:@"resumptionId"];
+	} else {
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"resumptionId"];
+	}
+
 	NSMutableArray *mary = [NSMutableArray array];
 	for (XMPPStreamManagementOutgoingStanza *obj in pendingOutgoingStanzas) {
 		[mary addObject:[NSKeyedArchiver archivedDataWithRootObject:obj]];
@@ -298,8 +303,8 @@
 	timeout = [payload[@"timeout"] unsignedIntValue];
 	lastDisconnect = payload[@"lastDisconnect"];
 	
-	lastHandledByClient = 0;
-	lastHandledByServer = 0;
+	lastHandledByClient = [payload[@"lastHandledByClient"] intValue];
+	lastHandledByServer = [payload[@"lastHandledByServer"] intValue];
 	pendingOutgoingStanzas = objectStanzas;
 }
 

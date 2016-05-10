@@ -273,6 +273,7 @@ extension StreamController: XMPPStreamDelegate {
 	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
 		print(message)
 	}
+
 }
 
 //MARK:
