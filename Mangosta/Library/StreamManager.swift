@@ -160,7 +160,7 @@ public class StreamManager : NSObject {
 	}
 	
 	public func messageCarbonsEnabled() -> Bool {
-		return self.streamController!.messageCarbons.messageCarbonsEnabled
+		return self.streamController != nil ? self.streamController!.messageCarbons.messageCarbonsEnabled : false
 	}
 	
 	public func becomeAvailable() {

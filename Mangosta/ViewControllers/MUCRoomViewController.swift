@@ -56,7 +56,8 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let room = self.rooms[indexPath.row]
 		
-		let chatController = self.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController!
+		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
 		chatController.room = room
 		
 		if !room.isJoined {

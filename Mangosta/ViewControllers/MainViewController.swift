@@ -79,7 +79,9 @@ class MainViewController: UIViewController {
 	}
 	
 	internal func login(sender: AnyObject?) {
-		let loginController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+
+		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
 		loginController.loginDelegate = self
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
 	}
@@ -142,8 +144,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
-		
-		let chatController = self.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController!
+		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+
+		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
 		chatController.userJID = user.jid
 		
 		self.navigationController?.pushViewController(chatController, animated: true)

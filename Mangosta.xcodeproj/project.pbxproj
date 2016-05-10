@@ -33,6 +33,11 @@
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
+		C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
+		C135D9151CE25A0E00225EC7 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9141CE25A0E00225EC7 /* Settings.storyboard */; };
+		C135D9171CE25CCC00225EC7 /* MUC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9161CE25CCC00225EC7 /* MUC.storyboard */; };
+		C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
+		C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		C160B9161CCFD45A00ADAD99 /* XMPPMUCLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */; };
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
 		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
@@ -97,6 +102,11 @@
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
 		C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoom+ExtraActions.m"; sourceTree = "<group>"; };
+		C135D9121CE257B700225EC7 /* LogIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LogIn.storyboard; sourceTree = "<group>"; };
+		C135D9141CE25A0E00225EC7 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		C135D9161CE25CCC00225EC7 /* MUC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUC.storyboard; sourceTree = "<group>"; };
+		C135D9181CE25E2000225EC7 /* Roster.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Roster.storyboard; sourceTree = "<group>"; };
+		C135D91A1CE25FE200225EC7 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		C160B9141CCFD45A00ADAD99 /* XMPPMUCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCLight.h; sourceTree = "<group>"; };
 		C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCLight.m; sourceTree = "<group>"; };
 		C160B9181CD1371B00ADAD99 /* XMPPServiceDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPServiceDiscovery.h; sourceTree = "<group>"; };
@@ -235,9 +245,9 @@
 			isa = PBXGroup;
 			children = (
 				81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */,
+				C12EA9551CE255C800F29606 /* User Interface */,
 				811C5AB21CAC094D008346FE /* Model */,
 				81F8E8311CA02369008099D1 /* ViewControllers */,
-				81ECA3531C92CDE4000602F2 /* Main.storyboard */,
 				81ECA3561C92CDE4000602F2 /* Assets.xcassets */,
 				81ECA3581C92CDE4000602F2 /* LaunchScreen.storyboard */,
 				81ECA35B1C92CDE4000602F2 /* Info.plist */,
@@ -294,6 +304,19 @@
 				C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */,
 			);
 			name = "XEP-0045";
+			sourceTree = "<group>";
+		};
+		C12EA9551CE255C800F29606 /* User Interface */ = {
+			isa = PBXGroup;
+			children = (
+				81ECA3531C92CDE4000602F2 /* Main.storyboard */,
+				C135D9121CE257B700225EC7 /* LogIn.storyboard */,
+				C135D9141CE25A0E00225EC7 /* Settings.storyboard */,
+				C135D9161CE25CCC00225EC7 /* MUC.storyboard */,
+				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
+				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
+			);
+			name = "User Interface";
 			sourceTree = "<group>";
 		};
 		C160B9131CCFD3EC00ADAD99 /* MUCLight */ = {
@@ -430,9 +453,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */,
 				81ECA35A1C92CDE4000602F2 /* LaunchScreen.storyboard in Resources */,
 				81ECA3571C92CDE4000602F2 /* Assets.xcassets in Resources */,
 				81ECA3551C92CDE4000602F2 /* Main.storyboard in Resources */,
+				C135D9171CE25CCC00225EC7 /* MUC.storyboard in Resources */,
+				C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */,
+				C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */,
+				C135D9151CE25A0E00225EC7 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
