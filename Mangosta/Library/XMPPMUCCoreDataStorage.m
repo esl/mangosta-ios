@@ -187,8 +187,6 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 		NSLog(@"%@",error);
 	}
 	
-	NSLog(@"%lu",(unsigned long)[results count]);
-	
 	return ([results count] > 0);
 }
 

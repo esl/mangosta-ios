@@ -131,7 +131,6 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq; {
 	NSString *incomingQueryId = [iq attributeStringValueForName:@"id"];
 	if ([incomingQueryId isEqualToString:self.queryId]) {
-		NSLog(@"%@", iq);
 		self.messageCount = [self parseForCount:iq];
 		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMessageCount:self.messageCount];
 		return NO;

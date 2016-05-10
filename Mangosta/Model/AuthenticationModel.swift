@@ -47,20 +47,18 @@ public struct AuthenticationModel {
 		if let authDict = NSUserDefaults.standardUserDefaults().objectForKey(Constants.Preferences.Authentication) as? [String:String] {
 			let authJidString = authDict["jid"]!
 			let pass = authDict["password"]!
+			
 			if let server = authDict["serverName"] {
 				return AuthenticationModel(jidString: authJidString, serverName: server, password: pass)
 			}
 			
-			let auth = AuthenticationModel(jid: XMPPJID.jidWithString(authJidString), password: pass)
-			
-			return auth
+			return AuthenticationModel(jid: XMPPJID.jidWithString(authJidString), password: pass)
 		}
 		return nil
 	}
 	
 	static public func remove() {
 		NSUserDefaults.standardUserDefaults().removeObjectForKey(Constants.Preferences.Authentication)
-		
 		NSUserDefaults.standardUserDefaults().synchronize()
 	}
 }

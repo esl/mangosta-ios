@@ -69,7 +69,7 @@ class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 	}
 	
 	func xmppMUC(sender: XMPPMUC!, roomJID: XMPPJID!, didReceiveInvitation message: XMPPMessage!) {
-		print(message)
+
 	}
 	
 	// MARK: - Private

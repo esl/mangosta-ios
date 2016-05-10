@@ -174,19 +174,6 @@ class StreamOperation: AsyncOperation, XMPPStreamDelegate {
 		
 		self.execute()
 	}
-	
-	func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
-		print(message)
-	}
-	
-	func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
-		print(presence)
-	}
-	
-	func xmppStream(sender: XMPPStream!, didReceiveIQ iq: XMPPIQ!) -> Bool {
-		print(iq)
-		return true
-	}
 
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
 		status = .Failed

@@ -64,7 +64,7 @@
 }
 
 - (void)handleItemsResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
-	NSLog(@"%@",info);
+
 }
 
 @end

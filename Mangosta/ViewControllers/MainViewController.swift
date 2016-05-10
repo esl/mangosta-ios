@@ -61,21 +61,15 @@ class MainViewController: UIViewController {
 			self.fetchedResultsController?.delegate = self
 			
 			try! self.fetchedResultsController?.performFetch()
-			
-			let objects = self.fetchedResultsController?.fetchedObjects
-			print(objects)
 			self.tableView.reloadData()
 		}
 	}
 	
 	internal func logout(sender: AnyObject?) {
 		StreamManager.manager.disconnect()
-		
 		AuthenticationModel.remove()
 		
 		self.startup()
-		
-		
 	}
 	
 	internal func login(sender: AnyObject?) {

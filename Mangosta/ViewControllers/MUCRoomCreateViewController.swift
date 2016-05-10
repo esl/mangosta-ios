@@ -61,9 +61,6 @@ class MUCRoomCreateViewController: UIViewController {
 			self.fetchedResultsController?.delegate = self
 			
 			try! self.fetchedResultsController?.performFetch()
-			
-			let objects = self.fetchedResultsController?.fetchedObjects
-			print(objects)
 			self.rosterTableView.reloadData()
 		}
 	}

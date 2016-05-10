@@ -55,14 +55,9 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.queue.suspended = false
 		
-		self.streamController = StreamController(stream: self.stream) { completion in
-			print("done")
-		}
-		
+		self.streamController = StreamController(stream: self.stream)
 		self.becomeAvailable()
-		
 		self.connectCompletion?()
-
 		self.connectCompletion = nil
 	}
 	
@@ -194,10 +189,7 @@ public class StreamManager : NSObject {
 //MARK: -
 //MARK: XMPPStreamDelegate
 extension StreamManager : XMPPStreamDelegate {
-	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
-		print(message)
-	}
-
+	
 	public func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
 		self.queue.suspended = true
 	}
@@ -213,23 +205,7 @@ extension StreamManager : XMPPStreamDelegate {
 			}
 		}
 	}
-	
-	public func xmppStream(sender: XMPPStream!, didReceiveIQ iq: XMPPIQ!) -> Bool {
-		print(iq)
-		
-		return true
-	}
-	
-	public func xmppStream(sender: XMPPStream!, didSendCustomElement element: DDXMLElement!) {
-		print("sent custom element: \(element)")
-	}
-	
-	public func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
-		print(error)
-	}
-	public func xmppStream(sender: XMPPStream!, didSendIQ iq: XMPPIQ!) {
-		print("sent iq: \(iq)")
-	}
+
 }
 
 

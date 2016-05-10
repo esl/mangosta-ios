@@ -35,9 +35,6 @@ public class StreamController: NSObject {
 	
 	let mucStorage: XMPPMUCCoreDataStorage
 	let xmppMUCStorer: XMPPMUCStorer
-
-	let streamCompletion: StreamCompletion
-	
 	
 	let messageArchiving: XMPPMessageArchiving
 	let messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
@@ -55,10 +52,9 @@ public class StreamController: NSObject {
 	
 	var messageCarbons: XMPPMessageCarbons
 	
-	public init(stream: XMPPStream, streamCompletion: StreamCompletion) {
+	public init(stream: XMPPStream) {
 		self.stream = stream
-		self.streamCompletion = streamCompletion
-		
+
 		let rosterFileName = "roster-\(stream.myJID.user).sqlite"
 		let messagingFileName = "messaging-\(stream.myJID.user).sqlite"
 		let roomFileName = "rooms-\(stream.myJID.user).sqlite"
@@ -133,11 +129,7 @@ public class StreamController: NSObject {
 		}
 		
 		if self.capabilityTypes.contains(.MUC) {
-			let roomListOperation = XMPPMUCOperation.retrieveRooms() { rooms in
-				print(rooms)
-			}
-			
-			StreamManager.manager.addOperation(roomListOperation)
+
 		}
 
 		if self.capabilityTypes.contains(.MessageArchiveManagement) {
@@ -145,8 +137,6 @@ public class StreamController: NSObject {
 			self.messageArchiveManagement.activate(self.stream)
 			self.messageArchiveManagement.retrieveMessageArchive()
 		}
-
-		self.streamCompletion(stream: self.stream)
 	}
 	
 	public func enableCapability(capability: CapabilityTypes) {
@@ -227,13 +217,8 @@ public class StreamController: NSObject {
 }
 
 extension StreamController: XMPPRosterDelegate {
-	// MARK: RosterDelegate
-	public func xmppRosterDidBeginPopulating(sender: XMPPRoster!, withVersion version: String!) {
-		//print(version)
-	}
 	
 	public func xmppRosterDidEndPopulating(sender: XMPPRoster!) {
-		print(self.rosterStorage.jidsForXMPPStream(self.stream))
 		if let completion = self.rosterCompletion {
 			self.roster.removeDelegate(self)
 			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notifications.RosterWasUpdated, object: nil)
@@ -241,20 +226,9 @@ extension StreamController: XMPPRosterDelegate {
 		}
 	}
 	
-	public func xmppRoster(sender: XMPPRoster!, didReceiveRosterItem item: DDXMLElement!) {
-		print(item)
-	}
 }
 
-//MARK: -
-//MARK: XMPPCapabilitiesDelegate
 extension StreamController: XMPPCapabilitiesDelegate {
-	public func xmppCapabilities(sender: XMPPCapabilities!, collectingMyCapabilities query: DDXMLElement!) {
-		print(query)
-	}
-	public func xmppCapabilities(sender: XMPPCapabilities!, didDiscoverCapabilities caps: DDXMLElement!, forJID jid: XMPPJID!) {
-		print(caps)
-	}
 
 	public func myFeaturesForXMPPCapabilities(sender: XMPPCapabilities!) -> [AnyObject]! {
 		if self.capabilitiesStorage.areCapabilitiesKnownForJID(self.stream.myJID, xmppStream: self.stream) {
@@ -266,52 +240,44 @@ extension StreamController: XMPPCapabilitiesDelegate {
 	}
 }
 
-
-//MARK:
 extension StreamController: XMPPStreamDelegate {
-	
-	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
-		print(message)
+
+	public func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
+		print("Error: \(error)")
 	}
 
+	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
+
+	}
 }
 
-//MARK:
-extension StreamController: XMPPRoomDelegate {
-	
-	
-}
-
-
-//MARK: -
-//MARK: XMPPMessageCarbonsDelegate
 extension StreamController: XMPPMessageCarbonsDelegate {
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, didReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
 		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: isOutgoing, xmppStream: self.stream)
 	}
 	
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, willReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
-		//
+
 	}
 }
 
-//MARK: -
-//MARK: XMPPMessageArchiveManagemet
 extension StreamController: XMPPMessageArchiveManagementDelegate {
+	
 	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessageCount messageCount: Int) {
 		print("Got this message count: \(messageCount)")
 	}
+	
 	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessages messageCount: Int) {
 		print("finished retrieving messages: \(messageCount)")
 	}
+
 	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessage message: XMPPMessage!) {
 		let outgoing = message.from().bare() == self.stream.myJID.bare()
 		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: outgoing, xmppStream: self.stream)
 	}
+
 }
 
-//MARK: -
-//MARK: XMPPStreamManagementDelegate
 extension StreamController: XMPPStreamManagementDelegate {
 	public func xmppStreamManagement(sender: XMPPStreamManagement!, wasEnabled enabled: DDXMLElement!) {
 		print("Stream Management Enabled")

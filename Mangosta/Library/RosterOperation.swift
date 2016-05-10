@@ -47,20 +47,19 @@ class RosterOperation: AsyncOperation, XMPPRosterDelegate {
 	
 	// MARK: RosterDelegate
 	func xmppRosterDidBeginPopulating(sender: XMPPRoster!, withVersion version: String!) {
-		//print(version)
+
 	}
 	
 	func xmppRosterDidEndPopulating(sender: XMPPRoster!) {
-		print(self.rosterStorage.jidsForXMPPStream(self.xmppStream))
 		if let completion = self.completion {
 			self.roster.removeDelegate(self)
 			completion(result: true, roster: self.roster)
 		}
 		
-		finish()
+		self.finish()
 	}
 	
 	func xmppRoster(sender: XMPPRoster!, didReceiveRosterItem item: DDXMLElement!) {
-		print(item)
+
 	}
 }
