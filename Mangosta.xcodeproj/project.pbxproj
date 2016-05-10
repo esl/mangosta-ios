@@ -11,7 +11,6 @@
 		811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */; };
 		813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
-		8142B82E1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B82D1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m */; };
 		8142B8361CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B8351CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m */; };
 		8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = 8142B8381CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m */; };
 		81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
@@ -66,8 +65,6 @@
 		811C5AB31CAC094D008346FE /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
-		8142B82C1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPStreamManagement+NSCoding.h"; sourceTree = "<group>"; };
-		8142B82D1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPStreamManagement+NSCoding.m"; sourceTree = "<group>"; };
 		8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
 		8142B8341CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMessageArchiveManagement.h; sourceTree = "<group>"; };
 		8142B8351CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMessageArchiveManagement.m; sourceTree = "<group>"; };
@@ -150,14 +147,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		813266A41CA2B63600D4EDC0 /* Subclasses */ = {
+		813266A41CA2B63600D4EDC0 /* XEP-0198 */ = {
 			isa = PBXGroup;
 			children = (
-				8142B82C1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.h */,
-				8142B82D1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m */,
 				E094FB591CE107550033E0E0 /* XMPPStreamManagementDiscStorage.h */,
 				E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */,
 			);
+			name = "XEP-0198";
 			path = Subclasses;
 			sourceTree = "<group>";
 		};
@@ -188,11 +184,11 @@
 				814D4CA61C970EA800AB28FA /* StreamManager.swift */,
 				811C5AA71CAABB40008346FE /* StreamController.swift */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
-				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
 				C160B9131CCFD3EC00ADAD99 /* MUCLight */,
+				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
 				8142B8331CB7EFFD0095FCF1 /* XEP-0313 */,
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
-				813266A41CA2B63600D4EDC0 /* Subclasses */,
+				813266A41CA2B63600D4EDC0 /* XEP-0198 */,
 				814D4CAC1C984A6900AB28FA /* Operations */,
 				C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */,
 				C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */,
@@ -529,7 +525,6 @@
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */,
-				8142B82E1CB68FE50095FCF1 /* XMPPStreamManagement+NSCoding.m in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */,

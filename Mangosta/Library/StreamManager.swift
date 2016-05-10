@@ -48,9 +48,6 @@ public class StreamManager : NSObject {
 		super.init()
 
 		self.streamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplicationWillResignActiveNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
 	}
 	
 	//MARK: Internal functions
@@ -131,9 +128,9 @@ public class StreamManager : NSObject {
 	public func disconnect() {
 		self.sendPresence(false)
 		self.isAttemptingConnection = false
+		self.streamManagement.storage.removeAllForStream(self.stream)
 		self.streamController?.roster.removeDelegate(self)
 		self.streamController?.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
-		self.streamManagement.deleteState()
 		self.streamController = nil
 		
 		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in
@@ -195,24 +192,6 @@ public class StreamManager : NSObject {
 }
 
 //MARK: -
-
-//MARK: UIApplicationDelegate
-extension StreamManager: UIApplicationDelegate {
-	
-	public func applicationWillResignActive(application: UIApplication) {
-		self.saveStreamManagementState()
-	}
-	
-	public func applicationWillEnterForeground(application: UIApplication) {
-		self.streamManagement.loadState()
-		self.streamManagement.requestAck()
-	}
-	
-	private func saveStreamManagementState() {
-		self.streamManagement.saveState()
-	}
-}
-
 //MARK: XMPPStreamDelegate
 extension StreamManager : XMPPStreamDelegate {
 	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
