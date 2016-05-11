@@ -19,6 +19,7 @@ class MUCRoomViewController: UIViewController {
 		super.viewDidLoad()
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
+		self.tableView.allowsMultipleSelectionDuringEditing = false
 	}
 	
 	override func viewWillAppear(animated: Bool) {
@@ -55,11 +56,11 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let room = self.rooms[indexPath.row]
-		
+
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
 		chatController.room = room
-		
+
 		if !room.isJoined {
 			let joinRoomOp = XMPPRoomOperation.joinRoom(room) { (result, room) in
 				print("Joined Room: \(room.roomSubject)")
@@ -68,6 +69,22 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 		}
 
 		self.navigationController?.pushViewController(chatController, animated: true)
+	}
+
+	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+		
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
+			let room = self.rooms[indexPath.row]
+			StreamManager.manager.addOperation(XMPPRoomOperation.leave(room: room){ result in
+				print(result)
+			})
+		}
+		leave.backgroundColor = UIColor.orangeColor()
+		return [leave]
+	}
+	
+	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+		return true
 	}
 
 }

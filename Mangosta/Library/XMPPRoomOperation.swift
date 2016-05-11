@@ -80,7 +80,12 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 	class func leave(room room: XMPPRoom, completion: (result: Bool) -> ()) -> XMPPRoomOperation {
 		let operation = XMPPRoomOperation(room)
 		operation.mainOperation = { (room: XMPPRoom) in
-			room.changeAffiliation(room.xmppStream.myJID, affiliation: "none")
+			room.leaveRoom()
+			
+			dispatch_async(dispatch_get_main_queue()) {
+				operation.boolCompletion!(result: true)
+				operation.finishAndRemoveDelegates()
+			}
 		}
 		operation.boolCompletion = completion
 		
@@ -130,7 +135,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 		xElement.addAttributeWithName("type", stringValue: "submit")
 
 		xElement.addChild(self.configuration("muc#roomconfig_roomname", configValue: self.roomName))
-		xElement.addChild(self.configuration("muc#roomconfig_persistentroom", configValue: "1"))
+		xElement.addChild(self.configuration("muc#roomconfig_persistentroom", configValue: "0"))
 		
 		sender.configureRoomUsingOptions(xElement)
 		self.completion!(result: true, room: sender)
