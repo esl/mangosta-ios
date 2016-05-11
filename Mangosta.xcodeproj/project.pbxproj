@@ -38,6 +38,8 @@
 		C135D9171CE25CCC00225EC7 /* MUC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9161CE25CCC00225EC7 /* MUC.storyboard */; };
 		C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
 		C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
+		C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
+		C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		C160B9161CCFD45A00ADAD99 /* XMPPMUCLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */; };
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
 		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
@@ -107,6 +109,8 @@
 		C135D9161CE25CCC00225EC7 /* MUC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUC.storyboard; sourceTree = "<group>"; };
 		C135D9181CE25E2000225EC7 /* Roster.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Roster.storyboard; sourceTree = "<group>"; };
 		C135D91A1CE25FE200225EC7 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		C135D91C1CE39FFD00225EC7 /* Members.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Members.storyboard; sourceTree = "<group>"; };
+		C135D9221CE3A0B400225EC7 /* MembersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		C160B9141CCFD45A00ADAD99 /* XMPPMUCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCLight.h; sourceTree = "<group>"; };
 		C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCLight.m; sourceTree = "<group>"; };
 		C160B9181CD1371B00ADAD99 /* XMPPServiceDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPServiceDiscovery.h; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */,
+				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
 				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 			);
 			path = ViewControllers;
@@ -315,6 +320,7 @@
 				C135D9161CE25CCC00225EC7 /* MUC.storyboard */,
 				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
 				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
+				C135D91C1CE39FFD00225EC7 /* Members.storyboard */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -457,6 +463,7 @@
 				81ECA35A1C92CDE4000602F2 /* LaunchScreen.storyboard in Resources */,
 				81ECA3571C92CDE4000602F2 /* Assets.xcassets in Resources */,
 				81ECA3551C92CDE4000602F2 /* Main.storyboard in Resources */,
+				C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */,
 				C135D9171CE25CCC00225EC7 /* MUC.storyboard in Resources */,
 				C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */,
 				C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */,
@@ -534,6 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8142B8391CB7F5630095FCF1 /* XMPPMessage+XEP_0313.m in Sources */,
+				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,

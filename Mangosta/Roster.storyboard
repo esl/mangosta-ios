@@ -8,7 +8,6 @@
         <!--Main View Controller-->
         <scene sceneID="UFj-HA-r6Q">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vF7-Tj-Khv" sceneMemberID="firstResponder"/>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="g2L-eS-DII" customClass="MainViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nS6-wY-Gr4"/>
@@ -59,13 +58,13 @@
                         <outlet property="tableView" destination="FlV-Hd-TLo" id="we9-J7-HUT"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vF7-Tj-Khv" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2227" y="-444"/>
         </scene>
         <!--Roster-->
         <scene sceneID="sCD-KZ-nQe">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yXx-qk-jzF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="roster" automaticallyAdjustsScrollViewInsets="NO" id="7TH-bl-YGF" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Roster" id="qqj-m8-tri"/>
                     <toolbarItems/>
@@ -78,6 +77,7 @@
                         <segue destination="g2L-eS-DII" kind="relationship" relationship="rootViewController" id="UQu-92-c5A"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yXx-qk-jzF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1151" y="-444"/>
         </scene>

@@ -14,6 +14,8 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 	var mainOperation: ((room: XMPPRoom) -> ())?
 	var completion: ((result: Bool, room: XMPPRoom) -> ())?
 	var boolCompletion: ((result: Bool) -> ())?
+	var memberListsCompletion: ((result: Bool, members: [(String, String)]?) -> ())?
+
 
 	var fetchConfigurationCompletion: ((result: Bool, name: String) -> ())?
 	var roomJID: XMPPJID?
@@ -114,6 +116,19 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 		self.finishAndRemoveDelegates()
 	}
 
+	//MARK: Members List
+	class func queryRoomItems(room: XMPPRoom, completion: (result: Bool, members: [(String, String)]?) -> ()) -> XMPPRoomOperation {
+		let queryRoomItemsOperation = XMPPRoomOperation(room)
+		queryRoomItemsOperation.joinRoomFlag = true
+		queryRoomItemsOperation.mainOperation = { (room: XMPPRoom) -> () in
+			room.queryRoomItems()
+		}
+		queryRoomItemsOperation.memberListsCompletion = completion
+
+		return queryRoomItemsOperation
+	}
+
+
 	//MARK: Join Room
 	func xmppRoomDidJoin(sender: XMPPRoom!) {
 		if !self.joinRoomFlag {
@@ -152,7 +167,24 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 		
 		return field
 	}
+
+	//MARK: QueryRoomItems
+	func xmppRoom(sender: XMPPRoom!, didQueryRoomItems iqResult: XMPPIQ!) {
+		
+		let members = iqResult.elementForName("query").children().map { (child) -> (String, String) in
+			let ch = child as! DDXMLElement
+			return (ch.attributeForName("jid").stringValue(), ch.attributeForName("name").stringValue())
+		}
+
+		self.memberListsCompletion?(result: true, members: members)
+		self.finishAndRemoveDelegates()
+	}
 	
+	func xmppRoom(sender: XMPPRoom!, didFailToQueryRoomItems iqError: XMPPIQ!) {
+		self.memberListsCompletion?(result: false, members: nil)
+		self.finishAndRemoveDelegates()
+	}
+
 	//MARK: Presence delegates
 	
 	func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
@@ -173,7 +205,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 		completion!(result: true, room: sender)
 		self.finishAndRemoveDelegates()
 	}
-	
+
 	func xmppRoom(sender: XMPPRoom!, didNotConfigure iqResult: XMPPIQ!) {
 		completion!(result: false, room: sender)
 		self.finishAndRemoveDelegates()

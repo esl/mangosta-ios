@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8oW-Qf-pxe">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="560"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="LkS-0a-gCA">
@@ -35,17 +35,35 @@
                                     <outlet property="delegate" destination="ORb-oK-1Ea" id="Ccy-m1-ubi"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhD-bB-Uth">
+                                <rect key="frame" x="0.0" y="560" width="600" height="40"/>
+                                <color key="backgroundColor" red="0.0039215686269999999" green="0.52941176469999995" blue="0.81568627449999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="X9d-Hy-z1s"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Show Room Details">
+                                    <color key="titleColor" red="0.92156862750000001" green="0.93333333330000001" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="showMUCDetails:" destination="ORb-oK-1Ea" eventType="touchUpInside" id="oeF-Fa-8hQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8oW-Qf-pxe" firstAttribute="leading" secondItem="ijV-px-9x3" secondAttribute="leading" id="0Qf-46-Zmt"/>
                             <constraint firstAttribute="trailing" secondItem="8oW-Qf-pxe" secondAttribute="trailing" id="J6w-EW-MRL"/>
-                            <constraint firstItem="hAE-Do-TPr" firstAttribute="top" secondItem="8oW-Qf-pxe" secondAttribute="bottom" id="eaY-pd-sYn"/>
+                            <constraint firstItem="hAE-Do-TPr" firstAttribute="top" secondItem="AhD-bB-Uth" secondAttribute="bottom" id="K3x-e0-aIx"/>
+                            <constraint firstAttribute="trailing" secondItem="AhD-bB-Uth" secondAttribute="trailing" id="QET-9J-m2V"/>
+                            <constraint firstItem="AhD-bB-Uth" firstAttribute="top" secondItem="8oW-Qf-pxe" secondAttribute="bottom" id="VeD-YQ-fHN"/>
+                            <constraint firstItem="AhD-bB-Uth" firstAttribute="leading" secondItem="ijV-px-9x3" secondAttribute="leading" id="Xop-hO-8hY"/>
                             <constraint firstItem="8oW-Qf-pxe" firstAttribute="top" secondItem="ijV-px-9x3" secondAttribute="top" id="fEm-Wm-1Dy"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
+                        <outlet property="buttonHeight" destination="X9d-Hy-z1s" id="Ns3-Wm-78L"/>
                         <outlet property="tableView" destination="8oW-Qf-pxe" id="k73-dv-vAR"/>
                     </connections>
                 </viewController>

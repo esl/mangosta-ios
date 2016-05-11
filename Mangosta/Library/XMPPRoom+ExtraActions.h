@@ -13,6 +13,8 @@
 @interface XMPPRoom (ExtraActions)
 
 - (void)changeAffiliation:(XMPPJID *)userJID affiliation:(NSString *) affiliation;
+- (void)queryRoomItems;
+
 
 @end
 
@@ -21,5 +23,9 @@
 
 - (void)xmppRoom:(XMPPRoom *)sender didChangeAffiliationTo:(XMPPJID *)occupantJID;
 - (void)xmppRoom:(XMPPRoom *)sender didFailToChangeAffiliationTo:(XMPPJID *)occupantJID;
+
+- (void)xmppRoom:(XMPPRoom *)sender didQueryRoomItems:(XMPPIQ *)iqResult;
+- (void)xmppRoom:(XMPPRoom *)sender didFailToQueryRoomItems:(XMPPIQ *)iqError;
+
 
 @end

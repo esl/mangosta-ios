@@ -76,7 +76,7 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
 			let room = self.rooms[indexPath.row]
 			StreamManager.manager.addOperation(XMPPRoomOperation.leave(room: room){ result in
-				print(result)
+				self.tableView.reloadData()
 			})
 		}
 		leave.backgroundColor = UIColor.orangeColor()

@@ -11,6 +11,8 @@ import XMPPFramework
 
 class ChatViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
+	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
+
 	var room: XMPPRoom?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
@@ -24,6 +26,7 @@ class ChatViewController: UIViewController {
 
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
+			self.buttonHeight.constant = 0
 		} else {
 			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
 			self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
@@ -123,6 +126,24 @@ class ChatViewController: UIViewController {
 		}))
 		alertController.view.setNeedsLayout()
 		self.presentViewController(alertController, animated: true, completion: nil)
+	}
+	
+	@IBAction func showMUCDetails(sender: AnyObject) {
+		let fetchMemberListOperation = XMPPRoomOperation.queryRoomItems(self.room!, completion: { (result, members) in
+			
+			if !result {
+				return
+			}
+			
+			let storyboard = UIStoryboard(name: "Members", bundle: nil)
+			
+			let membersNavController = storyboard.instantiateViewControllerWithIdentifier("members") as! UINavigationController
+			let membersController = membersNavController.viewControllers.first! as! MembersViewController
+			membersController.members = members
+			self.navigationController?.presentViewController(membersNavController, animated: true, completion: nil)
+
+		})
+		StreamManager.manager.addOperation(fetchMemberListOperation)
 	}
 }
 
