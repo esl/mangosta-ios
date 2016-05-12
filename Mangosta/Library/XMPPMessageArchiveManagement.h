@@ -16,7 +16,8 @@
 	BOOL retrievingMessageArchive;
 }
 
-- (void)retrieveMessageArchive;
+- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withPageSize:(NSInteger)pageSize;
+
 @end
 
 @protocol XMPPMessageArchiveManagementDelegate <NSObject>

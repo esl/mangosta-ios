@@ -45,21 +45,35 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 	return self;
 }
 
-- (void)retrieveMessageArchive {
+- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withPageSize:(NSInteger)pageSize {
 	dispatch_block_t block = ^{
 		
 		if (!retrievingMessageArchive && [xmppIDTracker numberOfIDs] == 0) {
 			retrievingMessageArchive = YES;
 			
-			XMPPIQ *setIq = [XMPPIQ iqWithType:@"set"];
-			[setIq addAttributeWithName:@"id" stringValue:self.queryId];
+			XMPPIQ *iq = [XMPPIQ iqWithType:@"set"];
+			[iq addAttributeWithName:@"id" stringValue:self.queryId];
+			
 			DDXMLElement *queryElement = [DDXMLElement elementWithName:@"query" xmlns:XMLNS_XMPP_MAM];
 			[queryElement addAttributeWithName:@"queryId" stringValue:[XMPPStream generateUUID]];
-			[setIq addChild:queryElement];
+			[iq addChild:queryElement];
 			
-			[xmppIDTracker addElement:setIq target:self selector:@selector(enableMessageArchiveIQ:withInfo:) timeout:XMPPIDTrackerTimeoutNone];
+			DDXMLElement *xElement = [DDXMLElement elementWithName:@"x" xmlns:@"jabber:x:data"];
+			[xElement addAttributeWithName:@"type" stringValue:@"submit"];
+			[xElement addChild:[self fieldWithVar:@"FORM_TYPE" type:@"hidden" andValue:@"urn:xmpp:mam:1"]];
 			
-			[xmppStream sendElement:setIq];
+			[queryElement addChild:xElement];
+			
+			DDXMLElement *max = [DDXMLElement elementWithName:@"max"];
+			max.stringValue = [NSString stringWithFormat:@"%ld",pageSize];
+			
+			DDXMLElement *set = [DDXMLElement elementWithName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
+			[set addChild:max];
+			
+			[queryElement addChild:set];
+			
+			[xmppIDTracker addElement:iq target:self selector:@selector(enableMessageArchiveIQ:withInfo:) timeout:XMPPIDTrackerTimeoutNone];
+			[xmppStream sendElement:iq];
 		}
 	};
 	
@@ -68,6 +82,19 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 	} else {
 		dispatch_sync(moduleQueue, block);
 	}
+}
+
+- (DDXMLElement *) fieldWithVar:(NSString *) var type:(NSString *) type andValue:(NSString *) value {
+	DDXMLElement *field = [DDXMLElement elementWithName:@"field"];
+	[field addAttributeWithName:@"var" stringValue:var];
+	[field addAttributeWithName:@"type" stringValue:type];
+
+	DDXMLElement *elementValue = [DDXMLElement elementWithName:@"value"];
+	elementValue.stringValue = value;
+	
+	[field addChild:elementValue];
+	
+	return field;
 }
 
 - (BOOL)activate:(XMPPStream *)aXmppStream {
