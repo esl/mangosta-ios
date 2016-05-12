@@ -61,6 +61,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 			DDXMLElement *xElement = [DDXMLElement elementWithName:@"x" xmlns:@"jabber:x:data"];
 			[xElement addAttributeWithName:@"type" stringValue:@"submit"];
 			[xElement addChild:[self fieldWithVar:@"FORM_TYPE" type:@"hidden" andValue:@"urn:xmpp:mam:1"]];
+			[xElement addChild:[self fieldWithVar:@"with" type:nil andValue:userJID.full]];
 			
 			[queryElement addChild:xElement];
 			
@@ -87,8 +88,11 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 - (DDXMLElement *) fieldWithVar:(NSString *) var type:(NSString *) type andValue:(NSString *) value {
 	DDXMLElement *field = [DDXMLElement elementWithName:@"field"];
 	[field addAttributeWithName:@"var" stringValue:var];
-	[field addAttributeWithName:@"type" stringValue:type];
-
+	
+	if(type){
+		[field addAttributeWithName:@"type" stringValue:type];
+	}
+	
 	DDXMLElement *elementValue = [DDXMLElement elementWithName:@"value"];
 	elementValue.stringValue = value;
 	

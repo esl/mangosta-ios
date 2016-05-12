@@ -28,7 +28,7 @@ class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 		mamOperation.stream = stream
 		
 		mamOperation.mainOperation = {
-			mamOperation.messageArchiveManagement!.retrieveMessageArchiveFrom(jid, withPageSize: 1)
+			mamOperation.messageArchiveManagement!.retrieveMessageArchiveFrom(jid, withPageSize: 10)
 		}
 
 		mamOperation.boolCompletion = completion
