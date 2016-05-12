@@ -35,6 +35,26 @@
                                     <outlet property="delegate" destination="ORb-oK-1Ea" id="Ccy-m1-ubi"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJk-H0-4No">
+                                <rect key="frame" x="530" y="476" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.8862745098" green="0.16078431369999999" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="G43-w3-wDu"/>
+                                    <constraint firstAttribute="height" constant="50" id="KxS-G8-uHB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                <state key="normal" title="History">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="fetchHistory:" destination="ORb-oK-1Ea" eventType="touchUpInside" id="BcD-Eg-cGB"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhD-bB-Uth">
                                 <rect key="frame" x="0.0" y="560" width="600" height="40"/>
                                 <color key="backgroundColor" red="0.0039215686269999999" green="0.52941176469999995" blue="0.81568627449999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -53,7 +73,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8oW-Qf-pxe" firstAttribute="leading" secondItem="ijV-px-9x3" secondAttribute="leading" id="0Qf-46-Zmt"/>
+                            <constraint firstAttribute="trailing" secondItem="bJk-H0-4No" secondAttribute="trailing" constant="20" id="7e7-Tu-w29"/>
                             <constraint firstAttribute="trailing" secondItem="8oW-Qf-pxe" secondAttribute="trailing" id="J6w-EW-MRL"/>
+                            <constraint firstItem="AhD-bB-Uth" firstAttribute="top" secondItem="bJk-H0-4No" secondAttribute="bottom" constant="34" id="JPb-9k-ZC0"/>
                             <constraint firstItem="hAE-Do-TPr" firstAttribute="top" secondItem="AhD-bB-Uth" secondAttribute="bottom" id="K3x-e0-aIx"/>
                             <constraint firstAttribute="trailing" secondItem="AhD-bB-Uth" secondAttribute="trailing" id="QET-9J-m2V"/>
                             <constraint firstItem="AhD-bB-Uth" firstAttribute="top" secondItem="8oW-Qf-pxe" secondAttribute="bottom" id="VeD-YQ-fHN"/>

@@ -145,6 +145,15 @@ class ChatViewController: UIViewController {
 		})
 		StreamManager.manager.addOperation(fetchMemberListOperation)
 	}
+
+	@IBAction func fetchHistory(sender: AnyObject) {
+		let stream = StreamManager.manager.stream
+		let jid = self.userJID ?? self.room?.roomJID
+		let mamOperation = MAMOperation.retrieveHistory(stream, jid: jid!) { (result) in
+			print(result)
+		}
+		StreamManager.manager.addOperation(mamOperation)
+	}
 }
 
 extension ChatViewController: NSFetchedResultsControllerDelegate {

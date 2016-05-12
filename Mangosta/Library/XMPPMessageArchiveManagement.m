@@ -141,9 +141,43 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 			}
 		}
 	}
-	
 	return returnCount;
 }
+
+- (NSString *)parseFirst:(XMPPIQ *)iq {
+	NSString *firstID = @"";
+	
+	DDXMLElement *finElement = [iq elementForName:@"fin" xmlns:XMLNS_XMPP_MAM];
+	if (finElement) {
+		DDXMLElement *setElement = [finElement elementForName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
+		
+		if (setElement) {
+			DDXMLNode *countNode = [setElement elementForName:@"first"];
+			if (countNode) {
+				firstID = [countNode stringValue];
+			}
+		}
+	}
+	return firstID;
+}
+
+- (NSString *)parseLast:(XMPPIQ *)iq {
+	NSString *lastID = @"";
+	
+	DDXMLElement *finElement = [iq elementForName:@"fin" xmlns:XMLNS_XMPP_MAM];
+	if (finElement) {
+		DDXMLElement *setElement = [finElement elementForName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
+		
+		if (setElement) {
+			DDXMLNode *countNode = [setElement elementForName:@"last"];
+			if (countNode) {
+				lastID = [countNode stringValue];
+			}
+		}
+	}
+	return lastID;
+}
+
 
 - (void)resetToDefaults {
 	self.queryId = nil;
@@ -155,22 +189,24 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark XMPPStream Delegate
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq; {
-	NSString *incomingQueryId = [iq attributeStringValueForName:@"id"];
-	if ([incomingQueryId isEqualToString:self.queryId]) {
-		self.messageCount = [self parseForCount:iq];
-		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMessageCount:self.messageCount];
-		return NO;
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
+{
+	NSString *type = [iq type];
+	if ([type isEqualToString:@"result"] || [type isEqualToString:@"error"])
+	{
+		return [xmppIDTracker invokeForID:[iq elementID] withObject:iq];
 	}
 	
-	return YES;
+	return NO;
 }
 
 - (void)enableMessageArchiveIQ:(XMPPIQ *)iq withInfo:(XMPPBasicTrackingInfo *)trackerInfo {
-	XMPPLogTrace();
 	
-	if ([iq isResultIQ]) {
-		
+	if ([[iq type] isEqualToString:@"result"]) {
+		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMessageCount:self.messageCount];
+		[multicastDelegate xmppMessageArchiveManagement:self didFinishReceivingMessages:self.currentMessageCount];
+	} else {
+		[multicastDelegate xmppMessageArchiveManagement:self didReceiveError:iq];
 	}
 }
 
@@ -178,13 +214,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 	if ([message isMessageArchive]) {
 		self.currentMessageCount++;
 		XMPPMessage *messageArchiveForwardedMessage = [message messageForForwardedArchiveMessage];
-		
 		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMessage:messageArchiveForwardedMessage];
-		
-		if (self.messageCount == self.currentMessageCount) {
-			[multicastDelegate xmppMessageArchiveManagement:self didFinishReceivingMessages:self.currentMessageCount];
-			[self resetToDefaults];
-		}
 	}
 	return message;
 }

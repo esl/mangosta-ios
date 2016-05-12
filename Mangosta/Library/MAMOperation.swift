@@ -7,20 +7,56 @@
 //
 
 import UIKit
+import XMPPFramework
 
-class MAMOperation: AsyncOperation {
+class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 	var mainOperation: (() -> ())?
 	var boolCompletion: ((result: Bool) -> ())?
-	
-	var room: XMPPMessageArchiveManagement?
+	var stream: XMPPStream?
 
-	class func retrieveHistory() -> MAMOperation {
+	var messageArchiveManagement: XMPPMessageArchiveManagement?
+
+	override func execute() {
+		self.messageArchiveManagement = XMPPMessageArchiveManagement()
+		self.messageArchiveManagement!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.messageArchiveManagement!.activate(self.stream)
+		self.mainOperation?()
+	}
 	
-		return MAMOperation()
+	class func retrieveHistory(stream: XMPPStream, jid: XMPPJID, completion: (result: Bool) -> ()) -> MAMOperation {
+		let mamOperation = MAMOperation()
+		mamOperation.stream = stream
+		
+		mamOperation.mainOperation = {
+			mamOperation.messageArchiveManagement!.retrieveMessageArchiveFrom(jid, withPageSize: 1)
+		}
+
+		mamOperation.boolCompletion = completion
+		return mamOperation
 	}
 
-	internal func finishAndRemoveDelegates() {
-		
+	private func finishAndRemoveDelegates() {
+		self.messageArchiveManagement!.removeDelegate(self)
+		self.messageArchiveManagement!.deactivate()
 		finish()
+	}
+	
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessageCount messageCount: Int) {
+
+	}
+	
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessages messageCount: Int) {
+		self.boolCompletion?(result: true)
+		self.finishAndRemoveDelegates()
+	}
+	
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveError error: DDXMLElement!) {
+		self.boolCompletion?(result: false)
+		self.finishAndRemoveDelegates()
+	}
+	
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessage message: XMPPMessage!) {
+		let outgoing = message.from().bare() == self.stream!.myJID.bare()
+//		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: outgoing, xmppStream: self.stream!)
 	}
 }
