@@ -133,9 +133,7 @@ public class StreamController: NSObject {
 		}
 
 		if self.capabilityTypes.contains(.MessageArchiveManagement) {
-			self.messageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.messageArchiveManagement.activate(self.stream)
-			self.messageArchiveManagement.retrieveMessageArchive()
+			
 		}
 	}
 	

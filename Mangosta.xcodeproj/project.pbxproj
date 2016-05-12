@@ -40,6 +40,7 @@
 		C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
 		C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
+		C135D9251CE4F02E00225EC7 /* MAMOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9241CE4F02E00225EC7 /* MAMOperation.swift */; };
 		C160B9161CCFD45A00ADAD99 /* XMPPMUCLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */; };
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
 		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
@@ -111,6 +112,7 @@
 		C135D91A1CE25FE200225EC7 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		C135D91C1CE39FFD00225EC7 /* Members.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Members.storyboard; sourceTree = "<group>"; };
 		C135D9221CE3A0B400225EC7 /* MembersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
+		C135D9241CE4F02E00225EC7 /* MAMOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MAMOperation.swift; sourceTree = "<group>"; };
 		C160B9141CCFD45A00ADAD99 /* XMPPMUCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCLight.h; sourceTree = "<group>"; };
 		C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCLight.m; sourceTree = "<group>"; };
 		C160B9181CD1371B00ADAD99 /* XMPPServiceDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPServiceDiscovery.h; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				81F607B21C9C673800B1D269 /* MessageCarbonOperation.swift */,
 				81F607B41C9C7FB100B1D269 /* XMPPMUCOperation.swift */,
 				81473D911CC10E7F006FCEC9 /* XMPPRoomOperation.swift */,
+				C135D9241CE4F02E00225EC7 /* MAMOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				81F607B31C9C673800B1D269 /* MessageCarbonOperation.swift in Sources */,
 				8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
+				C135D9251CE4F02E00225EC7 /* MAMOperation.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
 				81473D921CC10E7F006FCEC9 /* XMPPRoomOperation.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
