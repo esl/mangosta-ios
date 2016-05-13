@@ -157,8 +157,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 
 - (XMPPMessage *)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
 	if ([message isMessageArchive]) {
-		XMPPMessage *messageArchiveForwardedMessage = [message messageForForwardedArchiveMessage];
-		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMessage:messageArchiveForwardedMessage];
+		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMAMMessage:message];
 	}
 	return message;
 }

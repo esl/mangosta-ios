@@ -30,6 +30,29 @@
 	return NO;
 }
 
+- (NSString *)resultId {
+
+	DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];
+	if(resultElement) {
+		return [resultElement attributeStringValueForName:@"id"];
+	}
+
+	return nil;
+}
+
+- (NSXMLElement *)delayElement {
+	DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];
+	return [[resultElement elementForName:@"forwarded"] elementForName: @"delay"];
+}
+
+- (NSString *)delayStamp {
+	NSXMLElement *delay = [self delayElement];
+	if (delay) {
+		return [delay attributeStringValueForName:@"stamp"];
+	}
+	return nil;
+}
+
 - (XMPPMessage *)messageForForwardedArchiveMessage {
 	if ([self elementForName:@"result" xmlns:XMLNS_XMPP_MAM]) {
 		DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];

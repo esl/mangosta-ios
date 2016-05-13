@@ -51,7 +51,7 @@ class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 		self.finishAndRemoveDelegates()
 	}
 	
-	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessage message: XMPPMessage!) {
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMAMMessage message: XMPPMessage!) {
 		let outgoing = message.from().bare() == self.stream!.myJID.bare()
 //		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: outgoing, xmppStream: self.stream!)
 	}
