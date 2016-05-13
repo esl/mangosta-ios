@@ -40,12 +40,8 @@ class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 		self.messageArchiveManagement!.deactivate()
 		finish()
 	}
-	
-	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessageCount messageCount: Int) {
 
-	}
-	
-	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessages messageCount: Int) {
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWithSet resultSet: XMPPResultSet!) {
 		self.boolCompletion?(result: true)
 		self.finishAndRemoveDelegates()
 	}

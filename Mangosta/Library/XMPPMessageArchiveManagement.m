@@ -11,6 +11,7 @@
 #import "XMPPLogging.h"
 #import "XMPPIDTracker.h"
 #import "XMPPMessage+XEP_0313.h"
+#import "NSXMLElement+XEP_0059.h"
 
 #if ! __has_feature(objc_arc)
 #warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
@@ -27,9 +28,6 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 #define XMLNS_XMPP_MAM @"urn:xmpp:mam:1"
 
 @interface XMPPMessageArchiveManagement ()
-@property NSInteger messageCount;
-@property NSInteger currentMessageCount;
-@property (nonatomic, strong) NSString *queryId;
 @end
 
 @implementation XMPPMessageArchiveManagement
@@ -38,8 +36,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 	self = [super initWithDispatchQueue:queue];
 	
 	if (self) {
-		self.messageCount = INT_MIN;
-		self.queryId = [XMPPStream generateUUID];
+
 	}
 	
 	return self;
@@ -48,11 +45,10 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 - (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withPageSize:(NSInteger)pageSize {
 	dispatch_block_t block = ^{
 		
-		if (!retrievingMessageArchive && [xmppIDTracker numberOfIDs] == 0) {
-			retrievingMessageArchive = YES;
+		if ([xmppIDTracker numberOfIDs] == 0) {
 			
 			XMPPIQ *iq = [XMPPIQ iqWithType:@"set"];
-			[iq addAttributeWithName:@"id" stringValue:self.queryId];
+			[iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
 			
 			DDXMLElement *queryElement = [DDXMLElement elementWithName:@"query" xmlns:XMLNS_XMPP_MAM];
 			[queryElement addAttributeWithName:@"queryId" stringValue:[XMPPStream generateUUID]];
@@ -131,65 +127,6 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 	[super deactivate];
 }
 
-- (NSInteger)parseForCount:(XMPPIQ *)iq {
-	NSInteger returnCount = INT_MIN;
-	
-	DDXMLElement *finElement = [iq elementForName:@"fin" xmlns:XMLNS_XMPP_MAM];
-	if (finElement) {
-		DDXMLElement *setElement = [finElement elementForName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
-		
-		if (setElement) {
-			DDXMLNode *countNode = [setElement elementForName:@"count"];
-			if (countNode) {
-				returnCount = [[countNode stringValue] integerValue];
-			}
-		}
-	}
-	return returnCount;
-}
-
-- (NSString *)parseFirst:(XMPPIQ *)iq {
-	NSString *firstID = @"";
-	
-	DDXMLElement *finElement = [iq elementForName:@"fin" xmlns:XMLNS_XMPP_MAM];
-	if (finElement) {
-		DDXMLElement *setElement = [finElement elementForName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
-		
-		if (setElement) {
-			DDXMLNode *countNode = [setElement elementForName:@"first"];
-			if (countNode) {
-				firstID = [countNode stringValue];
-			}
-		}
-	}
-	return firstID;
-}
-
-- (NSString *)parseLast:(XMPPIQ *)iq {
-	NSString *lastID = @"";
-	
-	DDXMLElement *finElement = [iq elementForName:@"fin" xmlns:XMLNS_XMPP_MAM];
-	if (finElement) {
-		DDXMLElement *setElement = [finElement elementForName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
-		
-		if (setElement) {
-			DDXMLNode *countNode = [setElement elementForName:@"last"];
-			if (countNode) {
-				lastID = [countNode stringValue];
-			}
-		}
-	}
-	return lastID;
-}
-
-
-- (void)resetToDefaults {
-	self.queryId = nil;
-	retrievingMessageArchive = NO;
-	self.currentMessageCount = 0;
-	self.messageCount = 0;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark XMPPStream Delegate
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,10 +142,14 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 }
 
 - (void)enableMessageArchiveIQ:(XMPPIQ *)iq withInfo:(XMPPBasicTrackingInfo *)trackerInfo {
-	
+
 	if ([[iq type] isEqualToString:@"result"]) {
-		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMessageCount:self.messageCount];
-		[multicastDelegate xmppMessageArchiveManagement:self didFinishReceivingMessages:self.currentMessageCount];
+
+		DDXMLElement *finElement = [iq elementForName:@"fin" xmlns:XMLNS_XMPP_MAM];
+		DDXMLElement *setElement = [finElement elementForName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
+
+		XMPPResultSet *resultSet = [XMPPResultSet resultSetFromElement:setElement];
+		[multicastDelegate xmppMessageArchiveManagement:self didFinishReceivingMessagesWithSet:resultSet];
 	} else {
 		[multicastDelegate xmppMessageArchiveManagement:self didReceiveError:iq];
 	}
@@ -216,7 +157,6 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 
 - (XMPPMessage *)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
 	if ([message isMessageArchive]) {
-		self.currentMessageCount++;
 		XMPPMessage *messageArchiveForwardedMessage = [message messageForForwardedArchiveMessage];
 		[multicastDelegate xmppMessageArchiveManagement:self didReceiveMessage:messageArchiveForwardedMessage];
 	}
