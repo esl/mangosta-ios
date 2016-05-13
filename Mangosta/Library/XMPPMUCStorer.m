@@ -8,6 +8,7 @@
 #import "XMPPMUCStorer.h"
 #import "XMPPMessage+XEP0045.h"
 #import "NSXMLElement+XEP_0203.h"
+#import "XMPPMessage+XEP_0313.h"
 #import "XMPP.h"
 
 
@@ -24,23 +25,29 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-	if(!([message isGroupChatMessageWithBody] && [message.from isFull])){
+	XMPPMessage *messageToStore = message;
+	
+	if([message isMessageArchive]){
+		messageToStore = [message messageForForwardedArchiveMessage];
+	}
+	
+	if(!([messageToStore isGroupChatMessageWithBody] && [messageToStore.from isFull])){
 		return;
 	}
 	
-	XMPPJID *myRoomJID = [XMPPJID jidWithString: message.from.bare];
-	XMPPJID *messageJID = message.from;
+	XMPPJID *myRoomJID = [XMPPJID jidWithString: messageToStore.from.bare];
+	XMPPJID *messageJID = messageToStore.from;
 	
 	if ([myRoomJID isEqualToJID:messageJID])
 	{
-		if (![message wasDelayed])
+		if (![messageToStore wasDelayed])
 		{
 			// Ignore - we already stored message in handleOutgoingMessage:room:
 			return;
 		}
 	}
 	
-	[self.xmppMUCStorage handleIncomingMessage:message stream:self.xmppStream];
+	[self.xmppMUCStorage handleIncomingMessage:messageToStore stream:self.xmppStream];
 }
 
 - (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message

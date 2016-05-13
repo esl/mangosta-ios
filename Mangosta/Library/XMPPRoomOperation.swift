@@ -195,7 +195,7 @@ class XMPPRoomOperation: AsyncOperation, XMPPRoomDelegate, XMPPStreamDelegate, X
 		}
 		
 		if((presence.elementForName("error")) != nil) {
-			completion!(result: false, room: room!)
+			completion?(result: false, room: room!)
 			self.finishAndRemoveDelegates()
 		}
 	}

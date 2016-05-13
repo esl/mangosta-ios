@@ -56,14 +56,14 @@
 - (XMPPMessage *)messageForForwardedArchiveMessage {
 	if ([self elementForName:@"result" xmlns:XMLNS_XMPP_MAM]) {
 		DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];
+		DDXMLElement *delayElement = [self delayElement];
 		DDXMLElement *internalMessage = [resultElement forwardedMessage];
-		//[XMPPMessage messageFromElement:[self elementForName:@"message"]];
-		DDXMLElement *delay = [[self elementForName:@"delay"] copy];
-		NSString *resultId = [self attributeStringValueForName:@"id"];
+		
+		NSString *resultId = [resultElement attributeStringValueForName:@"id"];
 		
 		XMPPMessage *message = [XMPPMessage messageFromElement:internalMessage];
-		if (delay) {
-			[message addChild:delay];
+		if (delayElement) {
+			[message addChild:[delayElement copy]];
 		}
 		if (resultId) {
 			[message addAttributeWithName:@"resultId" stringValue:resultId];
