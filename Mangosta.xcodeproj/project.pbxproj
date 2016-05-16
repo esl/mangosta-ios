@@ -46,6 +46,7 @@
 		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
 		C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
 		D335FF41B39E6529CB2B8E8A /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030FC81F912655F12909CC55 /* Pods_Mangosta.framework */; };
+		E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */ = {isa = PBXBuildFile; fileRef = E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */; };
 		E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +124,8 @@
 		C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCCoreDataStorage.m; sourceTree = "<group>"; };
 		C9DC3204A61F8A334C3E45FE /* Pods-Mangosta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.debug.xcconfig"; sourceTree = "<group>"; };
 		D7586712F63B46A549B9633A /* Pods-Mangosta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.release.xcconfig"; sourceTree = "<group>"; };
+		E037D85A1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMessageArchivingWithMAM.h; sourceTree = "<group>"; };
+		E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMessageArchivingWithMAM.m; sourceTree = "<group>"; };
 		E094FB591CE107550033E0E0 /* XMPPStreamManagementDiscStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPStreamManagementDiscStorage.h; sourceTree = "<group>"; };
 		E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPStreamManagementDiscStorage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,6 +211,8 @@
 				C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */,
 				C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */,
 				C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */,
+				E037D85A1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.h */,
+				E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -559,6 +564,7 @@
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
 				81F607B31C9C673800B1D269 /* MessageCarbonOperation.swift in Sources */,
 				8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */,
+				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
 				C135D9251CE4F02E00225EC7 /* MAMOperation.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,

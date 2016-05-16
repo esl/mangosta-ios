@@ -8,3 +8,4 @@
 #import "XMPPRoom+ExtraActions.h"
 #import "XMPPStreamManagementDiscStorage.h"
 #import "XMPPMessage+XEP_0313.h"
+#import "XMPPMessageArchivingWithMAM.h"

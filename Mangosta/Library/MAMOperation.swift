@@ -52,7 +52,6 @@ class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 	}
 	
 	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMAMMessage message: XMPPMessage!) {
-		let outgoing = message.from().bare() == self.stream!.myJID.bare()
-//		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: outgoing, xmppStream: self.stream!)
+
 	}
 }
