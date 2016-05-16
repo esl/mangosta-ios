@@ -27,8 +27,9 @@
 {
 	XMPPMessage *messageToStore = message;
 	
-	if([message isMessageArchive]){
-		messageToStore = [message messageForForwardedArchiveMessage];
+	if([message isMessageArchive]){		
+		[self.xmppMUCStorage handleMAMMessage:message stream:self.xmppStream];
+		return;
 	}
 	
 	if(!([messageToStore isGroupChatMessageWithBody] && [messageToStore.from isFull])){

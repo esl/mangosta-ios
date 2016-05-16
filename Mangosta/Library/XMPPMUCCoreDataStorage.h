@@ -15,5 +15,6 @@
 
 - (void)handleIncomingMessage:(XMPPMessage *)message stream:(XMPPStream *) stream;
 - (void)handleOutgoingMessage:(XMPPMessage *)message stream:(XMPPStream *)stream;
+- (void)handleMAMMessage:(XMPPMessage *)message stream:(XMPPStream *)stream;
 
 @end

@@ -63,7 +63,11 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 
 		if !room.isJoined {
 			let joinRoomOp = XMPPRoomOperation.joinRoom(room) { (result, room) in
-				print("Joined Room: \(room.roomSubject)")
+				if result {
+					print("Joined Room: \(room.roomSubject)")
+				} else {
+					print("Failed to Join Room: \(room.roomSubject)")
+				}
 			}
 			StreamManager.manager.addOperation(joinRoomOp)
 		}
