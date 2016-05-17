@@ -38,6 +38,27 @@ class MUCRoomViewController: UIViewController {
 		self.rooms = rooms
 		self.tableView.reloadData()
 	}
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "createRoomViewController" {
+			let createRoomViewController = segue.destinationViewController as! MUCRoomCreateViewController
+			createRoomViewController.delegate = self
+		}
+	}
+}
+
+extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate {
+	
+	func createRoom(roomName: String, users: [XMPPJID]?) {
+		let createRoomOperation = XMPPRoomOperation.createRoom(name: roomName) { (result, room) in
+			
+			let inviteUsersOperation = XMPPRoomOperation.invite(room: room, userJIDs: users!, completion: { [unowned self] (result, room) in
+				self.navigationController?.popViewControllerAnimated(true)
+				})
+			StreamManager.manager.addOperation(inviteUsersOperation)
+		}
+		StreamManager.manager.addOperation(createRoomOperation)
+	}
 }
 
 extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {

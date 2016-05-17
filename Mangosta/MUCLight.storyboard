@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Light Room View Controller-->
         <scene sceneID="uen-0H-drm">
             <objects>
-                <viewController storyboardIdentifier="MUCRoomViewController" automaticallyAdjustsScrollViewInsets="NO" id="Dz3-YL-bWg" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MUCRoomViewController" automaticallyAdjustsScrollViewInsets="NO" id="Dz3-YL-bWg" customClass="MUCLightRoomViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Jua-Ju-Wdj"/>
                         <viewControllerLayoutGuide type="bottom" id="O3k-J7-5Fq"/>
@@ -44,12 +44,15 @@
                     <navigationItem key="navigationItem" id="c71-tl-9M6">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="U56-aX-DrC">
                             <connections>
-                                <segue destination="Vqp-Ye-pJF" kind="show" id="KHO-L4-QLo">
+                                <segue destination="Vqp-Ye-pJF" kind="show" identifier="createRoomViewController" id="KHO-L4-QLo">
                                     <nil key="action"/>
                                 </segue>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="9bz-40-SVD" id="nbQ-uV-U7v"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="81F-SQ-eqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

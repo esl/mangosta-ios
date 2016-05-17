@@ -10,12 +10,17 @@ import UIKit
 import CoreData
 import XMPPFramework
 
+protocol MUCRoomCreateViewControllerDelegate: class {
+	func createRoom(roomName: String, users: [XMPPJID]?)
+}
+
 class MUCRoomCreateViewController: UIViewController {
 	@IBOutlet internal var roomNameField: UITextField!
 	@IBOutlet internal var rosterTableView: UITableView!
 	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController!
 
 	var usersForRoom = Set<XMPPJID>()
+	weak var delegate: MUCRoomCreateViewControllerDelegate?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -30,15 +35,7 @@ class MUCRoomCreateViewController: UIViewController {
 	}
 	
 	internal func createRoom(sender: UIBarButtonItem) {
-
-		let createRoomOperation = XMPPRoomOperation.createRoom(name: self.roomNameField.text!) { (result, room) in
-			let inviteUsersOperation = XMPPRoomOperation.invite(room: room, userJIDs: Array(self.usersForRoom), completion: { [unowned self] (result, room) in
-				self.navigationController?.popViewControllerAnimated(true)
-			})
-			StreamManager.manager.addOperation(inviteUsersOperation)
-		}
-
-		StreamManager.manager.addOperation(createRoomOperation)
+		self.delegate?.createRoom(self.roomNameField.text!, users: Array(self.usersForRoom))
 	}
 	
 	internal func cancelCreation(sender: UIBarButtonItem) {

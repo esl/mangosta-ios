@@ -44,7 +44,7 @@
                     <navigationItem key="navigationItem" id="koT-Ch-fdL">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1Br-hV-qbY">
                             <connections>
-                                <segue destination="REL-hj-Hln" kind="show" id="2eg-qn-IOO">
+                                <segue destination="REL-hj-Hln" kind="show" identifier="createRoomViewController" id="2eg-qn-IOO">
                                     <nil key="action"/>
                                 </segue>
                             </connections>
