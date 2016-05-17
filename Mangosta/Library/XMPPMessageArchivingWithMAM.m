@@ -9,6 +9,7 @@
 #import "XMPPMessageArchivingWithMAM.h"
 #import "XMPPMessage+XEP_0313.h"
 #import "XMPPMessage+XEP0045.h"
+#import "XMPPMessageAndMAMArchivingCoreDataStorage.h"
 
 @implementation XMPPMessageArchivingWithMAM
 
@@ -26,8 +27,9 @@
 	if ([message isMessageArchive]) {
 		XMPPMessage *messageFromMessage = [message messageForForwardedArchiveMessage];
 		
+		XMPPMessageAndMAMArchivingCoreDataStorage *storage = (XMPPMessageAndMAMArchivingCoreDataStorage *)xmppMessageArchivingStorage;
 		BOOL outgoing = messageFromMessage.from.user == sender.myJID.user;
-		[xmppMessageArchivingStorage archiveMessage:messageFromMessage outgoing:outgoing xmppStream:sender];
+		[storage archiveMAMMessage:messageFromMessage outgoing:outgoing xmppStream:sender];
 	}
 }
 

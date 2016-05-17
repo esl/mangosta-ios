@@ -68,7 +68,7 @@ public class StreamController: NSObject {
 		self.mucStorage = XMPPMUCCoreDataStorage(databaseFilename: roomFileName, storeOptions: nil)
 		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.mucStorage)
 		
-		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
+		self.messageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
 		self.messageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.messageArchivingStorage)
 		
 		self.messageArchiveManagement = XMPPMessageArchiveManagement(dispatchQueue: dispatch_get_main_queue())
