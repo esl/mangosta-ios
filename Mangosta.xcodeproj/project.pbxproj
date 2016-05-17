@@ -32,6 +32,8 @@
 		81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
+		C1072DB21CEB95F90007B99E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB11CEB95F90007B99E /* ViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
 		C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
 		C135D9151CE25A0E00225EC7 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9141CE25A0E00225EC7 /* Settings.storyboard */; };
@@ -105,6 +107,8 @@
 		81F8E8321CA0236A008099D1 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
+		C1072DB11CEB95F90007B99E /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
 		C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoom+ExtraActions.m"; sourceTree = "<group>"; };
 		C135D9121CE257B700225EC7 /* LogIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LogIn.storyboard; sourceTree = "<group>"; };
@@ -301,6 +305,7 @@
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				8132669E1CA178E800D4EDC0 /* SettingsViewController.swift */,
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
+				C1072DB11CEB95F90007B99E /* ViewController.swift */,
 				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 			);
 			path = ViewControllers;
@@ -331,6 +336,7 @@
 				C135D9121CE257B700225EC7 /* LogIn.storyboard */,
 				C135D9141CE25A0E00225EC7 /* Settings.storyboard */,
 				C135D9161CE25CCC00225EC7 /* MUC.storyboard */,
+				C1072DAC1CEB91300007B99E /* MUCLight.storyboard */,
 				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
 				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
 				C135D91C1CE39FFD00225EC7 /* Members.storyboard */,
@@ -473,6 +479,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */,
+				C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */,
 				81ECA35A1C92CDE4000602F2 /* LaunchScreen.storyboard in Resources */,
 				81ECA3571C92CDE4000602F2 /* Assets.xcassets in Resources */,
 				81ECA3551C92CDE4000602F2 /* Main.storyboard in Resources */,
@@ -562,6 +569,7 @@
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */,
+				C1072DB21CEB95F90007B99E /* ViewController.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				814D4CA71C970EA800AB28FA /* StreamManager.swift in Sources */,

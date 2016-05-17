@@ -15,7 +15,7 @@ class MUCRoomViewController: UIViewController {
 	@IBOutlet weak var tableView: UITableView!
 
 	override func viewDidLoad() {
-		self.title = "MUC Room"
+		self.title = "MUC"
 		super.viewDidLoad()
 		self.tableView.delegate = self
 		self.tableView.dataSource = self

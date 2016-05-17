@@ -5,19 +5,26 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--View Controller-->
         <scene sceneID="dpd-ox-1zh">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="383-Vt-lBl" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="383-Vt-lBl" customClass="ViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="RUI-i5-9li">
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" itemPositioning="fill" id="RUI-i5-9li">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.66666666669999997" green="0.1176470588" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </tabBar>
                     <connections>
                         <segue destination="8lZ-lh-fcR" kind="relationship" relationship="viewControllers" id="g2y-Tk-yYz"/>
                         <segue destination="KND-tj-2Mv" kind="relationship" relationship="viewControllers" id="ve1-cZ-4C7"/>
                         <segue destination="JB9-Rh-pyY" kind="relationship" relationship="viewControllers" id="zeO-se-Qpc"/>
+                        <segue destination="bH2-gR-1Dh" kind="relationship" relationship="viewControllers" id="ys3-1z-0Ut"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J2h-Ke-HIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -32,7 +39,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rrk-9L-eSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-21" y="148"/>
+            <point key="canvasLocation" x="263" y="148"/>
         </scene>
         <!--settings-->
         <scene sceneID="4F4-a0-Bx5">
@@ -42,7 +49,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bHf-kH-qWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="195" y="148"/>
+            <point key="canvasLocation" x="105" y="148"/>
         </scene>
         <!--roster-->
         <scene sceneID="Sgn-Fc-cuM">
@@ -52,7 +59,17 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y22-2F-EEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="424" y="148"/>
+            <point key="canvasLocation" x="-70.5" y="148"/>
+        </scene>
+        <!--MUCLight-->
+        <scene sceneID="FC7-Jc-nTj">
+            <objects>
+                <viewControllerPlaceholder storyboardName="MUCLight" referencedIdentifier="MUCLight" id="bH2-gR-1Dh" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="MUCLight" id="N9R-DI-eBc"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lLh-6V-ac0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="449" y="148"/>
         </scene>
     </scenes>
 </document>
