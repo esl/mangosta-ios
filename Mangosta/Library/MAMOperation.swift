@@ -11,7 +11,7 @@ import XMPPFramework
 
 class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 	var mainOperation: (() -> ())?
-	var boolCompletion: ((result: Bool) -> ())?
+	var completion: ((result: Bool, lastID: String?) -> ())?
 	var stream: XMPPStream?
 
 	var messageArchiveManagement: XMPPMessageArchiveManagement?
@@ -23,15 +23,16 @@ class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 		self.mainOperation?()
 	}
 	
-	class func retrieveHistory(stream: XMPPStream, jid: XMPPJID, completion: (result: Bool) -> ()) -> MAMOperation {
+	class func retrieveHistory(stream: XMPPStream, jid: XMPPJID, pageSize: Int, lastID: String? , completion: (result: Bool, lastID: String?) -> ()) -> MAMOperation {
 		let mamOperation = MAMOperation()
 		mamOperation.stream = stream
-		
+
+		let resultSet = XMPPResultSet(max: pageSize, after: lastID)
 		mamOperation.mainOperation = {
-			mamOperation.messageArchiveManagement!.retrieveMessageArchiveFrom(jid, withPageSize: 20)
+			mamOperation.messageArchiveManagement!.retrieveMessageArchiveFrom(jid, withResultSet: resultSet)
 		}
 
-		mamOperation.boolCompletion = completion
+		mamOperation.completion = completion
 		return mamOperation
 	}
 
@@ -42,12 +43,12 @@ class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 	}
 
 	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWithSet resultSet: XMPPResultSet!) {
-		self.boolCompletion?(result: true)
+		self.completion?(result: true, lastID: resultSet.last())
 		self.finishAndRemoveDelegates()
 	}
 	
 	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveError error: DDXMLElement!) {
-		self.boolCompletion?(result: false)
+		self.completion?(result: false, lastID: nil)
 		self.finishAndRemoveDelegates()
 	}
 	

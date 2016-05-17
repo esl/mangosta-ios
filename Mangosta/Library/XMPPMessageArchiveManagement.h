@@ -16,7 +16,7 @@
 	XMPPIDTracker *xmppIDTracker;
 }
 
-- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withPageSize:(NSInteger)pageSize;
+- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withResultSet:(XMPPResultSet *)resultSet;
 
 @end
 

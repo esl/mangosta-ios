@@ -42,7 +42,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 	return self;
 }
 
-- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withPageSize:(NSInteger)pageSize {
+- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withResultSet:(XMPPResultSet *)resultSet {
 	dispatch_block_t block = ^{
 		
 		if ([xmppIDTracker numberOfIDs] == 0) {
@@ -58,16 +58,9 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 			[xElement addAttributeWithName:@"type" stringValue:@"submit"];
 			[xElement addChild:[self fieldWithVar:@"FORM_TYPE" type:@"hidden" andValue:@"urn:xmpp:mam:1"]];
 			[xElement addChild:[self fieldWithVar:@"with" type:nil andValue:userJID.full]];
-			
+
 			[queryElement addChild:xElement];
-			
-			DDXMLElement *max = [DDXMLElement elementWithName:@"max"];
-			max.stringValue = [NSString stringWithFormat:@"%ld",pageSize];
-			
-			DDXMLElement *set = [DDXMLElement elementWithName:@"set" xmlns:@"http://jabber.org/protocol/rsm"];
-			[set addChild:max];
-			
-			[queryElement addChild:set];
+			[queryElement addChild:resultSet];
 			
 			[xmppIDTracker addElement:iq target:self selector:@selector(enableMessageArchiveIQ:withInfo:) timeout:XMPPIDTrackerTimeoutNone];
 			[xmppStream sendElement:iq];

@@ -16,6 +16,7 @@ class ChatViewController: UIViewController {
 	var room: XMPPRoom?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
+	var lastID = ""
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -149,8 +150,10 @@ class ChatViewController: UIViewController {
 	@IBAction func fetchHistory(sender: AnyObject) {
 		let stream = StreamManager.manager.stream
 		let jid = self.userJID ?? self.room?.roomJID
-		let mamOperation = MAMOperation.retrieveHistory(stream, jid: jid!) { (result) in
-			print(result)
+		let mamOperation = MAMOperation.retrieveHistory(stream, jid: jid!, pageSize: 5, lastID: self.lastID) { (result, lastID) in
+			if let lID = lastID {
+				self.lastID = lID
+			}
 		}
 		StreamManager.manager.addOperation(mamOperation)
 	}
