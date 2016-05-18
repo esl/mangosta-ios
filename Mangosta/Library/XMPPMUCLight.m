@@ -48,6 +48,11 @@
 		[query addChild:item];
 		[iq addChild:query];
 		
+		[responseTracker addID:iqID
+						target:self
+					  selector:@selector(handleLeaveMUCLightRoom:withInfo:)
+					   timeout:60.0];
+		
 		[xmppStream sendElement:iq];
 	}};
 	
@@ -56,6 +61,15 @@
 	else
 		dispatch_async(moduleQueue, block);
 }
+
+- (void)handleLeaveMUCLightRoom:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
+	if ([[iq type] isEqualToString:@"result"]){
+		[multicastDelegate xmppRoom:self didLeftMUCLightRoom:iq];
+	}else{
+		[multicastDelegate xmppRoom:self didFailToLeaveMUCLightRoom:iq];
+	}
+}
+
 
 - (void)createMUCLightRoom:(NSString *)roomName members:(NSArray *) members{
 //		<iq from='crone1@shakespeare.lit/desktop'
@@ -122,9 +136,9 @@
 - (void)handleLeaveMUCLightRoomResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
 	
 	if ([[iq type] isEqualToString:@"result"]){
-		[multicastDelegate xmppRoom:self didLeaveMUCLightRoom:iq];
+		[multicastDelegate xmppRoom:self didLeftMUCLightRoom:iq];
 	}else{
-		[multicastDelegate xmppRoom:self didNotLeaveMUCLightRoom:iq];
+		[multicastDelegate xmppRoom:self didFailToLeaveMUCLightRoom:iq];
 	}
 }
 

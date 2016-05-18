@@ -15,6 +15,7 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPMUCLightDelegate {
 	var mainOperation: ((room: XMPPMUCLight) -> ())?
 	var completion: ((result: Bool, room: XMPPMUCLight?) -> ())?
 	var memberListCompletion: ((result: Bool,  members: [(String, String)]?) -> ())?
+	var boolCompletion: ((result: Bool) -> ())?
 	let domain = "muclight.erlang-solutions.com"
 
 	var roomJID: XMPPJID?
@@ -86,6 +87,27 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPMUCLightDelegate {
 
 	func xmppRoom(sender: XMPPMUCLight!, didFailToCreateMUCLightRoom iq: XMPPIQ!) {
 		self.completion?(result: false, room: nil)
+		self.finishAndRemoveDelegates()
+	}
+	
+	class func leaveRoom(room room: XMPPMUCLight, completion: (result: Bool) -> ()) -> XMPPRoomLightOperation {
+		let leaveRoomOperation = XMPPRoomLightOperation()
+		leaveRoomOperation.room = room
+		
+		leaveRoomOperation.mainOperation = { (room: XMPPMUCLight) in
+			room.leaveMUCLightRoom(room.xmppStream.myJID)
+		}
+		leaveRoomOperation.boolCompletion = completion
+		return leaveRoomOperation
+	}
+	
+	func xmppRoom(sender: XMPPMUCLight!, didLeftMUCLightRoom iqResult: XMPPIQ!) {
+		self.boolCompletion?(result: true)
+		self.finishAndRemoveDelegates()
+	}
+	
+	func xmppRoom(sender: XMPPMUCLight!, didFailToLeaveMUCLightRoom iqResult: XMPPIQ!) {
+		self.boolCompletion?(result: false)
 		self.finishAndRemoveDelegates()
 	}
 }

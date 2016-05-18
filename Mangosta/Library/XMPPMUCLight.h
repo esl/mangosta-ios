@@ -22,8 +22,8 @@
 @protocol XMPPMUCLightDelegate<XMPPRoomDelegate>
 @optional
 
-- (void)xmppRoom:(XMPPMUCLight *)sender didLeaveMUCLightRoom:(XMPPIQ*) iqResult;
-- (void)xmppRoom:(XMPPMUCLight *)sender didNotLeaveMUCLightRoom:(XMPPIQ*) iqResult;
+- (void)xmppRoom:(XMPPMUCLight *)sender didLeftMUCLightRoom:(XMPPIQ*) iqResult;
+- (void)xmppRoom:(XMPPMUCLight *)sender didFailToLeaveMUCLightRoom:(XMPPIQ*) iqResult;
 
 - (void)xmppRoom:(XMPPMUCLight *)sender didAddUsers:(XMPPIQ*) iqResult;
 - (void)xmppRoom:(XMPPMUCLight *)sender didNotAddUsers:(XMPPIQ*) iqResult;

@@ -83,16 +83,16 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 	}
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-//
-//		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
-//			let room = self.rooms[indexPath.row]
-//			StreamManager.manager.addOperation(XMPPRoomOperation.leave(room: room){ result in
-//				self.tableView.reloadData()
-//				})
-//		}
-//		leave.backgroundColor = UIColor.orangeColor()
-//		return [leave]
-		return nil
+
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
+			let room = self.rooms[indexPath.row]
+			
+			StreamManager.manager.addOperation(XMPPRoomLightOperation.leaveRoom(room: room, completion: { (result) in
+				self.tableView.reloadData()
+			}))
+		}
+		leave.backgroundColor = UIColor.orangeColor()
+		return [leave]
 	}
 	
 	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
