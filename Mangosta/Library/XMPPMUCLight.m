@@ -40,12 +40,12 @@
 		[iq addAttributeWithName:@"to" stringValue:self.roomJID.full];
 		[iq addAttributeWithName:@"type" stringValue:@"set"];
 		
-		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:affiliations"];
-		NSXMLElement *item = [NSXMLElement elementWithName:@"item"];
-		[item addAttributeWithName:@"affiliation" stringValue:@"none"];
-		[item addAttributeWithName:@"jid" stringValue:userJID.full];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:0#affiliations"];
+		NSXMLElement *user = [NSXMLElement elementWithName:@"user"];
+		[user addAttributeWithName:@"affiliation" stringValue:@"none"];
+		user.stringValue = userJID.full;
 		
-		[query addChild:item];
+		[query addChild:user];
 		[iq addChild:query];
 		
 		[responseTracker addID:iqID
@@ -55,7 +55,7 @@
 		
 		[xmppStream sendElement:iq];
 	}};
-	
+
 	if (dispatch_get_specific(moduleQueueTag))
 		block();
 	else
@@ -69,7 +69,6 @@
 		[multicastDelegate xmppRoom:self didFailToLeaveMUCLightRoom:iq];
 	}
 }
-
 
 - (void)createMUCLightRoom:(NSString *)roomName members:(NSArray *) members{
 //		<iq from='crone1@shakespeare.lit/desktop'
