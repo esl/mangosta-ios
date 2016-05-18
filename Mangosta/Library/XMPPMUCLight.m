@@ -5,9 +5,10 @@
 //  Created by Andres Canal on 4/26/16.
 //  Copyright © 2016 Inaka. All rights reserved.
 //
+#import "XMPPFramework.h"
+#import "XMPPFramework/XMPPIDTracker.h"
 #import "XMPPMessage+XEP0045.h"
 #import "XMPPMessage+XEP_0085.h"
-#import "XMPPIDTracker.h"
 #import "XMPPMUCLight.h"
 
 @implementation XMPPMUCLight
@@ -56,6 +57,68 @@
 		dispatch_async(moduleQueue, block);
 }
 
+- (void)createMUCLightRoom:(NSString *)roomName members:(NSArray *) members{
+//		<iq from='crone1@shakespeare.lit/desktop'
+//			      id='create1'
+//			      to='coven@muclight.shakespeare.lit'
+//			    type='set'>
+//			<query xmlns='urn:xmpp:muclight:0#create'>
+//				<configuration>
+//					<roomname>A Dark Cave</roomname>
+//				</configuration>
+//				<occupants>
+//					<user affiliation='member'>user1@shakespeare.lit</user>
+//					<user affiliation='member'>user2@shakespeare.lit</user>
+//				</occupants>
+//			</query>
+//		</iq>
+	
+	dispatch_block_t block = ^{ @autoreleasepool {
+		
+		NSString *iqID = [XMPPStream generateUUID];
+		NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+		[iq addAttributeWithName:@"id" stringValue:iqID];
+		[iq addAttributeWithName:@"to" stringValue:self.roomJID.full];
+		[iq addAttributeWithName:@"type" stringValue:@"set"];
+		
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:0#create"];
+		NSXMLElement *configuration = [NSXMLElement elementWithName:@"configuration"];
+		[configuration addChild:[NSXMLElement elementWithName:@"roomname" stringValue:roomName]];
+		
+		NSXMLElement *ocupants = [NSXMLElement elementWithName:@"ocupants"];
+		for (XMPPJID *jid in members){
+			NSXMLElement *userElement = [NSXMLElement elementWithName:@"user" stringValue:jid.bare];
+			[userElement addAttributeWithName:@"affiliation" stringValue:@"member"];
+			[ocupants addChild:userElement];
+		}
+		
+		[query addChild:configuration];
+		[query addChild:ocupants];
+		
+		[iq addChild:query];
+
+		[responseTracker addID:iqID
+						target:self
+					  selector:@selector(handleCreateMUCLight:withInfo:)
+					   timeout:60.0];
+
+		[xmppStream sendElement:iq];
+	}};
+	
+	if (dispatch_get_specific(moduleQueueTag))
+		block();
+	else
+		dispatch_async(moduleQueue, block);
+}
+
+- (void)handleCreateMUCLight:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
+	if ([[iq type] isEqualToString:@"result"]){
+		[multicastDelegate xmppRoom:self didCreateMUCLightRoom:iq];
+	}else{
+		[multicastDelegate xmppRoom:self didFailToCreateMUCLightRoom:iq];
+	}
+}
+
 - (void)handleLeaveMUCLightRoomResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
 	
 	if ([[iq type] isEqualToString:@"result"]){
@@ -68,29 +131,20 @@
 - (void)fetchAllMembersList
 {
 	dispatch_block_t block = ^{ @autoreleasepool {
-		
-		
-		// <iq type='get'
-		//       id='member3'
-		//       to='coven@chat.shakespeare.lit'>
-		//   <query xmlns='http://jabber.org/protocol/muc#admin'>
-		//     <item affiliation='member'/>
-		//   </query>
-		// </iq>
-		
+
+//		<iq from='crone1@shakespeare.lit/desktop'
+//				id='getmembers'
+//				to='coven@muclight.shakespeare.lit'
+//			  type='get'>
+//			<query xmlns='urn:xmpp:muclight:0#affiliations'>
+//				<version>abcdefg</version>
+//			</query>
+//		</iq>
+
 		NSString *iqID = [XMPPStream generateUUID];
-		
-		NSXMLElement *item = [NSXMLElement elementWithName:@"item"];
-		[item addAttributeWithName:@"affiliation" stringValue:@"member"];
-		
-		NSXMLElement *ownerItem = [NSXMLElement elementWithName:@"item"];
-		[ownerItem addAttributeWithName:@"affiliation" stringValue:@"owner"];
-		
-		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:XMPPMUCAdminNamespace];
-		[query addChild:item];
-		[query addChild:ownerItem];
-		
-		XMPPIQ *iq = [XMPPIQ iqWithType:@"get" to:roomJID elementID:iqID child:query];
+		XMPPIQ *iq = [XMPPIQ iqWithType:@"get" to:roomJID elementID:iqID];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:0#affiliations"];
+		[iq addChild:query];
 		
 		[xmppStream sendElement:iq];
 		[responseTracker addID:iqID
@@ -103,8 +157,16 @@
 		block();
 	else
 		dispatch_async(moduleQueue, block);
-	
-	
+}
+
+- (void)handleFetchMembersListResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
+
+	if ([[iq type] isEqualToString:@"result"]){
+		[multicastDelegate xmppRoom:self didFetchedAllMembers:iq];
+	}else{
+		[multicastDelegate xmppRoom:self didFailToFetchAllMembers:iq];
+	}
+
 }
 
 - (void)addUsers:(NSArray *)users{

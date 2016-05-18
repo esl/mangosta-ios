@@ -12,7 +12,8 @@ import XMPPFramework
 class MUCLightRoomViewController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
-	
+	var rooms = [XMPPMUCLight]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.tableView.delegate = self
@@ -21,6 +22,22 @@ class MUCLightRoomViewController: UIViewController {
 		
 		self.title = "MUCLight"
     }
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		let retrieveRooms = XMPPMUCOperation.retrieveMUCLightRooms { rooms in
+			if let receivedRooms = rooms as? [XMPPMUCLight]{
+				self.xmppRoomsHandling(receivedRooms)
+			}
+		}
+		StreamManager.manager.addOperation(retrieveRooms)
+	}
+	
+	func xmppRoomsHandling(rooms: [XMPPMUCLight]) {
+		self.rooms = rooms
+		self.tableView.reloadData()
+	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "createRoomViewController" {
@@ -34,28 +51,39 @@ extension MUCLightRoomViewController: MUCRoomCreateViewControllerDelegate {
 	
 	func createRoom(roomName: String, users: [XMPPJID]?) {
 		
-		print("CREATE MUCLIGHT")
-		
+		let createRoomOperation = XMPPRoomLightOperation.createRoom(name: roomName, members: users) { (result, room) in
+			self.navigationController?.popViewControllerAnimated(true)
+		}
+		StreamManager.manager.addOperation(createRoomOperation)
 	}
 }
 
 extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource {
-	
+
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 0
+		return self.rooms.count
 	}
-	
+
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
+		let room = self.rooms[indexPath.row]
+		cell.textLabel?.text = room.roomSubject
+
 		return cell
 	}
-	
+
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		print("Room selected")
+		let room = self.rooms[indexPath.row]
+
+		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
+		chatController.room = room
+
+		self.navigationController?.pushViewController(chatController, animated: true)
 	}
-	
+
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-//		
+//
 //		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
 //			let room = self.rooms[indexPath.row]
 //			StreamManager.manager.addOperation(XMPPRoomOperation.leave(room: room){ result in

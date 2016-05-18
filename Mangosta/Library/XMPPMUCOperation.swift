@@ -12,8 +12,10 @@ import XMPPFramework
 class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 	var completion: RoomListCompletion?
 	var muc: XMPPMUC
-	let domain = "muc.erlang-solutions.com"
-
+	static let mucDomain = "muc.erlang-solutions.com"
+	static let mucLightDomain = "muclight.erlang-solutions.com"
+	var domain = ""
+	
 	private override init() {
 		self.muc = XMPPMUC(dispatchQueue: dispatch_get_main_queue())
 		
@@ -24,10 +26,18 @@ class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 	
 	class func retrieveRooms(completion: RoomListCompletion = {_ in }) -> XMPPMUCOperation {
 		let chatRoomListOperation = XMPPMUCOperation()
+		chatRoomListOperation.domain = XMPPMUCOperation.mucDomain
 		chatRoomListOperation.completion = completion
 		return chatRoomListOperation
 	}
-	
+
+	class func retrieveMUCLightRooms(completion: RoomListCompletion = {_ in }) -> XMPPMUCOperation {
+		let chatRoomListOperation = XMPPMUCOperation()
+		chatRoomListOperation.domain = XMPPMUCOperation.mucLightDomain
+		chatRoomListOperation.completion = completion
+		return chatRoomListOperation
+	}
+
 	override func execute() {
 		self.muc.activate(StreamManager.manager.stream)
 		self.muc.discoverServices()
@@ -46,9 +56,16 @@ class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 			let rawJid = rawElement.attributeStringValueForName("jid")
 			let rawName = rawElement.attributeStringValueForName("name")
 			let jid = XMPPJID.jidWithString(rawJid)
-			let r = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
-			r.setValue(rawName, forKey: "roomSubject")
-			parsedRooms.append(r)
+			
+			var r: XMPPRoom?
+			if jid.domain == XMPPMUCOperation.mucDomain {
+				r = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
+			} else if jid.domain == XMPPMUCOperation.mucLightDomain {
+				r = XMPPMUCLight(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
+			}
+
+			r!.setValue(rawName, forKey: "roomSubject")
+			parsedRooms.append(r!)
 		}
 		return parsedRooms
 	}

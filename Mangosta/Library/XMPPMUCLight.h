@@ -6,7 +6,7 @@
 //  Copyright © 2016 Inaka. All rights reserved.
 //
 
-#import "XMPPRoom.h"
+#import <XMPPFramework/XMPPRoom.h>
 
 @interface XMPPMUCLight : XMPPRoom
 
@@ -16,7 +16,7 @@
 - (void)setRoomSubject:(NSString*)subject;
 - (void)fetchAllMembersList;
 - (void)sendMessageWithBody:(NSString *)text;
-
+- (void)createMUCLightRoom:(NSString *)roomName members:(NSArray *) members;
 @end
 
 @protocol XMPPMUCLightDelegate<XMPPRoomDelegate>
@@ -30,6 +30,12 @@
 
 - (void)xmppRoom:(XMPPMUCLight *)sender didSendMessage:(XMPPMessage*) message;
 - (void)xmppRoom:(XMPPMUCLight *)sender didFailToSendMessage:(XMPPMessage*) message;
+
+- (void)xmppRoom:(XMPPMUCLight *)sender didCreateMUCLightRoom:(XMPPIQ *)iq;
+- (void)xmppRoom:(XMPPMUCLight *)sender didFailToCreateMUCLightRoom:(XMPPIQ *)iq;
+
+- (void)xmppRoom:(XMPPMUCLight *)sender didFetchedAllMembers:(XMPPIQ *)iq;
+- (void)xmppRoom:(XMPPMUCLight *)sender didFailToFetchAllMembers:(XMPPIQ *)iq;
 
 @end
 

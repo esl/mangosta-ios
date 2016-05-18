@@ -21,7 +21,7 @@ class MUCRoomViewController: UIViewController {
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
 	}
-	
+
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		
@@ -32,13 +32,12 @@ class MUCRoomViewController: UIViewController {
 		}
 		StreamManager.manager.addOperation(retrieveRooms)
 	}
-	
-	
+
 	func xmppRoomsHandling(rooms: [XMPPRoom]) {
 		self.rooms = rooms
 		self.tableView.reloadData()
 	}
-	
+
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "createRoomViewController" {
 			let createRoomViewController = segue.destinationViewController as! MUCRoomCreateViewController

@@ -130,21 +130,31 @@ class ChatViewController: UIViewController {
 	}
 	
 	@IBAction func showMUCDetails(sender: AnyObject) {
-		let fetchMemberListOperation = XMPPRoomOperation.queryRoomItems(self.room!, completion: { (result, members) in
-			
-			if !result {
-				return
-			}
-			
-			let storyboard = UIStoryboard(name: "Members", bundle: nil)
-			
-			let membersNavController = storyboard.instantiateViewControllerWithIdentifier("members") as! UINavigationController
-			let membersController = membersNavController.viewControllers.first! as! MembersViewController
-			membersController.members = members
-			self.navigationController?.presentViewController(membersNavController, animated: true, completion: nil)
 
-		})
-		StreamManager.manager.addOperation(fetchMemberListOperation)
+		if let room = self.room as? XMPPMUCLight {
+			let fetchMUCLightMemberList = XMPPRoomLightOperation.fetchMembersList(room: room, completion: { (result, members) in
+				if let membersToShow = members {
+					self.showMembersViewController(membersToShow)
+				}
+			})
+			StreamManager.manager.addOperation(fetchMUCLightMemberList)
+		} else {
+			let fetchMemberListOperation = XMPPRoomOperation.queryRoomItems(self.room!, completion: { (result, members) in
+				if let membersToShow = members {
+					self.showMembersViewController(membersToShow)
+				}
+			})
+			StreamManager.manager.addOperation(fetchMemberListOperation)
+		}
+	}
+	
+	func showMembersViewController(members: [(String, String)]){
+		let storyboard = UIStoryboard(name: "Members", bundle: nil)
+		
+		let membersNavController = storyboard.instantiateViewControllerWithIdentifier("members") as! UINavigationController
+		let membersController = membersNavController.viewControllers.first! as! MembersViewController
+		membersController.members = members
+		self.navigationController?.presentViewController(membersNavController, animated: true, completion: nil)
 	}
 
 	@IBAction func fetchHistory(sender: AnyObject) {
