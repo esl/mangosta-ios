@@ -42,7 +42,7 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 	NSString *to = message.to.user;
 	NSString *usernameWhoSentMessage = [message from].resource;
 	
-	if ([to isEqualToString:usernameWhoSentMessage])
+	if ([to isEqualToString:usernameWhoSentMessage] || [message.to.bare isEqualToString:usernameWhoSentMessage])
 	{
 		if (![message wasDelayed])
 		{
@@ -79,9 +79,15 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 		if([self existsMessage:messageToStore stream:stream]){
 			return;
 		}
+		
+		BOOL fromMe = [messageToStore.from.resource isEqualToString:stream.myJID.user];
+		if ([messageToStore.from.domain containsString:@"light"]) {
+			XMPPJID *fromUser = [XMPPJID jidWithString:messageToStore.from.resource];
+			fromMe = [fromUser.user isEqualToString:stream.myJID.user];
+		}
 
 		[self insertMessage:messageToStore
-				   isFromMe:[messageToStore.from.resource isEqualToString:stream.myJID.user]
+				   isFromMe:fromMe
 				 messageJID:messageToStore.from
 			 localTimeStamp:[messageToStore delayedDeliveryDate]
 			 remoteTimeStam:[messageToStore delayedDeliveryDate]
@@ -96,6 +102,12 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 			   stream:(XMPPStream *)xmppStream
 {
 	XMPPJID *messageJID = isOutgoing ? roomJID : [message from];
+
+	if ([messageJID.domain containsString:@"light"]) {
+		messageJID = [XMPPJID jidWithUser:messageJID.user
+								   domain:messageJID.domain
+								 resource:xmppStream.myJID.bare];
+	}
 
 	NSDate *localTimestamp;
 	NSDate *remoteTimestamp;

@@ -40,7 +40,7 @@
 		[iq addAttributeWithName:@"to" stringValue:self.roomJID.full];
 		[iq addAttributeWithName:@"type" stringValue:@"set"];
 		
-		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"http://jabber.org/protocol/muc#admin"];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:affiliations"];
 		NSXMLElement *item = [NSXMLElement elementWithName:@"item"];
 		[item addAttributeWithName:@"affiliation" stringValue:@"none"];
 		[item addAttributeWithName:@"jid" stringValue:userJID.full];
