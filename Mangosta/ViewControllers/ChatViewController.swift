@@ -120,10 +120,15 @@ class ChatViewController: UIViewController {
 			// roster.addUser doesn't check if there is a roster... we have to fix this.
 			let userJID = XMPPJID.jidWithString(userJIDString)!
 			
-			StreamManager.manager.addOperation(XMPPRoomOperation.invite(room: self.room!, userJIDs: [userJID], completion: { (result, room) in
-				print("Success!")
-			}))
-
+			if let room = self.room as? XMPPMUCLight {
+				StreamManager.manager.addOperation(XMPPRoomLightOperation.invite(room: room, userJIDs: [userJID], completion: { (result) in
+					print("Success!")
+				}))
+			} else {
+				StreamManager.manager.addOperation(XMPPRoomOperation.invite(room: self.room!, userJIDs: [userJID], completion: { (result, room) in
+					print("Success!")
+				}))
+			}
 		}))
 		alertController.view.setNeedsLayout()
 		self.presentViewController(alertController, animated: true, completion: nil)

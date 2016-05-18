@@ -26,10 +26,7 @@
 - (void)xmppRoom:(XMPPMUCLight *)sender didFailToLeaveMUCLightRoom:(XMPPIQ*) iqResult;
 
 - (void)xmppRoom:(XMPPMUCLight *)sender didAddUsers:(XMPPIQ*) iqResult;
-- (void)xmppRoom:(XMPPMUCLight *)sender didNotAddUsers:(XMPPIQ*) iqResult;
-
-- (void)xmppRoom:(XMPPMUCLight *)sender didSendMessage:(XMPPMessage*) message;
-- (void)xmppRoom:(XMPPMUCLight *)sender didFailToSendMessage:(XMPPMessage*) message;
+- (void)xmppRoom:(XMPPMUCLight *)sender didFailToAddUsers:(XMPPIQ*) iqResult;
 
 - (void)xmppRoom:(XMPPMUCLight *)sender didCreateMUCLightRoom:(XMPPIQ *)iq;
 - (void)xmppRoom:(XMPPMUCLight *)sender didFailToCreateMUCLightRoom:(XMPPIQ *)iq;

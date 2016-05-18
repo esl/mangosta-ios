@@ -110,4 +110,27 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPMUCLightDelegate {
 		self.boolCompletion?(result: false)
 		self.finishAndRemoveDelegates()
 	}
+	
+	class func invite(room room: XMPPMUCLight, userJIDs: [XMPPJID], completion: (result: Bool) -> ()) -> XMPPRoomLightOperation {
+		let inviteOperation = XMPPRoomLightOperation()
+		inviteOperation.room = room
+
+		inviteOperation.mainOperation = { (room: XMPPMUCLight) in
+			room.addUsers(userJIDs)
+		}
+
+		inviteOperation.boolCompletion = completion
+
+		return inviteOperation
+	}
+	
+	func xmppRoom(sender: XMPPMUCLight!, didAddUsers iqResult: XMPPIQ!) {
+		self.boolCompletion?(result: true)
+		self.finishAndRemoveDelegates()
+	}
+	
+	func xmppRoom(sender: XMPPMUCLight!, didFailToAddUsers iqResult: XMPPIQ!) {
+		self.boolCompletion?(result: false)
+		self.finishAndRemoveDelegates()
+	}
 }

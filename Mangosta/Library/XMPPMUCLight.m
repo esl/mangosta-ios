@@ -216,7 +216,7 @@
 		[xmppStream sendElement:iq];
 		[responseTracker addID:iqID
 						target:self
-					  selector:@selector(handleSendMessageResponse:withInfo:)
+					  selector:@selector(handleAddUsers:withInfo:)
 					   timeout:60.0];
 	}};
 	
@@ -253,20 +253,11 @@
 }
 
 
-- (void)handleSendMessageResponse:(XMPPMessage *)message withInfo:(id <XMPPTrackingInfo>)info{
-	if(message) {
-		[multicastDelegate xmppRoom:self didSendMessage:message];
-	} else {
-		[multicastDelegate xmppRoom:self didFailToSendMessage:message];
-	}
-}
-
-- (void)handleAddUsersResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
-	
+- (void)handleAddUsers:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
 	if ([[iq type] isEqualToString:@"result"]){
 		[multicastDelegate xmppRoom:self didAddUsers:iq];
-	}else{
-		[multicastDelegate xmppRoom:self didNotAddUsers:iq];
+	} else {
+		[multicastDelegate xmppRoom:self didFailToAddUsers:iq];
 	}
 }
 
