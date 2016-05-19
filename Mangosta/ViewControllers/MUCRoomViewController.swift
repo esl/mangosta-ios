@@ -8,6 +8,7 @@
 
 import UIKit
 import XMPPFramework
+import MBProgressHUD
 
 class MUCRoomViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController!
@@ -25,14 +26,27 @@ class MUCRoomViewController: UIViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		self.loadRooms(true)
+	}
+
+	func loadRooms(hud: Bool = false) {
+		if hud {
+			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+			hud.labelText = "Getting rooms..."
+		}
+		
 		let retrieveRooms = XMPPMUCOperation.retrieveRooms { rooms in
+			MBProgressHUD.hideHUDForView(self.view, animated: true)
+			
 			if let receivedRooms = rooms {
 				self.xmppRoomsHandling(receivedRooms)
+			} else {
+				self.xmppRoomsHandling([XMPPRoom]())
 			}
 		}
 		StreamManager.manager.addOperation(retrieveRooms)
 	}
-
+	
 	func xmppRoomsHandling(rooms: [XMPPRoom]) {
 		self.rooms = rooms
 		self.tableView.reloadData()
@@ -100,7 +114,7 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
 			let room = self.rooms[indexPath.row]
 			StreamManager.manager.addOperation(XMPPRoomOperation.leave(room: room){ result in
-				self.tableView.reloadData()
+				self.loadRooms()
 			})
 		}
 		leave.backgroundColor = UIColor.orangeColor()

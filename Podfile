@@ -9,6 +9,7 @@ workspace 'Mangosta'
 
 def main_app_pods
    pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/'
+   pod 'MBProgressHUD', '~> 0.9.2'
 end
 
 target 'Mangosta' do

@@ -8,6 +8,7 @@
 
 import UIKit
 import XMPPFramework
+import MBProgressHUD
 
 class MUCLightRoomViewController: UIViewController {
 
@@ -26,9 +27,22 @@ class MUCLightRoomViewController: UIViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		self.loadRooms(true)
+	}
+	
+	func loadRooms(hud: Bool = false) {
+		if hud {
+			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+			hud.labelText = "Getting rooms..."
+		}
+
 		let retrieveRooms = XMPPMUCOperation.retrieveMUCLightRooms { rooms in
+			MBProgressHUD.hideHUDForView(self.view, animated: true)
+			
 			if let receivedRooms = rooms as? [XMPPMUCLight]{
 				self.xmppRoomsHandling(receivedRooms)
+			} else {
+				self.xmppRoomsHandling([XMPPMUCLight]())
 			}
 		}
 		StreamManager.manager.addOperation(retrieveRooms)
@@ -86,15 +100,14 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
 			let room = self.rooms[indexPath.row]
-			
 			StreamManager.manager.addOperation(XMPPRoomLightOperation.leaveRoom(room: room, completion: { (result) in
-				self.tableView.reloadData()
+				self.loadRooms()
 			}))
 		}
 		leave.backgroundColor = UIColor.orangeColor()
 		return [leave]
 	}
-	
+
 	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 		return true
 	}

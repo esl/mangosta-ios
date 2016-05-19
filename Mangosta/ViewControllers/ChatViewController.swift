@@ -8,6 +8,7 @@
 
 import UIKit
 import XMPPFramework
+import MBProgressHUD
 
 class ChatViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!

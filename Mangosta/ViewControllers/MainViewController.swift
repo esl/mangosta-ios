@@ -8,6 +8,7 @@
 
 import UIKit
 import XMPPFramework
+import MBProgressHUD
 
 class MainViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
@@ -84,7 +85,12 @@ class MainViewController: UIViewController {
 		var logButton: UIBarButtonItem = UIBarButtonItem()
 		
 		if let auth = AuthenticationModel.load() {
-			StreamManager.manager.begin(auth.jid.bare(), password: auth.password, serverName: auth.serverName)
+			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+			hud.labelText = "Connecting..."
+			
+			StreamManager.manager.begin(auth.jid.bare(), password: auth.password, serverName: auth.serverName) {
+				MBProgressHUD.hideHUDForView(self.view, animated: true)
+			}
 			
 			logButton = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logout(_:)))
 		} else {
