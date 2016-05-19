@@ -203,12 +203,12 @@
 		
 		
 		for (XMPPJID *userJID in users) {
-			NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"http://jabber.org/protocol/muc#admin"];
-			NSXMLElement *item = [NSXMLElement elementWithName:@"item"];
-			[item addAttributeWithName:@"affiliation" stringValue:@"member"];
-			[item addAttributeWithName:@"jid" stringValue:userJID.full];
-			
-			[query addChild:item];
+			NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:0#affiliations"];
+			NSXMLElement *user = [NSXMLElement elementWithName:@"user"];
+			[user addAttributeWithName:@"affiliation" stringValue:@"member"];
+			user.stringValue = userJID.full;
+
+			[query addChild:user];
 			[iq addChild:query];
 		}
 		
