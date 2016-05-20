@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "XMPPJID.h"
+#import "XMPPIQ.h"
 
 @import KissXML;
 
 @interface XMPPSlot : NSXMLElement
 
 - (id)initWithGet:(NSString *)put andGet:(NSString *)get;
+- (id)initWithIQ:(XMPPIQ *)iq;
 
 @property (nonatomic, strong, readonly) NSString *put;
 @property (nonatomic, strong, readonly) NSString *get;

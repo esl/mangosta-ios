@@ -11,11 +11,23 @@
 @implementation XMPPSlot
 
 - (id)initWithGet:(NSString *)put andGet:(NSString *)get {
-	
+
 	self = [super init];
 	if(self) {
-		get = get;
-		put = put;
+		_get = get;
+		_put = put;
+	}
+	return self;
+
+}
+
+- (id)initWithIQ:(XMPPIQ *)iq {
+
+	self = [super init];
+	if(self) {
+		NSXMLElement *slot = [iq elementForName:@"slot"];
+		_put = [slot elementForName:@"put"].stringValue;
+		_get = [slot elementForName:@"get"].stringValue;
 	}
 	return self;
 
