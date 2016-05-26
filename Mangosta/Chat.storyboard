@@ -69,15 +69,37 @@
                                     <action selector="showMUCDetails:" destination="ORb-oK-1Ea" eventType="touchUpInside" id="oeF-Fa-8hQ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ika-gS-hcV">
+                                <rect key="frame" x="530" y="413" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.24307585579999999" green="0.59701426020000004" blue="0.49965547129999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="dBd-Vx-Bix"/>
+                                    <constraint firstAttribute="height" constant="50" id="r90-e8-jgl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                <state key="normal" title="Form">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="fetchFormFields:" destination="ORb-oK-1Ea" eventType="touchUpInside" id="JFn-fR-j5f"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8oW-Qf-pxe" firstAttribute="leading" secondItem="ijV-px-9x3" secondAttribute="leading" id="0Qf-46-Zmt"/>
                             <constraint firstAttribute="trailing" secondItem="bJk-H0-4No" secondAttribute="trailing" constant="20" id="7e7-Tu-w29"/>
                             <constraint firstAttribute="trailing" secondItem="8oW-Qf-pxe" secondAttribute="trailing" id="J6w-EW-MRL"/>
+                            <constraint firstAttribute="trailing" secondItem="ika-gS-hcV" secondAttribute="trailing" constant="20" id="J9G-QE-bXs"/>
                             <constraint firstItem="AhD-bB-Uth" firstAttribute="top" secondItem="bJk-H0-4No" secondAttribute="bottom" constant="34" id="JPb-9k-ZC0"/>
                             <constraint firstItem="hAE-Do-TPr" firstAttribute="top" secondItem="AhD-bB-Uth" secondAttribute="bottom" id="K3x-e0-aIx"/>
                             <constraint firstAttribute="trailing" secondItem="AhD-bB-Uth" secondAttribute="trailing" id="QET-9J-m2V"/>
+                            <constraint firstItem="bJk-H0-4No" firstAttribute="top" secondItem="ika-gS-hcV" secondAttribute="bottom" constant="13" id="RT3-Va-yz9"/>
                             <constraint firstItem="AhD-bB-Uth" firstAttribute="top" secondItem="8oW-Qf-pxe" secondAttribute="bottom" id="VeD-YQ-fHN"/>
                             <constraint firstItem="AhD-bB-Uth" firstAttribute="leading" secondItem="ijV-px-9x3" secondAttribute="leading" id="Xop-hO-8hY"/>
                             <constraint firstItem="8oW-Qf-pxe" firstAttribute="top" secondItem="ijV-px-9x3" secondAttribute="top" id="fEm-Wm-1Dy"/>
