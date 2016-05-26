@@ -162,6 +162,21 @@ class ChatViewController: UIViewController {
 		membersController.members = members
 		self.navigationController?.presentViewController(membersNavController, animated: true, completion: nil)
 	}
+	
+	@IBAction func fetchFormFields(sender: AnyObject) {
+		let stream = StreamManager.manager.stream
+		let mamOperation = MAMOperation.retrieveForms(stream) { (result, forms) in
+			
+			let formString = forms.map({ (ff) -> String in
+				return "\(ff.0) \(ff.1)"
+			}).joinWithSeparator("\n")
+			
+			let alertController = UIAlertController(title: "Forms", message: formString, preferredStyle: UIAlertControllerStyle.Alert)
+			alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+			self.presentViewController(alertController, animated: true, completion: nil)
+		}
+		StreamManager.manager.addOperation(mamOperation)
+	}
 
 	@IBAction func fetchHistory(sender: AnyObject) {
 		let stream = StreamManager.manager.stream

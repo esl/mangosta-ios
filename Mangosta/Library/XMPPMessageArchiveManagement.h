@@ -1,8 +1,7 @@
 //
 //  XMPPMessageArchiveManagement.h
-//  Mangosta
 //
-//  Created by Tom Ryan on 4/8/16.
+//  Created by Andres Canal on 4/8/16.
 //  Copyright © 2016 Inaka. All rights reserved.
 //
 
@@ -16,12 +15,18 @@
 	XMPPIDTracker *xmppIDTracker;
 }
 
-- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withResultSet:(XMPPResultSet *)resultSet;
+- (void)retrieveMessageArchiveWithFields:(NSArray *)fields withResultSet:(XMPPResultSet *)resultSet;
+- (void)retrieveFormFields;
++ (DDXMLElement *)fieldWithVar:(NSString *)var type:(NSString *)type andValue:(NSString *)value;
 
 @end
 
-@protocol XMPPMessageArchiveManagementDelegate <NSObject>
+@protocol XMPPMessageArchiveManagementDelegate
+@optional
 - (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didFinishReceivingMessagesWithSet:(XMPPResultSet *)resultSet;
 - (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMAMMessage:(XMPPMessage *)message;
-- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveError:(DDXMLElement *)error;
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didFailToReceiveMessages:(XMPPIQ *)error;
+
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveFormFields:(XMPPIQ *)iq;
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didFailToReceiveFormFields:(XMPPIQ *)iq;
 @end
