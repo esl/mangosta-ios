@@ -18,7 +18,7 @@ static NSString *const XMPPHTTPFileUploadNamespace = @"urn:xmpp:http:upload";
 
 }
 
-- (void)requestSlotForFile:(NSString *) filename size:(NSInteger) size contentType:(NSString*) contentType;
+- (void)requestSlotForFilename:(NSString *) filename size:(NSInteger) size contentType:(NSString*) contentType;
 
 @end
 
