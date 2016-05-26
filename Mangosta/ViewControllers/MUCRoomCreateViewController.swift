@@ -10,31 +10,38 @@ import UIKit
 import CoreData
 import XMPPFramework
 
+protocol MUCRoomCreateViewControllerDelegate: class {
+	func createRoom(roomName: String, users: [XMPPJID]?)
+}
+
 class MUCRoomCreateViewController: UIViewController {
 	@IBOutlet internal var roomNameField: UITextField!
 	@IBOutlet internal var rosterTableView: UITableView!
 	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController!
-	
+
+	var usersForRoom = Set<XMPPJID>()
+	weak var delegate: MUCRoomCreateViewControllerDelegate?
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Create Room"
-		
+
 		let createButton = UIBarButtonItem(title: "Create", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(createRoom(_:)))
 		let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(cancelCreation(_:)))
-		
+
 		self.navigationItem.rightBarButtonItems = [cancelButton, createButton]
-		
+
 		self.setupFetchedResultsController()
 	}
 	
 	internal func createRoom(sender: UIBarButtonItem) {
-		
+		self.delegate?.createRoom(self.roomNameField.text!, users: Array(self.usersForRoom))
 	}
 	
 	internal func cancelCreation(sender: UIBarButtonItem) {
 		self.navigationController?.popViewControllerAnimated(true)
 	}
-	
+
 	internal func setupFetchedResultsController() {
 		if self.fetchedResultsController != nil {
 			self.fetchedResultsController = nil
@@ -51,9 +58,6 @@ class MUCRoomCreateViewController: UIViewController {
 			self.fetchedResultsController?.delegate = self
 			
 			try! self.fetchedResultsController?.performFetch()
-			
-			let objects = self.fetchedResultsController?.fetchedObjects
-			print(objects)
 			self.rosterTableView.reloadData()
 		}
 	}
@@ -85,15 +89,25 @@ extension MUCRoomCreateViewController: UITableViewDelegate, UITableViewDataSourc
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
 		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+			cell?.accessoryType = self.usersForRoom.contains(user.jid) ? .Checkmark : .None
 			cell.textLabel?.text = user.jidStr
 		} else {
 			cell.textLabel?.text = "nope"
 		}
-		
+
 		return cell
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
+		let cell = self.rosterTableView.cellForRowAtIndexPath(indexPath)
+		
+		if self.usersForRoom.contains(user.jid) {
+			self.usersForRoom.remove(user.jid)
+			cell?.accessoryType = .None
+		} else {
+			self.usersForRoom.insert(user.jid)
+			cell?.accessoryType = .Checkmark
+		}
 	}
 }

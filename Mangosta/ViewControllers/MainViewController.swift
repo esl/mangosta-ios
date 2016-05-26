@@ -8,6 +8,7 @@
 
 import UIKit
 import XMPPFramework
+import MBProgressHUD
 
 class MainViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
@@ -17,10 +18,32 @@ class MainViewController: UIViewController {
 		super.viewDidLoad()
 		self.title = "Roster"
 		
+		let addFriendButton = UIBarButtonItem(title: "Add Friend", style: UIBarButtonItemStyle.Done, target: self, action: #selector(addFriend(_:)))
+		self.navigationItem.rightBarButtonItem = addFriendButton
+		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
 		
 		self.startup()
+	}
+	
+	func addFriend(sender: UIBarButtonItem){
+		let alertController = UIAlertController(title: "Add Friend", message: "Enter the JID of the user.", preferredStyle: UIAlertControllerStyle.Alert)
+		alertController.addTextFieldWithConfigurationHandler(nil)
+
+		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+			alertController.dismissViewControllerAnimated(true, completion: nil)
+		}))
 		
+		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
+				alertController.dismissViewControllerAnimated(true, completion: nil)
+				return
+			}
+			// roster.addUser doesn't check if there is a roster... we have to fix this.
+			let userJID = XMPPJID.jidWithString(userJIDString)!
+			StreamManager.manager.streamController?.roster.addUser(userJID, withNickname: nil)
+		}))
+		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
 	internal func setupFetchedResultsController() {
@@ -39,25 +62,21 @@ class MainViewController: UIViewController {
 			self.fetchedResultsController?.delegate = self
 			
 			try! self.fetchedResultsController?.performFetch()
-			
-			let objects = self.fetchedResultsController?.fetchedObjects
-			print(objects)
 			self.tableView.reloadData()
 		}
 	}
 	
 	internal func logout(sender: AnyObject?) {
 		StreamManager.manager.disconnect()
-		
 		AuthenticationModel.remove()
 		
 		self.startup()
-		
-		
 	}
 	
 	internal func login(sender: AnyObject?) {
-		let loginController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+
+		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
 		loginController.loginDelegate = self
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
 	}
@@ -66,7 +85,12 @@ class MainViewController: UIViewController {
 		var logButton: UIBarButtonItem = UIBarButtonItem()
 		
 		if let auth = AuthenticationModel.load() {
-			StreamManager.manager.begin(auth.jid.bare(), password: auth.password, serverName: auth.serverName)
+			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+			hud.labelText = "Connecting..."
+			
+			StreamManager.manager.begin(auth.jid.bare(), password: auth.password, serverName: auth.serverName) {
+				MBProgressHUD.hideHUDForView(self.view, animated: true)
+			}
 			
 			logButton = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logout(_:)))
 		} else {
@@ -120,8 +144,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
-		
-		let chatController = self.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController!
+		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+
+		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
 		chatController.userJID = user.jid
 		
 		self.navigationController?.pushViewController(chatController, animated: true)

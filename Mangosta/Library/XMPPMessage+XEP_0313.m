@@ -30,17 +30,40 @@
 	return NO;
 }
 
+- (NSString *)resultId {
+
+	DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];
+	if(resultElement) {
+		return [resultElement attributeStringValueForName:@"id"];
+	}
+
+	return nil;
+}
+
+- (NSXMLElement *)delayElement {
+	DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];
+	return [[resultElement elementForName:@"forwarded"] elementForName: @"delay"];
+}
+
+- (NSString *)delayStamp {
+	NSXMLElement *delay = [self delayElement];
+	if (delay) {
+		return [delay attributeStringValueForName:@"stamp"];
+	}
+	return nil;
+}
+
 - (XMPPMessage *)messageForForwardedArchiveMessage {
 	if ([self elementForName:@"result" xmlns:XMLNS_XMPP_MAM]) {
 		DDXMLElement *resultElement = [self elementForName:@"result" xmlns:XMLNS_XMPP_MAM];
+		DDXMLElement *delayElement = [self delayElement];
 		DDXMLElement *internalMessage = [resultElement forwardedMessage];
-		//[XMPPMessage messageFromElement:[self elementForName:@"message"]];
-		DDXMLElement *delay = [[self elementForName:@"delay"] copy];
-		NSString *resultId = [self attributeStringValueForName:@"id"];
+		
+		NSString *resultId = [resultElement attributeStringValueForName:@"id"];
 		
 		XMPPMessage *message = [XMPPMessage messageFromElement:internalMessage];
-		if (delay) {
-			[message addChild:delay];
+		if (delayElement) {
+			[message addChild:[delayElement copy]];
 		}
 		if (resultId) {
 			[message addAttributeWithName:@"resultId" stringValue:resultId];

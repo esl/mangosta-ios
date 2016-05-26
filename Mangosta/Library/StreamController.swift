@@ -9,7 +9,7 @@
 import Foundation
 import XMPPFramework
 
-public class StreamController: NSObject, XMPPStreamDelegate {
+public class StreamController: NSObject {
 	public struct CapabilityTypes: OptionSetType {
 		public let rawValue: UInt16
 		
@@ -33,30 +33,28 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 	let rosterStorage: XMPPRosterCoreDataStorage
 	var rosterCompletion: RosterCompletion?
 	
-	let roomStorage: XMPPRoomCoreDataStorage
+	let mucStorage: XMPPMUCCoreDataStorage
+	let xmppMUCStorer: XMPPMUCStorer
 	
-	let streamCompletion: StreamCompletion
-	
-	let messageArchiving: XMPPMessageArchiving
+	let messageArchiving: XMPPMessageArchivingWithMAM
 	let messageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	
 	let messageArchiveManagement: XMPPMessageArchiveManagement
 	
-	let streamManagement: XMPPStreamManagement
-	let streamManagementStorage: XMPPStreamManagementMemoryStorage
 	
 	var capabilityTypes: [CapabilityTypes]
 	let capabilities: XMPPCapabilities
 	let capabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 	
+	let serviceDiscovery: XMPPServiceDiscovery
+	
 	let messageDeliveryReceipts: XMPPMessageDeliveryReceipts
 	
 	var messageCarbons: XMPPMessageCarbons
 	
-	public init(stream: XMPPStream, streamCompletion: StreamCompletion) {
+	public init(stream: XMPPStream) {
 		self.stream = stream
-		self.streamCompletion = streamCompletion
-		
+
 		let rosterFileName = "roster-\(stream.myJID.user).sqlite"
 		let messagingFileName = "messaging-\(stream.myJID.user).sqlite"
 		let roomFileName = "rooms-\(stream.myJID.user).sqlite"
@@ -65,35 +63,37 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		XMPPRosterCoreDataStorage.performSelector(Selector("unregisterDatabaseFileName:"), withObject: messagingFileName)
 
 		self.rosterStorage = XMPPRosterCoreDataStorage(databaseFilename: rosterFileName, storeOptions: nil)
-		self.roomStorage = XMPPRoomCoreDataStorage(databaseFilename: roomFileName, storeOptions: nil)
 		self.roster = XMPPRoster(rosterStorage: self.rosterStorage)
 		
-		self.messageArchivingStorage = XMPPMessageArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
-		self.messageArchiving = XMPPMessageArchiving(messageArchivingStorage: self.messageArchivingStorage)
+		self.mucStorage = XMPPMUCCoreDataStorage(databaseFilename: roomFileName, storeOptions: nil)
+		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.mucStorage)
+		
+		self.messageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
+		self.messageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.messageArchivingStorage)
 		
 		self.messageArchiveManagement = XMPPMessageArchiveManagement(dispatchQueue: dispatch_get_main_queue())
 		
 		self.capabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
 		self.capabilities = XMPPCapabilities(capabilitiesStorage: self.capabilitiesStorage)
 		
+		self.serviceDiscovery = XMPPServiceDiscovery()
+		
 		self.messageCarbons = XMPPMessageCarbons()
 		
 		self.messageDeliveryReceipts = XMPPMessageDeliveryReceipts()
 		
 		self.capabilityTypes = [.Roster, .MessageCarbons, .StreamManagement, .MessageDeliveryReceipts, .LastMessageCorrection, .ClientStateIndication, .MessageArchiving, .MessageArchiveManagement, .MUC]
-		
-		self.streamManagementStorage = XMPPStreamManagementMemoryStorage()
-		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
-		
+
 		super.init()
-		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplicationWillResignActiveNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
-		
+
 		self.finish()
 	}
 	
 	private func finish() {
+		
+		self.xmppMUCStorer.activate(self.stream)
+		self.stream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		
 		if self.capabilityTypes.contains(.MessageDeliveryReceipts) {
 			self.enableCapability(.MessageDeliveryReceipts)
 		}
@@ -103,8 +103,12 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		
 		self.capabilities.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.capabilities.activate(self.stream)
-		self.capabilities.fetchCapabilitiesForJID(self.stream.myJID)
+		self.capabilities.fetchCapabilitiesForJID(self.stream.myJID.domainJID())
 		self.capabilities.recollectMyCapabilities()
+		
+		self.serviceDiscovery.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.serviceDiscovery.activate(self.stream)
+		self.serviceDiscovery.fetchItemsForJID(self.stream.myJID.domainJID())
 		
 		if self.capabilityTypes.contains(CapabilityTypes.Roster) {
 			self.enableCapability(.Roster)
@@ -125,27 +129,12 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 		}
 		
 		if self.capabilityTypes.contains(.MUC) {
-			let roomListOperation = RoomListOperation.retrieveRooms() { rooms in
-				print(rooms)
-			}
-			
-			StreamManager.manager.addOperation(roomListOperation)
-		}
-		
-		if self.capabilityTypes.contains(.StreamManagement) {
-			self.streamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.streamManagement.activate(self.stream)
-			self.streamManagement.enableStreamManagementWithResumption(true, maxTimeout: 500)
-			self.streamManagement.autoResume = true
-		}
-		
-		if self.capabilityTypes.contains(.MessageArchiveManagement) {
-			self.messageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.messageArchiveManagement.activate(self.stream)
-			[self.messageArchiveManagement .retrieveMessageArchive()];
+
 		}
 
-		self.streamCompletion(stream: self.stream)
+		if self.capabilityTypes.contains(.MessageArchiveManagement) {
+			
+		}
 	}
 	
 	public func enableCapability(capability: CapabilityTypes) {
@@ -226,13 +215,8 @@ public class StreamController: NSObject, XMPPStreamDelegate {
 }
 
 extension StreamController: XMPPRosterDelegate {
-	// MARK: RosterDelegate
-	public func xmppRosterDidBeginPopulating(sender: XMPPRoster!, withVersion version: String!) {
-		//print(version)
-	}
 	
 	public func xmppRosterDidEndPopulating(sender: XMPPRoster!) {
-		print(self.rosterStorage.jidsForXMPPStream(self.stream))
 		if let completion = self.rosterCompletion {
 			self.roster.removeDelegate(self)
 			NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notifications.RosterWasUpdated, object: nil)
@@ -240,20 +224,10 @@ extension StreamController: XMPPRosterDelegate {
 		}
 	}
 	
-	public func xmppRoster(sender: XMPPRoster!, didReceiveRosterItem item: DDXMLElement!) {
-		print(item)
-	}
 }
 
-//MARK: -
-//MARK: XMPPCapabilitiesDelegate
 extension StreamController: XMPPCapabilitiesDelegate {
-	public func xmppCapabilities(sender: XMPPCapabilities!, collectingMyCapabilities query: DDXMLElement!) {
-		print(query)
-	}
-	public func xmppCapabilities(sender: XMPPCapabilities!, didDiscoverCapabilities caps: DDXMLElement!, forJID jid: XMPPJID!) {
-		print(caps)
-	}
+
 	public func myFeaturesForXMPPCapabilities(sender: XMPPCapabilities!) -> [AnyObject]! {
 		if self.capabilitiesStorage.areCapabilitiesKnownForJID(self.stream.myJID, xmppStream: self.stream) {
 			let val = self.capabilitiesStorage.capabilitiesForJID(self.stream.myJID, xmppStream: self.stream)
@@ -264,36 +238,27 @@ extension StreamController: XMPPCapabilitiesDelegate {
 	}
 }
 
+extension StreamController: XMPPStreamDelegate {
 
-//MARK: -
-//MARK: XMPPMessageCarbonsDelegate
+	public func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
+		print("Error: \(error)")
+	}
+
+	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
+		print(message)
+	}
+}
+
 extension StreamController: XMPPMessageCarbonsDelegate {
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, didReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
 		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: isOutgoing, xmppStream: self.stream)
 	}
 	
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, willReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
-		//
+
 	}
 }
 
-//MARK: -
-//MARK: XMPPMessageArchiveManagemet
-extension StreamController: XMPPMessageArchiveManagementDelegate {
-	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessageCount messageCount: Int) {
-		print("Got this message count: \(messageCount)")
-	}
-	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessages messageCount: Int) {
-		print("finished retrieving messages: \(messageCount)")
-	}
-	public func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMessage message: XMPPMessage!) {
-		let outgoing = message.from().bare() == self.stream.myJID.bare()
-		self.messageArchiving.xmppMessageArchivingStorage.archiveMessage(message, outgoing: outgoing, xmppStream: self.stream)
-	}
-}
-
-//MARK: -
-//MARK: XMPPStreamManagementDelegate
 extension StreamController: XMPPStreamManagementDelegate {
 	public func xmppStreamManagement(sender: XMPPStreamManagement!, wasEnabled enabled: DDXMLElement!) {
 		print("Stream Management Enabled")
@@ -301,23 +266,5 @@ extension StreamController: XMPPStreamManagementDelegate {
 	
 	public func xmppStreamManagement(sender: XMPPStreamManagement!, wasNotEnabled failed: DDXMLElement!) {
 		print("Stream Management was not enabled")
-	}
-}
-
-//MARK: -
-//MARK: UIApplicationDelegate
-extension StreamController: UIApplicationDelegate {
-	
-	public func applicationWillResignActive(application: UIApplication) {
-		self.saveStreamManagementState()
-	}
-	
-	public func applicationWillEnterForeground(application: UIApplication) {
-		self.streamManagement.loadState()
-		self.streamManagement.requestAck()
-	}
-	
-	private func saveStreamManagementState() {
-		self.streamManagement.saveState()
 	}
 }

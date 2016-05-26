@@ -10,7 +10,7 @@ import Foundation
 import XMPPFramework
 
 public typealias VoidCompletion = () -> ()
-public typealias StreamCompletion = (stream: XMPPStream?) -> ()
+public typealias StreamCompletion = ((stream: XMPPStream?) -> ())?
 public typealias BoolCompletion = (success: Bool) -> ()
 public typealias RoomListCompletion = ([XMPPRoom]?)->()
 public typealias RosterCompletion = ((result: Bool, roster: XMPPRoster) -> Void)

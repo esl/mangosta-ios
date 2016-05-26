@@ -7,21 +7,21 @@
 //
 
 #import <XMPPFramework/XMPPFramework.h>
+#import <XMPPFramework/XMPPResultSet.h>
 
 @class XMPPIDTracker;
 @class XMPPMessage;
 
 @interface XMPPMessageArchiveManagement : XMPPModule {
 	XMPPIDTracker *xmppIDTracker;
-	BOOL retrievingMessageArchive;
 }
 
-- (void)retrieveMessageArchive;
+- (void)retrieveMessageArchiveFrom:(XMPPJID *)userJID withResultSet:(XMPPResultSet *)resultSet;
+
 @end
 
 @protocol XMPPMessageArchiveManagementDelegate <NSObject>
-- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMessageCount:(NSInteger)messageCount;
-- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didFinishReceivingMessages:(NSInteger)messageCount;
-- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMessage:(XMPPMessage *)message;
-//- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveError:(DDXMLElement *)error;
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didFinishReceivingMessagesWithSet:(XMPPResultSet *)resultSet;
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMAMMessage:(XMPPMessage *)message;
+- (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveError:(DDXMLElement *)error;
 @end

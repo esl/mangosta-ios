@@ -87,11 +87,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Mangosta/CocoaAsyncSocket.framework"
   install_framework "Pods-Mangosta/CocoaLumberjack.framework"
   install_framework "Pods-Mangosta/KissXML.framework"
+  install_framework "Pods-Mangosta/MBProgressHUD.framework"
   install_framework "Pods-Mangosta/XMPPFramework.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Mangosta/CocoaAsyncSocket.framework"
   install_framework "Pods-Mangosta/CocoaLumberjack.framework"
   install_framework "Pods-Mangosta/KissXML.framework"
+  install_framework "Pods-Mangosta/MBProgressHUD.framework"
   install_framework "Pods-Mangosta/XMPPFramework.framework"
 fi

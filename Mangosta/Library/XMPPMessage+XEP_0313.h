@@ -12,6 +12,9 @@
 @interface XMPPMessage (XEP_0313)
 - (BOOL)isMessageArchive;
 
-- (XMPPMessage *)messageForForwardedArchiveMessage;
+- (XMPPMessage *) messageForForwardedArchiveMessage;
+- (NSString *) resultId;
+- (NSXMLElement *) delayElement;
+- (NSString *) delayStamp;
 
 @end

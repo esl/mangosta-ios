@@ -1,5 +1,5 @@
 //
-//  RoomListOperation.swift
+//  XMPPMUCOperation.swift
 //  Mangosta
 //
 //  Created by Tom Ryan on 3/18/16.
@@ -9,9 +9,12 @@
 import Foundation
 import XMPPFramework
 
-class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
+class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 	var completion: RoomListCompletion?
 	var muc: XMPPMUC
+	static let mucDomain = "muc.erlang-solutions.com"
+	static let mucLightDomain = "muclight.erlang-solutions.com"
+	var domain = ""
 	
 	private override init() {
 		self.muc = XMPPMUC(dispatchQueue: dispatch_get_main_queue())
@@ -21,16 +24,24 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 		self.muc.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 	
-	class func retrieveRooms(completion: RoomListCompletion = {_ in }) -> RoomListOperation {
-		let chatRoomListOperation = RoomListOperation()
+	class func retrieveRooms(completion: RoomListCompletion = {_ in }) -> XMPPMUCOperation {
+		let chatRoomListOperation = XMPPMUCOperation()
+		chatRoomListOperation.domain = XMPPMUCOperation.mucDomain
 		chatRoomListOperation.completion = completion
 		return chatRoomListOperation
 	}
-	
+
+	class func retrieveMUCLightRooms(completion: RoomListCompletion = {_ in }) -> XMPPMUCOperation {
+		let chatRoomListOperation = XMPPMUCOperation()
+		chatRoomListOperation.domain = XMPPMUCOperation.mucLightDomain
+		chatRoomListOperation.completion = completion
+		return chatRoomListOperation
+	}
+
 	override func execute() {
 		self.muc.activate(StreamManager.manager.stream)
 		self.muc.discoverServices()
-		self.muc.discoverRoomsForServiceNamed("muc.mongooseim.local")
+		self.muc.discoverRoomsForServiceNamed(self.domain)
 	}
 	
 	internal func finishAndRemoveDelegates(){
@@ -45,9 +56,16 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 			let rawJid = rawElement.attributeStringValueForName("jid")
 			let rawName = rawElement.attributeStringValueForName("name")
 			let jid = XMPPJID.jidWithString(rawJid)
-			let r = XMPPRoom(roomStorage: StreamManager.manager.streamController!.roomStorage, jid: jid)
-			r.setValue(rawName, forKey: "roomSubject")
-			parsedRooms.append(r)
+			
+			var r: XMPPRoom?
+			if jid.domain == XMPPMUCOperation.mucDomain {
+				r = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
+			} else if jid.domain == XMPPMUCOperation.mucLightDomain {
+				r = XMPPMUCLight(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
+			}
+
+			r!.setValue(rawName, forKey: "roomSubject")
+			parsedRooms.append(r!)
 		}
 		return parsedRooms
 	}
@@ -59,7 +77,7 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 			self.finishedRetrievingRooms(nil)
 			return
 		}
-		let parsedRooms = RoomListOperation.parseRoomsFromXMLRooms(xmlRooms)
+		let parsedRooms = XMPPMUCOperation.parseRoomsFromXMLRooms(xmlRooms)
 		self.finishedRetrievingRooms(parsedRooms)
 	}
 	
@@ -68,7 +86,7 @@ class RoomListOperation: AsyncOperation, XMPPMUCDelegate {
 	}
 	
 	func xmppMUC(sender: XMPPMUC!, roomJID: XMPPJID!, didReceiveInvitation message: XMPPMessage!) {
-		print(message)
+
 	}
 	
 	// MARK: - Private

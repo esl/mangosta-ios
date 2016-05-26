@@ -10,11 +10,11 @@ import Foundation
 import XMPPFramework
 
 public class StreamManager : NSObject {
-	//MARK: Private variables
+	
 	private var jidString: String?
 	private var password: String?
 	private var serverName: String?
-	//MARK: Public variables
+	
 	public var streamController: StreamController?
 	public static let manager = StreamManager()
 	public var stream: XMPPStream!
@@ -23,12 +23,14 @@ public class StreamManager : NSObject {
 	public var carbonsEnabled = true
 	public var clientState = ClientState()
 	
-	//MARK: Internal Variables
 	internal var isAttemptingConnection = false
 	internal var queue: NSOperationQueue
 	internal var connectionQueue: NSOperationQueue
+
+	let streamManagement: XMPPStreamManagement
+	let streamManagementStorage: XMPPStreamManagementDiscStorage
 	
-	//MARK: -
+	
 	//MARK: Private functions
 	private override init() {
 		self.queue = NSOperationQueue()
@@ -38,10 +40,14 @@ public class StreamManager : NSObject {
 		self.connectionQueue = NSOperationQueue()
 		self.connectionQueue.maxConcurrentOperationCount = 2
 
+		self.streamManagementStorage = XMPPStreamManagementDiscStorage()
+		self.streamManagement = XMPPStreamManagement(storage: self.streamManagementStorage)
+		
 		self.onlineJIDs = []
-		
+
 		super.init()
-		
+
+		self.streamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 	
 	//MARK: Internal functions
@@ -49,14 +55,9 @@ public class StreamManager : NSObject {
 		self.isAttemptingConnection = false
 		self.queue.suspended = false
 		
-		self.streamController = StreamController(stream: self.stream) { completion in
-			print("done")
-		}
-		
+		self.streamController = StreamController(stream: self.stream)
 		self.becomeAvailable()
-		
 		self.connectCompletion?()
-
 		self.connectCompletion = nil
 	}
 	
@@ -99,9 +100,8 @@ public class StreamManager : NSObject {
 			} else {
 				self.isAttemptingConnection = false
 			}
-			
-			
 		}
+		connectOperation.streamManagement = streamManagement
 		self.connectionQueue.addOperation(connectOperation)
 	}
 	
@@ -123,9 +123,9 @@ public class StreamManager : NSObject {
 	public func disconnect() {
 		self.sendPresence(false)
 		self.isAttemptingConnection = false
+		self.streamManagement.storage.removeAllForStream(self.stream)
 		self.streamController?.roster.removeDelegate(self)
 		self.streamController?.rosterStorage.clearAllResourcesForXMPPStream(self.stream)
-		self.streamController?.streamManagement.deleteState()
 		self.streamController = nil
 		
 		let disconnectOperation = StreamOperation.disconnectStream(self.stream) { (stream) in
@@ -155,7 +155,7 @@ public class StreamManager : NSObject {
 	}
 	
 	public func messageCarbonsEnabled() -> Bool {
-		return self.streamController!.messageCarbons.messageCarbonsEnabled
+		return self.streamController != nil ? self.streamController!.messageCarbons.messageCarbonsEnabled : false
 	}
 	
 	public func becomeAvailable() {
@@ -189,20 +189,6 @@ public class StreamManager : NSObject {
 //MARK: -
 //MARK: XMPPStreamDelegate
 extension StreamManager : XMPPStreamDelegate {
-	public func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
-		print(message)
-	}
-	
-	public func xmppStreamDidConnect(sender: XMPPStream!) {
-		if let stream = sender, password = self.password {
-			let authenticationOperation = StreamOperation.authenticateStream(stream, password: password) { (stream) -> Void in
-				if let _ = stream {
-					self.onConnectOrReconnect()
-				}
-			}
-			self.connectionQueue.addOperation(authenticationOperation)
-		}
-	}
 	
 	public func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
 		self.queue.suspended = true
@@ -219,23 +205,7 @@ extension StreamManager : XMPPStreamDelegate {
 			}
 		}
 	}
-	
-	public func xmppStream(sender: XMPPStream!, didReceiveIQ iq: XMPPIQ!) -> Bool {
-		print(iq)
-		
-		return true
-	}
-	
-	public func xmppStream(sender: XMPPStream!, didSendCustomElement element: DDXMLElement!) {
-		print("sent custom element: \(element)")
-	}
-	
-	public func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
-		print(error)
-	}
-	public func xmppStream(sender: XMPPStream!, didSendIQ iq: XMPPIQ!) {
-		print("sent iq: \(iq)")
-	}
+
 }
 
 
