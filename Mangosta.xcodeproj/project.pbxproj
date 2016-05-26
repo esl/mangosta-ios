@@ -36,6 +36,8 @@
 		C1072DB21CEB95F90007B99E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB11CEB95F90007B99E /* ViewController.swift */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		C1072DB61CEC9C5D0007B99E /* XMPPRoomLightOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB51CEC9C5D0007B99E /* XMPPRoomLightOperation.swift */; };
+		C1072DBA1CEE4D890007B99E /* XMPPHTTPFileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB91CEE4D890007B99E /* XMPPHTTPFileUpload.m */; };
+		C1072DBD1CEE50880007B99E /* XMPPSlot.m in Sources */ = {isa = PBXBuildFile; fileRef = C1072DBC1CEE50880007B99E /* XMPPSlot.m */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
 		C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
 		C135D9151CE25A0E00225EC7 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9141CE25A0E00225EC7 /* Settings.storyboard */; };
@@ -113,6 +115,10 @@
 		C1072DB11CEB95F90007B99E /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
 		C1072DB51CEC9C5D0007B99E /* XMPPRoomLightOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPRoomLightOperation.swift; sourceTree = "<group>"; };
+		C1072DB81CEE4D890007B99E /* XMPPHTTPFileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPHTTPFileUpload.h; sourceTree = "<group>"; };
+		C1072DB91CEE4D890007B99E /* XMPPHTTPFileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPHTTPFileUpload.m; sourceTree = "<group>"; };
+		C1072DBB1CEE50880007B99E /* XMPPSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPSlot.h; sourceTree = "<group>"; };
+		C1072DBC1CEE50880007B99E /* XMPPSlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPSlot.m; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
 		C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoom+ExtraActions.m"; sourceTree = "<group>"; };
 		C135D9121CE257B700225EC7 /* LogIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LogIn.storyboard; sourceTree = "<group>"; };
@@ -213,6 +219,7 @@
 				814D4CA61C970EA800AB28FA /* StreamManager.swift */,
 				811C5AA71CAABB40008346FE /* StreamController.swift */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
+				C1072DB71CEE4C750007B99E /* XEP-0363 */,
 				C160B9131CCFD3EC00ADAD99 /* MUCLight */,
 				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
 				8142B8331CB7EFFD0095FCF1 /* XEP-0313 */,
@@ -324,6 +331,17 @@
 				D7586712F63B46A549B9633A /* Pods-Mangosta.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C1072DB71CEE4C750007B99E /* XEP-0363 */ = {
+			isa = PBXGroup;
+			children = (
+				C1072DB81CEE4D890007B99E /* XMPPHTTPFileUpload.h */,
+				C1072DB91CEE4D890007B99E /* XMPPHTTPFileUpload.m */,
+				C1072DBB1CEE50880007B99E /* XMPPSlot.h */,
+				C1072DBC1CEE50880007B99E /* XMPPSlot.m */,
+			);
+			name = "XEP-0363";
 			sourceTree = "<group>";
 		};
 		C12EA9511CDD16EF00F29606 /* XEP-0045 */ = {
@@ -585,6 +603,7 @@
 				81F607B31C9C673800B1D269 /* MessageCarbonOperation.swift in Sources */,
 				8132669F1CA178E800D4EDC0 /* SettingsViewController.swift in Sources */,
 				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
+				C1072DBA1CEE4D890007B99E /* XMPPHTTPFileUpload.m in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
 				C135D9251CE4F02E00225EC7 /* MAMOperation.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
@@ -596,6 +615,7 @@
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				C135D92B1CEB4DAD00225EC7 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
 				8142B8361CB7F02F0095FCF1 /* XMPPMessageArchiveManagement.m in Sources */,
+				C1072DBD1CEE50880007B99E /* XMPPSlot.m in Sources */,
 				811C5AA81CAABB40008346FE /* StreamController.swift in Sources */,
 				C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */,
 				C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */,
