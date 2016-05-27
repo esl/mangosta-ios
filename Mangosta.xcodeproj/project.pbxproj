@@ -52,6 +52,8 @@
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
 		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
 		C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
+		C1FF91F31CF8880C00C88DEA /* DiscoverOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FF91F21CF8880C00C88DEA /* DiscoverOperation.swift */; };
+		C1FF91F91CF8BE6A00C88DEA /* XMPPRoomLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C1FF91F81CF8BE6A00C88DEA /* XMPPRoomLight.m */; };
 		D335FF41B39E6529CB2B8E8A /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030FC81F912655F12909CC55 /* Pods_Mangosta.framework */; };
 		E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */ = {isa = PBXBuildFile; fileRef = E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */; };
 		E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */; };
@@ -139,6 +141,9 @@
 		C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCStorer.m; sourceTree = "<group>"; };
 		C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCCoreDataStorage.h; sourceTree = "<group>"; };
 		C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCCoreDataStorage.m; sourceTree = "<group>"; };
+		C1FF91F21CF8880C00C88DEA /* DiscoverOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverOperation.swift; sourceTree = "<group>"; };
+		C1FF91F71CF8BE6A00C88DEA /* XMPPRoomLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPRoomLight.h; sourceTree = "<group>"; };
+		C1FF91F81CF8BE6A00C88DEA /* XMPPRoomLight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPRoomLight.m; sourceTree = "<group>"; };
 		C9DC3204A61F8A334C3E45FE /* Pods-Mangosta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.debug.xcconfig"; sourceTree = "<group>"; };
 		D7586712F63B46A549B9633A /* Pods-Mangosta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.release.xcconfig"; sourceTree = "<group>"; };
 		E037D85A1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMessageArchivingWithMAM.h; sourceTree = "<group>"; };
@@ -249,6 +254,7 @@
 				81473D911CC10E7F006FCEC9 /* XMPPRoomOperation.swift */,
 				C135D9241CE4F02E00225EC7 /* MAMOperation.swift */,
 				C1072DB51CEC9C5D0007B99E /* XMPPRoomLightOperation.swift */,
+				C1FF91F21CF8880C00C88DEA /* DiscoverOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -373,6 +379,8 @@
 			children = (
 				C160B9141CCFD45A00ADAD99 /* XMPPMUCLight.h */,
 				C160B9151CCFD45A00ADAD99 /* XMPPMUCLight.m */,
+				C1FF91F71CF8BE6A00C88DEA /* XMPPRoomLight.h */,
+				C1FF91F81CF8BE6A00C88DEA /* XMPPRoomLight.m */,
 			);
 			name = MUCLight;
 			sourceTree = "<group>";
@@ -590,8 +598,10 @@
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				814D4CB21C9C1DE600AB28FA /* RosterOperation.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
+				C1FF91F31CF8880C00C88DEA /* DiscoverOperation.swift in Sources */,
 				814D4CAE1C984A8400AB28FA /* StreamOperation.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
+				C1FF91F91CF8BE6A00C88DEA /* XMPPRoomLight.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				81F607B51C9C7FB100B1D269 /* XMPPMUCOperation.swift in Sources */,
 				C1072DB21CEB95F90007B99E /* ViewController.swift in Sources */,

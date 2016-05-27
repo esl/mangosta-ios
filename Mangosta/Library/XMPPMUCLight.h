@@ -10,16 +10,16 @@
 
 @interface XMPPMUCLight : XMPPRoom
 
-- (void)leaveMUCLightRoom:(XMPPJID *)userJID;
-- (void)addUsers:(NSArray *)users;
-- (void)setMyRoomJID:(XMPPJID*)userJID;
-- (void)setRoomSubject:(NSString*)subject;
-- (void)fetchAllMembersList;
-- (void)sendMessageWithBody:(NSString *)text;
-- (void)createMUCLightRoom:(NSString *)roomName members:(NSArray *) members;
+- (void)kleaveMUCLightRoom:(XMPPJID *)userJID;
+- (void)kaddUsers:(NSArray *)users;
+- (void)ksetMyRoomJID:(XMPPJID*)userJID;
+- (void)ksetRoomSubject:(NSString*)subject;
+- (void)kfetchAllMembersList;
+- (void)ksendMessageWithBody:(NSString *)text;
+- (void)kcreateMUCLightRoom:(NSString *)roomName members:(NSArray *) members;
 @end
 
-@protocol XMPPMUCLightDelegate<XMPPRoomDelegate>
+@protocol kXMPPMUCLightDelegate<XMPPRoomDelegate>
 @optional
 
 - (void)xmppRoom:(XMPPMUCLight *)sender didLeftMUCLightRoom:(XMPPIQ*) iqResult;

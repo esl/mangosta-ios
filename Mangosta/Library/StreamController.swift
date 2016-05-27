@@ -108,7 +108,8 @@ public class StreamController: NSObject {
 		
 		self.serviceDiscovery.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.serviceDiscovery.activate(self.stream)
-		self.serviceDiscovery.fetchItemsForJID(self.stream.myJID.domainJID())
+		self.serviceDiscovery.discoverItemsAssociatedWith(self.stream.myJID.domainJID())
+		self.serviceDiscovery.discoverInformationAbout(self.stream.myJID.domainJID())
 		
 		if self.capabilityTypes.contains(CapabilityTypes.Roster) {
 			self.enableCapability(.Roster)
@@ -256,6 +257,19 @@ extension StreamController: XMPPMessageCarbonsDelegate {
 	
 	public func xmppMessageCarbons(xmppMessageCarbons: XMPPMessageCarbons!, willReceiveMessage message: XMPPMessage!, outgoing isOutgoing: Bool) {
 
+	}
+}
+
+extension StreamController: XMPPServiceDiscoveryDelegate {
+
+	public func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, didDiscoverItems items: [AnyObject]!) {
+		print("Items:")
+		print(items)
+	}
+	
+	public func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, didDiscoverInformation items: [AnyObject]!) {
+		print("Info:")
+		print(items)
 	}
 }
 

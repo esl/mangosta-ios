@@ -11,3 +11,4 @@
 #import "XMPPMessageArchivingWithMAM.h"
 #import "XMPPMessageAndMAMArchivingCoreDataStorage.h"
 #import "XMPPMUCLight.h"
+#import "XMPPRoomLight.h"

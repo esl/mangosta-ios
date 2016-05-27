@@ -14,7 +14,7 @@ class ChatViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
 
-	var room: XMPPRoom?
+	var room: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
 	var lastID = ""
@@ -24,7 +24,7 @@ class ChatViewController: UIViewController {
 		var rightBarButtonItems: [UIBarButtonItem] = []
 		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
 		
-		self.title = "Chatting with \(self.userJID?.user ?? self.room?.roomSubject ?? "")"
+//		self.title = "Chatting with \(self.userJID?.user ?? self.room?.roomSubject ?? "")"
 
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
@@ -121,7 +121,7 @@ class ChatViewController: UIViewController {
 			// roster.addUser doesn't check if there is a roster... we have to fix this.
 			let userJID = XMPPJID.jidWithString(userJIDString)!
 			
-			if let room = self.room as? XMPPMUCLight {
+			if let room = self.room as? XMPPRoomLight {
 				StreamManager.manager.addOperation(XMPPRoomLightOperation.invite(room: room, userJIDs: [userJID], completion: { (result) in
 					print("Success!")
 				}))
