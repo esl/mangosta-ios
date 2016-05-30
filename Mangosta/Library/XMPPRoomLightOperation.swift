@@ -21,7 +21,6 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 	var roomJID: XMPPJID?
 	
 	override func execute() {
-		let roomJID =  self.roomJID ?? XMPPJID.jidWithUser(XMPPStream.generateUUID(), domain: self.domain, resource: nil)
 
 		if let xmppRoom = self.room where xmppRoom.xmppStream == nil {
 			xmppRoom.activate(StreamManager.manager.stream)
@@ -55,12 +54,12 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 	}
 
 	func xmppRoomLight(sender: XMPPRoomLight!, didFetchMembersList items: [AnyObject]!) {
-//		let members = iq.elementForName("query").elementsForName("user").map { (child) -> (String, String) in
-//			let ch = child as! DDXMLElement
-//			return (ch.stringValue(), "")
-//		}
+		let members = items.map { (child) -> (String, String) in
+			let ch = child as! DDXMLElement
+			return (ch.attributeForName("affiliation").stringValue(), ch.stringValue())
+		}
 		
-		self.memberListCompletion?(result: true,  members: nil)
+		self.memberListCompletion?(result: true,  members: members)
 		self.finishAndRemoveDelegates()
 	}
 	

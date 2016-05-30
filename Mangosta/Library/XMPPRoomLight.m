@@ -271,7 +271,7 @@ enum XMPPRoomLightState
 	if ([[iq type] isEqualToString:@"result"]){
 		NSXMLElement *query = [iq elementForName:@"query"
 										   xmlns:XMPPRoomLightAffiliations];
-		NSArray *items = [query elementsForName:@"item"];
+		NSArray *items = [query elementsForName:@"user"];
 		
 		[multicastDelegate xmppRoomLight:self didFetchMembersList:items];
 	}else{

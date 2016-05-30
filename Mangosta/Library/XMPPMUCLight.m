@@ -11,8 +11,10 @@
 #import "XMPPLogging.h"
 #import "XMPPIDTracker.h"
 #import "XMPPMUCLight.h"
+#import "XMPPRoomLight.h"
 
 NSString *const XMPPDiscoverItemsNamespace = @"http://jabber.org/protocol/disco#items";
+NSString *const XMPPRoomLightAffiliations = @"urn:xmpp:muclight:0#affiliations";
 NSString *const XMPPMUCErrorDomain = @"XMPPMUCErrorDomain";
 
 @implementation XMPPMUCLight
@@ -124,15 +126,70 @@ NSString *const XMPPMUCErrorDomain = @"XMPPMUCErrorDomain";
 		dispatch_async(moduleQueue, block);
 }
 
-- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
-{
-	NSString *type = [iq type];
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark XMPPStream Delegate
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
+
+	//  <message from='coven@muclight.shakespeare.lit'
+	//           to='user2@shakespeare.lit'
+	//           type='groupchat'
+	//           id='createnotif'>
+	//      <x xmlns='urn:xmpp:muclight:0#affiliations'>
+	//          <version>aaaaaaa</version>
+	//          <user affiliation='member'>user2@shakespeare.lit</user>
+	//      </x>
+	//      <body />
+	//  </message>
+
+	XMPPJID *from = message.from;
+	NSXMLElement *x = [message elementForName:@"x" xmlns:XMPPRoomLightAffiliations];
+	NSXMLElement *user  = [x elementForName:@"user"];
+	NSString *affiliation = [user attributeForName:@"affiliation"].stringValue;
 	
-	if ([type isEqualToString:@"result"] || [type isEqualToString:@"error"])
-	{
+	if (affiliation) {
+		[multicastDelegate xmppMUCLight:self changedAffiliation:affiliation roomJID:from];
+	}
+}
+
+- (void)xmppStream:(XMPPStream *)sender didRegisterModule:(id)module {
+	
+	if ([module isKindOfClass:[XMPPRoomLight class]]){
+		
+		XMPPJID *roomJID = [(XMPPRoomLight *)module roomJID];
+		
+		[rooms addObject:roomJID];
+	}
+}
+
+- (void)xmppStream:(XMPPStream *)sender willUnregisterModule:(id)module {
+	
+	if ([module isKindOfClass:[XMPPRoomLight class]]){
+		
+		XMPPJID *roomJID = [(XMPPRoomLight *)module roomJID];
+		
+		// It's common for the room to get deactivated and deallocated before
+		// we've received the goodbye presence from the server.
+		// So we're going to postpone for a bit removing the roomJID from the list.
+		// This way the isMUCRoomElement will still remain accurate
+		// for presence elements that may arrive momentarily.
+		
+		double delayInSeconds = 30.0;
+		dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+		dispatch_after(popTime, moduleQueue, ^{ @autoreleasepool {
+			[rooms removeObject:roomJID];
+		}});
+	}
+}
+
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq {
+	NSString *type = [iq type];
+
+	if ([type isEqualToString:@"result"] || [type isEqualToString:@"error"]) {
 		return [xmppIDTracker invokeForID:[iq elementID] withObject:iq];
 	}
-	
+
 	return NO;
 }
 

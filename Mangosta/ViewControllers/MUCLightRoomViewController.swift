@@ -101,7 +101,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
 			let room = self.rooms[indexPath.row]
 			StreamManager.manager.addOperation(XMPPRoomLightOperation.leaveRoom(room: room, completion: { (result) in
-//				self.loadRooms()
+				self.loadRooms()
 			}))
 		}
 		leave.backgroundColor = UIColor.orangeColor()

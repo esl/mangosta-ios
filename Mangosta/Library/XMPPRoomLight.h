@@ -14,6 +14,7 @@
 
 	XMPPIDTracker *responseTracker;
 	uint16_t state;
+
 }
 
 @property (readonly, nonatomic, strong) XMPPJID *roomJID;
