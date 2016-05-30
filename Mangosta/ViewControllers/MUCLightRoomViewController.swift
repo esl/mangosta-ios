@@ -13,7 +13,7 @@ import MBProgressHUD
 class MUCLightRoomViewController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
-	var rooms = [XMPPMUCLight]()
+	var rooms = [XMPPRoomLight]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,31 +27,31 @@ class MUCLightRoomViewController: UIViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		self.loadRooms(true)
+//		self.loadRooms(true)
 	}
-	
-	func loadRooms(hud: Bool = false) {
-		if hud {
-			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-			hud.labelText = "Getting rooms..."
-		}
-
-		let retrieveRooms = XMPPMUCOperation.retrieveMUCLightRooms { rooms in
-			MBProgressHUD.hideHUDForView(self.view, animated: true)
-			
-			if let receivedRooms = rooms as? [XMPPMUCLight]{
-				self.xmppRoomsHandling(receivedRooms)
-			} else {
-				self.xmppRoomsHandling([XMPPMUCLight]())
-			}
-		}
-		StreamManager.manager.addOperation(retrieveRooms)
-	}
-	
-	func xmppRoomsHandling(rooms: [XMPPMUCLight]) {
-		self.rooms = rooms
-		self.tableView.reloadData()
-	}
+//	
+//	func loadRooms(hud: Bool = false) {
+//		if hud {
+//			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+//			hud.labelText = "Getting rooms..."
+//		}
+//
+//		let retrieveRooms = XMPPMUCOperation.retrieveMUCLightRooms { rooms in
+//			MBProgressHUD.hideHUDForView(self.view, animated: true)
+//			
+//			if let receivedRooms = rooms as? [XMPPMUCLight]{
+//				self.xmppRoomsHandling(receivedRooms)
+//			} else {
+//				self.xmppRoomsHandling([XMPPMUCLight]())
+//			}
+//		}
+//		StreamManager.manager.addOperation(retrieveRooms)
+//	}
+//	
+//	func xmppRoomsHandling(rooms: [XMPPMUCLight]) {
+//		self.rooms = rooms
+//		self.tableView.reloadData()
+//	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "createRoomViewController" {
@@ -81,7 +81,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		let room = self.rooms[indexPath.row]
-		cell.textLabel?.text = room.roomSubject
+		cell.textLabel?.text = "Test"
 
 		return cell
 	}
@@ -91,7 +91,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
-		chatController.room = room
+		chatController.roomLight = room
 
 		self.navigationController?.pushViewController(chatController, animated: true)
 	}
@@ -101,7 +101,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
 			let room = self.rooms[indexPath.row]
 			StreamManager.manager.addOperation(XMPPRoomLightOperation.leaveRoom(room: room, completion: { (result) in
-				self.loadRooms()
+//				self.loadRooms()
 			}))
 		}
 		leave.backgroundColor = UIColor.orangeColor()

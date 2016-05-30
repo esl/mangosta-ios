@@ -14,7 +14,8 @@ class ChatViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
 
-	var room: XMPPRoomLight?
+	var room: XMPPRoom?
+	var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
 	var lastID = ""
@@ -121,8 +122,8 @@ class ChatViewController: UIViewController {
 			// roster.addUser doesn't check if there is a roster... we have to fix this.
 			let userJID = XMPPJID.jidWithString(userJIDString)!
 			
-			if let room = self.room as? XMPPRoomLight {
-				StreamManager.manager.addOperation(XMPPRoomLightOperation.invite(room: room, userJIDs: [userJID], completion: { (result) in
+			if self.roomLight != nil {
+				StreamManager.manager.addOperation(XMPPRoomLightOperation.invite(room: self.roomLight!, userJIDs: [userJID], completion: { (result) in
 					print("Success!")
 				}))
 			} else {
@@ -137,8 +138,8 @@ class ChatViewController: UIViewController {
 	
 	@IBAction func showMUCDetails(sender: AnyObject) {
 
-		if let room = self.room as? XMPPMUCLight {
-			let fetchMUCLightMemberList = XMPPRoomLightOperation.fetchMembersList(room: room, completion: { (result, members) in
+		if self.roomLight != nil {
+			let fetchMUCLightMemberList = XMPPRoomLightOperation.fetchMembersList(room: self.roomLight!, completion: { (result, members) in
 				if let membersToShow = members {
 					self.showMembersViewController(membersToShow)
 				}
