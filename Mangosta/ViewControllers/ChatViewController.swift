@@ -25,7 +25,10 @@ class ChatViewController: UIViewController {
 		var rightBarButtonItems: [UIBarButtonItem] = []
 		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
 		
-//		self.title = "Chatting with \(self.userJID?.user ?? self.room?.roomSubject ?? "")"
+		
+		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname) {
+			self.title = "Chatting with \(roomSubject)"
+		}
 
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
@@ -41,7 +44,10 @@ class ChatViewController: UIViewController {
 	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
 		if let streamController = StreamManager.manager.streamController, let context = streamController.mucStorage.mainThreadManagedObjectContext {
 			let entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: context)
-			let predicate = NSPredicate(format: "roomJIDStr = %@", self.room!.roomJID.bare())
+			
+			let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
+			
+			let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
 			let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: false)
 			
 			let request = NSFetchRequest()
@@ -95,7 +101,7 @@ class ChatViewController: UIViewController {
 				message = messageText
 			}
 
-			let receiverJID = self.userJID ?? self.room?.roomJID
+			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
@@ -181,7 +187,7 @@ class ChatViewController: UIViewController {
 
 	@IBAction func fetchHistory(sender: AnyObject) {
 		let stream = StreamManager.manager.stream
-		let jid = self.userJID ?? self.room?.roomJID
+		let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let mamOperation = MAMOperation.retrieveHistory(stream, jid: jid!, pageSize: 5, lastID: self.lastID) { (result, lastID) in
 			if let lID = lastID {
 				self.lastID = lID

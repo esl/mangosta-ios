@@ -19,6 +19,17 @@ enum XMPPRoomLightState
 
 @implementation XMPPRoomLight
 
+- (id)initWithJID:(XMPPJID *)jid roomname:(NSString *) roomname {
+	if ((self = [super initWithDispatchQueue:nil]))
+	{
+		_domain = jid.domain;
+		_roomname = roomname;
+		_roomJID = jid;
+		state = kXMPPRoomLightStateNone;
+	}
+	return self;
+}
+
 - (id)initWithDomain:(NSString *)domain {
 
 	if ((self = [super initWithDispatchQueue:nil]))

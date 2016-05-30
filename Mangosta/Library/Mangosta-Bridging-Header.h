@@ -10,5 +10,5 @@
 #import "XMPPMessage+XEP_0313.h"
 #import "XMPPMessageArchivingWithMAM.h"
 #import "XMPPMessageAndMAMArchivingCoreDataStorage.h"
-#import "XMPPMUCLight.h"
 #import "XMPPRoomLight.h"
+#import "XMPPMUCLight.h"

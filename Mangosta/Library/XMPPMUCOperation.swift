@@ -13,7 +13,6 @@ class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 	var completion: RoomListCompletion?
 	var muc: XMPPMUC
 	static let mucDomain = "muc.erlang-solutions.com"
-	static let mucLightDomain = "muclight.erlang-solutions.com"
 	var domain = ""
 	
 	private override init() {
@@ -27,13 +26,6 @@ class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 	class func retrieveRooms(completion: RoomListCompletion = {_ in }) -> XMPPMUCOperation {
 		let chatRoomListOperation = XMPPMUCOperation()
 		chatRoomListOperation.domain = XMPPMUCOperation.mucDomain
-		chatRoomListOperation.completion = completion
-		return chatRoomListOperation
-	}
-
-	class func retrieveMUCLightRooms(completion: RoomListCompletion = {_ in }) -> XMPPMUCOperation {
-		let chatRoomListOperation = XMPPMUCOperation()
-		chatRoomListOperation.domain = XMPPMUCOperation.mucLightDomain
 		chatRoomListOperation.completion = completion
 		return chatRoomListOperation
 	}
@@ -60,8 +52,6 @@ class XMPPMUCOperation: AsyncOperation, XMPPMUCDelegate {
 			var r: XMPPRoom?
 			if jid.domain == XMPPMUCOperation.mucDomain {
 				r = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
-			} else if jid.domain == XMPPMUCOperation.mucLightDomain {
-				r = XMPPMUCLight(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
 			}
 
 			r!.setValue(rawName, forKey: "roomSubject")

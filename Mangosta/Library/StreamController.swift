@@ -263,13 +263,9 @@ extension StreamController: XMPPMessageCarbonsDelegate {
 extension StreamController: XMPPServiceDiscoveryDelegate {
 
 	public func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, didDiscoverItems items: [AnyObject]!) {
-		print("Items:")
-		print(items)
 	}
 	
 	public func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, didDiscoverInformation items: [AnyObject]!) {
-		print("Info:")
-		print(items)
 	}
 }
 

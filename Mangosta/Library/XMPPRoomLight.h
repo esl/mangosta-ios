@@ -18,8 +18,10 @@
 
 @property (readonly, nonatomic, strong) XMPPJID *roomJID;
 @property (readonly, nonatomic, strong) NSString *domain;
+@property (readonly, nonatomic, strong) NSString *roomname;
 
 - (id)initWithDomain:(NSString *)domain;
+- (id)initWithJID:(XMPPJID *)jid roomname:(NSString *) roomname;
 - (void)createRoomLight:(NSString *)roomName members:(NSArray *) members;
 - (void)leaveRoomLight;
 - (void)addUsers:(NSArray *)users;

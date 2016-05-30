@@ -27,31 +27,31 @@ class MUCLightRoomViewController: UIViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		
-//		self.loadRooms(true)
+		self.loadRooms(true)
 	}
-//	
-//	func loadRooms(hud: Bool = false) {
-//		if hud {
-//			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-//			hud.labelText = "Getting rooms..."
-//		}
-//
-//		let retrieveRooms = XMPPMUCOperation.retrieveMUCLightRooms { rooms in
-//			MBProgressHUD.hideHUDForView(self.view, animated: true)
-//			
-//			if let receivedRooms = rooms as? [XMPPMUCLight]{
-//				self.xmppRoomsHandling(receivedRooms)
-//			} else {
-//				self.xmppRoomsHandling([XMPPMUCLight]())
-//			}
-//		}
-//		StreamManager.manager.addOperation(retrieveRooms)
-//	}
-//	
-//	func xmppRoomsHandling(rooms: [XMPPMUCLight]) {
-//		self.rooms = rooms
-//		self.tableView.reloadData()
-//	}
+	
+	func loadRooms(hud: Bool = false) {
+		if hud {
+			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+			hud.labelText = "Getting rooms..."
+		}
+
+		let retrieveRooms = XMPPMUCLightOperation.retrieveRooms{ rooms in
+			MBProgressHUD.hideHUDForView(self.view, animated: true)
+			
+			if let receivedRooms = rooms {
+				self.xmppRoomsHandling(receivedRooms)
+			} else {
+				self.xmppRoomsHandling([XMPPRoomLight]())
+			}
+		}
+		StreamManager.manager.addOperation(retrieveRooms)
+	}
+	
+	func xmppRoomsHandling(rooms: [XMPPRoomLight]) {
+		self.rooms = rooms
+		self.tableView.reloadData()
+	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "createRoomViewController" {
@@ -81,7 +81,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		let room = self.rooms[indexPath.row]
-		cell.textLabel?.text = "Test"
+		cell.textLabel?.text = room.roomname
 
 		return cell
 	}

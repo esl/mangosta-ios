@@ -2,37 +2,24 @@
 //  XMPPMUCLight.h
 //  Mangosta
 //
-//  Created by Andres Canal on 4/26/16.
+//  Created by Andres on 5/30/16.
 //  Copyright © 2016 Inaka. All rights reserved.
 //
 
-#import <XMPPFramework/XMPPRoom.h>
+#import <XMPPFramework/XMPPFramework.h>
 
-@interface XMPPMUCLight : XMPPRoom
+@interface XMPPMUCLight : XMPPModule {
+	XMPPIDTracker *xmppIDTracker;
+	NSMutableSet *rooms;
+}
 
-- (void)kleaveMUCLightRoom:(XMPPJID *)userJID;
-- (void)kaddUsers:(NSArray *)users;
-- (void)ksetMyRoomJID:(XMPPJID*)userJID;
-- (void)ksetRoomSubject:(NSString*)subject;
-- (void)kfetchAllMembersList;
-- (void)ksendMessageWithBody:(NSString *)text;
-- (void)kcreateMUCLightRoom:(NSString *)roomName members:(NSArray *) members;
-@end
-
-@protocol kXMPPMUCLightDelegate<XMPPRoomDelegate>
-@optional
-
-- (void)xmppRoom:(XMPPMUCLight *)sender didLeftMUCLightRoom:(XMPPIQ*) iqResult;
-- (void)xmppRoom:(XMPPMUCLight *)sender didFailToLeaveMUCLightRoom:(XMPPIQ*) iqResult;
-
-- (void)xmppRoom:(XMPPMUCLight *)sender didAddUsers:(XMPPIQ*) iqResult;
-- (void)xmppRoom:(XMPPMUCLight *)sender didFailToAddUsers:(XMPPIQ*) iqResult;
-
-- (void)xmppRoom:(XMPPMUCLight *)sender didCreateMUCLightRoom:(XMPPIQ *)iq;
-- (void)xmppRoom:(XMPPMUCLight *)sender didFailToCreateMUCLightRoom:(XMPPIQ *)iq;
-
-- (void)xmppRoom:(XMPPMUCLight *)sender didFetchedAllMembers:(XMPPIQ *)iq;
-- (void)xmppRoom:(XMPPMUCLight *)sender didFailToFetchAllMembers:(XMPPIQ *)iq;
+- (BOOL)discoverRoomsForServiceNamed:(NSString *)serviceName;
 
 @end
 
+@protocol XMPPMUCLightDelegate
+
+- (void)xmppMUCLight:(XMPPMUCLight *)sender didDiscoverRooms:(NSArray *)rooms forServiceNamed:(NSString *)serviceName;
+- (void)xmppMUCLight:(XMPPMUCLight *)sender failedToDiscoverRoomsForServiceNamed:(NSString *)serviceName withError:(NSError *)error;
+
+@end
