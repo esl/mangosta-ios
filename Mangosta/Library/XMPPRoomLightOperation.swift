@@ -72,7 +72,7 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 		let createRoomOperation = XMPPRoomLightOperation()
 		
 		createRoomOperation.mainOperation = { (room: XMPPRoomLight) in
-			room.createRoomLight(name, members: members)
+			room.createRoomLightWithRoomName(name, membersJID: members)
 		}
 		createRoomOperation.completion = completion
 		return createRoomOperation

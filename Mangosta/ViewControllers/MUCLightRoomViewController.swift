@@ -49,7 +49,17 @@ class MUCLightRoomViewController: UIViewController {
 	}
 	
 	func xmppRoomsHandling(rooms: [XMPPRoomLight]) {
-		self.rooms = rooms
+		let storage = StreamManager.manager.streamController!.xmppRoomLightCoreDataStorage
+		var realRooms = [XMPPRoomLight]()
+		
+		for room in rooms {
+
+			let newRoom = XMPPRoomLight(roomLightStorage: storage, jid: room.roomJID, roomname: room.roomname, dispatchQueue: dispatch_get_main_queue())
+			newRoom.activate(StreamManager.manager.stream)
+			realRooms.append(newRoom)
+		}
+		
+		self.rooms = realRooms
 		self.tableView.reloadData()
 	}
 	

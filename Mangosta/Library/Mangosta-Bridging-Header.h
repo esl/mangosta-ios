@@ -12,3 +12,6 @@
 #import "XMPPMessageAndMAMArchivingCoreDataStorage.h"
 #import "XMPPRoomLight.h"
 #import "XMPPMUCLight.h"
+#import "XMPPRoomLightOccupantCoreDataStorageObject.h"
+#import "XMPPRoomLightMessageCoreDataStorageObject.h"
+#import "XMPPRoomLightCoreDataStorage.h"

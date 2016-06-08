@@ -10,8 +10,11 @@
 #import <XMPPFramework/XMPPIDTracker.h>
 #import <XMPPFramework/XMPPJID.h>
 
-@interface XMPPRoomLight : XMPPModule{
+@protocol XMPPRoomLightStorage;
 
+@interface XMPPRoomLight : XMPPModule {
+
+	__strong id <XMPPRoomLightStorage> xmppRoomLightStorage;
 	XMPPIDTracker *responseTracker;
 	uint16_t state;
 
@@ -23,7 +26,8 @@
 
 - (id)initWithDomain:(NSString *)domain;
 - (id)initWithJID:(XMPPJID *)jid roomname:(NSString *) roomname;
-- (void)createRoomLight:(NSString *)roomName members:(NSArray *) members;
+- (id)initWithRoomLightStorage:(id <XMPPRoomLightStorage>)storage jid:(XMPPJID *)aRoomJID roomname:(NSString *)roomname dispatchQueue:(dispatch_queue_t)queue;
+- (void)createRoomLightWithRoomName:(NSString *)roomName membersJID:(NSArray *) members;
 - (void)leaveRoomLight;
 - (void)addUsers:(NSArray *)users;
 - (void)fetchMembersList;
@@ -32,8 +36,18 @@
 
 @end
 
+@protocol XMPPRoomLightStorage <NSObject>
+@required
+
+- (void)handleIncomingMessage:(XMPPMessage *)message room:(XMPPRoomLight *)room;
+- (void)handleOutgoingMessage:(XMPPMessage *)message room:(XMPPRoomLight *)room;
+
+@end
+
 @protocol XMPPRoomLightDelegate
 @optional
+
+- (void)xmppRoomLight:(XMPPRoomLight *)sender didReceiveMessage:(XMPPMessage *)message;
 
 - (void)xmppRoomLight:(XMPPRoomLight *)sender didCreatRoomLight:(XMPPIQ *)iq;
 - (void)xmppRoomLight:(XMPPRoomLight *)sender didFailToCreateRoomLight:(XMPPIQ *)iq;

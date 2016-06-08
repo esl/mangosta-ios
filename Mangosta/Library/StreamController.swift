@@ -41,6 +41,7 @@ public class StreamController: NSObject {
 	
 	let messageArchiveManagement: XMPPMessageArchiveManagement
 	
+	let xmppRoomLightCoreDataStorage: XMPPRoomLightCoreDataStorage
 	
 	var capabilityTypes: [CapabilityTypes]
 	let capabilities: XMPPCapabilities
@@ -70,6 +71,8 @@ public class StreamController: NSObject {
 		
 		self.messageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage(databaseFilename: messagingFileName, storeOptions: nil)
 		self.messageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.messageArchivingStorage)
+		
+		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage(databaseFilename: "rooms-light.sqlite", storeOptions: nil)
 		
 		self.messageArchiveManagement = XMPPMessageArchiveManagement(dispatchQueue: dispatch_get_main_queue())
 		
