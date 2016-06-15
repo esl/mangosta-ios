@@ -13,6 +13,8 @@ import MBProgressHUD
 class ChatViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
+	@IBOutlet weak var subject: UILabel!
+	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 
 	var room: XMPPRoom?
 	var roomLight: XMPPRoomLight?
@@ -30,15 +32,39 @@ class ChatViewController: UIViewController {
 			self.title = "Chatting with \(roomSubject)"
 		}
 
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
+		self.subject.addGestureRecognizer(tapGesture)
+		
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
 			self.buttonHeight.constant = 0
+			self.subjectHeight.constant = 0
 		} else {
+			if let rLight = self.roomLight {
+				rLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				rLight.getConfiguration()
+			}else {
+				self.subjectHeight.constant = 0	
+			}
+
 			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
 			self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
 		}
 
 		self.navigationItem.rightBarButtonItems = rightBarButtonItems
+	}
+	
+	internal func showChangeSubject(sender: AnyObject?) {
+		let alertController = UIAlertController(title: "Subject", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+
+		alertController.addTextFieldWithConfigurationHandler(nil)
+		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+			if let text = alertController.textFields?.first?.text {
+				self.roomLight?.changeRoomSubject(text)
+			}
+		}))
+		alertController.view.setNeedsLayout()
+		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
 	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
@@ -88,9 +114,8 @@ class ChatViewController: UIViewController {
 		var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
 		let alertController = UIAlertController(title: "Warning!", message: "It will send \(message) by default. Continue?", preferredStyle: UIAlertControllerStyle.Alert)
 		
-		alertController.addTextFieldWithConfigurationHandler { (textField) in
-			
-		}
+		
+		alertController.addTextFieldWithConfigurationHandler(nil)
 		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
 			alertController.dismissViewControllerAnimated(true, completion: nil)
 		}))
@@ -194,6 +219,21 @@ class ChatViewController: UIViewController {
 			}
 		}
 		StreamManager.manager.addOperation(mamOperation)
+	}
+}
+
+extension ChatViewController: XMPPRoomLightDelegate {
+	
+	func xmppRoomLight(sender: XMPPRoomLight, configurationChanged message: XMPPMessage) {
+		if let subject = message.elementForName("x")?.elementForName("subject")?.stringValue() {
+			self.subject.text = subject
+		}
+	}
+	
+	func xmppRoomLight(sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
+		if let subject = iqResult.elementForName("query")?.elementForName("subject")?.stringValue() {
+			self.subject.text = subject
+		}
 	}
 }
 

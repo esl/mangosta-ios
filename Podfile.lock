@@ -190,7 +190,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   XMPPFramework:
-    :commit: b0ce5183121a2d99f32fa2c61bb842fe8e2c0665
+    :commit: ca59ae0be2f4fa36ca313870123879e49e43de83
     :git: https://github.com/esl/XMPPFramework/
 
 SPEC CHECKSUMS:
