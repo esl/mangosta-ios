@@ -10,7 +10,7 @@
 
 @implementation XMPPSlot
 
-- (id)initWithPut:(NSString *)put get:(NSString *)get {
+- (id)initWithPut:(NSString *)put andGet:(NSString *)get {
 
 	self = [super init];
 	if(self) {
@@ -26,8 +26,8 @@
 	self = [super init];
 	if(self) {
 		NSXMLElement *slot = [iq elementForName:@"slot"];
-		_put = [slot elementForName:@"put"].stringValue;
-		_get = [slot elementForName:@"get"].stringValue;
+		_put = [[slot elementForName:@"put"].stringValue copy];
+		_get = [[slot elementForName:@"get"].stringValue copy];
 	}
 	return self;
 

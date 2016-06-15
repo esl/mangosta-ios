@@ -17,6 +17,7 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 	var memberListCompletion: ((result: Bool,  members: [(String, String)]?) -> ())?
 	var boolCompletion: ((result: Bool) -> ())?
 	let domain = "muclight.erlang-solutions.com"
+	private var roomName = ""
 
 	var roomJID: XMPPJID?
 	
@@ -25,7 +26,7 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 		if let xmppRoom = self.room where xmppRoom.xmppStream == nil {
 			xmppRoom.activate(StreamManager.manager.stream)
 		} else if self.room == nil {
-			self.room = XMPPRoomLight(domain: self.domain)
+			self.room = XMPPRoomLight(JID: XMPPJID.jidWithString(self.domain), roomname: self.roomName)
 			self.room?.activate(StreamManager.manager.stream)
 		}
 		
@@ -53,37 +54,36 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 		return fetchMemberListOperation
 	}
 
-	func xmppRoomLight(sender: XMPPRoomLight!, didFetchMembersList items: [AnyObject]!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didFetchMembersList items: [DDXMLElement]) {
 		let members = items.map { (child) -> (String, String) in
-			let ch = child as! DDXMLElement
-			return (ch.attributeForName("affiliation").stringValue(), ch.stringValue())
+			return (child.attributeForName("affiliation").stringValue(), child.stringValue())
 		}
 		
 		self.memberListCompletion?(result: true,  members: members)
 		self.finishAndRemoveDelegates()
 	}
 	
-	func xmppRoomLight(sender: XMPPRoomLight!, didFailToFetchMembersList iq: XMPPIQ!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didFailToFetchMembersList iq: XMPPIQ) {
 		self.memberListCompletion?(result: false,  members: nil)
 		self.finishAndRemoveDelegates()
 	}
 	
 	class func createRoom(name name: String, members: [XMPPJID]?, completion: (result: Bool, room: XMPPRoomLight?) -> ()) -> XMPPRoomLightOperation {
 		let createRoomOperation = XMPPRoomLightOperation()
-		
+		createRoomOperation.roomName = name
 		createRoomOperation.mainOperation = { (room: XMPPRoomLight) in
-			room.createRoomLightWithRoomName(name, membersJID: members)
+			room.createRoomLightWithMembersJID(members)
 		}
 		createRoomOperation.completion = completion
 		return createRoomOperation
 	}
 
-	func xmppRoomLight(sender: XMPPRoomLight!, didCreatRoomLight iq: XMPPIQ!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
 		self.completion?(result: true, room: self.room)
 		self.finishAndRemoveDelegates()
 	}
 
-	func xmppRoomLight(sender: XMPPRoomLight!, didFailToCreateRoomLight iq: XMPPIQ!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didFailToCreateRoomLight iq: XMPPIQ) {
 		self.completion?(result: false, room: nil)
 		self.finishAndRemoveDelegates()
 	}
@@ -99,12 +99,12 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 		return leaveRoomOperation
 	}
 	
-	func xmppRoomLight(sender: XMPPRoomLight!, didFailToLeaveRoomLight iq: XMPPIQ!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didFailToLeaveRoomLight iq: XMPPIQ) {
 		self.boolCompletion?(result: false)
 		self.finishAndRemoveDelegates()
 	}
 	
-	func xmppRoomLight(sender: XMPPRoomLight!, didLeaveRoomLight iq: XMPPIQ!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didLeaveRoomLight iq: XMPPIQ) {
 		self.boolCompletion?(result: true)
 		self.finishAndRemoveDelegates()
 	}
@@ -122,12 +122,12 @@ class XMPPRoomLightOperation: AsyncOperation, XMPPRoomLightDelegate {
 		return inviteOperation
 	}
 	
-	func xmppRoomLight(sender: XMPPRoomLight!, didAddUsers iqResult: XMPPIQ!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didAddUsers iqResult: XMPPIQ) {
 		self.boolCompletion?(result: true)
 		self.finishAndRemoveDelegates()
 	}
 	
-	func xmppRoomLight(sender: XMPPRoomLight!, didFailToAddUsers iq: XMPPIQ!) {
+	func xmppRoomLight(sender: XMPPRoomLight, didFailToAddUsers iq: XMPPIQ) {
 		self.boolCompletion?(result: false)
 		self.finishAndRemoveDelegates()
 	}

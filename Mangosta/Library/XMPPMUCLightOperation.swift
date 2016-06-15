@@ -54,16 +54,12 @@ class XMPPMUCLightOperation: AsyncOperation, XMPPMUCLightDelegate {
 	
 	// MARK: - XMPPMUCDelegate
 	
-	func xmppMUCLight(sender: XMPPMUCLight!, didDiscoverRooms rooms: [AnyObject]!, forServiceNamed serviceName: String!) {
-		guard let xmlRooms = rooms as! [DDXMLElement]! else {
-			self.finishedRetrievingRooms(nil)
-			return
-		}
-		let parsedRooms = XMPPMUCLightOperation.parseRoomsFromXMLRooms(xmlRooms)
+	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
+		let parsedRooms = XMPPMUCLightOperation.parseRoomsFromXMLRooms(rooms)
 		self.finishedRetrievingRooms(parsedRooms)
 	}
 	
-	func xmppMUCLight(sender: XMPPMUCLight!, failedToDiscoverRoomsForServiceNamed serviceName: String!, withError error: NSError!) {
+	func xmppMUCLight(sender: XMPPMUCLight, failedToDiscoverRoomsForServiceNamed serviceName: String, withError error: NSError) {
 		self.finishedRetrievingRooms(nil)
 	}
 	

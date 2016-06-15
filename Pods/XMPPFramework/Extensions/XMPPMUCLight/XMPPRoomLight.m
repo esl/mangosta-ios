@@ -10,51 +10,31 @@
 #import "XMPPRoomLight.h"
 
 static NSString *const XMPPRoomLightAffiliations = @"urn:xmpp:muclight:0#affiliations";
-
-enum XMPPRoomLightState
-{
-	kXMPPRoomLightStateNone        = 0,
-	kXMPPRoomLightStateCreated     = 1 << 1,
-	kXMPPRoomStateLeaving          = 1 << 2,
-	kXMPPRoomStateLeft             = 1 << 3
-};
+static NSString *const XMPPRoomLightConfiguration = @"urn:xmpp:muclight:0#configuration";
+static NSString *const XMPPRoomLightDestroy = @"urn:xmpp:muclight:0#destroy";
 
 @implementation XMPPRoomLight
 
-- (id)init{
-	NSAssert(false, @"All rooms need to have a _roomJID.");
-	return nil;
+- (instancetype)init{
+	return [self initWithRoomLightStorage:nil jid:nil roomname:nil dispatchQueue:nil];
 }
 
-- (id)initWithJID:(XMPPJID *)jid roomname:(NSString *) roomname {
-	if (self = [self initWithRoomLightStorage:nil jid:jid roomname:roomname dispatchQueue:nil]){
-		
-	}
-	return self;
+- (nonnull instancetype)initWithJID:(nonnull XMPPJID *)roomJID roomname:(nonnull NSString *) roomname{
+	return [self initWithRoomLightStorage:nil jid:roomJID roomname:roomname dispatchQueue:nil];
 }
 
-- (id)initWithDomain:(NSString *)domain {
+- (nonnull instancetype)initWithRoomLightStorage:(nullable id <XMPPRoomLightStorage>)storage jid:(nonnull XMPPJID *)aRoomJID roomname:(nonnull NSString *)roomname dispatchQueue:(nullable dispatch_queue_t)queue{
 
-	XMPPJID *xmppRoomJID = [XMPPJID jidWithString:domain];
-	if (self = [self initWithRoomLightStorage:nil jid:xmppRoomJID roomname:nil dispatchQueue:nil]){
-		
-	}
+	NSParameterAssert(aRoomJID != nil);
 
-	return self;
-}
-
-- (id)initWithRoomLightStorage:(id <XMPPRoomLightStorage>)storage jid:(XMPPJID *)aRoomJID roomname:(NSString *)roomname dispatchQueue:(dispatch_queue_t)queue{
-	
-	if ((self = [super initWithDispatchQueue:queue]))
-	{
+	if ((self = [super initWithDispatchQueue:queue])){
 		xmppRoomLightStorage = storage;
 		_domain = aRoomJID.domain;
 		_roomname = roomname;
 		_roomJID = aRoomJID;
-		state = kXMPPRoomLightStateNone;
 	}
 	return self;
-	
+
 }
 
 - (BOOL)activate:(XMPPStream *)aXmppStream
@@ -84,7 +64,7 @@ enum XMPPRoomLightState
 	[super deactivate];
 }
 
-- (void)createRoomLightWithRoomName:(NSString *)roomName membersJID:(NSArray *) members {
+- (void)createRoomLightWithMembersJID:(nullable NSArray<XMPPJID *> *) members{
 	
 	//		<iq from='crone1@shakespeare.lit/desktop'
 	//			      id='create1'
@@ -105,7 +85,6 @@ enum XMPPRoomLightState
 		_roomJID = [XMPPJID jidWithUser:[XMPPStream generateUUID]
 									 domain:self.domain
 								   resource:nil];
-		_roomname = roomName;
 		
 		NSString *iqID = [XMPPStream generateUUID];
 		NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
@@ -115,7 +94,7 @@ enum XMPPRoomLightState
 		
 		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:0#create"];
 		NSXMLElement *configuration = [NSXMLElement elementWithName:@"configuration"];
-		[configuration addChild:[NSXMLElement elementWithName:@"roomname" stringValue:roomName]];
+		[configuration addChild:[NSXMLElement elementWithName:@"roomname" stringValue:self.roomname]];
 		
 		NSXMLElement *ocupants = [NSXMLElement elementWithName:@"ocupants"];
 		for (XMPPJID *jid in members){
@@ -145,8 +124,7 @@ enum XMPPRoomLightState
 
 - (void)handleCreateRoomLight:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
 	if ([[iq type] isEqualToString:@"result"]){
-		state = kXMPPRoomLightStateCreated;
-		[multicastDelegate xmppRoomLight:self didCreatRoomLight:iq];
+		[multicastDelegate xmppRoomLight:self didCreateRoomLight:iq];
 	}else{
 		[multicastDelegate xmppRoomLight:self didFailToCreateRoomLight:iq];
 	}
@@ -164,7 +142,6 @@ enum XMPPRoomLightState
 	//		</iq>
 	
 	dispatch_block_t block = ^{ @autoreleasepool {
-		state = kXMPPRoomStateLeaving;
 		
 		NSString *iqID = [XMPPStream generateUUID];
 		NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
@@ -172,7 +149,7 @@ enum XMPPRoomLightState
 		[iq addAttributeWithName:@"to" stringValue:self.roomJID.full];
 		[iq addAttributeWithName:@"type" stringValue:@"set"];
 		
-		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:0#affiliations"];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:XMPPRoomLightAffiliations];
 		NSXMLElement *user = [NSXMLElement elementWithName:@"user"];
 		[user addAttributeWithName:@"affiliation" stringValue:@"none"];
 		user.stringValue = xmppStream.myJID.bare;
@@ -196,14 +173,13 @@ enum XMPPRoomLightState
 
 - (void)handleLeaveRoomLight:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
 	if ([[iq type] isEqualToString:@"result"]){
-		state = kXMPPRoomStateLeft;
 		[multicastDelegate xmppRoomLight:self didLeaveRoomLight:iq];
 	}else{
 		[multicastDelegate xmppRoomLight:self didFailToLeaveRoomLight:iq];
 	}
 }
 
-- (void)addUsers:(NSArray *)users{
+- (void)addUsers:(nonnull NSArray<XMPPJID *> *)users{
 	
 	//    <iq from="crone1@shakespeare.lit/desktop"
 	//          id="member1"
@@ -222,7 +198,7 @@ enum XMPPRoomLightState
 		[iq addAttributeWithName:@"to" stringValue:self.roomJID.full];
 		[iq addAttributeWithName:@"type" stringValue:@"set"];
 		
-		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"urn:xmpp:muclight:0#affiliations"];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:XMPPRoomLightAffiliations];
 		for (XMPPJID *userJID in users) {
 			NSXMLElement *user = [NSXMLElement elementWithName:@"user"];
 			[user addAttributeWithName:@"affiliation" stringValue:@"member"];
@@ -297,15 +273,27 @@ enum XMPPRoomLightState
 	}
 }
 
-- (void)sendMessage:(XMPPMessage *)message
-{
+- (void)destroyRoom {
 	dispatch_block_t block = ^{ @autoreleasepool {
 
-		[message addAttributeWithName:@"to" stringValue:[_roomJID full]];
-		[message addAttributeWithName:@"type" stringValue:@"groupchat"];
+		//  <iq from='crone1@shakespeare.lit/desktop'
+		//	    id='destroy1'
+		//	    to='coven@muclight.shakespeare.lit'
+		//	  type='set'>
+		//	  <query xmlns='urn:xmpp:muclight:0#destroy' />
+		//  </iq>
 
-		[xmppStream sendElement:message];
-		
+		NSString *iqID = [XMPPStream generateUUID];
+		XMPPIQ *iq = [XMPPIQ iqWithType:@"set" to:_roomJID elementID:iqID];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:XMPPRoomLightDestroy];
+		[iq addChild:query];
+
+		[responseTracker addID:iqID
+						target:self
+					  selector:@selector(handleDestroyRoom:withInfo:)
+					   timeout:60.0];
+
+		[xmppStream sendElement:iq];
 	}};
 
 	if (dispatch_get_specific(moduleQueueTag))
@@ -314,7 +302,32 @@ enum XMPPRoomLightState
 		dispatch_async(moduleQueue, block);
 }
 
-- (void)sendMessageWithBody:(NSString *)messageBody{
+- (void)handleDestroyRoom:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
+	if ([[iq type] isEqualToString:@"result"]){
+		[multicastDelegate xmppRoomLight:self didDestroyRoomLight:iq];
+	} else {
+		[multicastDelegate xmppRoomLight:self didFailToDestroyRoomLight:iq];
+	}
+}
+
+- (void)sendMessage:(nonnull XMPPMessage *)message{
+
+	dispatch_block_t block = ^{ @autoreleasepool {
+
+		[message addAttributeWithName:@"to" stringValue:[_roomJID full]];
+		[message addAttributeWithName:@"type" stringValue:@"groupchat"];
+
+		[xmppStream sendElement:message];
+
+	}};
+
+	if (dispatch_get_specific(moduleQueueTag))
+		block();
+	else
+		dispatch_async(moduleQueue, block);
+}
+
+- (void)sendMessageWithBody:(nonnull NSString *)messageBody{
 	if ([messageBody length] == 0) return;
 	
 	NSXMLElement *body = [NSXMLElement elementWithName:@"body" stringValue:messageBody];
@@ -323,6 +336,136 @@ enum XMPPRoomLightState
 	[message addChild:body];
 	
 	[self sendMessage:message];
+}
+
+- (void)changeRoomSubject:(nonnull NSString *)roomSubject{
+	dispatch_block_t block = ^{ @autoreleasepool {
+
+		//	<iq from='hag66@shakespeare.lit/pda'
+		//		  id='subject1'
+		//		  to='coven@muclight.shakespeare.lit'
+		//		type='set'>
+		//		<query xmlns='urn:xmpp:muclight:0#configuration'>
+		//			<subject>To be or not to be?</subject>
+		//		</query>
+		//	</iq>
+
+		NSString *iqID = [XMPPStream generateUUID];
+		XMPPIQ *iq = [XMPPIQ iqWithType:@"set" to:_roomJID elementID:iqID];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:XMPPRoomLightConfiguration];
+		[iq addChild:query];
+
+		XMPPElement *subject = [NSXMLElement elementWithName:@"subject"];
+		subject.stringValue = roomSubject;
+
+		[query addChild:subject];
+
+		[responseTracker addID:iqID
+						target:self
+					  selector:@selector(handleChangeRoomSubjectResponse:withInfo:)
+					   timeout:60.0];
+
+		[xmppStream sendElement:iq];
+	}};
+
+	if (dispatch_get_specific(moduleQueueTag))
+		block();
+	else
+		dispatch_async(moduleQueue, block);
+}
+
+- (void)handleChangeRoomSubjectResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
+	if ([[iq type] isEqualToString:@"result"]) {
+		[multicastDelegate xmppRoomLight:self didChangeRoomSubject:iq];
+	}else{
+		[multicastDelegate xmppRoomLight:self didFailToChangeroomSubject:iq];
+	}
+}
+
+- (void)changeAffiliations:(nonnull NSArray<NSXMLElement *> *)members{
+	dispatch_block_t block = ^{ @autoreleasepool {
+
+		// <iq from='crone1@shakespeare.lit/desktop'
+		//       id='member1'
+		//       to='coven@muclight.shakespeare.lit'
+		//     type='set'>
+		// 	<query xmlns='urn:xmpp:muclight:0#affiliations'>
+		// 		<user affiliation='member'>hag66@shakespeare.lit</user>
+		// 		<user affiliation='owner'>hag77@shakespeare.lit</user>
+		// 		<user affiliation='none'>hag88@shakespeare.lit</user>
+		// 	</query>
+		// </iq>
+
+		NSString *iqID = [XMPPStream generateUUID];
+		XMPPIQ *iq = [XMPPIQ iqWithType:@"set" to:_roomJID elementID:iqID];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:XMPPRoomLightAffiliations];
+
+		for (NSXMLElement *element in members){
+			[query addChild:element];
+		}
+
+		[iq addChild:query];
+
+		[responseTracker addID:iqID
+						target:self
+					  selector:@selector(handleChangeAffiliations:withInfo:)
+					   timeout:60.0];
+
+		[xmppStream sendElement:iq];
+	}};
+
+	if (dispatch_get_specific(moduleQueueTag))
+		block();
+	else
+		dispatch_async(moduleQueue, block);
+}
+
+- (void)handleChangeAffiliations:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
+	if ([[iq type] isEqualToString:@"result"]) {
+		[multicastDelegate xmppRoomLight:self didChangeAffiliations:iq];
+	}else{
+		[multicastDelegate xmppRoomLight:self didFailToChangeAffiliations:iq];
+	}
+}
+
+
+- (void)getConfiguration {
+	dispatch_block_t block = ^{ @autoreleasepool {
+
+		// <iq from='crone1@shakespeare.lit/desktop' id='config0'
+		// 		 to='coven@muclight.shakespeare.lit'
+		// 	   type='get'>
+		// 	   <query xmlns='urn:xmpp:muclight:0#configuration'>
+		//			<version>abcdefg</version>
+		// 	   </query>
+		// </iq>
+
+		NSString *iqID = [XMPPStream generateUUID];
+		XMPPIQ *iq = [XMPPIQ iqWithType:@"get" to:_roomJID elementID:iqID];
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:XMPPRoomLightConfiguration];
+
+		[iq addChild:query];
+
+		[responseTracker addID:iqID
+						target:self
+					  selector:@selector(handleGetConfiguration:withInfo:)
+					   timeout:60.0];
+
+		[xmppStream sendElement:iq];
+	}};
+
+	if (dispatch_get_specific(moduleQueueTag))
+		block();
+	else
+		dispatch_async(moduleQueue, block);
+}
+
+- (void)handleGetConfiguration:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info{
+	if ([[iq type] isEqualToString:@"result"]) {
+		[multicastDelegate xmppRoomLight:self didGetConfiguration:iq];
+	}else{
+		[multicastDelegate xmppRoomLight:self didFailToGetConfiguration:iq];
+	}
 }
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq{
@@ -344,6 +487,13 @@ enum XMPPRoomLightState
 		return; // Stanza isn't for our room
 	}
 
+	BOOL destroyRoom = false;
+	NSXMLElement *xElements = [message elementsForName:@"x"];
+	for (NSXMLElement *x in xElements) {
+		if ([x.xmlns isEqualToString:XMPPRoomLightDestroy]) {
+			destroyRoom = true;
+		}
+	}
 	// Is this a message we need to store (a chat message)?
 	//
 	// We store messages that from is full room-id@domain/user-who-sends-message
@@ -352,6 +502,8 @@ enum XMPPRoomLightState
 	if ([from isFull] && [message isGroupChatMessageWithBody]) {
 		[xmppRoomLightStorage handleIncomingMessage:message room:self];
 		[multicastDelegate xmppRoomLight:self didReceiveMessage:message];
+	}else if(destroyRoom){
+		[multicastDelegate xmppRoomLight:self roomDestroyed:message];
 	}else{
 		// Todo... Handle other types of messages.
 	}

@@ -10,25 +10,16 @@
 #import "XMPPCoreDataStorageProtected.h"
 #import "NSXMLElement+XEP_0203.h"
 #import "XMPPRoomLightMessageCoreDataStorageObject.h"
-#import "XMPPRoomLightOccupantCoreDataStorageObject.h"
 
 @implementation XMPPRoomLightCoreDataStorage{
 	NSString *messageEntityName;
-	NSString *occupantEntityName;
-
-	NSTimeInterval maxMessageAge;
-	NSTimeInterval deleteInterval;
 }
 
-- (void)commonInit
-{
+- (void)commonInit{
+
 	[super commonInit];
 
 	messageEntityName = NSStringFromClass([XMPPRoomLightMessageCoreDataStorageObject class]);
-	occupantEntityName = NSStringFromClass([XMPPRoomLightOccupantCoreDataStorageObject class]);
-
-	maxMessageAge  = (60 * 60 * 24 * 7); // 7 days
-	deleteInterval = (60 * 5);           // 5 days
 
 }
 
@@ -65,8 +56,7 @@
 - (BOOL)existsMessage:(XMPPMessage *)message forRoom:(XMPPRoomLight *)room stream:(XMPPStream *)xmppStream{
 	NSDate *remoteTimestamp = [message delayedDeliveryDate];
 	
-	if (remoteTimestamp == nil)
-	{
+	if (remoteTimestamp == nil){
 		// When the xmpp server sends us a room message, it will always timestamp delayed messages.
 		// For example, when retrieving the discussion history, all messages will include the original timestamp.
 		// If a message doesn't include such timestamp, then we know we're getting it in "real time".
@@ -130,12 +120,6 @@
 	return ([results count] > 0);
 }
 
-/**
- * Optional override hook for complete customization.
- * Override me if you need to do specific custom work when inserting a message in a room.
- *
- * @see didInsertMessage:
- **/
 - (void)insertMessage:(XMPPMessage *)message
 			 outgoing:(BOOL)isOutgoing
 			  forRoom:(XMPPRoomLight *)room
@@ -152,18 +136,14 @@
 	NSDate *localTimestamp;
 	NSDate *remoteTimestamp;
 	
-	if (isOutgoing)
-	{
+	if (isOutgoing){
 		localTimestamp = [[NSDate alloc] init];
 		remoteTimestamp = nil;
-	}
-	else
-	{
+	}else{
 		remoteTimestamp = [message delayedDeliveryDate];
 		if (remoteTimestamp) {
 			localTimestamp = remoteTimestamp;
-		}
-		else {
+		}else{
 			localTimestamp = [[NSDate alloc] init];
 		}
 	}
@@ -189,43 +169,27 @@
 	roomMessage.streamBareJidStr = streamBareJidStr;
 	
 	[moc insertObject:roomMessage];
+	[self didInsertMessage:roomMessage];
 }
 
-- (NSEntityDescription *)messageEntity:(NSManagedObjectContext *)moc
-{
+- (void)didInsertMessage:(XMPPRoomLightMessageCoreDataStorageObject *)message{
+	// Override me if you're extending the XMPPRoomMessageCoreDataStorageObject class to add additional properties.
+	// You can update your additional properties here.
+	//
+	// At this point the standard properties have already been set.
+	// So you can, for example, access the XMPPMessage via message.message.
+}
+
+- (NSEntityDescription *)messageEntity:(NSManagedObjectContext *)moc{
+
 	// This method should be thread-safe.
 	// So be sure to access the entity name through the property accessor.
 	
 	return [NSEntityDescription entityForName:[self messageEntityName] inManagedObjectContext:moc];
 }
 
-- (NSEntityDescription *)occupantEntity:(NSManagedObjectContext *)moc
-{
-	// This method should be thread-safe.
-	// So be sure to access the entity name through the property accessor.
-	
-	return [NSEntityDescription entityForName:[self occupantEntityName] inManagedObjectContext:moc];
-}
+- (NSString *)messageEntityName{
 
-- (NSString *)occupantEntityName
-{
-	__block NSString *result = nil;
-	
-	dispatch_block_t block = ^{
-		result = occupantEntityName;
-	};
-	
-	if (dispatch_get_specific(storageQueueTag))
-		block();
-	else
-		dispatch_sync(storageQueue, block);
-	
-	return result;
-}
-
-
-- (NSString *)messageEntityName
-{
 	__block NSString *result = nil;
 	
 	dispatch_block_t block = ^{
@@ -238,15 +202,6 @@
 		dispatch_sync(storageQueue, block);
 	
 	return result;
-}
-
-- (NSString *)managedObjectModelName{
-	
-	return [super managedObjectModelName];
-}
-
-- (NSBundle *)managedObjectModelBundle{
-	return [NSBundle bundleForClass:[XMPPJID class]]; //change me
 }
 
 @end

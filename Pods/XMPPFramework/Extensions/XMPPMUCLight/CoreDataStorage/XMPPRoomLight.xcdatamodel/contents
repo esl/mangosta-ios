@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Xcode 7.0">
     <entity name="XMPPRoomLightMessageCoreDataStorageObject" representedClassName="XMPPRoomMessageCoreDataStorageObject" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="fromMe" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -15,9 +15,7 @@
         <attribute name="streamBareJidStr" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="type" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
-    <entity name="XMPPRoomLightOccupantCoreDataStorageObject" representedClassName="XMPPRoomOccupantCoreDataStorageObject" syncable="YES"/>
     <elements>
         <element name="XMPPRoomLightMessageCoreDataStorageObject" positionX="-63" positionY="-18" width="128" height="240"/>
-        <element name="XMPPRoomLightOccupantCoreDataStorageObject" positionX="-54" positionY="-9" width="128" height="45"/>
     </elements>
 </model>

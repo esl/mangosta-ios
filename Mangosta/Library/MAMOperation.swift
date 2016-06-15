@@ -63,7 +63,7 @@ class MAMOperation: AsyncOperation, XMPPMessageArchiveManagementDelegate {
 	}
 	
 	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
-		let fields = iq.elementForName("x").elementsForName("field").map { (field) -> (String, String) in
+		let fields = iq.childElement().elementForName("x").elementsForName("field").map { (field) -> (String, String) in
 			let f = field as! NSXMLElement
 			return (f.attributeForName("var").stringValue()!, f.attributeForName("type").stringValue()!)
 		}
