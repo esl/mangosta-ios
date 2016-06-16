@@ -54,7 +54,7 @@ class MUCLightRoomViewController: UIViewController {
 		
 		for room in rooms {
 
-			let newRoom = XMPPRoomLight(roomLightStorage: storage, jid: room.roomJID, roomname: room.roomname, dispatchQueue: dispatch_get_main_queue())
+			let newRoom = XMPPRoomLight(roomLightStorage: storage, jid: room.roomJID, roomname: room.roomname(), dispatchQueue: dispatch_get_main_queue())
 			newRoom.activate(StreamManager.manager.stream)
 			realRooms.append(newRoom)
 		}
@@ -91,7 +91,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		let room = self.rooms[indexPath.row]
-		cell.textLabel?.text = room.roomname
+		cell.textLabel?.text = room.roomname()
 
 		return cell
 	}

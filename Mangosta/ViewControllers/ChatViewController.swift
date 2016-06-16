@@ -28,7 +28,7 @@ class ChatViewController: UIViewController {
 		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
 		
 		
-		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname) {
+		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
 			self.title = "Chatting with \(roomSubject)"
 		}
 
@@ -225,15 +225,11 @@ class ChatViewController: UIViewController {
 extension ChatViewController: XMPPRoomLightDelegate {
 	
 	func xmppRoomLight(sender: XMPPRoomLight, configurationChanged message: XMPPMessage) {
-		if let subject = message.elementForName("x")?.elementForName("subject")?.stringValue() {
-			self.subject.text = subject
-		}
+		self.subject.text = sender.subject()
 	}
 	
 	func xmppRoomLight(sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
-		if let subject = iqResult.elementForName("query")?.elementForName("subject")?.stringValue() {
-			self.subject.text = subject
-		}
+		self.subject.text = sender.subject()
 	}
 }
 
