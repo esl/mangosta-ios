@@ -181,16 +181,15 @@ PODS:
 
 DEPENDENCIES:
   - MBProgressHUD (~> 0.9.2)
-  - XMPPFramework (from `https://github.com/esl/XMPPFramework/`, branch `andres.XMPPMUCLight`)
+  - XMPPFramework (from `https://github.com/esl/XMPPFramework/`)
 
 EXTERNAL SOURCES:
   XMPPFramework:
-    :branch: andres.XMPPMUCLight
     :git: https://github.com/esl/XMPPFramework/
 
 CHECKOUT OPTIONS:
   XMPPFramework:
-    :commit: fd33a51ab49ec4bf5f5d2b85d0d49bde3969c631
+    :commit: ccd62f032ce88abb4c4f820cc43cfe63173debba
     :git: https://github.com/esl/XMPPFramework/
 
 SPEC CHECKSUMS:
