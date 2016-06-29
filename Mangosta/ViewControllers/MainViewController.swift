@@ -13,6 +13,7 @@ import MBProgressHUD
 class MainViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
+	var activated = true
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -24,6 +25,18 @@ class MainViewController: UIViewController {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
 		
 		self.startup()
+	}
+	
+	@IBAction func activateDeactivate(sender: UIButton) {
+		if activated {
+			StreamManager.manager.stream.sendElement(XMPPElement.indicateInactiveElement())
+			self.activated = false
+			sender.setTitle("activate", forState: UIControlState.Normal)
+		} else {
+			StreamManager.manager.stream.sendElement(XMPPElement.indicateActiveElement())
+			self.activated = true
+			sender .setTitle("deactivate", forState: UIControlState.Normal)
+		}
 	}
 	
 	func addFriend(sender: UIBarButtonItem){
