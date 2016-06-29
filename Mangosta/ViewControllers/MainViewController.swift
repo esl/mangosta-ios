@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
 		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
 		
-		self.startup()
+//		self.startup()
 	}
 	
 	@IBAction func activateDeactivate(sender: UIButton) {

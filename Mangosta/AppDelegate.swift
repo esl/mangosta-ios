@@ -7,17 +7,25 @@
 //
 
 import UIKit
+import XMPPFramework
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-
+	var xmppController: XMPPController!
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 		// Override point for customization after application launch.
 		let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
 		print("App Path: \(dirPaths)")
+
+		self.xmppController = XMPPController(hostName: "xmpp.erlang-solutions.com",
+		                                    userJID: XMPPJID.jidWithString("test.user@erlang-solutions.com"),
+		                                    password: "9xpW9mmUenFgMjay")
+		
+		
+		xmppController.connect()
 		return true
 	}
 
