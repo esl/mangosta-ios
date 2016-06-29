@@ -40,22 +40,11 @@ class MainViewController: UIViewController {
 	}
 	
 	func addFriend(sender: UIBarButtonItem){
-		let alertController = UIAlertController(title: "Add Friend", message: "Enter the JID of the user.", preferredStyle: UIAlertControllerStyle.Alert)
-		alertController.addTextFieldWithConfigurationHandler(nil)
-
-		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-			alertController.dismissViewControllerAnimated(true, completion: nil)
-		}))
-		
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
-				alertController.dismissViewControllerAnimated(true, completion: nil)
-				return
+		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
+			if let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) {
+				StreamManager.manager.streamController?.roster.addUser(userJID, withNickname: nil)
 			}
-			// roster.addUser doesn't check if there is a roster... we have to fix this.
-			let userJID = XMPPJID.jidWithString(userJIDString)!
-			StreamManager.manager.streamController?.roster.addUser(userJID, withNickname: nil)
-		}))
+		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	

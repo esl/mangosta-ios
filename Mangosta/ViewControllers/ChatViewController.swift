@@ -55,15 +55,11 @@ class ChatViewController: UIViewController {
 	}
 	
 	internal func showChangeSubject(sender: AnyObject?) {
-		let alertController = UIAlertController(title: "Subject", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-
-		alertController.addTextFieldWithConfigurationHandler(nil)
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			if let text = alertController.textFields?.first?.text {
+		let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
+			if let text = subjectText {
 				self.roomLight?.changeRoomSubject(text)
 			}
-		}))
-		alertController.view.setNeedsLayout()
+		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
@@ -112,17 +108,8 @@ class ChatViewController: UIViewController {
 	
 	internal func showChatAlert(sender: AnyObject?) {
 		var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
-		let alertController = UIAlertController(title: "Warning!", message: "It will send \(message) by default. Continue?", preferredStyle: UIAlertControllerStyle.Alert)
-		
-		
-		alertController.addTextFieldWithConfigurationHandler(nil)
-		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-			alertController.dismissViewControllerAnimated(true, completion: nil)
-		}))
-		
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			
-			if let messageText = alertController.textFields?.first?.text where messageText.characters.count > 0 {
+		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
+			if let messageText = inputMessage where messageText.characters.count > 0 {
 				message = messageText
 			}
 
@@ -130,29 +117,18 @@ class ChatViewController: UIViewController {
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
-			
+
 			StreamManager.manager.stream.sendElement(msg)
-		}))
-		alertController.view.setNeedsLayout()
+		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
 	internal func invite(sender: AnyObject?) {
-		let alertController = UIAlertController(title: "Add Friend", message: "Enter the JID of the user.", preferredStyle: UIAlertControllerStyle.Alert)
-		alertController.addTextFieldWithConfigurationHandler(nil)
-		
-		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-			alertController.dismissViewControllerAnimated(true, completion: nil)
-		}))
-		
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
-				alertController.dismissViewControllerAnimated(true, completion: nil)
+		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID") { (jidString) in
+			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else {
 				return
 			}
-			// roster.addUser doesn't check if there is a roster... we have to fix this.
-			let userJID = XMPPJID.jidWithString(userJIDString)!
-			
+
 			if self.roomLight != nil {
 				StreamManager.manager.addOperation(XMPPRoomLightOperation.invite(room: self.roomLight!, userJIDs: [userJID], completion: { (result) in
 					print("Success!")
@@ -162,8 +138,7 @@ class ChatViewController: UIViewController {
 					print("Success!")
 				}))
 			}
-		}))
-		alertController.view.setNeedsLayout()
+		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
