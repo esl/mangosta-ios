@@ -67,11 +67,17 @@ class ChatViewController: UIViewController {
 	}
 	
 	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
-		guard let groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext else {
-			return NSFetchedResultsController()
+		let groupContext: NSManagedObjectContext!
+		let entity: NSEntityDescription?
+		
+		if self.room != nil {
+			groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext
+			entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
+		} else {
+			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext
+			entity = NSEntityDescription.entityForName("XMPPRoomLightMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
 		}
 
-		let entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
 		let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
 
 		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
@@ -81,7 +87,7 @@ class ChatViewController: UIViewController {
 		request.entity = entity
 		request.predicate = predicate
 		request.sortDescriptors = [sortDescriptor]
-		
+
 		let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: groupContext, sectionNameKeyPath: nil, cacheName: nil)
 		controller.delegate = self
 		try! controller.performFetch()

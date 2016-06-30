@@ -50,6 +50,10 @@ extension MUCLightRoomViewController: XMPPMUCLightDelegate {
 	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
 		let storage = self.xmppController.xmppRoomLightCoreDataStorage
 		
+		self.rooms.forEach { (room) in
+			room.deactivate()
+		}
+		
 		self.rooms = rooms.map { (rawElement) -> XMPPRoomLight in
 			let rawJid = rawElement.attributeStringValueForName("jid")
 			let rawName = rawElement.attributeStringValueForName("name")

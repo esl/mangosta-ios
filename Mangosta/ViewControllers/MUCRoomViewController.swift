@@ -62,7 +62,7 @@ extension MUCRoomViewController: XMPPMUCDelegate {
 			let jid = XMPPJID.jidWithString(rawJid)
 
 			var room: XMPPRoom?
-			if jid.domain == XMPPMUCOperation.mucDomain {
+			if jid.domain == "muc.erlang-solutions.com" {
 				room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
 			}
 			room?.activate(self.xmppController.xmppStream)
