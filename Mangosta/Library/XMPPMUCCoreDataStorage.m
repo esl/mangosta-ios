@@ -37,6 +37,10 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 
 }
 
+- (void)dealloc{
+	NSLog(@"HOHO");
+}
+
 - (void)handleIncomingMessage:(XMPPMessage *)message stream:(XMPPStream *)stream
 {
 	NSString *to = message.to.user;

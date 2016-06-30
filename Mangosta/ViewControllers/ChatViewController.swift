@@ -20,7 +20,7 @@ class ChatViewController: UIViewController {
 	var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
-	var xmppController: XMPPController!
+	weak var xmppController: XMPPController!
 	var lastID = ""
 
 	override func viewDidLoad() {
@@ -71,7 +71,7 @@ class ChatViewController: UIViewController {
 		let entity: NSEntityDescription?
 		
 		if self.room != nil {
-			groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext
+			groupContext = self.xmppController.xmppMUCStorage!.mainThreadManagedObjectContext
 			entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
 		} else {
 			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext

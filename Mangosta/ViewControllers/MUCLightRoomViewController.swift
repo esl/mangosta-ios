@@ -14,10 +14,11 @@ class MUCLightRoomViewController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
 	var rooms = [XMPPRoomLight]()
-	var xmppController: XMPPController!
+	weak var xmppController: XMPPController!
 	var xmppMUCLight: XMPPMUCLight!
 
-
+	var newRoomUsers = [XMPPJID]()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.title = "MUCLight"
@@ -52,8 +53,9 @@ extension MUCLightRoomViewController: XMPPMUCLightDelegate {
 		
 		self.rooms.forEach { (room) in
 			room.deactivate()
+			room.removeDelegate(self)
 		}
-		
+
 		self.rooms = rooms.map { (rawElement) -> XMPPRoomLight in
 			let rawJid = rawElement.attributeStringValueForName("jid")
 			let rawName = rawElement.attributeStringValueForName("name")
@@ -71,6 +73,8 @@ extension MUCLightRoomViewController: XMPPMUCLightDelegate {
 extension MUCLightRoomViewController: XMPPRoomLightDelegate {
 	
 	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
+		sender.addUsers(self.newRoomUsers)
+
 		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 		self.tableView.reloadData()
 	}
@@ -80,7 +84,8 @@ extension MUCLightRoomViewController: XMPPRoomLightDelegate {
 extension MUCLightRoomViewController: MUCRoomCreateViewControllerDelegate {
 	
 	func createRoom(roomName: String, users: [XMPPJID]?) {
-		
+		self.newRoomUsers = users ?? []
+
 		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
 		let roomLight = XMPPRoomLight(JID: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())

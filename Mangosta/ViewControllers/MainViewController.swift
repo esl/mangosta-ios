@@ -14,28 +14,45 @@ class MainViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
 	var activated = true
-	var xmppController: XMPPController!
-	
+	weak var xmppController: XMPPController!
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Roster"
-		
+
 		let addFriendButton = UIBarButtonItem(title: "Add Friend", style: UIBarButtonItemStyle.Done, target: self, action: #selector(addFriend(_:)))
 		self.navigationItem.rightBarButtonItem = addFriendButton
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
+		let logOut = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logOut(_:)))
+		self.navigationItem.leftBarButtonItem = logOut
 		
-		
-		self.xmppController = XMPPController(hostName: "xmpp.erlang-solutions.com",
-		                                      userJID: XMPPJID.jidWithString("test.user@erlang-solutions.com"),
-											 password: "9xpW9mmUenFgMjay")
+		if AuthenticationModel.load() == nil {
+			presentLogInView()
+		} else {
+			configureAndStartXMPP()
+		}
+	}
+	
+	func presentLogInView() {
+		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
+		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+		loginController.loginDelegate = self
+		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
+	}
+	
+	func configureAndStartXMPP() {
+
+		let authModel = AuthenticationModel.load()!
+
+		self.xmppController = XMPPController(hostName: authModel.serverName!,
+		                                     userJID: authModel.jid,
+		                                     password: authModel.password)
 		
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = self.xmppController
 		
 		xmppController.connect()
 		self.setupFetchedResultsController()
-//		self.startup()
 	}
 	
 	@IBAction func activateDeactivate(sender: UIButton) {
@@ -48,6 +65,16 @@ class MainViewController: UIViewController {
 			self.activated = true
 			sender .setTitle("deactivate", forState: UIControlState.Normal)
 		}
+	}
+	
+	func logOut(sender: UIBarButtonItem){
+		AuthenticationModel.remove()
+		self.presentLogInView()
+		self.xmppController.disconnect()
+		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+		appDelegate.xmppController = nil
+		self.xmppController = nil
+		
 	}
 	
 	func addFriend(sender: UIBarButtonItem){
@@ -76,14 +103,6 @@ class MainViewController: UIViewController {
 
 		try! self.fetchedResultsController?.performFetch()
 		self.tableView.reloadData()
-	}
-	
-	internal func login(sender: AnyObject?) {
-		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-
-		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-		loginController.loginDelegate = self
-		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
 	}
 }
 
@@ -148,7 +167,7 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 
 extension MainViewController: LoginControllerDelegate {
 	func didLogIn() {
-//		self.startup()
+		self.configureAndStartXMPP()
 	}
 }
 

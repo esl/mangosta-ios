@@ -15,7 +15,7 @@ class BlockingMembersViewController: UIViewController {
 	@IBOutlet weak var tableView: UITableView!
 	var xmppBlocking: XMPPBlocking?
 	var blockingList = [String]()
-	var xmppController: XMPPController!
+	weak var xmppController: XMPPController!
 
     override func viewDidLoad() {
         super.viewDidLoad()

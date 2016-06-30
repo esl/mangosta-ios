@@ -19,7 +19,7 @@ class MUCRoomCreateViewController: UIViewController {
 	@IBOutlet internal var rosterTableView: UITableView!
 	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController!
 
-	var xmppController: XMPPController!
+	weak var xmppController: XMPPController!
 
 	
 	var usersForRoom = Set<XMPPJID>()

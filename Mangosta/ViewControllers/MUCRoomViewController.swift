@@ -13,10 +13,11 @@ import MBProgressHUD
 class MUCRoomViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController!
 	var rooms = [XMPPRoom]()
-	var xmppController: XMPPController!
+	weak var xmppController: XMPPController!
 	var xmppMUC: XMPPMUC!
 	
 	var newRoomName: String = ""
+	var newRoomUsers = [XMPPJID]()
 
 	@IBOutlet weak var tableView: UITableView!
 
@@ -77,6 +78,7 @@ extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDe
 	
 	func createRoom(roomName: String, users: [XMPPJID]?) {
 		self.newRoomName = roomName
+		self.newRoomUsers = users ?? []
 		self.navigationController?.popToRootViewControllerAnimated(true)
 		let roomJID = XMPPJID.jidWithUser(XMPPStream.generateUUID(), domain: "muc.erlang-solutions.com", resource: "ios")
 		let room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: roomJID)
@@ -91,6 +93,11 @@ extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDe
 		xElement.addChild(self.configuration("muc#roomconfig_roomname", configValue: self.newRoomName))
 		xElement.addChild(self.configuration("muc#roomconfig_persistentroom", configValue: "0"))
 		sender.configureRoomUsingOptions(xElement)
+		
+		self.newRoomUsers.forEach { (jid) in
+			sender.inviteUser(jid, withMessage: sender.roomSubject)
+		}
+		
 		self.xmppMUC.discoverRoomsForServiceNamed("muc.erlang-solutions.com")
 	}
 	
