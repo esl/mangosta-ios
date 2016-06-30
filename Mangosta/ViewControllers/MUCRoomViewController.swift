@@ -13,11 +13,22 @@ import MBProgressHUD
 class MUCRoomViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController!
 	var rooms = [XMPPRoom]()
+	var xmppController: XMPPController!
+	var xmppMUC: XMPPMUC!
+	
+	var newRoomName: String = ""
+
 	@IBOutlet weak var tableView: UITableView!
 
 	override func viewDidLoad() {
 		self.title = "MUC"
 		super.viewDidLoad()
+		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+
+		self.xmppMUC = XMPPMUC()
+		self.xmppMUC.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.xmppMUC.activate(self.xmppController.xmppStream)
+
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
@@ -25,31 +36,7 @@ class MUCRoomViewController: UIViewController {
 
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		self.loadRooms(true)
-	}
-
-	func loadRooms(hud: Bool = false) {
-		if hud {
-			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-			hud.labelText = "Getting rooms..."
-		}
-		
-		let retrieveRooms = XMPPMUCOperation.retrieveRooms { rooms in
-			MBProgressHUD.hideHUDForView(self.view, animated: true)
-			
-			if let receivedRooms = rooms {
-				self.xmppRoomsHandling(receivedRooms)
-			} else {
-				self.xmppRoomsHandling([XMPPRoom]())
-			}
-		}
-		StreamManager.manager.addOperation(retrieveRooms)
-	}
-	
-	func xmppRoomsHandling(rooms: [XMPPRoom]) {
-		self.rooms = rooms
-		self.tableView.reloadData()
+		self.xmppMUC.discoverRoomsForServiceNamed("muc.erlang-solutions.com")
 	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -60,17 +47,68 @@ class MUCRoomViewController: UIViewController {
 	}
 }
 
-extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate {
+extension MUCRoomViewController: XMPPMUCDelegate {
+	func xmppMUC(sender: XMPPMUC!, didDiscoverRooms rooms: [AnyObject]!, forServiceNamed serviceName: String!) {
+		guard let xmlRooms = rooms as! [DDXMLElement]! else { return }
+
+		self.rooms.forEach { (room) in
+			room.leaveRoom()
+			room.deactivate()
+		}
+
+		self.rooms = xmlRooms.map { (rawElement) -> XMPPRoom in
+			let rawJid = rawElement.attributeStringValueForName("jid")
+			let rawName = rawElement.attributeStringValueForName("name")
+			let jid = XMPPJID.jidWithString(rawJid)
+
+			var room: XMPPRoom?
+			if jid.domain == XMPPMUCOperation.mucDomain {
+				room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: jid)
+			}
+			room?.activate(self.xmppController.xmppStream)
+			room!.setValue(rawName, forKey: "roomSubject")
+			return room!
+		}
+		self.tableView.reloadData()
+	}
+}
+
+extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDelegate {
 	
 	func createRoom(roomName: String, users: [XMPPJID]?) {
-		let createRoomOperation = XMPPRoomOperation.createRoom(name: roomName) { (result, room) in
-			
-			let inviteUsersOperation = XMPPRoomOperation.invite(room: room, userJIDs: users!, completion: { [unowned self] (result, room) in
-				self.navigationController?.popViewControllerAnimated(true)
-				})
-			StreamManager.manager.addOperation(inviteUsersOperation)
-		}
-		StreamManager.manager.addOperation(createRoomOperation)
+		self.newRoomName = roomName
+		self.navigationController?.popToRootViewControllerAnimated(true)
+		let roomJID = XMPPJID.jidWithUser(XMPPStream.generateUUID(), domain: "muc.erlang-solutions.com", resource: "ios")
+		let room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: roomJID)
+		room.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		room.activate(self.xmppController.xmppStream)
+		room.joinRoomUsingNickname(self.xmppController.xmppStream.myJID.bare(), history: nil)
+	}
+	
+	func xmppRoomDidCreate(sender: XMPPRoom!) {
+		let xElement = NSXMLElement(name: "x", xmlns: "jabber:x:data")
+		xElement.addAttributeWithName("type", stringValue: "submit")
+		xElement.addChild(self.configuration("muc#roomconfig_roomname", configValue: self.newRoomName))
+		xElement.addChild(self.configuration("muc#roomconfig_persistentroom", configValue: "0"))
+		sender.configureRoomUsingOptions(xElement)
+		self.xmppMUC.discoverRoomsForServiceNamed("muc.erlang-solutions.com")
+	}
+	
+	func xmppRoomDidLeave(sender: XMPPRoom!) {
+		self.xmppMUC.discoverRoomsForServiceNamed("muc.erlang-solutions.com")
+	}
+}
+
+extension MUCRoomViewController {
+	func configuration(name: String, configValue: String) -> NSXMLElement {
+		let value = NSXMLElement(name: "value")
+		value.setStringValue(configValue)
+		
+		let field = NSXMLElement(name: "field")
+		field.addAttributeWithName("var", stringValue: name)
+		field.addChild(value)
+	
+		return field
 	}
 }
 
@@ -93,29 +131,17 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
+		room.joinRoomUsingNickname(self.xmppController.xmppStream.myJID.user, history: nil)
 		chatController.room = room
-
-		if !room.isJoined {
-			let joinRoomOp = XMPPRoomOperation.joinRoom(room) { (result, room) in
-				if result {
-					print("Joined Room: \(room.roomSubject)")
-				} else {
-					print("Failed to Join Room: \(room.roomSubject)")
-				}
-			}
-			StreamManager.manager.addOperation(joinRoomOp)
-		}
-
+		chatController.xmppController = self.xmppController
 		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
-			let room = self.rooms[indexPath.row]
-			StreamManager.manager.addOperation(XMPPRoomOperation.leave(room: room){ result in
-				self.loadRooms()
-			})
+			self.rooms[indexPath.row].leaveRoom()
+			self.tableView.reloadData()
 		}
 		leave.backgroundColor = UIColor.orangeColor()
 		return [leave]

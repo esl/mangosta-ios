@@ -1,20 +1,20 @@
 //
-//  ViewController.swift
+//  TabBarController.swift
 //  Mangosta
 //
-//  Created by Andres Canal on 5/17/16.
+//  Created by Andres Canal on 6/30/16.
 //  Copyright © 2016 Inaka. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UITabBarController {
+class TabBarController: UITabBarController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()], forState: UIControlState.Normal)
 		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
-
+		
 	}
 }

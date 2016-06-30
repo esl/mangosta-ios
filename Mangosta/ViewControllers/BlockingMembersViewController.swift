@@ -15,20 +15,21 @@ class BlockingMembersViewController: UIViewController {
 	@IBOutlet weak var tableView: UITableView!
 	var xmppBlocking: XMPPBlocking?
 	var blockingList = [String]()
+	var xmppController: XMPPController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
 		
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
 
-		let stream = StreamManager.manager.stream
-		
 		self.xmppBlocking = XMPPBlocking()
 		self.xmppBlocking!.autoRetrieveBlockingListItems = false
 		self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.xmppBlocking!.activate(stream)
+		self.xmppBlocking!.activate(xmppController.xmppStream)
 		
 		self.title = "Blocking Members"
     }
@@ -91,10 +92,12 @@ extension BlockingMembersViewController: XMPPBlockingDelegate {
 	
 	func xmppBlocking(sender: XMPPBlocking!, didBlockJID xmppJID: XMPPJID!) {
 		self.xmppBlocking?.retrieveBlockingListItems()
+		MBProgressHUD.hideHUDForView(self.view, animated: true)
 	}
 	
 	func xmppBlocking(sender: XMPPBlocking!, didUnblockJID xmppJID: XMPPJID!) {
 		self.xmppBlocking?.retrieveBlockingListItems()
+		MBProgressHUD.hideHUDForView(self.view, animated: true)
 	}
 
 	func xmppBlocking(sender: XMPPBlocking!, didReceivedBlockingList blockingList: [AnyObject]!) {
@@ -102,5 +105,4 @@ extension BlockingMembersViewController: XMPPBlockingDelegate {
 		self.tableView.reloadData()
 		MBProgressHUD.hideHUDForView(self.view, animated: true)
 	}
-
 }

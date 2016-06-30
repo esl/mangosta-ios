@@ -19,6 +19,9 @@ class MUCRoomCreateViewController: UIViewController {
 	@IBOutlet internal var rosterTableView: UITableView!
 	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController!
 
+	var xmppController: XMPPController!
+
+	
 	var usersForRoom = Set<XMPPJID>()
 	weak var delegate: MUCRoomCreateViewControllerDelegate?
 
@@ -26,6 +29,8 @@ class MUCRoomCreateViewController: UIViewController {
 		super.viewDidLoad()
 		self.title = "Create Room"
 
+		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+		
 		let createButton = UIBarButtonItem(title: "Create", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(createRoom(_:)))
 		let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(cancelCreation(_:)))
 
@@ -46,7 +51,7 @@ class MUCRoomCreateViewController: UIViewController {
 		if self.fetchedResultsController != nil {
 			self.fetchedResultsController = nil
 		}
-		if let streamController = StreamManager.manager.streamController, context = streamController.rosterStorage.mainThreadManagedObjectContext {
+		if let context = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext {
 			let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: context)
 			let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
 			let sd2 = NSSortDescriptor(key: "displayName", ascending: true)

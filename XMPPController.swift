@@ -19,7 +19,7 @@ class XMPPController: NSObject {
 	var xmppCapabilities: XMPPCapabilities
 	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 
-	var xmppMucStorage: XMPPMUCCoreDataStorage
+	var xmppMUCStorage: XMPPMUCCoreDataStorage
 	var xmppMUCStorer: XMPPMUCStorer
 	var xmppMessageArchiving: XMPPMessageArchivingWithMAM
 	var xmppMessageArchivingStorage: XMPPMessageArchivingCoreDataStorage
@@ -48,7 +48,7 @@ class XMPPController: NSObject {
 		// Roster
 		self.xmppRosterStorage = XMPPRosterCoreDataStorage()
 		self.xmppRoster = XMPPRoster(rosterStorage: self.xmppRosterStorage)
-		self.xmppRoster.autoFetchRoster = false;
+		self.xmppRoster.autoFetchRoster = true;
 		
 		// Capabilities
 		self.xmppCapabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
@@ -71,13 +71,13 @@ class XMPPController: NSObject {
 		self.xmppStreamManagement = XMPPStreamManagement(storage: self.xmppStreamManagementStorage)
 		self.xmppStreamManagement.autoResume = true
 
-		self.xmppMucStorage = XMPPMUCCoreDataStorage(databaseFilename: "muc", storeOptions: nil)
-		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMucStorage)
+		self.xmppMUCStorage = XMPPMUCCoreDataStorage(databaseFilename: "muc", storeOptions: nil)
+		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMUCStorage)
 		
 		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage(databaseFilename: "messages", storeOptions: nil)
 		self.xmppMessageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.xmppMessageArchivingStorage)
 		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage(databaseFilename: "rooms-light", storeOptions: nil)
-		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement(dispatchQueue: dispatch_get_main_queue())
+		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
 		
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)
@@ -86,7 +86,7 @@ class XMPPController: NSObject {
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
 		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
-		
+		self.xmppMUCStorer.activate(self.xmppStream)
 		self.xmppMessageArchiving.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
 		

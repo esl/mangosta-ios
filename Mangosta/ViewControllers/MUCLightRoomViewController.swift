@@ -14,53 +14,27 @@ class MUCLightRoomViewController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
 	var rooms = [XMPPRoomLight]()
+	var xmppController: XMPPController!
+	var xmppMUCLight: XMPPMUCLight!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		self.title = "MUCLight"
+		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+		
+		self.xmppMUCLight = XMPPMUCLight()
+		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.xmppMUCLight.activate(self.xmppController.xmppStream)
+		
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
-		
-		self.title = "MUCLight"
     }
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		self.loadRooms(true)
-	}
-	
-	func loadRooms(hud: Bool = false) {
-		if hud {
-			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-			hud.labelText = "Getting rooms..."
-		}
-
-		let retrieveRooms = XMPPMUCLightOperation.retrieveRooms{ rooms in
-			MBProgressHUD.hideHUDForView(self.view, animated: true)
-			
-			if let receivedRooms = rooms {
-				self.xmppRoomsHandling(receivedRooms)
-			} else {
-				self.xmppRoomsHandling([XMPPRoomLight]())
-			}
-		}
-		StreamManager.manager.addOperation(retrieveRooms)
-	}
-	
-	func xmppRoomsHandling(rooms: [XMPPRoomLight]) {
-		let storage = StreamManager.manager.streamController!.xmppRoomLightCoreDataStorage
-		var realRooms = [XMPPRoomLight]()
-		
-		for room in rooms {
-
-			let newRoom = XMPPRoomLight(roomLightStorage: storage, jid: room.roomJID, roomname: room.roomname(), dispatchQueue: dispatch_get_main_queue())
-			newRoom.activate(StreamManager.manager.stream)
-			realRooms.append(newRoom)
-		}
-		
-		self.rooms = realRooms
-		self.tableView.reloadData()
+		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -71,14 +45,46 @@ class MUCLightRoomViewController: UIViewController {
 	}
 }
 
+extension MUCLightRoomViewController: XMPPMUCLightDelegate {
+
+	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
+		let storage = self.xmppController.xmppRoomLightCoreDataStorage
+		
+		self.rooms = rooms.map { (rawElement) -> XMPPRoomLight in
+			let rawJid = rawElement.attributeStringValueForName("jid")
+			let rawName = rawElement.attributeStringValueForName("name")
+			let jid = XMPPJID.jidWithString(rawJid)
+			
+			let r = XMPPRoomLight(roomLightStorage: storage, jid: jid, roomname: rawName, dispatchQueue: dispatch_get_main_queue())
+			r.activate(self.xmppController.xmppStream)
+			
+			return r
+		}
+		self.tableView.reloadData()
+	}
+}
+
+extension MUCLightRoomViewController: XMPPRoomLightDelegate {
+	
+	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
+		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+		self.tableView.reloadData()
+	}
+
+}
+
 extension MUCLightRoomViewController: MUCRoomCreateViewControllerDelegate {
 	
 	func createRoom(roomName: String, users: [XMPPJID]?) {
 		
-		let createRoomOperation = XMPPRoomLightOperation.createRoom(name: roomName, members: users) { (result, room) in
-			self.navigationController?.popViewControllerAnimated(true)
-		}
-		StreamManager.manager.addOperation(createRoomOperation)
+		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
+		let roomLight = XMPPRoomLight(JID: jid!, roomname: roomName)
+		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		roomLight.activate(self.xmppController.xmppStream)
+		roomLight.createRoomLightWithMembersJID(users)
+		
+		self.navigationController?.popViewControllerAnimated(true)
+
 	}
 }
 
@@ -102,17 +108,15 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
 		chatController.roomLight = room
-
+		chatController.xmppController = self.xmppController
 		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
-			let room = self.rooms[indexPath.row]
-			StreamManager.manager.addOperation(XMPPRoomLightOperation.leaveRoom(room: room, completion: { (result) in
-				self.loadRooms()
-			}))
+			self.rooms[indexPath.row].leaveRoomLight()
+			self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 		}
 		leave.backgroundColor = UIColor.orangeColor()
 		return [leave]
