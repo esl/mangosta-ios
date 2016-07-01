@@ -19,23 +19,29 @@ class BlockingMembersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-		
+
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
 
-		self.xmppBlocking = XMPPBlocking()
-		self.xmppBlocking!.autoRetrieveBlockingListItems = false
-		self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.xmppBlocking!.activate(xmppController.xmppStream)
-		
 		self.title = "Blocking Members"
     }
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
+		
+		if self.xmppController == nil {
+
+			self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+
+			self.xmppBlocking?.deactivate()
+
+			self.xmppBlocking = XMPPBlocking()
+			self.xmppBlocking!.autoRetrieveBlockingListItems = true
+			self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.xmppBlocking!.activate(xmppController.xmppStream)
+		}
+
 		self.showHUDwithMessage("Getting blocked list...")
 		self.xmppBlocking?.retrieveBlockingListItems()
 	}

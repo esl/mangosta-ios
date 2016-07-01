@@ -13,7 +13,7 @@ import MBProgressHUD
 class MUCLightRoomViewController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
-	var rooms = [XMPPRoomLight]()
+
 	weak var xmppController: XMPPController!
 	var xmppMUCLight: XMPPMUCLight!
 
@@ -22,12 +22,7 @@ class MUCLightRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.title = "MUCLight"
-		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-		
-		self.xmppMUCLight = XMPPMUCLight()
-		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.xmppMUCLight.activate(self.xmppController.xmppStream)
-		
+
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
@@ -35,6 +30,17 @@ class MUCLightRoomViewController: UIViewController {
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
+
+		if self.xmppController == nil {
+			self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+			
+			self.xmppMUCLight?.deactivate()
+			
+			self.xmppMUCLight = XMPPMUCLight()
+			self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.xmppMUCLight.activate(self.xmppController.xmppStream)
+		}
+
 		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 	}
 	
@@ -50,20 +56,20 @@ extension MUCLightRoomViewController: XMPPMUCLightDelegate {
 
 	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
 		let storage = self.xmppController.xmppRoomLightCoreDataStorage
-		
-		self.rooms.forEach { (room) in
+
+		self.xmppController.roomsLight.forEach { (room) in
 			room.deactivate()
 			room.removeDelegate(self)
 		}
 
-		self.rooms = rooms.map { (rawElement) -> XMPPRoomLight in
+		self.xmppController.roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
 			let rawJid = rawElement.attributeStringValueForName("jid")
 			let rawName = rawElement.attributeStringValueForName("name")
 			let jid = XMPPJID.jidWithString(rawJid)
-			
+
 			let r = XMPPRoomLight(roomLightStorage: storage, jid: jid, roomname: rawName, dispatchQueue: dispatch_get_main_queue())
 			r.activate(self.xmppController.xmppStream)
-			
+
 			return r
 		}
 		self.tableView.reloadData()
@@ -100,19 +106,19 @@ extension MUCLightRoomViewController: MUCRoomCreateViewControllerDelegate {
 extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return self.rooms.count
+		return self.xmppController.roomsLight.count
 	}
 
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
-		let room = self.rooms[indexPath.row]
+		let room = self.xmppController.roomsLight[indexPath.row]
 		cell.textLabel?.text = room.roomname()
 
 		return cell
 	}
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let room = self.rooms[indexPath.row]
+		let room = self.xmppController.roomsLight[indexPath.row]
 
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
@@ -124,7 +130,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
-			self.rooms[indexPath.row].leaveRoomLight()
+			self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
 			self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 		}
 		leave.backgroundColor = UIColor.orangeColor()

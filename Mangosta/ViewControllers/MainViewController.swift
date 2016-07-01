@@ -87,10 +87,8 @@ class MainViewController: UIViewController {
 	
 	internal func setupFetchedResultsController() {
 
-		guard let rosterContext = self.xmppController?.xmppRosterStorage.mainThreadManagedObjectContext else {
-			return
-		}
-
+		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+		
 		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
 		let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
 		let sd2 = NSSortDescriptor(key: "displayName", ascending: true)

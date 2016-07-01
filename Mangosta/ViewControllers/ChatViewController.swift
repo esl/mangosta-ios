@@ -16,8 +16,8 @@ class ChatViewController: UIViewController {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 
-	var room: XMPPRoom?
-	var roomLight: XMPPRoomLight?
+	weak var room: XMPPRoom?
+	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
 	weak var xmppController: XMPPController!
@@ -71,7 +71,7 @@ class ChatViewController: UIViewController {
 		let entity: NSEntityDescription?
 		
 		if self.room != nil {
-			groupContext = self.xmppController.xmppMUCStorage!.mainThreadManagedObjectContext
+			groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext
 			entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
 		} else {
 			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext

@@ -24,12 +24,7 @@ class MUCRoomViewController: UIViewController {
 	override func viewDidLoad() {
 		self.title = "MUC"
 		super.viewDidLoad()
-		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-
-		self.xmppMUC = XMPPMUC()
-		self.xmppMUC.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.xmppMUC.activate(self.xmppController.xmppStream)
-
+		
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
@@ -37,6 +32,18 @@ class MUCRoomViewController: UIViewController {
 
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
+
+		if self.xmppController == nil {
+
+			self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+
+			self.xmppMUC?.deactivate()
+
+			self.xmppMUC = XMPPMUC()
+			self.xmppMUC.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+			self.xmppMUC.activate(self.xmppController.xmppStream)
+		}
+		
 		self.xmppMUC.discoverRoomsForServiceNamed("muc.erlang-solutions.com")
 	}
 

@@ -19,8 +19,8 @@ class XMPPController: NSObject {
 	var xmppCapabilities: XMPPCapabilities
 	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 
-	var xmppMUCStorage: XMPPMUCCoreDataStorage?
-	var xmppMUCStorer: XMPPMUCStorer?
+	var xmppMUCStorage: XMPPMUCCoreDataStorage
+	var xmppMUCStorer: XMPPMUCStorer
 	var xmppMessageArchiving: XMPPMessageArchivingWithMAM
 	var xmppMessageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	var xmppMessageArchiveManagement: XMPPMessageArchiveManagement
@@ -30,12 +30,14 @@ class XMPPController: NSObject {
 
 	var xmppStreamManagement: XMPPStreamManagement
 	var xmppStreamManagementStorage: XMPPStreamManagementDiscStorage
-	
+
+	var roomsLight = [XMPPRoomLight]()
+
 	let hostName: String
 	let userJID: XMPPJID
 	let hostPort: UInt16
 	let password: String
-	
+
 	init(hostName: String, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
 		self.hostName = hostName
 		self.userJID = userJID
@@ -73,12 +75,12 @@ class XMPPController: NSObject {
 
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
 
-		self.xmppMUCStorage = XMPPMUCCoreDataStorage(databaseFilename: "muc.sqlite", storeOptions: nil)
-		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMUCStorage!)
+		self.xmppMUCStorage = XMPPMUCCoreDataStorage(databaseFilename: "\(self.userJID).muc.sqlite", storeOptions: nil)
+		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMUCStorage)
 		
-		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage(databaseFilename: "messages.sqlite", storeOptions: nil)
+		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage(databaseFilename: "\(self.userJID).messages.sqlite", storeOptions: nil)
 		self.xmppMessageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.xmppMessageArchivingStorage)
-		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage(databaseFilename: "muc-light.sqlite", storeOptions: nil)
+		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage(databaseFilename: "\(self.userJID).muc-light.sqlite", storeOptions: nil)
 
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)
@@ -87,7 +89,7 @@ class XMPPController: NSObject {
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
 		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
-		self.xmppMUCStorer!.activate(self.xmppStream)
+		self.xmppMUCStorer.activate(self.xmppStream)
 		self.xmppMessageArchiving.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
 		
@@ -117,16 +119,22 @@ class XMPPController: NSObject {
 	}
 
 	deinit {
+		self.roomsLight.forEach { (roomLight) in
+			roomLight.deactivate()
+		}
+		self.roomsLight = [XMPPRoomLight]()
+		
 		self.xmppStream.removeDelegate(self)
-
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
 		self.xmppCapabilities.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
 		self.xmppStreamManagement.deactivate()
-		self.xmppMUCStorer!.deactivate()
-		
+		self.xmppMUCStorer.deactivate()
+		self.xmppMessageArchiving.deactivate()
+		self.xmppMessageArchiveManagement.deactivate()
+
 		self.xmppStream.disconnect()
 	}
 }
