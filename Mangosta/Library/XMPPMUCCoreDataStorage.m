@@ -6,12 +6,12 @@
 //  Copyright © 2016 Inaka. All rights reserved.
 //
 #import "NSXMLElement+XEP_0203.h"
-#import "XMPPMessage+XEP_0313.h"
 #import "XMPPMUCCoreDataStorage.h"
 #import "XMPPCoreDataStorageProtected.h"
 #import "XMPPRoomMessageCoreDataStorageObject.h"
 #import "XMPPRoomOccupantCoreDataStorageObject.h"
 #import "XMPPMessage+XEP0045.h"
+#import "XMPPMessage+XEP_0313.h"
 
 @implementation XMPPMUCCoreDataStorage {
 	NSString *messageEntityName;

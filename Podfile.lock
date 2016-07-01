@@ -6,13 +6,13 @@ PODS:
     - CocoaAsyncSocket/RunLoop
   - CocoaAsyncSocket/GCD (7.4.3)
   - CocoaAsyncSocket/RunLoop (7.4.3)
-  - CocoaLumberjack (2.2.0):
-    - CocoaLumberjack/Default (= 2.2.0)
-    - CocoaLumberjack/Extensions (= 2.2.0)
-  - CocoaLumberjack/Core (2.2.0)
-  - CocoaLumberjack/Default (2.2.0):
+  - CocoaLumberjack (2.3.0):
+    - CocoaLumberjack/Default (= 2.3.0)
+    - CocoaLumberjack/Extensions (= 2.3.0)
+  - CocoaLumberjack/Core (2.3.0)
+  - CocoaLumberjack/Default (2.3.0):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.2.0):
+  - CocoaLumberjack/Extensions (2.3.0):
     - CocoaLumberjack/Default
   - KissXML/Core (5.0.3)
   - KissXML/libxml_module (5.0.3):
@@ -60,10 +60,14 @@ PODS:
     - XMPPFramework/XEP-0280
     - XMPPFramework/XEP-0297
     - XMPPFramework/XEP-0308
+    - XMPPFramework/XEP-0313
     - XMPPFramework/XEP-0333
+    - XMPPFramework/XEP-0334
     - XMPPFramework/XEP-0335
     - XMPPFramework/XEP-0352
     - XMPPFramework/XEP-0357
+    - XMPPFramework/XEP-0363
+    - XMPPFramework/XMPPMUCLight
   - XMPPFramework/BandwidthMonitor (3.6.7):
     - XMPPFramework/Core
   - XMPPFramework/Core (3.6.7):
@@ -155,7 +159,12 @@ PODS:
     - XMPPFramework/XEP-0203
   - XMPPFramework/XEP-0308 (3.6.7):
     - XMPPFramework/Core
+  - XMPPFramework/XEP-0313 (3.6.7):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0059
   - XMPPFramework/XEP-0333 (3.6.7):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0334 (3.6.7):
     - XMPPFramework/Core
   - XMPPFramework/XEP-0335 (3.6.7):
     - XMPPFramework/Core
@@ -163,6 +172,12 @@ PODS:
     - XMPPFramework/Core
   - XMPPFramework/XEP-0357 (3.6.7):
     - XMPPFramework/Core
+  - XMPPFramework/XEP-0363 (3.6.7):
+    - XMPPFramework/Core
+  - XMPPFramework/XMPPMUCLight (3.6.7):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0203
 
 DEPENDENCIES:
   - MBProgressHUD (~> 0.9.2)
@@ -174,14 +189,14 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   XMPPFramework:
-    :commit: f9fa43e00f9669839f2b7050010d791109ebad4a
+    :commit: ccd62f032ce88abb4c4f820cc43cfe63173debba
     :git: https://github.com/esl/XMPPFramework/
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
-  CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
   KissXML: d19dd6dc65e0dc721ba92b3077b8ebdd240f1c1e
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  XMPPFramework: 53da6a70a6aa55aaaa47009b2b11ef975e3a0556
+  XMPPFramework: dfac20782e429ef786ef36fc24382405f24cd956
 
 COCOAPODS: 0.39.0

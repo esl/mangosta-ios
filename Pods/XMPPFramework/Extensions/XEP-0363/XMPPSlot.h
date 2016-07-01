@@ -12,12 +12,12 @@
 
 @import KissXML;
 
-@interface XMPPSlot : NSXMLElement
+@interface XMPPSlot: NSObject
 
-- (id)initWithPut:(NSString *)put get:(NSString *)get;
+- (id)initWithPut:(NSString *)put andGet:(NSString *)get;
 - (id)initWithIQ:(XMPPIQ *)iq;
 
-@property (nonatomic, strong, readonly) NSString *put;
-@property (nonatomic, strong, readonly) NSString *get;
+@property (nonatomic, copy, readonly) NSString *put;
+@property (nonatomic, copy, readonly) NSString *get;
 
 @end

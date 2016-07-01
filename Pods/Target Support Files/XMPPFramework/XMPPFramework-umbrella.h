@@ -141,10 +141,18 @@
 #import "NSXMLElement+XEP_0297.h"
 #import "NSXMLElement+XEP_0203.h"
 #import "XMPPMessage+XEP_0308.h"
+#import "XMPPMessageArchiveManagement.h"
 #import "XMPPMessage+XEP_0333.h"
+#import "XMPPMessage+XEP_0334.h"
 #import "NSXMLElement+XEP_0335.h"
 #import "NSXMLElement+XEP_0352.h"
 #import "XMPPIQ+XEP_0357.h"
+#import "XMPPHTTPFileUpload.h"
+#import "XMPPSlot.h"
+#import "XMPPRoomLightCoreDataStorage.h"
+#import "XMPPRoomLightMessageCoreDataStorageObject.h"
+#import "XMPPMUCLight.h"
+#import "XMPPRoomLight.h"
 
 FOUNDATION_EXPORT double XMPPFrameworkVersionNumber;
 FOUNDATION_EXPORT const unsigned char XMPPFrameworkVersionString[];

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="383-Vt-lBl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="383-Vt-lBl">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="dpd-ox-1zh">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="383-Vt-lBl" customClass="ViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="383-Vt-lBl" customClass="TabBarController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" itemPositioning="fill" id="RUI-i5-9li">
                         <autoresizingMask key="autoresizingMask"/>
@@ -22,9 +22,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="8lZ-lh-fcR" kind="relationship" relationship="viewControllers" id="g2y-Tk-yYz"/>
-                        <segue destination="KND-tj-2Mv" kind="relationship" relationship="viewControllers" id="ve1-cZ-4C7"/>
                         <segue destination="JB9-Rh-pyY" kind="relationship" relationship="viewControllers" id="zeO-se-Qpc"/>
                         <segue destination="bH2-gR-1Dh" kind="relationship" relationship="viewControllers" id="ys3-1z-0Ut"/>
+                        <segue destination="Hqe-Gx-0K5" kind="relationship" relationship="viewControllers" id="RJC-UC-DZM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J2h-Ke-HIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -40,16 +40,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rrk-9L-eSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="263" y="148"/>
-        </scene>
-        <!--settings-->
-        <scene sceneID="4F4-a0-Bx5">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="settings" storyboardName="Settings" referencedIdentifier="settings" id="KND-tj-2Mv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" id="nYu-zy-0eX"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bHf-kH-qWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="105" y="148"/>
         </scene>
         <!--roster-->
         <scene sceneID="Sgn-Fc-cuM">
@@ -70,6 +60,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lLh-6V-ac0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="449" y="148"/>
+        </scene>
+        <!--BlockingMembers-->
+        <scene sceneID="7cg-gm-b4f">
+            <objects>
+                <viewControllerPlaceholder storyboardName="BlockingMembers" referencedIdentifier="BlockingMembers" id="Hqe-Gx-0K5" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Blocking" id="i58-9H-xzB"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G0K-j0-LNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="612.5" y="148"/>
         </scene>
     </scenes>
 </document>

@@ -13,92 +13,94 @@ import MBProgressHUD
 class MainViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
-	
+	var activated = true
+	weak var xmppController: XMPPController!
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Roster"
-		
+
 		let addFriendButton = UIBarButtonItem(title: "Add Friend", style: UIBarButtonItemStyle.Done, target: self, action: #selector(addFriend(_:)))
 		self.navigationItem.rightBarButtonItem = addFriendButton
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainViewController.setupFetchedResultsController), name: Constants.Notifications.RosterWasUpdated, object: nil)
+		let logOut = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logOut(_:)))
+		self.navigationItem.leftBarButtonItem = logOut
 		
-		self.startup()
-	}
-	
-	func addFriend(sender: UIBarButtonItem){
-		let alertController = UIAlertController(title: "Add Friend", message: "Enter the JID of the user.", preferredStyle: UIAlertControllerStyle.Alert)
-		alertController.addTextFieldWithConfigurationHandler(nil)
-
-		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-			alertController.dismissViewControllerAnimated(true, completion: nil)
-		}))
-		
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
-				alertController.dismissViewControllerAnimated(true, completion: nil)
-				return
-			}
-			// roster.addUser doesn't check if there is a roster... we have to fix this.
-			let userJID = XMPPJID.jidWithString(userJIDString)!
-			StreamManager.manager.streamController?.roster.addUser(userJID, withNickname: nil)
-		}))
-		self.presentViewController(alertController, animated: true, completion: nil)
-	}
-	
-	internal func setupFetchedResultsController() {
-		if self.fetchedResultsController != nil {
-			self.fetchedResultsController = nil
-		}
-		if let streamController = StreamManager.manager.streamController, context = streamController.rosterStorage.mainThreadManagedObjectContext {
-			let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: context)
-			let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
-			let sd2 = NSSortDescriptor(key: "displayName", ascending: true)
-			
-			let fetchRequest = NSFetchRequest()
-			fetchRequest.entity = entity
-			fetchRequest.sortDescriptors = [sd1, sd2]
-			self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "sectionNum", cacheName: nil)
-			self.fetchedResultsController?.delegate = self
-			
-			try! self.fetchedResultsController?.performFetch()
-			self.tableView.reloadData()
+		if AuthenticationModel.load() == nil {
+			presentLogInView()
+		} else {
+			configureAndStartXMPP()
 		}
 	}
 	
-	internal func logout(sender: AnyObject?) {
-		StreamManager.manager.disconnect()
-		AuthenticationModel.remove()
-		
-		self.startup()
-	}
-	
-	internal func login(sender: AnyObject?) {
+	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-
 		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
 		loginController.loginDelegate = self
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
 	}
+	
+	func configureAndStartXMPP() {
 
-	private func startup() {
-		var logButton: UIBarButtonItem = UIBarButtonItem()
+		let authModel = AuthenticationModel.load()!
+
+		self.xmppController = XMPPController(hostName: authModel.serverName!,
+		                                     userJID: authModel.jid,
+		                                     password: authModel.password)
 		
-		if let auth = AuthenticationModel.load() {
-			let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-			hud.labelText = "Connecting..."
-			
-			StreamManager.manager.begin(auth.jid.bare(), password: auth.password, serverName: auth.serverName) {
-				MBProgressHUD.hideHUDForView(self.view, animated: true)
-			}
-			
-			logButton = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logout(_:)))
-		} else {
-			logButton = UIBarButtonItem(title: "Log In", style: UIBarButtonItemStyle.Done, target: self, action: #selector(login(_:)))
-		}
-		self.navigationItem.leftBarButtonItem = logButton
+		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+		appDelegate.xmppController = self.xmppController
 		
+		xmppController.connect()
 		self.setupFetchedResultsController()
+	}
+	
+	@IBAction func activateDeactivate(sender: UIButton) {
+		if activated {
+			self.xmppController.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
+			self.activated = false
+			sender.setTitle("activate", forState: UIControlState.Normal)
+		} else {
+			self.xmppController.xmppStream.sendElement(XMPPElement.indicateActiveElement())
+			self.activated = true
+			sender .setTitle("deactivate", forState: UIControlState.Normal)
+		}
+	}
+	
+	func logOut(sender: UIBarButtonItem){
+		AuthenticationModel.remove()
+		self.presentLogInView()
+		self.xmppController.disconnect()
+		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+		appDelegate.xmppController = nil
+		self.xmppController = nil
+		
+	}
+	
+	func addFriend(sender: UIBarButtonItem){
+		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
+			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
+			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
+		}
+		self.presentViewController(alertController, animated: true, completion: nil)
+	}
+	
+	internal func setupFetchedResultsController() {
+
+		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+		
+		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
+		let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
+		let sd2 = NSSortDescriptor(key: "displayName", ascending: true)
+
+		let fetchRequest = NSFetchRequest()
+		fetchRequest.entity = entity
+		fetchRequest.sortDescriptors = [sd1, sd2]
+		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
+		self.fetchedResultsController?.delegate = self
+
+		try! self.fetchedResultsController?.performFetch()
+		self.tableView.reloadData()
 	}
 }
 
@@ -147,6 +149,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
+		chatController.xmppController = self.xmppController
 		chatController.userJID = user.jid
 		
 		self.navigationController?.pushViewController(chatController, animated: true)
@@ -162,7 +165,7 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 
 extension MainViewController: LoginControllerDelegate {
 	func didLogIn() {
-		self.startup()
+		self.configureAndStartXMPP()
 	}
 }
 

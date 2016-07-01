@@ -12,10 +12,10 @@
 
 @interface XMPPServiceDiscovery : XMPPModule {
 	XMPPIDTracker *xmppIDTracker;
-	BOOL retrievingMessageArchive;
 }
 
-- (void)fetchItemsForJID:(XMPPJID *)jid;
+- (void)discoverInformationAbout:(XMPPJID *)jid;
+- (void)discoverItemsAssociatedWith:(XMPPJID *)jid;
 
 @end
 
@@ -23,6 +23,9 @@
 
 @optional
 
-- (void)xmppServiceDiscovery:(XMPPServiceDiscovery *)sender collectingMyCapabilities:(NSXMLElement *)query;
+- (void)xmppServiceDiscovery:(XMPPServiceDiscovery *)sender didDiscoverInformation:(NSArray *)items;
+- (void)xmppServiceDiscovery:(XMPPServiceDiscovery *)sender didDiscoverItems:(NSArray *)items;
+
+- (void)xmppServiceDiscovery:(XMPPServiceDiscovery *)sender didFailToDiscover:(XMPPIQ *)iq;
 
 @end

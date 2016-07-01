@@ -13,23 +13,43 @@ import MBProgressHUD
 class ChatViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
+	@IBOutlet weak var subject: UILabel!
+	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 
-	var room: XMPPRoom?
+	weak var room: XMPPRoom?
+	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
+	weak var xmppController: XMPPController!
 	var lastID = ""
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		var rightBarButtonItems: [UIBarButtonItem] = []
 		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
 		
-		self.title = "Chatting with \(self.userJID?.user ?? self.room?.roomSubject ?? "")"
+		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		
+		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
+			self.title = "Chatting with \(roomSubject)"
+		}
 
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
+		self.subject.addGestureRecognizer(tapGesture)
+		
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
 			self.buttonHeight.constant = 0
+			self.subjectHeight.constant = 0
 		} else {
+			if let rLight = self.roomLight {
+				rLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				rLight.getConfiguration()
+			}else {
+				self.room?.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				self.subjectHeight.constant = 0	
+			}
+
 			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
 			self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
 		}
@@ -37,141 +57,155 @@ class ChatViewController: UIViewController {
 		self.navigationItem.rightBarButtonItems = rightBarButtonItems
 	}
 	
-	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
-		if let streamController = StreamManager.manager.streamController, let context = streamController.mucStorage.mainThreadManagedObjectContext {
-			let entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: context)
-			let predicate = NSPredicate(format: "roomJIDStr = %@", self.room!.roomJID.bare())
-			let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: false)
-			
-			let request = NSFetchRequest()
-			request.entity = entity
-			request.predicate = predicate
-			request.sortDescriptors = [sortDescriptor]
-			
-			let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-			controller.delegate = self
-			try! controller.performFetch()
-			
-			return controller
+	internal func showChangeSubject(sender: AnyObject?) {
+		let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
+			if let text = subjectText {
+				self.roomLight?.changeRoomSubject(text)
+			}
 		}
-		return NSFetchedResultsController()
+		self.presentViewController(alertController, animated: true, completion: nil)
+	}
+	
+	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
+		let groupContext: NSManagedObjectContext!
+		let entity: NSEntityDescription?
+		
+		if self.room != nil {
+			groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext
+			entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
+		} else {
+			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext
+			entity = NSEntityDescription.entityForName("XMPPRoomLightMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
+		}
+
+		let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
+
+		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
+		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: false)
+
+		let request = NSFetchRequest()
+		request.entity = entity
+		request.predicate = predicate
+		request.sortDescriptors = [sortDescriptor]
+
+		let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: groupContext, sectionNameKeyPath: nil, cacheName: nil)
+		controller.delegate = self
+		try! controller.performFetch()
+		
+		return controller
 	}
 	
 	private func createFetchedResultsController() -> NSFetchedResultsController {
-		if let streamController = StreamManager.manager.streamController, let context = streamController.messageArchivingStorage.mainThreadManagedObjectContext {
-			let entity = NSEntityDescription.entityForName("XMPPMessageArchiving_Message_CoreDataObject", inManagedObjectContext: context)
-			let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare())
-			let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
-			
-			let request = NSFetchRequest()
-			request.entity = entity
-			request.predicate = predicate
-			request.sortDescriptors = [sortDescriptor]
-			
-			let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-			controller.delegate = self
-			try! controller.performFetch()
-			
-			return controller
+		guard let messageContext = self.xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext else {
+			return NSFetchedResultsController()
 		}
-		return NSFetchedResultsController()
+		
+		let entity = NSEntityDescription.entityForName("XMPPMessageArchiving_Message_CoreDataObject", inManagedObjectContext: messageContext)
+		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare())
+		let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+		
+		let request = NSFetchRequest()
+		request.entity = entity
+		request.predicate = predicate
+		request.sortDescriptors = [sortDescriptor]
+		
+		let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: messageContext, sectionNameKeyPath: nil, cacheName: nil)
+		controller.delegate = self
+		try! controller.performFetch()
+		
+		return controller
 	}
 	
 	internal func showChatAlert(sender: AnyObject?) {
 		var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
-		let alertController = UIAlertController(title: "Warning!", message: "It will send \(message) by default. Continue?", preferredStyle: UIAlertControllerStyle.Alert)
-		
-		alertController.addTextFieldWithConfigurationHandler { (textField) in
-			
-		}
-		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-			alertController.dismissViewControllerAnimated(true, completion: nil)
-		}))
-		
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			
-			if let messageText = alertController.textFields?.first?.text where messageText.characters.count > 0 {
+		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
+			if let messageText = inputMessage where messageText.characters.count > 0 {
 				message = messageText
 			}
 
-			let receiverJID = self.userJID ?? self.room?.roomJID
+			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
-			
-			StreamManager.manager.stream.sendElement(msg)
-		}))
-		alertController.view.setNeedsLayout()
+
+			self.xmppController.xmppStream.sendElement(msg)
+		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
 	internal func invite(sender: AnyObject?) {
-		let alertController = UIAlertController(title: "Add Friend", message: "Enter the JID of the user.", preferredStyle: UIAlertControllerStyle.Alert)
-		alertController.addTextFieldWithConfigurationHandler(nil)
-		
-		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-			alertController.dismissViewControllerAnimated(true, completion: nil)
-		}))
-		
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
-				alertController.dismissViewControllerAnimated(true, completion: nil)
-				return
-			}
-			// roster.addUser doesn't check if there is a roster... we have to fix this.
-			let userJID = XMPPJID.jidWithString(userJIDString)!
-			
-			if let room = self.room as? XMPPMUCLight {
-				StreamManager.manager.addOperation(XMPPRoomLightOperation.invite(room: room, userJIDs: [userJID], completion: { (result) in
-					print("Success!")
-				}))
+		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID") { (jidString) in
+			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
+
+			if self.roomLight != nil {
+				self.roomLight!.addUsers([userJID])
 			} else {
-				StreamManager.manager.addOperation(XMPPRoomOperation.invite(room: self.room!, userJIDs: [userJID], completion: { (result, room) in
-					print("Success!")
-				}))
+				self.room!.inviteUser(userJID, withMessage: self.room!.roomSubject)
 			}
-		}))
-		alertController.view.setNeedsLayout()
+		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
 	@IBAction func showMUCDetails(sender: AnyObject) {
 
-		if let room = self.room as? XMPPMUCLight {
-			let fetchMUCLightMemberList = XMPPRoomLightOperation.fetchMembersList(room: room, completion: { (result, members) in
-				if let membersToShow = members {
-					self.showMembersViewController(membersToShow)
-				}
-			})
-			StreamManager.manager.addOperation(fetchMUCLightMemberList)
+		if self.roomLight != nil {
+			self.roomLight!.fetchMembersList()
 		} else {
-			let fetchMemberListOperation = XMPPRoomOperation.queryRoomItems(self.room!, completion: { (result, members) in
-				if let membersToShow = members {
-					self.showMembersViewController(membersToShow)
-				}
-			})
-			StreamManager.manager.addOperation(fetchMemberListOperation)
+			self.room!.queryRoomItems()
 		}
 	}
-	
+
 	func showMembersViewController(members: [(String, String)]){
 		let storyboard = UIStoryboard(name: "Members", bundle: nil)
-		
+
 		let membersNavController = storyboard.instantiateViewControllerWithIdentifier("members") as! UINavigationController
 		let membersController = membersNavController.viewControllers.first! as! MembersViewController
 		membersController.members = members
 		self.navigationController?.presentViewController(membersNavController, animated: true, completion: nil)
 	}
 
+	@IBAction func fetchFormFields(sender: AnyObject) {
+		self.xmppController.xmppMessageArchiveManagement.retrieveFormFields()
+	}
+
 	@IBAction func fetchHistory(sender: AnyObject) {
-		let stream = StreamManager.manager.stream
-		let jid = self.userJID ?? self.room?.roomJID
-		let mamOperation = MAMOperation.retrieveHistory(stream, jid: jid!, pageSize: 5, lastID: self.lastID) { (result, lastID) in
-			if let lID = lastID {
-				self.lastID = lID
-			}
+		let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let fields = [XMPPMessageArchiveManagement.fieldWithVar("with", type: nil, andValue: jid!.bare())]
+		let resultSet = XMPPResultSet(max: 5, after: self.lastID)
+		self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchiveWithFields(fields, withResultSet: resultSet)
+	}
+
+	deinit {
+		self.room?.removeDelegate(self)
+		self.roomLight?.removeDelegate(self)
+	}
+}
+
+extension ChatViewController: XMPPRoomLightDelegate {
+	
+	func xmppRoomLight(sender: XMPPRoomLight, didFetchMembersList items: [DDXMLElement]) {
+		let members = items.map { (child) -> (String, String) in
+			return (child.attributeForName("affiliation").stringValue(), child.stringValue())
 		}
-		StreamManager.manager.addOperation(mamOperation)
+		self.showMembersViewController(members)
+	}
+
+	func xmppRoomLight(sender: XMPPRoomLight, configurationChanged message: XMPPMessage) {
+		self.subject.text = sender.subject()
+	}
+
+	func xmppRoomLight(sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
+		self.subject.text = sender.subject()
+	}
+}
+
+extension ChatViewController: XMPPRoomExtraActionsDelegate {
+	func xmppRoom(sender: XMPPRoom!, didQueryRoomItems iqResult: XMPPIQ!) {
+		let members = iqResult.elementForName("query").children().map { (child) -> (String, String) in
+			let ch = child as! DDXMLElement
+			return (ch.attributeForName("jid").stringValue(), ch.attributeForName("name").stringValue())
+		}
+		self.showMembersViewController(members)
 	}
 }
 
@@ -179,6 +213,26 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	//MARK: NSFetchedResultsControllerDelegate
 	func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
 		self.tableView.reloadData()
+	}
+}
+
+extension ChatViewController: XMPPMessageArchiveManagementDelegate {
+	
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWithSet resultSet: XMPPResultSet!) {
+		if let lastID = resultSet.elementForName("last")?.stringValue() {
+			self.lastID = lastID
+		}
+	}
+
+	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
+		let fields = iq.childElement().elementForName("x").elementsForName("field").map { (field) -> String in
+			let f = field as! NSXMLElement
+			return "\(f.attributeForName("var").stringValue()!) \(f.attributeForName("type").stringValue()!)"
+		}.joinWithSeparator("\n")
+		
+		let alertController = UIAlertController(title: "Forms", message: fields, preferredStyle: UIAlertControllerStyle.Alert)
+		alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 }
 
