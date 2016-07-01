@@ -9,3 +9,4 @@
 #import "XMPPMessageArchivingWithMAM.h"
 #import "XMPPMessageAndMAMArchivingCoreDataStorage.h"
 #import "XMPPMessage+XEP_0313.h"
+#import "XMPPCustomRoomLight.h"
