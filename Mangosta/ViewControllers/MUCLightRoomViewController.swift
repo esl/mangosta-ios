@@ -74,6 +74,10 @@ extension MUCLightRoomViewController: XMPPMUCLightDelegate {
 		}
 		self.tableView.reloadData()
 	}
+	
+	func xmppMUCLight(sender: XMPPMUCLight, changedAffiliation affiliation: String, roomJID: XMPPJID) {
+		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+	}
 }
 
 extension MUCLightRoomViewController: XMPPRoomLightDelegate {
