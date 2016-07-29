@@ -81,7 +81,7 @@ class ChatViewController: UIViewController {
 		let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
 
 		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
-		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: false)
+		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
 
 		let request = NSFetchRequest()
 		request.entity = entity
