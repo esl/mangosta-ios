@@ -126,10 +126,14 @@ class ChatViewController: UIViewController {
 
 			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 			let type = self.userJID != nil ? "chat" : "groupchat"
-			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
+			
+			let msgUUID = NSUUID().UUIDString
+			let msg = XMPPMessage(type: type, to: receiverJID, elementID: msgUUID )
 			msg.addBody(message)
 
 			self.xmppController.xmppStream.sendElement(msg)
+			
+			self.lastSentMessageID = msgUUID
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
@@ -153,10 +157,10 @@ class ChatViewController: UIViewController {
 			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			
-			let msgUUID = NSUUID().UUIDString
-			let msg = XMPPMessage(type: type, to: receiverJID, elementID: msgUUID)
+			let msg = XMPPMessage(type: type, to: receiverJID, elementID: messageID)
 			
 			let correctionMessage = msg.generateCorrectionMessageWithID(self.lastSentMessageID, body: message)
+			correctionMessage.addBody(message)
 			
 			self.xmppController.xmppStream.sendElement(correctionMessage)
 		}
@@ -296,5 +300,15 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		cell.backgroundColor = message.isFromMe ? UIColor.lightGrayColor() : UIColor.whiteColor()
 		cell.textLabel?.text = message.body
 		return cell
+	}
+	
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		let indexPath = tableView.indexPathForSelectedRow!
+
+		let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
+		
+		print(currentCell.textLabel!.text)
+		self.sendLastMessageCorrection(self.lastSentMessageID)
+		tableView.reloadData()
 	}
 }
