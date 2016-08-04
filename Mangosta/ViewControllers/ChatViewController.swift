@@ -22,6 +22,7 @@ class ChatViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController!
 	weak var xmppController: XMPPController!
 	var lastID = ""
+	var lastSentMessageID = ""
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -138,57 +139,26 @@ class ChatViewController: UIViewController {
 	}
 	
 	internal func isPartnerClientSupportingLastMessageCorrection(partnerJID: XMPPJID) -> Bool {
-		/*	var block: dispatch_block_t = {() -> Void in
-		// <iq from='hag66@shakespeare.lit/pda'
-		//		 id='kl2fax27'
-		//		 to='coven@chat.shakespeare.lit'
-		//		 type='get'>
-		//	 <query xmlns='http://jabber.org/protocol/disco#items'/>
-		// </iq>
-		var fetchID: String = XMPPStream.generateUUID()
-		var query = NSXMLElement.elementWithName("query", URI: "http://jabber.org/protocol/disco#info") as! NSXMLElement
-		var iq = XMPPIQ.iqWithType("get", to: partnerJID, elementID: fetchID, child: query)
-		XMPPStream().sendElement(iq)
-		let tracker = XMPPIDTracker.addID(XMPPIDTracker. responseTracker.addID(fetchID, target: self, selector: Selector("handleQueryRoomItemsResponse:withInfo:"), timeout: 60.0))
-		}
-		*/
 		return true
 	}
 	
-	internal func handleQueryLastMessageCorrectionResponse(iq: XMPPIQ, withInfo info: XMPPTrackingInfo) {
-		if (iq.type() == "get") {
-			//		multicastDelegate.xmppRoom(self, didQueryRoomItems: iq)
-		}
-		else {
-			//		multicastDelegate.xmppRoom(self, didFailToQueryRoomItems: iq)
-		}
-	}
-	
-	func xmppStream(sender: XMPPStream, didReceiveIQ iq: XMPPIQ) -> Bool {
-		let type: String = iq.type()
-		if (type == "get") || (type == "error") {
-			
-			return XMPPIDTracker().invokeForID(iq.elementID(), withObject: iq)
-		}
-		return false
-	}
 	internal func sendLastMessageCorrection(messageID: String) {
-		// if self.isLastMessageCorrectionEnabled() {
-		// 1 get the message by id
-		// 2 promtp the user
-		var correctedMessage = "this is the corrected message" + "\(self.tableView.numberOfRowsInSection(0))"
-		// 3 send like always, but use teh correction tag
-		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(correctedMessage) by default. Continue?") { (inputMessage) in
+		// TODO: find out if the XEP is active on the server plus the other side client supports this.
+		var message = "this is the corrected message" + "\(self.tableView.numberOfRowsInSection(0))"
+		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
 			if let messageText = inputMessage where messageText.characters.count > 0 {
-				correctedMessage = messageText
+				message = messageText
 			}
 			
 			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 			let type = self.userJID != nil ? "chat" : "groupchat"
-			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
-			msg.addBody(correctedMessage)
 			
-			self.xmppController.xmppStream.sendElement(msg)
+			let msgUUID = NSUUID().UUIDString
+			let msg = XMPPMessage(type: type, to: receiverJID, elementID: msgUUID)
+			
+			let correctionMessage = msg.generateCorrectionMessageWithID(self.lastSentMessageID, body: message)
+			
+			self.xmppController.xmppStream.sendElement(correctionMessage)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
