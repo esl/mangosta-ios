@@ -147,7 +147,8 @@ class ChatViewController: UIViewController {
 	}
 	
 	internal func sendLastMessageCorrection(messageID: String) {
-		// TODO: find out if the XEP is active on the server plus the other side client supports this.
+		// TODO: Find out if the XEP is active on the server plus the other side client supports this.
+		// TODO: Fix XMPPFramework support for XEP-0308
 		var message = "this is the corrected message" + "\(self.tableView.numberOfRowsInSection(0))"
 		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
 			if let messageText = inputMessage where messageText.characters.count > 0 {
@@ -159,10 +160,14 @@ class ChatViewController: UIViewController {
 			
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: messageID)
 			
-			let correctionMessage = msg.generateCorrectionMessageWithID(self.lastSentMessageID, body: message)
-			correctionMessage.addBody(message)
-			
-			self.xmppController.xmppStream.sendElement(correctionMessage)
+			if let correctionMessage = msg.generateCorrectionMessageWithID(self.lastSentMessageID, body: message) {
+				correctionMessage.addBody(message)
+				
+				self.xmppController.xmppStream.sendElement(correctionMessage)
+			}
+			else {
+				print("No correction message was generated")
+			}
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
@@ -301,14 +306,20 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		cell.textLabel?.text = message.body
 		return cell
 	}
-	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let indexPath = tableView.indexPathForSelectedRow!
-
-		let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
-		
-		print(currentCell.textLabel!.text)
-		self.sendLastMessageCorrection(self.lastSentMessageID)
-		tableView.reloadData()
+		if let message = self.fetchedResultsController?.objectAtIndexPath(indexPath) {
+			if message.isFromMe() {
+				// Only allow selection on a cell that holds the last message only
+				self.sendLastMessageCorrection(self.lastSentMessageID)
+				tableView.reloadData()
+			}
+		}
+	}
+	func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+		if (indexPath.row != 0) { // TODO: invert this question to the last row after merging PR#13
+			return nil
+		}
+		return indexPath
 	}
 }
