@@ -169,7 +169,9 @@ class ChatViewController: UIViewController {
 				print("No correction message was generated")
 			}
 		}
-		self.presentViewController(alertController, animated: true, completion: nil)
+		if self.lastSentMessageID != "" {
+			self.presentViewController(alertController, animated: true, completion: nil)
+		}
 	}
 	
 	internal func invite(sender: AnyObject?) {
