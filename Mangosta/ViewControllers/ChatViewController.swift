@@ -158,12 +158,12 @@ class ChatViewController: UIViewController {
 			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			
-			let msg = XMPPMessage(type: type, to: receiverJID, elementID: messageID)
+			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			
-			if let correctionMessage = msg.generateCorrectionMessageWithID(self.lastSentMessageID, body: message) {
-				correctionMessage.addBody(message)
-				
-				self.xmppController.xmppStream.sendElement(correctionMessage)
+			if let correctionMessage = self.addMessageCorrectionWithIDLocal(self.lastSentMessageID) {
+				msg.addBody(message)
+				msg.addChild(correctionMessage)
+				self.xmppController.xmppStream.sendElement(msg)
 			}
 			else {
 				print("No correction message was generated")
@@ -172,6 +172,13 @@ class ChatViewController: UIViewController {
 		if self.lastSentMessageID != "" {
 			self.presentViewController(alertController, animated: true, completion: nil)
 		}
+	}
+	
+	internal func addMessageCorrectionWithIDLocal(messageCorrectionID: String) -> DDXMLElement?{
+		let replace = NSXMLElement.elementWithName("replace") as? DDXMLElement
+		replace!.addAttributeWithName("id", stringValue: messageCorrectionID)
+		replace!.addAttributeWithName("xmlns", stringValue: "urn:xmpp:message-correct:0")
+		return replace
 	}
 	
 	internal func invite(sender: AnyObject?) {
