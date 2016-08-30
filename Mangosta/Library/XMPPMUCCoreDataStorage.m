@@ -12,6 +12,7 @@
 #import "XMPPRoomOccupantCoreDataStorageObject.h"
 #import "XMPPMessage+XEP0045.h"
 #import "XMPPMessage+XEP_0313.h"
+// FIXME: after fixing XMPPFramework's XEP 0308 #import "XMPPMessage+XEP_0308.h" 
 
 @implementation XMPPMUCCoreDataStorage {
 	NSString *messageEntityName;
@@ -26,15 +27,15 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 - (void)commonInit
 {
 	[super commonInit];
-
+	
 	// This method is invoked by all public init methods of the superclass
-
+	
 	messageEntityName = NSStringFromClass([XMPPRoomMessageCoreDataStorageObject class]);
 	occupantEntityName = NSStringFromClass([XMPPRoomOccupantCoreDataStorageObject class]);
 	
 	maxMessageAge  = (60 * 60 * 24 * 7); // 7 days
 	deleteInterval = (60 * 5);           // 5 days
-
+	
 }
 
 - (void)handleIncomingMessage:(XMPPMessage *)message stream:(XMPPStream *)stream
@@ -50,7 +51,7 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 			return;
 		}
 	}
-
+	
 	[self scheduleBlock:^{
 		if(![self existsMessage:message stream:stream]) {
 			XMPPJID *roomJID = message.from.bareJID;
@@ -61,21 +62,18 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 
 - (void)handleOutgoingMessage:(XMPPMessage *)message stream:(XMPPStream *)stream
 {
-	[self scheduleBlock:^{
+	if ([message elementForName:@"replace" ]) {
+		NSLog(@"message correction to sendA! %@",message);
+		DDXMLElement *e = [message elementForName:@"replace"];
+		DDXMLNode *replaceId = [e attributeForName:@"id"];
+		NSLog (@"id to be replaced %@", replaceId);
+		
 		XMPPJID *roomJID = message.to.bareJID;
-		[self insertMessage:message outgoing:YES forRoomJID:roomJID stream:stream];
-	}];
-}
-
-- (void)handleMAMMessage:(XMPPMessage *)message stream:(XMPPStream *)stream
-{
-	[self scheduleBlock:^{
-
 		XMPPMessage *messageToStore = [message messageForForwardedArchiveMessage];
 		if(![messageToStore isGroupChatMessageWithBody]){
 			return;
 		}
-
+		
 		if([self existsMessage:messageToStore stream:stream]){
 			return;
 		}
@@ -85,7 +83,42 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 			XMPPJID *fromUser = [XMPPJID jidWithString:messageToStore.from.resource];
 			fromMe = [fromUser.user isEqualToString:stream.myJID.user];
 		}
+		
+		[self scheduleBlock:^{
+			
+			[self ReplaceMessage:message isMessageCorrection:YES isFromMe:YES messageJID:messageToStore.from
+				  localTimeStamp:[messageToStore delayedDeliveryDate]
+				  remoteTimeStam:[messageToStore delayedDeliveryDate]
+						  stream:stream];
+		}];
+	}
+	else {
+		[self scheduleBlock:^{
+			XMPPJID *roomJID = message.to.bareJID;
+			[self insertMessage:message outgoing:YES forRoomJID:roomJID stream:stream];
+		}];
+	}
+}
 
+- (void)handleMAMMessage:(XMPPMessage *)message stream:(XMPPStream *)stream
+{
+	[self scheduleBlock:^{
+		
+		XMPPMessage *messageToStore = [message messageForForwardedArchiveMessage];
+		if(![messageToStore isGroupChatMessageWithBody]){
+			return;
+		}
+		
+		if([self existsMessage:messageToStore stream:stream]){
+			return;
+		}
+		
+		BOOL fromMe = [messageToStore.from.resource isEqualToString:stream.myJID.user];
+		if ([messageToStore.from.domain containsString:@"light"]) {
+			XMPPJID *fromUser = [XMPPJID jidWithString:messageToStore.from.resource];
+			fromMe = [fromUser.user isEqualToString:stream.myJID.user];
+		}
+		
 		[self insertMessage:messageToStore
 				   isFromMe:fromMe
 				 messageJID:messageToStore.from
@@ -102,16 +135,16 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 			   stream:(XMPPStream *)xmppStream
 {
 	XMPPJID *messageJID = isOutgoing ? roomJID : [message from];
-
+	
 	if ([messageJID.domain containsString:@"light"]) {
 		messageJID = [XMPPJID jidWithUser:messageJID.user
 								   domain:messageJID.domain
 								 resource:xmppStream.myJID.bare];
 	}
-
+	
 	NSDate *localTimestamp;
 	NSDate *remoteTimestamp;
-
+	
 	if (isOutgoing)
 	{
 		localTimestamp = [[NSDate alloc] init];
@@ -127,7 +160,7 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 			localTimestamp = [[NSDate alloc] init];
 		}
 	}
-
+	
 	[self insertMessage:message
 			   isFromMe:isOutgoing
 			 messageJID:messageJID
@@ -142,19 +175,19 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 				localTimeStamp:(NSDate *) localTimestamp
 				remoteTimeStam:(NSDate *) remoteTimestamp
 			   stream:(XMPPStream *)xmppStream{
-
+	
 	NSString *messageBody = [[message elementForName:@"body"] stringValue];
-
+	
 	NSManagedObjectContext *moc = [self managedObjectContext];
 	NSString *streamBareJidStr = [[self myJIDForXMPPStream:xmppStream] bare];
-
+	
 	NSEntityDescription *messageEntity = [self messageEntity:moc];
-
+	
 	// Add to database
-
+	
 	XMPPRoomMessageCoreDataStorageObject *roomMessage = (XMPPRoomMessageCoreDataStorageObject *)
 	[[NSManagedObject alloc] initWithEntity:messageEntity insertIntoManagedObjectContext:nil];
-
+	
 	roomMessage.message = message;
 	roomMessage.roomJID = messageJID.bareJID;
 	roomMessage.jid = messageJID;
@@ -164,9 +197,51 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 	roomMessage.remoteTimestamp = remoteTimestamp;
 	roomMessage.isFromMe = isFromMe;
 	roomMessage.streamBareJidStr = streamBareJidStr;
-
+	
 	[moc insertObject:roomMessage];
 }
+
+- (void)ReplaceMessage:(XMPPMessage *)message
+   isMessageCorrection:(BOOL) isMessageCorrection
+			  isFromMe:(BOOL) isFromMe
+			messageJID:(XMPPJID *)messageJID
+		localTimeStamp:(NSDate *) localTimestamp
+		remoteTimeStam:(NSDate *) remoteTimestamp
+				stream:(XMPPStream *)xmppStream{
+	
+	NSString *messageBody = [[message elementForName:@"body"] stringValue];
+	
+	NSManagedObjectContext *moc = [self managedObjectContext];
+	NSString *streamBareJidStr = [[self myJIDForXMPPStream:xmppStream] bare];
+	
+	NSEntityDescription *messageEntity = [self messageEntity:moc];
+	
+	// Add to database
+	
+	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"messageEntity"];
+ 
+	NSError *error = nil;
+	NSArray *results = [moc executeFetchRequest:request error:&error];
+	if (!results) {
+		NSLog(@"Error fetching Employee objects: %@\n%@", [error localizedDescription], [error userInfo]);
+		abort();
+	}
+	XMPPRoomMessageCoreDataStorageObject *roomMessage = (XMPPRoomMessageCoreDataStorageObject *)
+	[[NSManagedObject alloc] initWithEntity:messageEntity insertIntoManagedObjectContext:nil];
+	
+	roomMessage.message = message;
+	roomMessage.roomJID = messageJID.bareJID;
+	roomMessage.jid = messageJID;
+	roomMessage.nickname = [messageJID resource];
+	roomMessage.body = messageBody;
+	roomMessage.localTimestamp = localTimestamp;
+	roomMessage.remoteTimestamp = remoteTimestamp;
+	roomMessage.isFromMe = isFromMe;
+	roomMessage.streamBareJidStr = streamBareJidStr;
+	
+	[moc refreshObject:roomMessage mergeChanges:NO];
+}
+
 
 - (BOOL)existsMessage:(XMPPMessage *)message stream:(XMPPStream *)xmppStream
 {

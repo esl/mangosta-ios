@@ -8,6 +8,7 @@
 
 #import "XMPPCustomRoomLight.h"
 #import "XMPPFramework/XMPPMessage+XEP0045.h"
+#import "XMPPMessage+XEP_0308.h"
 
 @interface XMPPRoomLight() 
 	
@@ -26,6 +27,11 @@
 	if(forwarded){
 		NSXMLElement *historyMessageElement = [forwarded elementForName:@"message"];
 		messageToForwardToSuperClass = [XMPPMessage messageFromElement:historyMessageElement];
+	}
+	
+	if ([message isMessageCorrection]){
+		NSLog(@"received message correction22 message is %@",message );
+		NSLog(@"TODO: fetch the ID and replace this entry");
 	}
 	
 	XMPPJID *from = [messageToForwardToSuperClass from];
