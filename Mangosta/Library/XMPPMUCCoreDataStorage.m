@@ -63,10 +63,8 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 - (void)handleOutgoingMessage:(XMPPMessage *)message stream:(XMPPStream *)stream
 {
 	if ([message elementForName:@"replace" ]) {
-		NSLog(@"message correction to sendA! %@",message);
 		DDXMLElement *e = [message elementForName:@"replace"];
 		DDXMLNode *replaceId = [e attributeForName:@"id"];
-		NSLog (@"id to be replaced %@", replaceId);
 		
 		XMPPJID *roomJID = message.to.bareJID;
 		XMPPMessage *messageToStore = [message messageForForwardedArchiveMessage];
@@ -86,7 +84,7 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 		
 		[self scheduleBlock:^{
 			
-			[self ReplaceMessage:message isMessageCorrection:YES isFromMe:YES messageJID:messageToStore.from
+			[self replaceMessage:message isMessageCorrection:replaceId isFromMe:YES messageJID:messageToStore.from
 				  localTimeStamp:[messageToStore delayedDeliveryDate]
 				  remoteTimeStam:[messageToStore delayedDeliveryDate]
 						  stream:stream];
@@ -201,13 +199,15 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 	[moc insertObject:roomMessage];
 }
 
-- (void)ReplaceMessage:(XMPPMessage *)message
-   isMessageCorrection:(BOOL) isMessageCorrection
+- (void)replaceMessage:(XMPPMessage *)message
+   isMessageCorrection:(DDXMLNode *) replaceId
 			  isFromMe:(BOOL) isFromMe
 			messageJID:(XMPPJID *)messageJID
 		localTimeStamp:(NSDate *) localTimestamp
 		remoteTimeStam:(NSDate *) remoteTimestamp
 				stream:(XMPPStream *)xmppStream{
+	
+	if (replaceId == nil) return;
 	
 	NSString *messageBody = [[message elementForName:@"body"] stringValue];
 	
