@@ -10,6 +10,7 @@
 #import "XMPPMessage+XEP_0313.h"
 #import "XMPPMessage+XEP0045.h"
 #import "XMPPMessageAndMAMArchivingCoreDataStorage.h"
+#import "XMPPMessage+XEP_0245.h"
 
 @implementation XMPPMessageArchivingWithMAM
 
@@ -45,6 +46,10 @@
 	//
 	// 2. 'otr' and 'expire' value are taken from the <item> element that matches the contact, if present,
 	//    else from the default element.
+	
+	if ([message isMessageStartingWithMeCommand]) {
+		NSLog(@"message is /me %@",message);
+	}
 	
 	NSXMLElement *match = nil;
 	
