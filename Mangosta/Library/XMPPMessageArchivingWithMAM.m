@@ -48,7 +48,16 @@
 	//    else from the default element.
 	
 	if ([message isMessageStartingWithMeCommand]) {
-		NSLog(@"message is /me %@",message);
+		NSString *body = [[[message elementsForName:@"body"]firstObject]stringValue];
+		NSString *nickName = [[[message elementsForName:@"from"]firstObject]stringValue];
+		if (nickName == nil) {
+			nickName = @"Me";
+		}
+		NSRange beginningOfTheLine = NSMakeRange(0, 4);
+		NSString *newBodyString = [body stringByReplacingOccurrencesOfString:@"/me " withString:[nickName stringByAppendingString:@" "] options:0 range:beginningOfTheLine];
+		
+		[message removeAttributeForName:@"body"];
+		[message addChild:[NSXMLElement elementWithName:@"body" stringValue:newBodyString]];
 	}
 	
 	NSXMLElement *match = nil;
