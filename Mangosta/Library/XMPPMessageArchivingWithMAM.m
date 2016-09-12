@@ -16,18 +16,8 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-	if ([message isMessageStartingWithMeCommand]) {
-		NSString *body = [[[message elementsForName:@"body"]firstObject]stringValue];
-		NSString *nickName = [message from].resource;
-		if (nickName == nil) {
-			nickName = @"Me";
-		}
-		NSRange beginningOfTheLine = NSMakeRange(0, 4);
-		NSString *newBodyString = [body stringByReplacingOccurrencesOfString:@"/me " withString:[nickName stringByAppendingString:@" "] options:0 range:beginningOfTheLine];
-		
-		[message removeElementForName:@"body"];
-		[message addChild:[NSXMLElement elementWithName:@"body" stringValue:newBodyString]];
-	}
+
+	message = [self editMeCommandIfPresent:message];
 	
 	if ([message isGroupChatMessage]) {
 		return;
@@ -174,6 +164,8 @@
 		return NO;
 	}
 	
+	message = [self editMeCommandIfPresent:message];
+	
 	// The 'save' attribute specifies the user's default setting for Save Mode.
 	// The allowable values are:
 	//
@@ -190,6 +182,23 @@
 		return NO;
 	else
 		return YES;
+}
+
+- (XMPPMessage *)editMeCommandIfPresent:(XMPPMessage *)message {
+	if ([message isMessageStartingWithMeCommand]) {
+		NSString *body = [[[message elementsForName:@"body"]firstObject]stringValue];
+		NSString *nickName = [message from].resource;
+		if (nickName == nil) {
+			nickName = @"Me";
+		}
+		NSRange beginningOfTheLine = NSMakeRange(0, 4);
+		NSString *newBodyString = [body stringByReplacingOccurrencesOfString:@"/me " withString:[nickName stringByAppendingString:@" "] options:0 range:beginningOfTheLine];
+		
+		[message removeElementForName:@"body"];
+		[message addChild:[NSXMLElement elementWithName:@"body" stringValue:newBodyString]];
+		return message;
+	}
+	return message;
 }
 
 @end
