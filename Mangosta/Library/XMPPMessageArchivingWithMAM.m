@@ -16,6 +16,19 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
+	if ([message isMessageStartingWithMeCommand]) {
+		NSString *body = [[[message elementsForName:@"body"]firstObject]stringValue];
+		NSString *nickName = [message from].resource;
+		if (nickName == nil) {
+			nickName = @"Me";
+		}
+		NSRange beginningOfTheLine = NSMakeRange(0, 4);
+		NSString *newBodyString = [body stringByReplacingOccurrencesOfString:@"/me " withString:[nickName stringByAppendingString:@" "] options:0 range:beginningOfTheLine];
+		
+		[message removeElementForName:@"body"];
+		[message addChild:[NSXMLElement elementWithName:@"body" stringValue:newBodyString]];
+	}
+	
 	if ([message isGroupChatMessage]) {
 		return;
 	}
@@ -47,18 +60,6 @@
 	// 2. 'otr' and 'expire' value are taken from the <item> element that matches the contact, if present,
 	//    else from the default element.
 	
-	if ([message isMessageStartingWithMeCommand]) {
-		NSString *body = [[[message elementsForName:@"body"]firstObject]stringValue];
-		NSString *nickName = [[[message elementsForName:@"from"]firstObject]stringValue];
-		if (nickName == nil) {
-			nickName = @"Me";
-		}
-		NSRange beginningOfTheLine = NSMakeRange(0, 4);
-		NSString *newBodyString = [body stringByReplacingOccurrencesOfString:@"/me " withString:[nickName stringByAppendingString:@" "] options:0 range:beginningOfTheLine];
-		
-		[message removeAttributeForName:@"body"];
-		[message addChild:[NSXMLElement elementWithName:@"body" stringValue:newBodyString]];
-	}
 	
 	NSXMLElement *match = nil;
 	
