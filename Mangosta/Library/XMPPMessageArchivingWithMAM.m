@@ -187,7 +187,13 @@
 - (XMPPMessage *)editMeCommandIfPresent:(XMPPMessage *)message {
 	if ([message isMessageStartingWithMeCommand]) {
 		NSString *body = [[[message elementsForName:@"body"]firstObject]stringValue];
-		NSString *nickName = [message from].resource;
+		NSString *nickName;
+		if ([message isGroupChatMessage]){
+			nickName = [message from].resource;
+		}
+		else {
+		 nickName = [message from].user;
+		}
 		if (nickName == nil) {
 			nickName = @"Me";
 		}
