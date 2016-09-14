@@ -69,6 +69,8 @@
 		}
 	}
 	
+	message = [self editMeCommandIfPresent:message];
+	
 	if (match == nil)
 	{
 		// Second priority - matching item element
@@ -164,7 +166,6 @@
 		return NO;
 	}
 	
-	message = [self editMeCommandIfPresent:message];
 	
 	// The 'save' attribute specifies the user's default setting for Save Mode.
 	// The allowable values are:
@@ -195,7 +196,7 @@
 		 nickName = [message from].user;
 		}
 		if (nickName == nil) {
-			nickName = @"Me";
+			nickName = xmppStream.myJID.user;
 		}
 		NSRange beginningOfTheLine = NSMakeRange(0, 4);
 		NSString *newBodyString = [body stringByReplacingOccurrencesOfString:@"/me " withString:[nickName stringByAppendingString:@" "] options:0 range:beginningOfTheLine];
