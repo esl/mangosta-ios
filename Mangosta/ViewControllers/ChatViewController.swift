@@ -318,7 +318,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let indexPath = tableView.indexPathForSelectedRow!
 		if let message = self.fetchedResultsController?.objectAtIndexPath(indexPath) {
-			if message.isFromMe() {
+			if ((message.isFromMe) != nil &&  message.isFromMe()) || ((message.streamBareJidStr) != nil && message.streamBareJidStr == xmppController.xmppStream.myJID.bare() ){ // message is either group chat or P2P and from me
 				// Only allow selection on a cell that holds the last message only
 				self.sendLastMessageCorrection(self.lastSentMessageID)
 				tableView.reloadData()
