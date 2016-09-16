@@ -149,7 +149,7 @@ class ChatViewController: UIViewController {
 	internal func sendLastMessageCorrection(messageID: String) {
 		// TODO: Find out if the XEP is active on the server plus the other side client supports this.
 		// TODO: Fix XMPPFramework support for XEP-0308
-		var message = "this is the corrected message" + "\(self.tableView.numberOfRowsInSection(0))"
+		var message = "this is the corrected message " + "\(self.tableView.numberOfRowsInSection(0))"
 		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
 			if let messageText = inputMessage where messageText.characters.count > 0 {
 				message = messageText

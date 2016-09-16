@@ -200,6 +200,46 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 }
 
 - (void)replaceMessage:(XMPPMessage *)message
+			 outgoing:(BOOL)isOutgoing
+			  forRoomJID:(XMPPJID *)roomJID
+			   stream:(XMPPStream *)xmppStream
+{
+	XMPPJID *messageJID = isOutgoing ? roomJID : [message from];
+	
+	if ([messageJID.domain containsString:@"light"]) {
+		messageJID = [XMPPJID jidWithUser:messageJID.user
+								   domain:messageJID.domain
+								 resource:xmppStream.myJID.bare];
+	}
+	
+	NSDate *localTimestamp;
+	NSDate *remoteTimestamp;
+	
+	if (isOutgoing)
+	{
+		localTimestamp = [[NSDate alloc] init];
+		remoteTimestamp = nil;
+	}
+	else
+	{
+		remoteTimestamp = [message delayedDeliveryDate];
+		if (remoteTimestamp) {
+			localTimestamp = remoteTimestamp;
+		}
+		else {
+			localTimestamp = [[NSDate alloc] init];
+		}
+	}
+	// FIXME: redo replace message here
+	[self insertMessage:message
+			   isFromMe:isOutgoing
+			 messageJID:messageJID
+		 localTimeStamp:localTimestamp
+		 remoteTimeStam:remoteTimestamp
+				 stream:xmppStream];
+}
+
+- (void)replaceMessage:(XMPPMessage *)message
    isMessageCorrection:(DDXMLNode *) replaceId
 			  isFromMe:(BOOL) isFromMe
 			messageJID:(XMPPJID *)messageJID
@@ -214,20 +254,31 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 	NSManagedObjectContext *moc = [self managedObjectContext];
 	NSString *streamBareJidStr = [[self myJIDForXMPPStream:xmppStream] bare];
 	
+	NSString *newMessageID = [message attributeForName:@"id"].stringValue;
+	NSString *replaceMessageID = [[message elementForName:@"replace"] attributeForName:@"id"].stringValue;
+	
 	NSEntityDescription *messageEntity = [self messageEntity:moc];
 	
-	// Add to database
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:messageEntityName];
 	
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"messageEntity"];
+	[fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"message == %@", message]];
+	
+	// Find on database
+	
+	//NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:messageEntity.description];
  
 	NSError *error = nil;
-	NSArray *results = [moc executeFetchRequest:request error:&error];
+	NSArray *results = [moc executeFetchRequest:fetchRequest error:&error];
+	XMPPRoomMessageCoreDataStorageObject *roomMessage;
+	
 	if (!results) {
 		NSLog(@"Error fetching Employee objects: %@\n%@", [error localizedDescription], [error userInfo]);
 		abort();
 	}
-	XMPPRoomMessageCoreDataStorageObject *roomMessage = (XMPPRoomMessageCoreDataStorageObject *)
-	[[NSManagedObject alloc] initWithEntity:messageEntity insertIntoManagedObjectContext:nil];
+	else {
+		
+		roomMessage = (XMPPRoomMessageCoreDataStorageObject *) [results lastObject];
+	}
 	
 	roomMessage.message = message;
 	roomMessage.roomJID = messageJID.bareJID;
