@@ -12,7 +12,7 @@
 #import "XMPPRoomOccupantCoreDataStorageObject.h"
 #import "XMPPMessage+XEP0045.h"
 #import "XMPPMessage+XEP_0313.h"
-// FIXME: after fixing XMPPFramework's XEP 0308 #import "XMPPMessage+XEP_0308.h" 
+// FIXME: This class has a custom implementatino of XEP 0308. After fixing XMPPFramework's XEP 0308 please #import "XMPPMessage+XEP_0308.h".
 
 @implementation XMPPMUCCoreDataStorage {
 	NSString *messageEntityName;
@@ -66,7 +66,6 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 		DDXMLElement *e = [message elementForName:@"replace"];
 		DDXMLNode *replaceId = [e attributeForName:@"id"];
 		
-		XMPPJID *roomJID = message.to.bareJID;
 		XMPPMessage *messageToStore = [message messageForForwardedArchiveMessage];
 		if(![messageToStore isGroupChatMessageWithBody]){
 			return;
@@ -84,6 +83,7 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 		
 		[self scheduleBlock:^{
 			
+			// FIXME: use the right replaceMessage method here
 			[self replaceMessage:message isMessageCorrection:replaceId isFromMe:YES messageJID:messageToStore.from
 				  localTimeStamp:[messageToStore delayedDeliveryDate]
 				  remoteTimeStam:[messageToStore delayedDeliveryDate]
@@ -200,10 +200,13 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 }
 
 - (void)replaceMessage:(XMPPMessage *)message
+   isMessageCorrection:(DDXMLNode *)replaceId
 			 outgoing:(BOOL)isOutgoing
 			  forRoomJID:(XMPPJID *)roomJID
 			   stream:(XMPPStream *)xmppStream
 {
+	if (replaceId == nil) return;
+	
 	XMPPJID *messageJID = isOutgoing ? roomJID : [message from];
 	
 	if ([messageJID.domain containsString:@"light"]) {
@@ -230,21 +233,23 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 			localTimestamp = [[NSDate alloc] init];
 		}
 	}
+	
 	// FIXME: redo replace message here
-	[self insertMessage:message
-			   isFromMe:isOutgoing
-			 messageJID:messageJID
-		 localTimeStamp:localTimestamp
-		 remoteTimeStam:remoteTimestamp
-				 stream:xmppStream];
+	[self replaceMessage:message
+	 isMessageCorrection:replaceId
+				isFromMe:isOutgoing
+			  messageJID:messageJID
+		  localTimeStamp:localTimestamp
+		  remoteTimeStam:remoteTimestamp
+				  stream:xmppStream];
 }
 
 - (void)replaceMessage:(XMPPMessage *)message
-   isMessageCorrection:(DDXMLNode *) replaceId
-			  isFromMe:(BOOL) isFromMe
+   isMessageCorrection:(DDXMLNode *)replaceId
+			  isFromMe:(BOOL)isFromMe
 			messageJID:(XMPPJID *)messageJID
-		localTimeStamp:(NSDate *) localTimestamp
-		remoteTimeStam:(NSDate *) remoteTimestamp
+		localTimeStamp:(NSDate *)localTimestamp
+		remoteTimeStam:(NSDate *)remoteTimestamp
 				stream:(XMPPStream *)xmppStream{
 	
 	if (replaceId == nil) return;
@@ -254,43 +259,69 @@ static XMPPMUCCoreDataStorage *sharedInstance;
 	NSManagedObjectContext *moc = [self managedObjectContext];
 	NSString *streamBareJidStr = [[self myJIDForXMPPStream:xmppStream] bare];
 	
-	NSString *newMessageID = [message attributeForName:@"id"].stringValue;
-	NSString *replaceMessageID = [[message elementForName:@"replace"] attributeForName:@"id"].stringValue;
+	NSDate *minLocalTimestamp = [remoteTimestamp dateByAddingTimeInterval:-60];
+	NSDate *maxLocalTimestamp = [remoteTimestamp dateByAddingTimeInterval: 60];
+	
+	// NSString *newMessageID = [message attributeForName:@"id"].stringValue;
+	// NSString *replaceMessageID = [[message elementForName:@"replace"] attributeForName:@"id"].stringValue;
 	
 	NSEntityDescription *messageEntity = [self messageEntity:moc];
 	
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:messageEntityName];
+	NSString *predicateFormat = @"    fromMe == %@ "
+	//@"AND jidStr == %@ "
+	//@"AND streamBareJidStr == %@ "
+	//@"AND "
+	//@"("
+	//@"     (remoteTimestamp == %@) "
+	//@"  OR (remoteTimestamp == NIL && localTimestamp BETWEEN {%@, %@})"
+	//@")";
+	;
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat,
+							  [NSNumber numberWithBool:isFromMe]
+			//				  messageJID,
+			//				  streamBareJidStr,
+			//				  remoteTimestamp,
+			//				  minLocalTimestamp,
+			//				  maxLocalTimestamp
+							  ];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"localTimestamp"
+																   ascending:YES];
 	
-	[fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"message == %@", message]];
-	
-	// Find on database
-	
-	//NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:messageEntity.description];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:[NSEntityDescription entityForName:messageEntityName inManagedObjectContext:moc]];
+	[fetchRequest setPredicate:predicate];
+	[fetchRequest setSortDescriptors:sortDescriptors];
  
 	NSError *error = nil;
 	NSArray *results = [moc executeFetchRequest:fetchRequest error:&error];
-	XMPPRoomMessageCoreDataStorageObject *roomMessage;
 	
 	if (!results) {
-		NSLog(@"Error fetching Employee objects: %@\n%@", [error localizedDescription], [error userInfo]);
+		NSLog(@"Error fetching %@ objects: %@\n%@", messageEntityName, [error localizedDescription], [error userInfo]);
 		abort();
 	}
 	else {
-		
-		roomMessage = (XMPPRoomMessageCoreDataStorageObject *) [results lastObject];
+		BOOL done = NO;
+		for (id o in results) {
+			// TODO: extend this to MUC light using isKindOfClass
+			XMPPRoomMessageCoreDataStorageObject *thisMessageEntity = (XMPPRoomMessageCoreDataStorageObject *)o;
+			XMPPMessage *thisMessage = thisMessageEntity.message;
+			DDXMLNode *thisReplaceId = [thisMessage attributeForName:@"id"];
+			// NSLog(@"thisReplaceId is: %@",thisReplaceId.stringValue);
+			if ([replaceId.stringValue isEqualToString: thisReplaceId.stringValue]) {
+				thisMessageEntity.message = message;
+				thisMessageEntity.body = messageBody;
+				thisMessageEntity.localTimestamp = localTimestamp;
+				thisMessageEntity.remoteTimestamp = remoteTimestamp;
+				
+				[moc refreshObject:thisMessageEntity mergeChanges:NO];
+				done = YES;
+				break;
+			}
+		}
+		done?:NSLog(@"Replacement ID # %@ not found.",replaceId);
 	}
-	
-	roomMessage.message = message;
-	roomMessage.roomJID = messageJID.bareJID;
-	roomMessage.jid = messageJID;
-	roomMessage.nickname = [messageJID resource];
-	roomMessage.body = messageBody;
-	roomMessage.localTimestamp = localTimestamp;
-	roomMessage.remoteTimestamp = remoteTimestamp;
-	roomMessage.isFromMe = isFromMe;
-	roomMessage.streamBareJidStr = streamBareJidStr;
-	
-	[moc refreshObject:roomMessage mergeChanges:NO];
 }
 
 
