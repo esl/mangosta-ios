@@ -66,8 +66,7 @@ class ChatViewController: UIViewController {
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
-	
-	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
+	private func getCurrentContextAndEntityDescription() -> (NSManagedObjectContext, NSEntityDescription?) {
 		let groupContext: NSManagedObjectContext!
 		let entity: NSEntityDescription?
 		
@@ -78,7 +77,12 @@ class ChatViewController: UIViewController {
 			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext
 			entity = NSEntityDescription.entityForName("XMPPRoomLightMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
 		}
+		return (groupContext, entity)
+	}
+	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
 
+		let (groupContext, entity) = self.getCurrentContextAndEntityDescription()
+		
 		let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
 
 		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
@@ -146,7 +150,7 @@ class ChatViewController: UIViewController {
 		return true
 	}
 	
-	internal func sendLastMessageCorrection(messageID: String, ) {
+	internal func sendLastMessageCorrection(messageID: String, replacingEntityMessage: AnyObject) {
 		// TODO: Find out if the XEP is active on the server plus the other side client supports this.
 		// TODO: Fix XMPPFramework support for XEP-0308
 		var message = "this is the corrected message " + "\(self.tableView.numberOfRowsInSection(0))"
@@ -164,8 +168,7 @@ class ChatViewController: UIViewController {
 				msg.addBody(message)
 				msg.addChild(correctionMessage)
 				
-				//self.fetchHistoryForCorrectionWithID(msg);
-				
+				self.replaceInLocalStorage(msg)
 				self.xmppController.xmppStream.sendElement(msg)
 			}
 			else {
@@ -179,55 +182,58 @@ class ChatViewController: UIViewController {
 	
 	
 	
-	func replace(message: XMPPMessage, isMessageCorrection replaceId: DDXMLNode, isFromMe: Bool, messageJID: XMPPJID, localTimeStamp localTimestamp: NSDate, remoteTimeStam remoteTimestamp: NSDate, stream xmppStream: XMPPStream) {
-	
+	func replaceInLocalStorage(message: XMPPMessage) {
 		
+		let e = message.elementForName("replace")
+		let replaceId = e.attributeForName("id")
 		
-		var messageBody = message.elementForName("body").stringValue
+		let (moc, _) = self.getCurrentContextAndEntityDescription()
 		
-	//	var streamBareJidStr = self.myJIDfor(xmppStream).bare()
-		var minLocalTimestamp = remoteTimestamp.dateByAddingTimeInterval(-60)
-		var maxLocalTimestamp = remoteTimestamp.dateByAddingTimeInterval(60)
-		// NSString *newMessageID = [message attributeForName:@"id"].stringValue;
-		// NSString *replaceMessageID = [[message elementForName:@"replace"] attributeForName:@"id"].stringValue;
-
-		let messageEntity = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPRoomMessageCoreDataStorageObject
-		var predicateFormat = "    fromMe == %@ "
-		var predicate = .predicate(format: predicateFormat, Int(isFromMe))
+		let predicateFormat = "    fromMe == %@ "
+		let predicate = NSPredicate(format: predicateFormat, true)
+		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
+		let sortDescriptors = [sortDescriptor]
+		let fetchRequest = NSFetchRequest()
 		
-		var predicate = .predicate(format: predicateFormat, Int(isFromMe))
-		var sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
-		var sortDescriptors = [sortDescriptor]
-		var fetchRequest = NSFetchRequest()
-		fetchRequest.entity = NSEntityDescription.entity(forName: .name, inManagedObjectContext: moc)!
+		fetchRequest.entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: moc )
 		fetchRequest.predicate = predicate
 		fetchRequest.sortDescriptors = sortDescriptors
-		var error: Error? = nil
-		var results = try! moc.executeFetchRequest(fetchRequest)!
+		
+		let error: NSError? = nil
+		let results = try! moc.executeFetchRequest(fetchRequest)
 		if results.isEmpty {
-			print("Error fetching \(.name) objects: \(error!.localizedDescription)\n\(error!.userInfo!)")
+			print("Error fetching entity objects: \(error!.localizedDescription)\n\(error!.userInfo)")
 			abort()
 		}
 		else {
 			var done = false
 			for o: Any in results {
 				// TODO: extend this to MUC light using isKindOfClass
-				var thisMessageEntity = (o as! XMPPRoomMessageCoreDataStorageObject)
-				var thisMessage = thisMessageEntity.message
-				var thisReplaceId = thisMessage.attribute(forName: "id")
-				// NSLog(@"thisReplaceId is: %@",thisReplaceId.stringValue);
-				if (replaceId.stringValue == thisReplaceId.stringValue) {
+				let thisMessageEntity = (o as! XMPPRoomMessageCoreDataStorageObject)
+				let thisMessage = thisMessageEntity.message
+				let thisMessageId = thisMessage.attributeForName("id")
+				if replaceId.stringValue() == thisMessageId.stringValue() {
+					print("Id to replace is: \(thisMessageId.stringValue())")
 					thisMessageEntity.message = message
-					thisMessageEntity.body = messageBody
-					thisMessageEntity.localTimestamp = localTimestamp
-					thisMessageEntity.remoteTimestamp = remoteTimestamp
+					thisMessageEntity.body = message.body()
+					// thisMessageEntity.localTimestamp = localTimestamp
 					moc.refreshObject(thisMessageEntity, mergeChanges: false)
+					do {
+						try moc.save()
+					} catch {
+						fatalError("Failure to save context: \(error)")
+					}
+					
+					tableView.reloadData()
 					done = true
-				}
+					break
 				}
 			}
-
+			if !done {
+				print("Replacement ID # \(replaceId) not found.")
+			}
 		}
+	}
 
 	func fetchHistoryForCorrectionWithID(message: XMPPMessage) {
 		let fields = [XMPPMessageArchiveManagement.fieldWithVar("id", type: nil, andValue: message.elementForName("replace").attributeForName("id").stringValue())]
@@ -378,13 +384,14 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let indexPath = tableView.indexPathForSelectedRow!
-		let messageEntity = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPRoomMessageCoreDataStorageObject
-		if messageEntity.isFromMe || messageEntity.streamBareJidStr != nil && messageEntity.streamBareJidStr == xmppController.xmppStream.myJID.bare() { // message is either group chat or P2P and from me
-			// Only allow selection on a cell that holds the last message only
-			if messageEntity.message.attributeForName("id").stringValue() == self.lastSentMessageID {
-				self.sendLastMessageCorrection(self.lastSentMessageID)
+		// TODO: extend this to P2P and MucLight using isKindOfClass
+		if let messageEntity = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPRoomMessageCoreDataStorageObject {
+			if messageEntity.isFromMe || (messageEntity.streamBareJidStr != nil && messageEntity.streamBareJidStr == xmppController.xmppStream.myJID.bare()) { // message is either group chat or P2P and from me
+				// Only allow selection on a cell that holds the last message only
+				if messageEntity.message.attributeForName("id").stringValue() == self.lastSentMessageID {
+					self.sendLastMessageCorrection(self.lastSentMessageID, replacingEntityMessage: messageEntity)
+				}
 			}
-			//tableView.reloadData()
 		}
 	}
 	func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
