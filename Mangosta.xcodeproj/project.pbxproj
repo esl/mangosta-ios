@@ -21,6 +21,7 @@
 		81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
@@ -87,6 +88,8 @@
 		81F8E8321CA0236A008099D1 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
+		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
@@ -183,9 +186,10 @@
 				C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */,
 				8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
-				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
+				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
 				813266A41CA2B63600D4EDC0 /* XEP-0198 */,
+				AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */,
 				C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */,
 				C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */,
 				C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */,
@@ -280,6 +284,16 @@
 				D7586712F63B46A549B9633A /* Pods-Mangosta.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */ = {
+			isa = PBXGroup;
+			children = (
+				AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */,
+				AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */,
+			);
+			name = "XEP-0245";
+			path = ../../Pods/XMPPFramework;
 			sourceTree = "<group>";
 		};
 		C12EA9511CDD16EF00F29606 /* XEP-0045 */ = {
@@ -520,6 +534,7 @@
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
+				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,

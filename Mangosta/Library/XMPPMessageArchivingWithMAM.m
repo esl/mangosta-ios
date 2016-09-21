@@ -10,11 +10,15 @@
 #import "XMPPMessage+XEP_0313.h"
 #import "XMPPMessage+XEP0045.h"
 #import "XMPPMessageAndMAMArchivingCoreDataStorage.h"
+#import "XMPPMessage+XEP_0245.h"
 
 @implementation XMPPMessageArchivingWithMAM
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
+
+	message = [self editMeCommandIfPresent:message];
+	
 	if ([message isGroupChatMessage]) {
 		return;
 	}
@@ -46,6 +50,7 @@
 	// 2. 'otr' and 'expire' value are taken from the <item> element that matches the contact, if present,
 	//    else from the default element.
 	
+	
 	NSXMLElement *match = nil;
 	
 	NSString *messageThread = [[message elementForName:@"thread"] stringValue];
@@ -63,6 +68,8 @@
 			}
 		}
 	}
+	
+	message = [self editMeCommandIfPresent:message];
 	
 	if (match == nil)
 	{
@@ -159,6 +166,7 @@
 		return NO;
 	}
 	
+	
 	// The 'save' attribute specifies the user's default setting for Save Mode.
 	// The allowable values are:
 	//
@@ -175,6 +183,29 @@
 		return NO;
 	else
 		return YES;
+}
+
+- (XMPPMessage *)editMeCommandIfPresent:(XMPPMessage *)message {
+	if ([message isMessageStartingWithMeCommand]) {
+		NSString *body = [[[message elementsForName:@"body"]firstObject]stringValue];
+		NSString *nickName;
+		if ([message isGroupChatMessage]){
+			nickName = [message from].resource;
+		}
+		else {
+		 nickName = [message from].user;
+		}
+		if (nickName == nil) {
+			nickName = xmppStream.myJID.user;
+		}
+		NSRange beginningOfTheLine = NSMakeRange(0, 4);
+		NSString *newBodyString = [body stringByReplacingOccurrencesOfString:@"/me " withString:[nickName stringByAppendingString:@" "] options:0 range:beginningOfTheLine];
+		
+		[message removeElementForName:@"body"];
+		[message addChild:[NSXMLElement elementWithName:@"body" stringValue:newBodyString]];
+		return message;
+	}
+	return message;
 }
 
 @end
