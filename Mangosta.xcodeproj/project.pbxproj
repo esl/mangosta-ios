@@ -58,6 +58,32 @@
 		AC9F66151D957ABD00B3AEB8 /* MUC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9161CE25CCC00225EC7 /* MUC.storyboard */; };
 		AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
 		AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
+		AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66211D957E5900B3AEB8 /* Backend.swift */; };
+		AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66221D957E5900B3AEB8 /* Compatibility.swift */; };
+		AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */; };
+		AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66241D957E5900B3AEB8 /* DataParser.swift */; };
+		AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */; };
+		AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */; };
+		AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66271D957E5900B3AEB8 /* EntityParser.swift */; };
+		AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66281D957E5900B3AEB8 /* Future.swift */; };
+		AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */; };
+		AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */; };
+		AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */; };
+		AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */; };
+		AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */; };
+		AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662E1D957E5900B3AEB8 /* Logger.swift */; };
+		AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */; };
+		AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */; };
+		AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */; };
+		AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66321D957E5900B3AEB8 /* PageInfo.swift */; };
+		AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66331D957E5900B3AEB8 /* Repository.swift */; };
+		AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66341D957E5900B3AEB8 /* Result.swift */; };
+		AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66361D957E5900B3AEB8 /* JID.swift */; };
+		AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66371D957E5900B3AEB8 /* Message.swift */; };
+		AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */; };
+		AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663A1D957E5900B3AEB8 /* Room Message.swift */; };
+		AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663B1D957E5900B3AEB8 /* Room.swift */; };
+		AC9F66571D957E5900B3AEB8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663C1D957E5900B3AEB8 /* User.swift */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
@@ -127,7 +153,33 @@
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
 		AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mangosta REST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "REST-Info.plist"; sourceTree = "<group>"; };
+		AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "REST-Info.plist"; path = "Mangosta/REST-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AC9F66211D957E5900B3AEB8 /* Backend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Backend.swift; sourceTree = "<group>"; };
+		AC9F66221D957E5900B3AEB8 /* Compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compatibility.swift; sourceTree = "<group>"; };
+		AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDRepository.swift; sourceTree = "<group>"; };
+		AC9F66241D957E5900B3AEB8 /* DataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryInitializable.swift; sourceTree = "<group>"; };
+		AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryRepresentable.swift; sourceTree = "<group>"; };
+		AC9F66271D957E5900B3AEB8 /* EntityParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityParser.swift; sourceTree = "<group>"; };
+		AC9F66281D957E5900B3AEB8 /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
+		AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
+		AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethodName.swift; sourceTree = "<group>"; };
+		AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponseParser.swift; sourceTree = "<group>"; };
+		AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JaymeError.swift; sourceTree = "<group>"; };
+		AC9F662E1D957E5900B3AEB8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionBackend.swift; sourceTree = "<group>"; };
+		AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionBackendConfiguration.swift; sourceTree = "<group>"; };
+		AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedRepository.swift; sourceTree = "<group>"; };
+		AC9F66321D957E5900B3AEB8 /* PageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
+		AC9F66331D957E5900B3AEB8 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		AC9F66341D957E5900B3AEB8 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		AC9F66361D957E5900B3AEB8 /* JID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JID.swift; sourceTree = "<group>"; };
+		AC9F66371D957E5900B3AEB8 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongooseAPI.swift; sourceTree = "<group>"; };
+		AC9F663A1D957E5900B3AEB8 /* Room Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Room Message.swift"; sourceTree = "<group>"; };
+		AC9F663B1D957E5900B3AEB8 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		AC9F663C1D957E5900B3AEB8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
@@ -277,7 +329,6 @@
 		81ECA34E1C92CDE4000602F2 /* Mangosta */ = {
 			isa = PBXGroup;
 			children = (
-				AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */,
 				C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */,
 				81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */,
 				C12EA9551CE255C800F29606 /* User Interface */,
@@ -288,7 +339,9 @@
 				81ECA35B1C92CDE4000602F2 /* Info.plist */,
 				814D4CAA1C970F5500AB28FA /* XMPPFramework.h */,
 				814D4CA41C970E6900AB28FA /* Constants.swift */,
+				AC9F66351D957E5900B3AEB8 /* REST */,
 				814D4CA31C970E5B00AB28FA /* Library */,
+				AC9F66201D957E5900B3AEB8 /* Jayme */,
 			);
 			path = Mangosta;
 			sourceTree = "<group>";
@@ -342,6 +395,47 @@
 			);
 			name = "XEP-0245";
 			path = ../../Pods/XMPPFramework;
+			sourceTree = "<group>";
+		};
+		AC9F66201D957E5900B3AEB8 /* Jayme */ = {
+			isa = PBXGroup;
+			children = (
+				AC9F66211D957E5900B3AEB8 /* Backend.swift */,
+				AC9F66221D957E5900B3AEB8 /* Compatibility.swift */,
+				AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */,
+				AC9F66241D957E5900B3AEB8 /* DataParser.swift */,
+				AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */,
+				AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */,
+				AC9F66271D957E5900B3AEB8 /* EntityParser.swift */,
+				AC9F66281D957E5900B3AEB8 /* Future.swift */,
+				AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */,
+				AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */,
+				AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */,
+				AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */,
+				AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */,
+				AC9F662E1D957E5900B3AEB8 /* Logger.swift */,
+				AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */,
+				AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */,
+				AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */,
+				AC9F66321D957E5900B3AEB8 /* PageInfo.swift */,
+				AC9F66331D957E5900B3AEB8 /* Repository.swift */,
+				AC9F66341D957E5900B3AEB8 /* Result.swift */,
+			);
+			path = Jayme;
+			sourceTree = "<group>";
+		};
+		AC9F66351D957E5900B3AEB8 /* REST */ = {
+			isa = PBXGroup;
+			children = (
+				AC9F66361D957E5900B3AEB8 /* JID.swift */,
+				AC9F66371D957E5900B3AEB8 /* Message.swift */,
+				AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */,
+				AC9F663A1D957E5900B3AEB8 /* Room Message.swift */,
+				AC9F663B1D957E5900B3AEB8 /* Room.swift */,
+				AC9F663C1D957E5900B3AEB8 /* User.swift */,
+				AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */,
+			);
+			path = REST;
 			sourceTree = "<group>";
 		};
 		C12EA9511CDD16EF00F29606 /* XEP-0045 */ = {
@@ -707,30 +801,56 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */,
+				AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
+				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
 				AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */,
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
+				AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */,
 				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				AC9F65FA1D957ABD00B3AEB8 /* MUCLightRoomViewController.swift in Sources */,
 				AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */,
+				AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */,
 				AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */,
+				AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */,
+				AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */,
+				AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */,
 				AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */,
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */,
 				AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */,
+				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
+				AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */,
+				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
+				AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */,
+				AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */,
 				AC9F66011D957ABD00B3AEB8 /* ChatViewController.swift in Sources */,
+				AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */,
+				AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */,
+				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
+				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
+				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
+				AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */,
+				AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */,
 				AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */,
 				AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */,
 				AC9F66061D957ABD00B3AEB8 /* LoginViewController.swift in Sources */,
+				AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */,
+				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
+				AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */,
+				AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */,
 				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
 				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
+				AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */,
+				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
 				AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */,
+				AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
