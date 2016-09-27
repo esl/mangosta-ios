@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class ChatViewController: UIViewController {
+class ChatViewController: UIViewController , IMInterface {
 	@IBOutlet internal var tableView: UITableView!
 	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
 	@IBOutlet weak var subject: UILabel!
@@ -22,9 +22,18 @@ class ChatViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController!
 	weak var xmppController: XMPPController!
 	var lastID = ""
+	
+	var CommandInterfase : IMInterface
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		#if MangostaREST
+			CommandInterfase = RestMain()
+		#else
+			CommandInterfase = RestMain()
+		#endif
+		
 		var rightBarButtonItems: [UIBarButtonItem] = []
 		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
 		
