@@ -1080,6 +1080,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
@@ -1096,6 +1097,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";

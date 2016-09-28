@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController?
 	var activated = true
 	weak var xmppController: XMPPController!
+	weak var mongooseRESTController : MongooseAPI!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -53,6 +54,11 @@ class MainViewController: UIViewController {
 		
 		xmppController.connect()
 		self.setupFetchedResultsController()
+		
+		#if MangostaREST
+			self.mongooseRESTController = MongooseAPI()
+			appDelegate.mongooseRESTController = self.mongooseRESTController
+		#endif
 	}
 	
 	@IBAction func activateDeactivate(sender: UIButton) {
@@ -74,6 +80,8 @@ class MainViewController: UIViewController {
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
 		self.xmppController = nil
+		appDelegate.mongooseRESTController = nil
+		self.mongooseRESTController = nil
 		
 	}
 	
@@ -165,7 +173,7 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 
 extension MainViewController: LoginControllerDelegate {
 	func didLogIn() {
-		self.configureAndStartXMPP()
+		self.configureAndStartXMPP() // and MongooseREST API
 	}
 }
 
