@@ -7,13 +7,25 @@
 //
 
 import Foundation
+import XMPPFramework
 
-
-class RestMain {
-	func sendMessage(jidString: String) {
+class RestMain : MIMCommunicable {
+	
+	// MARK: ChatViewController
+	func sendMessage(xmppMessage: XMPPMessage) {
 		
 	}
-	
+	func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!) {
+		
+	}
+	func addUsers(users: [XMPPJID]) {
+		
+	}
+	func showMUCDetails() {
+		
+	}
+	func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) { // func fetchHistory()
+	}
 	func getRooms() -> [Room] {
 		RoomRepository().findAll().start() { result in
 			switch result {
@@ -26,4 +38,28 @@ class RestMain {
 		return []
 	}
 	
+	// MARK: MainViewController
+	func addUser(jid: XMPPJID!, withNickname optionalName: String!) {
+		
+	}
+	
+	// MARK: MUCRoom
+	func joinRoomUsingNickname(desiredNickname: String!, history: DDXMLElement!) { // createRoom
+	}
+	func createRoom(roomName: String, users: [XMPPJID]?) { // MUCRoomCreateViewController
+	}
+	
+	// MARK: MUCLightRoom
+	func createRoomLightWithMembersJID(members: [XMPPJID]?) {
+		
+	}
+	
+	// Blocking
+	func blockJID(xmppJID: XMPPJID!) {
+		
+	}
+	func unblockJID(xmppJID: XMPPJID!) {
+		
+	}
+
 }
