@@ -60,7 +60,7 @@ class MongooseAPI: NSObject {
 	
 	let backend = NSURLSessionBackend.MongooseREST()
 	
-	
+	let activateLogger = Logger()
 	
 	private	func referenceForXMPPController() -> XMPPController {
 	

@@ -9,11 +9,21 @@
 import Foundation
 import XMPPFramework
 
-class RestMain : MIMCommunicable {
+class RestMain  {
 	
 	// MARK: ChatViewController
 	func sendMessage(xmppMessage: XMPPMessage) {
-		
+		let message = Message(id: NSUUID().UUIDString, to: xmppMessage.to().bare(), body: xmppMessage.body())
+		MessageRepository().create(message).start() { result in
+			switch result {
+			case .Success(let messageSent):
+				break
+			case .Failure(let error):
+				// You've got a discrete JaymeError indicating what happened
+				print("Error: \(error)")
+				break
+			}
+	}
 	}
 	func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!) {
 		
@@ -25,17 +35,22 @@ class RestMain : MIMCommunicable {
 		
 	}
 	func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) { // func fetchHistory()
+		
 	}
 	func getRooms() -> [Room] {
+		var r : [Room] = []
 		RoomRepository().findAll().start() { result in
 			switch result {
-			case .Success(let users): break
-			// You've got all your users fetched in this array!
-			case .Failure(let error): break
+			case .Success(let users):
+				r = users
+				break
+			case .Failure(let error):
 				// You've got a discrete JaymeError indicating what happened
+				print("Error: \(error)")
+				break
 			}
 		}
-		return []
+		return r
 	}
 	
 	// MARK: MainViewController

@@ -89,7 +89,6 @@
 		ACA045941D999B8D00B3AEB8 /* MainViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MainViewControllerDelegate.swift */; };
 		ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045951D99C26B00B3AEB8 /* RestMain.swift */; };
 		ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */; };
-		ACA045991D9ACCCD00B3AEB8 /* UsersRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0458D1D99966800B3AEB8 /* UsersRepository.swift */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
@@ -188,7 +187,6 @@
 		AC9F663C1D957E5900B3AEB8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ACA045891D99906900B3AEB8 /* MensajesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MensajesRepository.swift; sourceTree = "<group>"; };
 		ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsRepository.swift; sourceTree = "<group>"; };
-		ACA0458D1D99966800B3AEB8 /* UsersRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersRepository.swift; sourceTree = "<group>"; };
 		ACA045921D999B8D00B3AEB8 /* MainViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewControllerDelegate.swift; sourceTree = "<group>"; };
 		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
@@ -439,7 +437,6 @@
 		AC9F66351D957E5900B3AEB8 /* REST */ = {
 			isa = PBXGroup;
 			children = (
-				ACA0458D1D99966800B3AEB8 /* UsersRepository.swift */,
 				ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */,
 				AC9F663B1D957E5900B3AEB8 /* Room.swift */,
 				AC9F66361D957E5900B3AEB8 /* JID.swift */,
@@ -867,7 +864,6 @@
 				AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */,
 				AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */,
 				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
-				ACA045991D9ACCCD00B3AEB8 /* UsersRepository.swift in Sources */,
 				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
 				AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */,
 				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
