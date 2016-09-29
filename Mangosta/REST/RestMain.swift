@@ -14,29 +14,54 @@ class RestMain  {
 	// MARK: ChatViewController
 	func sendMessage(xmppMessage: XMPPMessage) {
 		let message = Message(id: NSUUID().UUIDString, to: xmppMessage.to().bare(), body: xmppMessage.body())
-		MessageRepository().create(message).start() { result in
+		MessageRepository().sendMessage(message).start() { result in
 			switch result {
 			case .Success(let messageSent):
 				break
 			case .Failure(let error):
-				// You've got a discrete JaymeError indicating what happened
 				print("Error: \(error)")
 				break
 			}
+		}
 	}
+	
+	// TODO: add get messages from Room
+	func getMessages() {
+		MessageRepository().getNMessages("", before: "").start() { result in
+			switch result {
+			case .Success(let messageList):
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+			
+		}
 	}
-	func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!) {
-		
+	
+	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {
+		let room = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: invitationMessage)
+		RoomRepository().addUserToRoom(room, userJID: jid.bare()).start() {
+			result in
+			switch result {
+			case .Success(let userInvited):
+				
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+		}
 	}
-	func addUsers(users: [XMPPJID]) {
-		
-	}
+	
 	func showMUCDetails() {
 		
 	}
+	
 	func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) { // func fetchHistory()
 		
 	}
+	
 	func getRooms() -> [Room] {
 		var r : [Room] = []
 		RoomRepository().findAll().start() { result in
@@ -45,7 +70,6 @@ class RestMain  {
 				r = users
 				break
 			case .Failure(let error):
-				// You've got a discrete JaymeError indicating what happened
 				print("Error: \(error)")
 				break
 			}
@@ -61,20 +85,76 @@ class RestMain  {
 	// MARK: MUCRoom
 	func joinRoomUsingNickname(desiredNickname: String!, history: DDXMLElement!) { // createRoom
 	}
-	func createRoom(roomName: String, users: [XMPPJID]?) { // MUCRoomCreateViewController
+	
+	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?) { // MUCRoomCreateViewController
+		let roomToCreate = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: room.roomJID.bare()) // FIXME: what is room name here?
+		RoomRepository().create(roomToCreate).start() {
+			result in
+			switch result {
+			case .Success(let roomCreated):
+				// TODO: save id
+				print("roomCreated")
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+		}
+	}
+	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID) {
+		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
+		RoomRepository().deleteUserFromRoom(thisRoom, userJID: user.bare()).start() {
+			result in
+			switch result {
+			case .Success(let userDeleted):
+				print("userDeleted")
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+		}
 	}
 	
-	// MARK: MUCLightRoom
-	func createRoomLightWithMembersJID(members: [XMPPJID]?) {
-		
+	func getRoomArchivedMessages(room: XMPPRoom, limit: String, before: String) {
+		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
+		RoomRepository().getMessagesFromRoom(thisRoom.id, limit: limit, before: before).start() {
+			result in
+			switch result {
+			case .Success(let messageList):
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+		}
 	}
 	
-	// Blocking
-	func blockJID(xmppJID: XMPPJID!) {
-		
+	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {
+		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
+		RoomRepository().sendMessageToRoom(thisRoom, messageBody: message.body()).start() {
+			result in
+			switch result {
+			case .Success(let messageSent):
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+		}
 	}
-	func unblockJID(xmppJID: XMPPJID!) {
-		
-	}
-
 }
+
+// MARK: MUCLightRoom
+func createRoomLightWithMembersJID(members: [XMPPJID]?) {
+	
+}
+
+// Blocking
+func blockJID(xmppJID: XMPPJID!) {
+	
+}
+func unblockJID(xmppJID: XMPPJID!) {
+	
+}
+

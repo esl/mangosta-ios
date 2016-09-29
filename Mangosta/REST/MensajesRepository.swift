@@ -20,7 +20,7 @@ class MessageRepository: CRUDRepository {
 			.andThen { EntityParser().entityFromDictionary($0) }
 	}
 
-	func getNMessages(entity: EntityType, limit: String, before: String) -> Future<EntityType, JaymeError> {
+	func getNMessages(limit: String, before: String) -> Future<EntityType, JaymeError> {
 		let path = self.name
 		let parameters : [String : AnyObject]? = ["limit":limit == "" ? "50":limit, "before":before]
 		return self.backend.futureForPath(path, method: .GET, parameters: parameters)
