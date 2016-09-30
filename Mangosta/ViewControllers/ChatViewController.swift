@@ -23,11 +23,7 @@ class ChatViewController: UIViewController {
 	weak var xmppController: XMPPController!
 	var lastID = ""
 	
-	#if MangostaREST
-	let CommandInterfase = RestMain()
-	#else
-	let CommandInterfase = RestMain()
-	#endif
+	let MIMCommonInterface = MIMMainInterface()
 	
 
 	override func viewDidLoad() {
@@ -135,8 +131,8 @@ class ChatViewController: UIViewController {
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
-
-			self.xmppController.xmppStream.sendElement(msg)
+self.MIMCommonInterface.sendMessage(msg)
+			// self.xmppController.xmppStream.sendElement(msg)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}

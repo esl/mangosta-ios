@@ -22,6 +22,7 @@
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
+		AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
 		AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
 		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
@@ -157,6 +158,7 @@
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
+		AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPMain.swift; sourceTree = "<group>"; };
 		AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mangosta REST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "REST-Info.plist"; path = "Mangosta/REST-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AC9F66211D957E5900B3AEB8 /* Backend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Backend.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				811C5AB31CAC094D008346FE /* AuthenticationModel.swift */,
+				AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -773,6 +776,7 @@
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
+				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,

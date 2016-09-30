@@ -9,7 +9,7 @@
 import Foundation
 import XMPPFramework
 
-class RestMain  {
+class MIMMainInterface: MIMCommunicable {
 	
 	// MARK: ChatViewController
 	func sendMessage(xmppMessage: XMPPMessage) {
@@ -25,9 +25,9 @@ class RestMain  {
 		}
 	}
 	
-	// TODO: add get messages from Room
 	func getMessages() {
-		MessageRepository().getNMessages("", before: "").start() { result in
+		MessageRepository().getNMessages("", before: "").start() {
+			result in
 			switch result {
 			case .Success(let messageList):
 				break
@@ -35,7 +35,6 @@ class RestMain  {
 				print("Error: \(error)")
 				break
 			}
-			
 		}
 	}
 	
@@ -54,17 +53,14 @@ class RestMain  {
 		}
 	}
 	
-	func showMUCDetails() {
-		
-	}
-	
 	func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) { // func fetchHistory()
 		
 	}
 	
 	func getRooms() -> [Room] {
-		var r : [Room] = []
-		RoomRepository().findAll().start() { result in
+		var r: [Room] = []
+		RoomRepository().findAll().start() {
+			result in
 			switch result {
 			case .Success(let users):
 				r = users
@@ -82,10 +78,6 @@ class RestMain  {
 		
 	}
 	
-	// MARK: MUCRoom
-	func joinRoomUsingNickname(desiredNickname: String!, history: DDXMLElement!) { // createRoom
-	}
-	
 	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?) { // MUCRoomCreateViewController
 		let roomToCreate = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: room.roomJID.bare()) // FIXME: what is room name here?
 		RoomRepository().create(roomToCreate).start() {
@@ -101,6 +93,7 @@ class RestMain  {
 			}
 		}
 	}
+	
 	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID) {
 		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
 		RoomRepository().deleteUserFromRoom(thisRoom, userJID: user.bare()).start() {
@@ -144,17 +137,3 @@ class RestMain  {
 		}
 	}
 }
-
-// MARK: MUCLightRoom
-func createRoomLightWithMembersJID(members: [XMPPJID]?) {
-	
-}
-
-// Blocking
-func blockJID(xmppJID: XMPPJID!) {
-	
-}
-func unblockJID(xmppJID: XMPPJID!) {
-	
-}
-

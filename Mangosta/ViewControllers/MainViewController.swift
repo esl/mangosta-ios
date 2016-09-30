@@ -1,3 +1,4 @@
+
 //
 //  ViewController.swift
 //  Mangosta
@@ -15,8 +16,11 @@ class MainViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController?
 	var activated = true
 	weak var xmppController: XMPPController!
+	
+	#if MangostaREST // TODO: probably better way.
 	weak var mongooseRESTController : MongooseAPI!
-
+	#endif
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Roster"
@@ -80,8 +84,10 @@ class MainViewController: UIViewController {
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
 		self.xmppController = nil
-		appDelegate.mongooseRESTController = nil
-		self.mongooseRESTController = nil
+		#if MangostaREST
+			appDelegate.mongooseRESTController = nil
+			self.mongooseRESTController = nil
+		#endif
 		
 	}
 	
