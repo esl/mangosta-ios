@@ -12,7 +12,7 @@ import XMPPFramework
 class NSTrustedURLSessionBackendDelegate: NSObject, NSURLSessionDelegate {
 		func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
 			if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust{
-				print ("I will accept a self signed certificate")
+				// print ("I will accept a self signed certificate")
 				let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)
 				completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential,credential);
 			}
@@ -27,11 +27,11 @@ extension NSURLSessionBackend {
 		let username = authModel?.jid.bare()
 		let password = authModel?.password
 		
-		let token = username! + ":" + password!.toBase64()
+		let token = username! + ":" + password!
 
 		let headers = [HTTPHeader(field: "Accept", value: "application/json"),
 		               HTTPHeader(field: "Content-Type", value: "application/json"),
-		               HTTPHeader(field: "Authorization", value: "Basic" + token)]
+		               HTTPHeader(field: "Authorization", value: "Basic " + token.toBase64())]
 		
 		let configuration = NSURLSessionBackendConfiguration(basePath: basePath, httpHeaders: headers)
 		let delegate = NSTrustedURLSessionBackendDelegate()
