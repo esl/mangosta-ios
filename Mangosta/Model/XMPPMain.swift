@@ -12,7 +12,9 @@ import XMPPFramework
 class MIMMainInterfase: MIMCommunicable {
 	
 	// MARK: ChatViewController
-	func sendMessage(xmppMessage: XMPPMessage) {}
+	func sendMessage(xmppMessage: XMPPMessage) {
+		self.xmppController.xmppStream.sendElement(msg)
+	}
 	func getMessages() {}
 	// func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!)
 	// func addUsers(users: [XMPPJID])
@@ -34,5 +36,7 @@ class MIMMainInterfase: MIMCommunicable {
 	// func createRoomLightWithMembersJID(members: [XMPPJID]?)
 	
 	func getRoomArchivedMessages(room: XMPPRoom, limit: String, before: String) {}
-	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {}
+	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {
+		self.xmppController.xmppStream.sendElement(msg)
+	}
 }

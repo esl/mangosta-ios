@@ -131,8 +131,13 @@ class ChatViewController: UIViewController {
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
-			self.MIMCommonInterface.sendMessage(msg)
-			// TODO: complete for xmpp self.xmppController.xmppStream.sendElement(msg)
+			if type == "chat" {
+				self.MIMCommonInterface.sendMessage(msg)
+			}
+			else {
+				// TODO: make it comptatible with MUCLight
+				self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+			}
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
