@@ -9,6 +9,15 @@
 import Foundation
 import XMPPFramework
 
+class NSTrustedURLSessionBackendDelegate: NSObject, NSURLSessionDelegate {
+		func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+			if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust{
+				print ("I will accept a self signed certificate")
+				let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)
+				completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential,credential);
+			}
+		}
+}
 
 extension NSURLSessionBackend {
 	class func MongooseREST() -> NSURLSessionBackend {
@@ -25,7 +34,12 @@ extension NSURLSessionBackend {
 		               HTTPHeader(field: "Authorization", value: "Basic" + token)]
 		
 		let configuration = NSURLSessionBackendConfiguration(basePath: basePath, httpHeaders: headers)
-		return NSURLSessionBackend(configuration: configuration)
+		let delegate = NSTrustedURLSessionBackendDelegate()
+		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+		                           delegate: delegate,
+		                           delegateQueue: NSOperationQueue()
+		)
+		return NSURLSessionBackend(configuration: configuration, session: session)
 	}
 }
 

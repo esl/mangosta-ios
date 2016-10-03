@@ -131,8 +131,8 @@ class ChatViewController: UIViewController {
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
-self.MIMCommonInterface.sendMessage(msg)
-			// self.xmppController.xmppStream.sendElement(msg)
+			self.MIMCommonInterface.sendMessage(msg)
+			// TODO: complete for xmpp self.xmppController.xmppStream.sendElement(msg)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}

@@ -37,5 +37,17 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict/>
+		<key>31.172.186.62</key>
+		<dict>
+			<key>NSIncludeSubdomains</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

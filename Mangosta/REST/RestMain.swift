@@ -17,6 +17,7 @@ class MIMMainInterface: MIMCommunicable {
 		MessageRepository().sendMessage(message).start() { result in
 			switch result {
 			case .Success(let messageSent):
+				print("Message sent \(message))")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
