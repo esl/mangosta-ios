@@ -135,8 +135,9 @@ class ChatViewController: UIViewController {
 				self.MIMCommonInterface.sendMessage(msg)
 			}
 			else {
-				// TODO: make it comptatible with MUCLight
-				self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+				// TODO: make it comptatible with MUC & MUCLigt
+				// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+				self.xmppController.xmppStream.sendElement(msg) 
 			}
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
