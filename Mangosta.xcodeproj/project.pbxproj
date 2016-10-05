@@ -86,8 +86,8 @@
 		AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663B1D957E5900B3AEB8 /* Room.swift */; };
 		AC9F66571D957E5900B3AEB8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663C1D957E5900B3AEB8 /* User.swift */; };
 		ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045891D99906900B3AEB8 /* MensajesRepository.swift */; };
-		ACA045931D999B8D00B3AEB8 /* MainViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MainViewControllerDelegate.swift */; };
-		ACA045941D999B8D00B3AEB8 /* MainViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MainViewControllerDelegate.swift */; };
+		ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */; };
+		ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */; };
 		ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045951D99C26B00B3AEB8 /* RestMain.swift */; };
 		ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
@@ -189,7 +189,7 @@
 		AC9F663C1D957E5900B3AEB8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ACA045891D99906900B3AEB8 /* MensajesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MensajesRepository.swift; sourceTree = "<group>"; };
 		ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsRepository.swift; sourceTree = "<group>"; };
-		ACA045921D999B8D00B3AEB8 /* MainViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewControllerDelegate.swift; sourceTree = "<group>"; };
+		ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIMCommonInterfaceDelegate.swift; sourceTree = "<group>"; };
 		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
@@ -381,7 +381,7 @@
 			children = (
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
 				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
-				ACA045921D999B8D00B3AEB8 /* MainViewControllerDelegate.swift */,
+				ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
@@ -596,6 +596,9 @@
 						CreatedOnToolsVersion = 7.2.1;
 						TestTargetID = 81ECA34B1C92CDE4000602F2;
 					};
+					AC9F65EF1D957ABD00B3AEB8 = {
+						DevelopmentTeam = RN98T2SU3Z;
+					};
 				};
 			};
 			buildConfigurationList = 81ECA3471C92CDE4000602F2 /* Build configuration list for PBXProject "Mangosta" */;
@@ -771,7 +774,7 @@
 				C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */,
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
-				ACA045931D999B8D00B3AEB8 /* MainViewControllerDelegate.swift in Sources */,
+				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
@@ -841,7 +844,7 @@
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
 				AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */,
-				ACA045941D999B8D00B3AEB8 /* MainViewControllerDelegate.swift in Sources */,
+				ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
 				AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
 				AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */,
