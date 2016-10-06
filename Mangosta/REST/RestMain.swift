@@ -39,6 +39,23 @@ class MIMMainInterface: MIMCommunicable {
 		}
 	}
 	
+	func getMessagesWithUser(user: XMPPJID, limit: Int, before: CLong?) -> [XMPPMessage] {
+		let returnist : [XMPPMessage] = []
+		MessageRepository().getNMessagesWithUser(user.bare(), limit: limit, before: before!).start() {
+			result in
+			switch result {
+			case .Success(let messageList):
+				print ("message list \(messageList)")
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+		}
+		// FIXME: Use message list
+		return returnist
+	}
+	
 	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {
 		let room = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: invitationMessage)
 		RoomRepository().addUserToRoom(room, userJID: jid.bare()).start() {

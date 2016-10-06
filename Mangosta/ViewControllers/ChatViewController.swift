@@ -182,7 +182,13 @@ class ChatViewController: UIViewController {
 		let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let fields = [XMPPMessageArchiveManagement.fieldWithVar("with", type: nil, andValue: jid!.bare())]
 		let resultSet = XMPPResultSet(max: 5, after: self.lastID)
+		#if MangostaREST
+		MIMCommonInterface.getMessagesWithUser(jid!, limit: resultSet.max(), before: 0)
+			// FIXME: DEBUG before vs. after
+			// TODO: adapt common interface
+		#else
 		self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchiveWithFields(fields, withResultSet: resultSet)
+		#endif
 	}
 
 	deinit {

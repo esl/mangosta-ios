@@ -19,6 +19,12 @@ class MIMMainInterface: MIMCommunicable {
 	// func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!)
 	// func addUsers(users: [XMPPJID])
 	// func showMUCDetails()
+	
+	func getMessagesWithUser(user: XMPPJID, limit: String, before: String) -> [XMPPMessage] {
+		// TODO: self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchiveWithFields(fields, withResultSet: resultSet)
+	}
+	
+	
 	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {}
 	func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) {} // func fetchHistory()
 	func getRooms() -> [XMPPRoom] {return [] }
