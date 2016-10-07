@@ -11,37 +11,40 @@ import XMPPFramework
 
 protocol MIMCommunicable {
 	
-	// MARK: ChatViewController
-	func sendMessage(xmppMessage: XMPPMessage)
 	func getMessages()
+	func sendMessage(xmppMessage: XMPPMessage)
 	
-	func getMessagesWithUser(user: XMPPJID, limit: Int , before: CLong?) -> [XMPPMessage]
+	#if MangostaREST
+	func getMessagesWithUser(user: XMPPJID, limit: Int, before: CLong) -> [Message]
+	func getRooms() -> [Room]
+	func getRoomArchivedMessages(room: XMPPRoom, limit: Int, before: CLong) -> [Message]
+	#else
+	func getMessagesWithUser(user: XMPPJID, limit: Int, before: CLong) -> [XMPPMessage]
+	func getRooms() -> [XMPPRoom]
+	func getRoomArchivedMessages(room: XMPPRoom, limit: String, before: String) -> [XMPPRoom]
+	#endif
+	
+	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?)
+	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] // func showMUCDetails()
+	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom)
+	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID)
+	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage)
+	
+	// func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) // func fetchHistory()
 	// TODO: to implement
 	// func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!)
 	// func addUsers(users: [XMPPJID])
-	// func showMUCDetails()
-	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom)
-	func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) // func fetchHistory()
-	#if MangostaREST
-	func getRooms() -> [Room]
-	#else
-	func getRooms() -> [XMPPRoom]
-	#endif
 	// MARK: MainViewController
-	func addUser(jid: XMPPJID!, withNickname optionalName: String!)
+	// func addUser(jid: XMPPJID!, withNickname optionalName: String!)
 	
 	// MARK: MUCRoom
 	// func joinRoomUsingNickname(desiredNickname: String!, history: DDXMLElement!) // createRoom
-	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?)
 	// func createRoom(roomName: String, users: [XMPPJID]?) // MUCRoomCreateViewController
-	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID)
 	
 	// MARK: MUCLightRoom
 	// TODO: to implement
 	// func createRoomLightWithMembersJID(members: [XMPPJID]?)
 	
-	func getRoomArchivedMessages(room: XMPPRoom, limit: String, before: String)
-	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage)
 	
 	// MARK: Blocking
 	// TODO: to implement
