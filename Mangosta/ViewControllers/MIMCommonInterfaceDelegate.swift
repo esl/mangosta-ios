@@ -11,17 +11,17 @@ import XMPPFramework
 
 protocol MIMCommunicable {
 	
-	func getMessages()
+	func getMessages(limit: Int?, before: CLong?)
 	func sendMessage(xmppMessage: XMPPMessage)
 	
 	#if MangostaREST
-	func getMessagesWithUser(user: XMPPJID, limit: Int, before: CLong) -> [Message]
+	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [Message]
 	func getRooms() -> [Room]
-	func getRoomArchivedMessages(room: XMPPRoom, limit: Int, before: CLong) -> [Message]
+	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [Message]
 	#else
-	func getMessagesWithUser(user: XMPPJID, limit: Int, before: CLong) -> [XMPPMessage]
+	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [XMPPMessage]
 	func getRooms() -> [XMPPRoom]
-	func getRoomArchivedMessages(room: XMPPRoom, limit: String, before: String) -> [XMPPRoom]
+	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom]
 	#endif
 	
 	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?)

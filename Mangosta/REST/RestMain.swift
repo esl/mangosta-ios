@@ -11,11 +11,12 @@ import XMPPFramework
 
 class MIMMainInterface: MIMCommunicable {
 	
-	func getMessages() {
-		MessageRepository().getNMessages("", before: "").start() {
+	func getMessages(limit: Int?, before: CLong?) {
+		MessageRepository().getNMessages(nil, before: nil).start() {
 			result in
 			switch result {
 			case .Success(let messageList):
+				print("DEBUG MessageList \(messageList)")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -29,7 +30,7 @@ class MIMMainInterface: MIMCommunicable {
 		MessageRepository().sendMessage(message).start() { result in
 			switch result {
 			case .Success(let messageSent):
-				print("Message sent \(message))")
+				print("DEBUG Message sent \(messageSent))")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -38,14 +39,14 @@ class MIMMainInterface: MIMCommunicable {
 		}
 	}
 	
-	func getMessagesWithUser(user: XMPPJID, limit: Int, before: CLong) -> [Message] {
+	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [Message] {
 		var returnist : [Message] = []
 		MessageRepository().getNMessagesWithUser(user.bare(), limit: limit, before: before).start() {
 			result in
 			switch result {
 			case .Success(let messageList):
 				returnist = messageList
-				print ("message list \(messageList)")
+				print ("DEBUG message list \(messageList)")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -57,44 +58,48 @@ class MIMMainInterface: MIMCommunicable {
 	}
 	
 	func getRooms() -> [Room] {
-		var r: [Room] = []
+		var rooms: [Room] = []
 		RoomRepository().findAll().start() {
 			result in
 			switch result {
-			case .Success(let users):
-				r = users
+			case .Success(let rooms):
+				print ("DEBUG room list \(rooms)")
+				rooms = users
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
 				break
 			}
 		}
-		return r
+		return rooms
 	}
 	
-	func getRoomArchivedMessages(room: XMPPRoom, limit: Int, before: CLong) -> [Message] {
+	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [Message] {
+		var messages: [Message] = []
 		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
 		RoomRepository().getMessagesFromRoom(thisRoom.id, limit: limit, before: before).start() {
 			result in
 			switch result {
-			case .Success(let messageList):
+			case .Success(let archivedList):
+				print ("DEBUG archive message list \(archivedList)")
+				messages = archivedList
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
 				break
 			}
 		}
-		return []
+		return messages
 	}
-
-	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?){ // MUCRoomCreateViewController
+	
+	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?){
 		let roomToCreate = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: room.roomJID.bare()) // FIXME: what is room name here?
 		RoomRepository().create(roomToCreate).start() {
 			result in
 			switch result {
 			case .Success(let roomCreated):
 				// TODO: save id
-				print("roomCreated")
+				print("DEBUG roomCreated: \(roomCreated)")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -103,7 +108,11 @@ class MIMMainInterface: MIMCommunicable {
 		}
 	}
 	
-	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] {return [:]} // func showMUCDetails()
+	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] {
+		// TODO: Immpelent parsing of room details.
+		print("TODO: Immpelent parsing of room details.")
+		return [:]
+	}
 	
 	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {
 		let room = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: invitationMessage)
@@ -111,7 +120,7 @@ class MIMMainInterface: MIMCommunicable {
 			result in
 			switch result {
 			case .Success(let userInvited):
-	
+				print("DEBUG userInvited: \(userInvited)")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -126,7 +135,7 @@ class MIMMainInterface: MIMCommunicable {
 			result in
 			switch result {
 			case .Success(let userDeleted):
-				print("userDeleted")
+				print("DEBUG userDeleted: \(userDeleted)")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -141,6 +150,7 @@ class MIMMainInterface: MIMCommunicable {
 			result in
 			switch result {
 			case .Success(let messageSent):
+				print("DEBUG: messageSent: \(messageSent)")
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -148,10 +158,5 @@ class MIMMainInterface: MIMCommunicable {
 			}
 		}
 	}
-	
-//	func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) { // func fetchHistory()
-//
-//	}
-	
 	
 }

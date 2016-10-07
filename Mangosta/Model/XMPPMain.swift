@@ -13,20 +13,20 @@ class MIMMainInterface: MIMCommunicable {
 
 	var xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
 	
-	func getMessages() {}
+	func getMessages(limit: Int?, before: CLong?) {}
 	func sendMessage(xmppMessage: XMPPMessage) {
 		self.xmppController.xmppStream.sendElement(xmppMessage)
 	}
 	
-	func getMessagesWithUser(user: XMPPJID, limit: Int, before: CLong) -> [XMPPMessage] {
+	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [XMPPMessage] {
 		// TODO: self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchiveWithFields(fields, withResultSet: resultSet)
 		return []
 	}
-	func getRooms() -> [XMPPRoom] {return [] }
-	func getRoomArchivedMessages(room: XMPPRoom, limit: String, before: String) -> [XMPPRoom] {return []}
+	func getRooms() -> [XMPPRoom]{return [] }
+	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom]  {return [] }
 	
 	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?) {}
-	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] {return [:]} // func showMUCDetails()
+	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject]{return [:]} // func showMUCDetails()
 	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {}
 	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID) {}
 	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {
