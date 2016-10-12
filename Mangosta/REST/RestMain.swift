@@ -41,6 +41,7 @@ class MIMMainInterface: MIMCommunicable {
 	
 	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [Message] {
 		var returnist : [Message] = []
+		
 		MessageRepository().getNMessagesWithUser(user.bare(), limit: limit, before: before).start() {
 			result in
 			switch result {
@@ -58,26 +59,27 @@ class MIMMainInterface: MIMCommunicable {
 	}
 	
 	func getRooms() -> [Room] {
-		var rooms: [Room] = []
+		var roomList: [Room] = []
 		RoomRepository().findAll().start() {
 			result in
 			switch result {
 			case .Success(let rooms):
 				print ("DEBUG room list \(rooms)")
-				rooms = users
+				roomList = rooms
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
 				break
 			}
 		}
-		return rooms
+		return roomList
 	}
 	
 	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [Message] {
 		var messages: [Message] = []
-		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
-		RoomRepository().getMessagesFromRoom(thisRoom.id, limit: limit, before: before).start() {
+		let dictionary  : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+		let thisRoom = try? Room(dictionary: dictionary)
+		RoomRepository().getMessagesFromRoom(thisRoom!.id, limit: limit, before: before).start() {
 			result in
 			switch result {
 			case .Success(let archivedList):
@@ -93,8 +95,9 @@ class MIMMainInterface: MIMCommunicable {
 	}
 	
 	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?){
-		let roomToCreate = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: room.roomJID.bare()) // FIXME: what is room name here?
-		RoomRepository().create(roomToCreate).start() {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+		let roomToCreate = try? Room(dictionary: dictionary) // FIXME: what is room name here?
+		RoomRepository().create(roomToCreate!).start() {
 			result in
 			switch result {
 			case .Success(let roomCreated):
@@ -108,15 +111,26 @@ class MIMMainInterface: MIMCommunicable {
 		}
 	}
 	
-	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] {
-		// TODO: Immpelent parsing of room details.
-		print("TODO: Immpelent parsing of room details.")
-		return [:]
+	func getRoomDetails(room: XMPPRoom) -> Room {
+		var detailsDictionary : Room = try! Room(dictionary: [:])
+		RoomRepository().findByID(room.roomJID.bare()).start() {
+			result in
+			switch result {
+			case .Success(let details):
+				detailsDictionary = details
+				break
+			case .Failure(let error):
+				print("Error: \(error)")
+				break
+			}
+		}
+		return detailsDictionary
 	}
 	
 	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {
-		let room = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: invitationMessage)
-		RoomRepository().addUserToRoom(room, userJID: jid.bare()).start() {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+		let room = try? Room(dictionary: dictionary)
+		RoomRepository().addUserToRoom(room!, userJID: jid.bare()).start() {
 			result in
 			switch result {
 			case .Success(let userInvited):
@@ -130,8 +144,9 @@ class MIMMainInterface: MIMCommunicable {
 	}
 	
 	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID) {
-		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
-		RoomRepository().deleteUserFromRoom(thisRoom, userJID: user.bare()).start() {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+		let thisRoom = try? Room(dictionary: dictionary)
+		RoomRepository().deleteUserFromRoom(thisRoom!, userJID: user.bare()).start() {
 			result in
 			switch result {
 			case .Success(let userDeleted):
@@ -145,8 +160,9 @@ class MIMMainInterface: MIMCommunicable {
 	}
 	
 	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {
-		let thisRoom = Room(id: room.roomJID.bare(), subject: room.roomSubject, name: "")
-		RoomRepository().sendMessageToRoom(thisRoom, messageBody: message.body()).start() {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+		let thisRoom = try? Room(dictionary: dictionary)
+		RoomRepository().sendMessageToRoom(thisRoom!, messageBody: message.body()).start() {
 			result in
 			switch result {
 			case .Success(let messageSent):

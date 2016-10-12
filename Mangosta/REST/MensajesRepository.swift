@@ -36,12 +36,12 @@ class MessageRepository: CRUDRepository {
 	
 	func getNMessagesWithUser(withJID: String, limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
 		let path = self.name + "/" + withJID
-		var parameters : [String : AnyObject] = [:]
+		var parameters : [String : AnyObject]? = nil
 		if let limit = limit {
-			parameters["limit"] = limit.integerValue
+			parameters!["limit"] = limit.integerValue
 		}
 		if let before = before {
-			parameters["before"] = before.longValue
+			parameters!["before"] = before.longValue
 		}
 		return self.backend.futureForPath(path, method: .GET, parameters: parameters)
 			.andThen { DataParser().dictionariesFromData($0.0) }

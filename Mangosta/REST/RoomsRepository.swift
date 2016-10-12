@@ -35,18 +35,18 @@ class RoomRepository: CRUDRepository {
 			.map { _ in return }
 	}
 	
-	func getMessagesFromRoom(id: EntityType.IdentifierType, limit: NSNumber?, before: NSNumber?) -> Future<EntityType, JaymeError> {
+	func getMessagesFromRoom(id: EntityType.IdentifierType, limit: NSNumber?, before: NSNumber?) -> Future<[Message], JaymeError> {
 		let path = self.name + "/" + id + "/messages"
-		var parameters : [String : AnyObject] = [:]
+		var parameters : [String : AnyObject]? = nil
 		if let limit = limit {
-			parameters["limit"] = limit.integerValue
+			parameters!["limit"] = limit.integerValue
 		}
 		if let before = before {
-			parameters["before"] = before.longValue
+			parameters!["before"] = before.longValue
 		}
 		return self.backend.futureForPath(path, method: .GET, parameters: parameters)
-			.andThen { DataParser().dictionaryFromData($0.0) }
-			.andThen { EntityParser().entityFromDictionary($0) }
+			.andThen { DataParser().dictionariesFromData($0.0) }
+			.andThen { EntityParser().entitiesFromDictionaries($0) }
 	}
 	
 	func sendMessageToRoom(entity: EntityType, messageBody: String) -> Future<EntityType, JaymeError> {

@@ -12,6 +12,7 @@ struct Room: Identifiable {
 	let id: String
 	let subject: String
 	let name: String
+	let participants: [String:String]
 }
 
 extension Room: DictionaryInitializable, DictionaryRepresentable {
@@ -20,16 +21,18 @@ extension Room: DictionaryInitializable, DictionaryRepresentable {
 		guard let
 			id = dictionary["id"] as? String,
 			subject = dictionary["subject"] as? String,
-			name = dictionary["roomName"] as? String
+			name = dictionary["name"] as? String,
+			participants = dictionary["participants"] as? [String:String]
 			else { throw JaymeError.ParsingError }
 		self.id = id
 		self.subject = subject
 		self.name = name
+		self.participants = participants
 	}
 
 	var dictionaryValue: [String: AnyObject] {
 		return [
-			"subject": self.subject,
+			"subject": self.subject, // FIXME: needs to be implemented at server side.
 			"name": self.name
 		]
 	}
