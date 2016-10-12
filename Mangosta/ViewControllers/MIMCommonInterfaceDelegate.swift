@@ -19,6 +19,7 @@ protocol MIMCommunicable {
 	func getRooms() -> [Room]
 	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [Message]
 	func getRoomDetails(room: XMPPRoom) -> Room // func showMUCDetails()
+	func createRoomWithSubject(room: XMPPRoom, name: String, subject: String, users: [XMPPJID]?)
 	#else
 	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [XMPPMessage]
 	func getRooms() -> [XMPPRoom]
@@ -26,14 +27,10 @@ protocol MIMCommunicable {
 	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] // func showMUCDetails()
 	#endif
 	
-	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?)
 	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom)
 	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID)
 	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage)
-	
-	// func retrieveMessageArchiveWithFields(fields: [AnyObject]!, withResultSet resultSet: XMPPResultSet!) // func fetchHistory()
-	// TODO: to implement
-	// func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!)
+	 	// func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!)
 	// func addUsers(users: [XMPPJID])
 	// MARK: MainViewController
 	// func addUser(jid: XMPPJID!, withNickname optionalName: String!)

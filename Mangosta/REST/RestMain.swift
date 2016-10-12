@@ -94,15 +94,19 @@ class MIMMainInterface: MIMCommunicable {
 		return messages
 	}
 	
-	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?){
-		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
-		let roomToCreate = try? Room(dictionary: dictionary) // FIXME: what is room name here?
-		RoomRepository().create(roomToCreate!).start() {
+	func createRoomWithSubject(room: XMPPRoom, name: String, subject: String, users: [XMPPJID]?){
+		let roomToCreate = Room(id: "", subject: subject, name: name, participants: ["":""])
+		RoomRepository().create(roomToCreate).start() {
 			result in
 			switch result {
 			case .Success(let roomCreated):
-				// TODO: save id
+				// NOTE: The current API does not use sse, then the only way to manage incoming messages is to configure a XMPPRoom object from the id obtained.
 				print("DEBUG roomCreated: \(roomCreated)")
+				if let users = users {
+					users.forEach { (jid) in
+						self.inviteUserToRoom(jid, withMessage: subject, room: room) // FIXME: use no xmpproom here
+					}
+				}
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
