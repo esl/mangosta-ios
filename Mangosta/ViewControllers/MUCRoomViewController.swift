@@ -19,8 +19,6 @@ class MUCRoomViewController: UIViewController {
 	var newRoomName: String = ""
 	var newRoomUsers = [XMPPJID]()
 
-	let MIMCommonInterface = MIMMainInterface()
-	
 	@IBOutlet weak var tableView: UITableView!
 
 	override func viewDidLoad() {
@@ -91,13 +89,9 @@ extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDe
 		self.navigationController?.popToRootViewControllerAnimated(true)
 		let roomJID = XMPPJID.jidWithUser(XMPPStream.generateUUID(), domain: "muc.erlang-solutions.com", resource: "ios")
 		let room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: roomJID)
-		#if MangostaREST
-		MIMCommonInterface.createRoomWithSubject(room, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
-		#else
 		room.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		room.activate(self.xmppController.xmppStream)
 		room.joinRoomUsingNickname(self.xmppController.xmppStream.myJID.bare(), history: nil)
-		#endif
 	}
 	
 	func xmppRoomDidCreate(sender: XMPPRoom!) {

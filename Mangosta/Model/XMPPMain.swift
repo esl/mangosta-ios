@@ -25,9 +25,13 @@ class MIMMainInterface: MIMCommunicable {
 	func getRooms() -> [XMPPRoom]{return [] }
 	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom]  {return [] }
 	
-	func createRoomWithSubject(room: XMPPRoom, users: [XMPPJID]?) {}
+	func createRoomWithSubject(room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?) {
+		// NOTE: name, subjet and user not used in xmpp implementation of this method.
+		room.createRoomLightWithMembersJID(users)
+	}
+	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight) {}
+	
 	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject]{return [:]} // func showMUCDetails()
-	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {}
 	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID) {}
 	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {
 		// TODO: self.xmppController.xmppStream.sendElement(msg)

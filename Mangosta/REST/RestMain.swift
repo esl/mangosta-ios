@@ -94,19 +94,32 @@ class MIMMainInterface: MIMCommunicable {
 		return messages
 	}
 	
-	func createRoomWithSubject(room: XMPPRoom, name: String, subject: String, users: [XMPPJID]?){
+	func createRoomWithSubject(room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?){
 		let roomToCreate = Room(id: "", subject: subject, name: name, participants: ["":""])
 		RoomRepository().create(roomToCreate).start() {
 			result in
 			switch result {
 			case .Success(let roomCreated):
-				// NOTE: The current API does not use sse, then the only way to manage incoming messages is to configure a XMPPRoom object from the id obtained.
+				// NOTE: The current API does not use sse, then the only way to manage incoming messages is to configure a XMPPRoomLight object from the id obtained.
 				print("DEBUG roomCreated: \(roomCreated)")
+				// We get the new id from the server. We recreate muclight room since we cannot assign it.
+				let newRoomLight = XMPPCustomRoomLight(JID: room.roomJID, roomname: room.roomname())
+				room.destroyRoom()
+				newRoomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				
+				// TODO: implement this here for MucLightfrom activate
+				
+				//		 	[responseTracker addID:iqID
+				//				target:self
+				//				selector:@selector(handleCreateRoomLight:withInfo:)
+				//			timeout:60.0];
+
 				if let users = users {
 					users.forEach { (jid) in
-						self.inviteUserToRoom(jid, withMessage: subject, room: room) // FIXME: use no xmpproom here
+						self.inviteUserToRoom(jid, withMessage: subject, room: newRoomLight)
 					}
 				}
+				
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
@@ -131,8 +144,8 @@ class MIMMainInterface: MIMCommunicable {
 		return detailsDictionary
 	}
 	
-	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoom) {
-		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight) {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.subject(), "name": ""]
 		let room = try? Room(dictionary: dictionary)
 		RoomRepository().addUserToRoom(room!, userJID: jid.bare()).start() {
 			result in
