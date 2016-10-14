@@ -210,8 +210,12 @@ extension ChatViewController: XMPPRoomExtraActionsDelegate {
 }
 
 extension ChatViewController: NSFetchedResultsControllerDelegate {
-	//MARK: NSFetchedResultsControllerDelegate
-	func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+	// MARK: NSFetchedResultsControllerDelegate
+	func controller(controller: NSFetchedResultsController,
+	                didChangeObject anObject: AnyObject,
+	                                atIndexPath indexPath: NSIndexPath?,
+	                                            forChangeType type: NSFetchedResultsChangeType,
+	                                                          newIndexPath: NSIndexPath?) {
 		self.tableView.reloadData()
 	}
 }

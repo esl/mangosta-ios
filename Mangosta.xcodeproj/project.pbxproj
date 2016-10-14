@@ -350,6 +350,7 @@
 				81ECA34A1C92CDE4000602F2 /* Resources */,
 				40F9CA2C46AB7C03829E5166 /* Embed Pods Frameworks */,
 				62F58450117598CB475B6BD8 /* Copy Pods Resources */,
+				AC79E23D1DA6F55300B3AEB8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -504,6 +505,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AC79E23D1DA6F55300B3AEB8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --path $PROJECT_DIR/Mangosta\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		BB383D6FA154EDD057A2F16C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
