@@ -29,8 +29,7 @@ class MIMMainInterface: MIMCommunicable {
 		let message = Message(id: NSUUID().UUIDString, to: xmppMessage.to().bare(), body: xmppMessage.body())
 		MessageRepository().sendMessage(message).start() { result in
 			switch result {
-			case .Success(let messageSent):
-				print("DEBUG Message sent \(messageSent))")
+			case .Success(let _):
 				let xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
 				xmppController.xmppMessageArchivingStorage.archiveMessage(xmppMessage, outgoing: true, xmppStream: xmppController.xmppStream)
 				break

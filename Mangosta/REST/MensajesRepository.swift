@@ -13,11 +13,11 @@ class MessageRepository: CRUDRepository {
 	let backend = NSURLSessionBackend.MongooseREST()
 	let name = "messages"
 	
-	func sendMessage(entity: EntityType) -> Future<EntityType, JaymeError> {
+	func sendMessage(entity: EntityType) -> Future<Void, JaymeError> {
 		let path = self.name
 		return self.backend.futureForPath(path, method: .POST, parameters: entity.dictionaryValue)
-			.andThen { DataParser().dictionaryFromData($0.0) }
-			.andThen { EntityParser().entityFromDictionary($0) }
+			.map { _ in return }
+		
 	}
 
 	func getNMessages(limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
