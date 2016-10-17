@@ -29,7 +29,7 @@ class MIMMainInterface: MIMCommunicable {
 		let message = Message(id: NSUUID().UUIDString, to: xmppMessage.to().bare(), body: xmppMessage.body())
 		MessageRepository().sendMessage(message).start() { result in
 			switch result {
-			case .Success(let _):
+			case .Success( _):
 				let xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
 				xmppController.xmppMessageArchivingStorage.archiveMessage(xmppMessage, outgoing: true, xmppStream: xmppController.xmppStream)
 				break
@@ -49,6 +49,17 @@ class MIMMainInterface: MIMCommunicable {
 			case .Success(let messageList):
 				returnist = messageList
 				print ("DEBUG message list \(messageList)")
+				
+				let xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+				
+				for thisMessage in messageList {
+					//let thisMessage = messageList.first! as Message
+					
+					let bodyElement = NSXMLElement(name: "body", stringValue: thisMessage.body)
+					let to = XMPPJID.jidWithString(thisMessage.to)
+					let thisXMPPMessage = XMPPMessage.init(type: "message", to: to, elementID: "body", child: bodyElement) // XMPPMessage(type: "message", to: to, elementID: "body", child: bodyElement)
+					xmppController.xmppMessageArchivingStorage.archiveMessage(thisXMPPMessage, outgoing: false, xmppStream: xmppController.xmppStream)
+				}
 				break
 			case .Failure(let error):
 				print("Error: \(error)")

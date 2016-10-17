@@ -17,7 +17,6 @@ class MessageRepository: CRUDRepository {
 		let path = self.name
 		return self.backend.futureForPath(path, method: .POST, parameters: entity.dictionaryValue)
 			.map { _ in return }
-		
 	}
 
 	func getNMessages(limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
