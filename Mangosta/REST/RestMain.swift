@@ -31,10 +31,8 @@ class MIMMainInterface: MIMCommunicable {
 			switch result {
 			case .Success(let messageSent):
 				print("DEBUG Message sent \(messageSent))")
-				var xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-				let xmppMessage = xmppMessage(
-				let arc = XMPPMessageArchivingCoreDataStorage().archiveMessage(xmppMessage, outgoing: true, xmppStream: xmppController.xmppStream)
-					- (void)archiveMessage:(XMPPMessage *)message outgoing:(BOOL)isOutgoing xmppStream:(XMPPStream *)xmppStream
+				let xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+				xmppController.xmppMessageArchivingStorage.archiveMessage(xmppMessage, outgoing: true, xmppStream: xmppController.xmppStream)
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
