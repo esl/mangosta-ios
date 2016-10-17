@@ -135,7 +135,7 @@ class ChatViewController: UIViewController {
 				self.MIMCommonInterface.sendMessage(msg)
 			}
 			else {
-				// TODO: make it compatible with MUC & MUCLigt
+				// TODO:
 				// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
 				self.xmppController.xmppStream.sendElement(msg) 
 			}
