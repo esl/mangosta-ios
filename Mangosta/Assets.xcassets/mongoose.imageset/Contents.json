@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "mongoose-2.jpg",
+      "filename" : "content_mongooseim_logo__2__copy.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "mongooseim_logo_thumb.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "mongooseim_logo_thumb-1.png",
       "scale" : "3x"
     }
   ],
