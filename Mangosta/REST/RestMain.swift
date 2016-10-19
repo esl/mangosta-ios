@@ -26,7 +26,7 @@ class MIMMainInterface: MIMCommunicable {
 	}
 	
 	func sendMessage(xmppMessage: XMPPMessage) {
-		let message = Message(id: NSUUID().UUIDString, to: xmppMessage.to().bare(), body: xmppMessage.body())
+		let message = Message(id: NSUUID().UUIDString, to: xmppMessage.to().bare(), from: "", body: xmppMessage.body(), timestamp: NSNotFound)
 		MessageRepository().sendMessage(message).start() { result in
 			switch result {
 			case .Success( _):
@@ -48,18 +48,8 @@ class MIMMainInterface: MIMCommunicable {
 			switch result {
 			case .Success(let messageList):
 				returnist = messageList
-				print ("DEBUG message list \(messageList)")
-				
-				let xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-				
-				for thisMessage in messageList {
-					//let thisMessage = messageList.first! as Message
-					
-					let bodyElement = NSXMLElement(name: "body", stringValue: thisMessage.body)
-					let to = XMPPJID.jidWithString(thisMessage.to)
-					let thisXMPPMessage = XMPPMessage.init(type: "message", to: to, elementID: "body", child: bodyElement) // XMPPMessage(type: "message", to: to, elementID: "body", child: bodyElement)
-					xmppController.xmppMessageArchivingStorage.archiveMessage(thisXMPPMessage, outgoing: false, xmppStream: xmppController.xmppStream)
-				}
+				print ("Message list \(messageList)")
+				// Using xmpp method for retrieval until sse is completed.
 				break
 			case .Failure(let error):
 				print("Error: \(error)")
