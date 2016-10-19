@@ -46,6 +46,7 @@ public struct Future<T, E: ErrorType> {
     
 }
 
+// swiftlint:disable variable_name
 public extension Future {
     
     /// Maps the result of a future by performing `f` onto the result

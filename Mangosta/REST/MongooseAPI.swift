@@ -64,7 +64,7 @@ extension String {
 	}
 	
 }
-
+// swiftlint:disable variable_name
 class MongooseAPI: NSObject {
 	
 	static let RESPONSE_OK = 204
