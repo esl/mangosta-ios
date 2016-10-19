@@ -26,7 +26,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="mongoose-2" translatesAutoresizingMaskIntoConstraints="NO" id="Fnn-gB-i4x">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="mongoose" translatesAutoresizingMaskIntoConstraints="NO" id="Fnn-gB-i4x">
                                 <rect key="frame" x="144" y="92" width="312" height="243"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="312" id="AJi-yp-ypF"/>
@@ -49,6 +49,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="mongoose-2" width="920" height="718"/>
+        <image name="mongoose" width="678" height="678"/>
     </resources>
 </document>

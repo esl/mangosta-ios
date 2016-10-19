@@ -1,0 +1,10 @@
+disabled_rules:
+  - force_cast
+  - force_try
+  - line_length
+  - todo
+  - trailing_whitespace
+  - statement_position
+  - type_name
+  - valid_docs
+  - variable_name_min_length
