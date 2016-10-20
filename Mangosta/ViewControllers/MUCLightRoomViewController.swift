@@ -16,6 +16,8 @@ class MUCLightRoomViewController: UIViewController {
 
 	weak var xmppController: XMPPController!
 	var xmppMUCLight: XMPPMUCLight!
+	
+	let MIMCommonInterface = MIMMainInterface()
 
 	var newRoomUsers = [XMPPJID]()
 	
@@ -99,7 +101,8 @@ extension MUCLightRoomViewController: MUCRoomCreateViewControllerDelegate {
 		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
 		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		roomLight.createRoomLightWithMembersJID(users)
+
+		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
 		
 		self.navigationController?.popViewControllerAnimated(true)
 
@@ -132,7 +135,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
-		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
 			self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
 			self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 		}

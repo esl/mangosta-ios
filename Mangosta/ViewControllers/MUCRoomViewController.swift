@@ -153,7 +153,7 @@ extension MUCRoomViewController: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
-		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
 			self.rooms[indexPath.row].leaveRoom()
 			self.tableView.reloadData()
 		}

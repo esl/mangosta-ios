@@ -22,9 +22,13 @@ class ChatViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController!
 	weak var xmppController: XMPPController!
 	var lastID = ""
+	
+	let MIMCommonInterface = MIMMainInterface()
+	
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
 		var rightBarButtonItems: [UIBarButtonItem] = []
 		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
 		
@@ -127,8 +131,14 @@ class ChatViewController: UIViewController {
 			let type = self.userJID != nil ? "chat" : "groupchat"
 			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
 			msg.addBody(message)
-
-			self.xmppController.xmppStream.sendElement(msg)
+			if type == "chat" {
+				self.MIMCommonInterface.sendMessage(msg)
+			}
+			else {
+				// TODO:
+				// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+				self.xmppController.xmppStream.sendElement(msg) 
+			}
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
@@ -155,7 +165,7 @@ class ChatViewController: UIViewController {
 		}
 	}
 
-	func showMembersViewController(members: [(String, String)]){
+	func showMembersViewController(members: [(String, String)]) {
 		let storyboard = UIStoryboard(name: "Members", bundle: nil)
 
 		let membersNavController = storyboard.instantiateViewControllerWithIdentifier("members") as! UINavigationController
@@ -172,6 +182,10 @@ class ChatViewController: UIViewController {
 		let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let fields = [XMPPMessageArchiveManagement.fieldWithVar("with", type: nil, andValue: jid!.bare())]
 		let resultSet = XMPPResultSet(max: 5, after: self.lastID)
+		#if MangostaREST
+			// TODO: add before and after
+			MIMCommonInterface.getMessagesWithUser(jid!, limit: nil, before: nil)
+		#endif
 		self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchiveWithFields(fields, withResultSet: resultSet)
 	}
 
@@ -241,7 +255,7 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 }
 
 extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
-	//MARK: UITableViewDataSource, UITableViewDelegate
+	// MARK: UITableViewDataSource, UITableViewDelegate
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		if let sections = self.fetchedResultsController?.sections {
 			return sections.count

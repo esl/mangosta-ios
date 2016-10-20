@@ -15,7 +15,11 @@ class MainViewController: UIViewController {
 	var fetchedResultsController: NSFetchedResultsController?
 	var activated = true
 	weak var xmppController: XMPPController!
-
+	
+	#if MangostaREST // TODO: probably better way.
+	weak var mongooseRESTController : MongooseAPI!
+	#endif
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = "Roster"
@@ -53,6 +57,11 @@ class MainViewController: UIViewController {
 		
 		xmppController.connect()
 		self.setupFetchedResultsController()
+		
+		#if MangostaREST
+			self.mongooseRESTController = MongooseAPI()
+			appDelegate.mongooseRESTController = self.mongooseRESTController
+		#endif
 	}
 	
 	@IBAction func activateDeactivate(sender: UIButton) {
@@ -67,17 +76,21 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	func logOut(sender: UIBarButtonItem){
+	func logOut(sender: UIBarButtonItem) {
 		AuthenticationModel.remove()
 		self.presentLogInView()
 		self.xmppController.disconnect()
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
 		self.xmppController = nil
+		#if MangostaREST
+			appDelegate.mongooseRESTController = nil
+			self.mongooseRESTController = nil
+		#endif
 		
 	}
 	
-	func addFriend(sender: UIBarButtonItem){
+	func addFriend(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
@@ -165,7 +178,7 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 
 extension MainViewController: LoginControllerDelegate {
 	func didLogIn() {
-		self.configureAndStartXMPP()
+		self.configureAndStartXMPP() // and MongooseREST API
 	}
 }
 

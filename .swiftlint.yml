@@ -8,3 +8,6 @@ disabled_rules:
   - type_name
   - valid_docs
   - variable_name_min_length
+  - variable_name
+  - trailing_newline
+  - colon

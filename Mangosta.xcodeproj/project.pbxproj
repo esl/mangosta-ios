@@ -22,6 +22,74 @@
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
+		AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
+		AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
+		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
+		AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
+		AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
+		AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
+		AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
+		AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
+		AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
+		AC9F65FA1D957ABD00B3AEB8 /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
+		AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */; };
+		AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
+		AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */; };
+		AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */ = {isa = PBXBuildFile; fileRef = E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */; };
+		AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8011D243AB900F5BAB2 /* XMPPController.swift */; };
+		AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8091D26D79D00F5BAB2 /* XMPPCustomRoomLight.m */; };
+		AC9F66011D957ABD00B3AEB8 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
+		AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */; };
+		AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
+		AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
+		AC9F66061D957ABD00B3AEB8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
+		AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8031D2563C200F5BAB2 /* TabBarController.swift */; };
+		AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C135D92A1CEB4DAD00225EC7 /* XMPPMessageAndMAMArchivingCoreDataStorage.m */; };
+		AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
+		AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
+		AC9F660C1D957ABD00B3AEB8 /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030FC81F912655F12909CC55 /* Pods_Mangosta.framework */; };
+		AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
+		AC9F660F1D957ABD00B3AEB8 /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
+		AC9F66101D957ABD00B3AEB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3581C92CDE4000602F2 /* LaunchScreen.storyboard */; };
+		AC9F66111D957ABD00B3AEB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3561C92CDE4000602F2 /* Assets.xcassets */; };
+		AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */; };
+		AC9F66131D957ABD00B3AEB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3531C92CDE4000602F2 /* Main.storyboard */; };
+		AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
+		AC9F66151D957ABD00B3AEB8 /* MUC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9161CE25CCC00225EC7 /* MUC.storyboard */; };
+		AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
+		AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
+		AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66211D957E5900B3AEB8 /* Backend.swift */; };
+		AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66221D957E5900B3AEB8 /* Compatibility.swift */; };
+		AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */; };
+		AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66241D957E5900B3AEB8 /* DataParser.swift */; };
+		AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */; };
+		AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */; };
+		AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66271D957E5900B3AEB8 /* EntityParser.swift */; };
+		AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66281D957E5900B3AEB8 /* Future.swift */; };
+		AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */; };
+		AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */; };
+		AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */; };
+		AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */; };
+		AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */; };
+		AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662E1D957E5900B3AEB8 /* Logger.swift */; };
+		AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */; };
+		AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */; };
+		AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */; };
+		AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66321D957E5900B3AEB8 /* PageInfo.swift */; };
+		AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66331D957E5900B3AEB8 /* Repository.swift */; };
+		AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66341D957E5900B3AEB8 /* Result.swift */; };
+		AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66361D957E5900B3AEB8 /* JID.swift */; };
+		AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66371D957E5900B3AEB8 /* Message.swift */; };
+		AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */; };
+		AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663A1D957E5900B3AEB8 /* Room Message.swift */; };
+		AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663B1D957E5900B3AEB8 /* Room.swift */; };
+		AC9F66571D957E5900B3AEB8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F663C1D957E5900B3AEB8 /* User.swift */; };
+		ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045891D99906900B3AEB8 /* MensajesRepository.swift */; };
+		ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */; };
+		ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */; };
+		ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045951D99C26B00B3AEB8 /* RestMain.swift */; };
+		ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
@@ -90,6 +158,39 @@
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
+		AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPMain.swift; sourceTree = "<group>"; };
+		AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mangosta REST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "REST-Info.plist"; path = "Mangosta/REST-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AC9F66211D957E5900B3AEB8 /* Backend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Backend.swift; sourceTree = "<group>"; };
+		AC9F66221D957E5900B3AEB8 /* Compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compatibility.swift; sourceTree = "<group>"; };
+		AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDRepository.swift; sourceTree = "<group>"; };
+		AC9F66241D957E5900B3AEB8 /* DataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryInitializable.swift; sourceTree = "<group>"; };
+		AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryRepresentable.swift; sourceTree = "<group>"; };
+		AC9F66271D957E5900B3AEB8 /* EntityParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityParser.swift; sourceTree = "<group>"; };
+		AC9F66281D957E5900B3AEB8 /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
+		AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
+		AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethodName.swift; sourceTree = "<group>"; };
+		AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponseParser.swift; sourceTree = "<group>"; };
+		AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JaymeError.swift; sourceTree = "<group>"; };
+		AC9F662E1D957E5900B3AEB8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionBackend.swift; sourceTree = "<group>"; };
+		AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionBackendConfiguration.swift; sourceTree = "<group>"; };
+		AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedRepository.swift; sourceTree = "<group>"; };
+		AC9F66321D957E5900B3AEB8 /* PageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
+		AC9F66331D957E5900B3AEB8 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		AC9F66341D957E5900B3AEB8 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		AC9F66361D957E5900B3AEB8 /* JID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JID.swift; sourceTree = "<group>"; };
+		AC9F66371D957E5900B3AEB8 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongooseAPI.swift; sourceTree = "<group>"; };
+		AC9F663A1D957E5900B3AEB8 /* Room Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Room Message.swift"; sourceTree = "<group>"; };
+		AC9F663B1D957E5900B3AEB8 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		AC9F663C1D957E5900B3AEB8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		ACA045891D99906900B3AEB8 /* MensajesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MensajesRepository.swift; sourceTree = "<group>"; };
+		ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsRepository.swift; sourceTree = "<group>"; };
+		ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIMCommonInterfaceDelegate.swift; sourceTree = "<group>"; };
+		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
@@ -148,6 +249,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AC9F660B1D957ABD00B3AEB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC9F660C1D957ABD00B3AEB8 /* Pods_Mangosta.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -155,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				811C5AB31CAC094D008346FE /* AuthenticationModel.swift */,
+				AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -223,6 +333,7 @@
 				81ECA34C1C92CDE4000602F2 /* Mangosta.app */,
 				81ECA3601C92CDE5000602F2 /* MangostaTests.xctest */,
 				81ECA36B1C92CDE5000602F2 /* MangostaUITests.xctest */,
+				AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -240,7 +351,9 @@
 				81ECA35B1C92CDE4000602F2 /* Info.plist */,
 				814D4CAA1C970F5500AB28FA /* XMPPFramework.h */,
 				814D4CA41C970E6900AB28FA /* Constants.swift */,
+				AC9F66351D957E5900B3AEB8 /* REST */,
 				814D4CA31C970E5B00AB28FA /* Library */,
+				AC9F66201D957E5900B3AEB8 /* Jayme */,
 			);
 			path = Mangosta;
 			sourceTree = "<group>";
@@ -268,6 +381,7 @@
 			children = (
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
 				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
+				ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
@@ -294,6 +408,50 @@
 			);
 			name = "XEP-0245";
 			path = ../../Pods/XMPPFramework;
+			sourceTree = "<group>";
+		};
+		AC9F66201D957E5900B3AEB8 /* Jayme */ = {
+			isa = PBXGroup;
+			children = (
+				AC9F66211D957E5900B3AEB8 /* Backend.swift */,
+				AC9F66221D957E5900B3AEB8 /* Compatibility.swift */,
+				AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */,
+				AC9F66241D957E5900B3AEB8 /* DataParser.swift */,
+				AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */,
+				AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */,
+				AC9F66271D957E5900B3AEB8 /* EntityParser.swift */,
+				AC9F66281D957E5900B3AEB8 /* Future.swift */,
+				AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */,
+				AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */,
+				AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */,
+				AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */,
+				AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */,
+				AC9F662E1D957E5900B3AEB8 /* Logger.swift */,
+				AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */,
+				AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */,
+				AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */,
+				AC9F66321D957E5900B3AEB8 /* PageInfo.swift */,
+				AC9F66331D957E5900B3AEB8 /* Repository.swift */,
+				AC9F66341D957E5900B3AEB8 /* Result.swift */,
+			);
+			path = Jayme;
+			sourceTree = "<group>";
+		};
+		AC9F66351D957E5900B3AEB8 /* REST */ = {
+			isa = PBXGroup;
+			children = (
+				ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */,
+				AC9F663B1D957E5900B3AEB8 /* Room.swift */,
+				AC9F66361D957E5900B3AEB8 /* JID.swift */,
+				ACA045891D99906900B3AEB8 /* MensajesRepository.swift */,
+				AC9F66371D957E5900B3AEB8 /* Message.swift */,
+				AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */,
+				AC9F663A1D957E5900B3AEB8 /* Room Message.swift */,
+				AC9F663C1D957E5900B3AEB8 /* User.swift */,
+				AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */,
+				ACA045951D99C26B00B3AEB8 /* RestMain.swift */,
+			);
+			path = REST;
 			sourceTree = "<group>";
 		};
 		C12EA9511CDD16EF00F29606 /* XEP-0045 */ = {
@@ -350,7 +508,7 @@
 				81ECA34A1C92CDE4000602F2 /* Resources */,
 				40F9CA2C46AB7C03829E5166 /* Embed Pods Frameworks */,
 				62F58450117598CB475B6BD8 /* Copy Pods Resources */,
-				AC79E23D1DA6F55300B3AEB8 /* ShellScript */,
+				AC3A3D9B1DB80AD900B3AEB8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -397,6 +555,27 @@
 			productReference = 81ECA36B1C92CDE5000602F2 /* MangostaUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		AC9F65EF1D957ABD00B3AEB8 /* Mangosta REST */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC9F661A1D957ABD00B3AEB8 /* Build configuration list for PBXNativeTarget "Mangosta REST" */;
+			buildPhases = (
+				AC9F65F01D957ABD00B3AEB8 /* Check Pods Manifest.lock */,
+				AC9F65F11D957ABD00B3AEB8 /* Sources */,
+				AC9F660B1D957ABD00B3AEB8 /* Frameworks */,
+				AC9F660D1D957ABD00B3AEB8 /* Resources */,
+				AC9F66181D957ABD00B3AEB8 /* Embed Pods Frameworks */,
+				AC9F66191D957ABD00B3AEB8 /* Copy Pods Resources */,
+				AC3A3D9C1DB80AEA00B3AEB8 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Mangosta REST";
+			productName = Mangosta;
+			productReference = AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -419,6 +598,9 @@
 						CreatedOnToolsVersion = 7.2.1;
 						TestTargetID = 81ECA34B1C92CDE4000602F2;
 					};
+					AC9F65EF1D957ABD00B3AEB8 = {
+						DevelopmentTeam = RN98T2SU3Z;
+					};
 				};
 			};
 			buildConfigurationList = 81ECA3471C92CDE4000602F2 /* Build configuration list for PBXProject "Mangosta" */;
@@ -437,6 +619,7 @@
 				81ECA34B1C92CDE4000602F2 /* Mangosta */,
 				81ECA35F1C92CDE5000602F2 /* MangostaTests */,
 				81ECA36A1C92CDE5000602F2 /* MangostaUITests */,
+				AC9F65EF1D957ABD00B3AEB8 /* Mangosta REST */,
 			);
 		};
 /* End PBXProject section */
@@ -473,6 +656,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AC9F660D1D957ABD00B3AEB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */,
+				AC9F660F1D957ABD00B3AEB8 /* MUCLight.storyboard in Resources */,
+				AC9F66101D957ABD00B3AEB8 /* LaunchScreen.storyboard in Resources */,
+				AC9F66111D957ABD00B3AEB8 /* Assets.xcassets in Resources */,
+				AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */,
+				AC9F66131D957ABD00B3AEB8 /* Main.storyboard in Resources */,
+				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
+				AC9F66151D957ABD00B3AEB8 /* MUC.storyboard in Resources */,
+				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
+				AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -506,7 +706,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AC79E23D1DA6F55300B3AEB8 /* ShellScript */ = {
+		AC3A3D9B1DB80AD900B3AEB8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -518,6 +718,64 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --path $PROJECT_DIR/Mangosta\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		AC3A3D9C1DB80AEA00B3AEB8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --path $PROJECT_DIR/Mangosta\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		AC9F65F01D957ABD00B3AEB8 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AC9F66181D957ABD00B3AEB8 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC9F66191D957ABD00B3AEB8 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		BB383D6FA154EDD057A2F16C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -544,10 +802,12 @@
 				C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */,
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
+				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
+				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
@@ -582,6 +842,68 @@
 			buildActionMask = 2147483647;
 			files = (
 				81ECA3701C92CDE5000602F2 /* MangostaUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC9F65F11D957ABD00B3AEB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */,
+				AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */,
+				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
+				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
+				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
+				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
+				AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */,
+				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
+				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
+				AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */,
+				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
+				AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
+				AC9F65FA1D957ABD00B3AEB8 /* MUCLightRoomViewController.swift in Sources */,
+				AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */,
+				AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */,
+				AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */,
+				AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */,
+				AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */,
+				AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */,
+				AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */,
+				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
+				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
+				AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */,
+				ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
+				AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */,
+				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
+				AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */,
+				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
+				AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */,
+				AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */,
+				AC9F66011D957ABD00B3AEB8 /* ChatViewController.swift in Sources */,
+				AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */,
+				AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */,
+				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
+				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
+				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
+				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
+				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
+				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
+				AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */,
+				AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */,
+				AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */,
+				AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */,
+				AC9F66061D957ABD00B3AEB8 /* LoginViewController.swift in Sources */,
+				AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */,
+				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
+				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
+				AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */,
+				AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */,
+				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
+				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
+				AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */,
+				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
+				AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */,
+				AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,6 +1102,39 @@
 			};
 			name = Release;
 		};
+		AC9F661B1D957ABD00B3AEB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9DC3204A61F8A334C3E45FE /* Pods-Mangosta.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AC9F661C1D957ABD00B3AEB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7586712F63B46A549B9633A /* Pods-Mangosta.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -815,6 +1170,15 @@
 			buildConfigurations = (
 				81ECA37B1C92CDE5000602F2 /* Debug */,
 				81ECA37C1C92CDE5000602F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC9F661A1D957ABD00B3AEB8 /* Build configuration list for PBXNativeTarget "Mangosta REST" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC9F661B1D957ABD00B3AEB8 /* Debug */,
+				AC9F661C1D957ABD00B3AEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
