@@ -10,8 +10,8 @@ import Foundation
 import XMPPFramework
 
 public struct AuthenticationModel {
-	public let jid : XMPPJID
-	public let password : String
+	public let jid: XMPPJID
+	public let password: String
 	public var serverName: String?
 	
 	public func save() {
@@ -62,3 +62,4 @@ public struct AuthenticationModel {
 		NSUserDefaults.standardUserDefaults().synchronize()
 	}
 }
+

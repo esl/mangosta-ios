@@ -11,10 +11,10 @@ import XMPPFramework
 
 class NSTrustedURLSessionBackendDelegate: NSObject, NSURLSessionDelegate {
 		func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-			if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust{
+			if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
 				// print ("I will accept a self signed certificate")
 				let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)
-				completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential,credential);
+				completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, credential)
 			}
 		}
 }
@@ -55,7 +55,7 @@ extension String {
 	
 	:returns:
 	*/
-	func toBase64()->String{
+	func toBase64() -> String {
 		
 		let data = self.dataUsingEncoding(NSUTF8StringEncoding)
 		

@@ -6,9 +6,11 @@
 //  Copyright © 2016 Inaka. All rights reserved.
 //
 
+
 import Foundation
 
 struct Message: Identifiable {
+
 	let id: String
 	let to: String
 	let from: String

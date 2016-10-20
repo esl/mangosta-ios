@@ -165,7 +165,7 @@ class ChatViewController: UIViewController {
 		}
 	}
 
-	func showMembersViewController(members: [(String, String)]){
+	func showMembersViewController(members: [(String, String)]) {
 		let storyboard = UIStoryboard(name: "Members", bundle: nil)
 
 		let membersNavController = storyboard.instantiateViewControllerWithIdentifier("members") as! UINavigationController
@@ -255,7 +255,7 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 }
 
 extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
-	//MARK: UITableViewDataSource, UITableViewDelegate
+	// MARK: UITableViewDataSource, UITableViewDelegate
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		if let sections = self.fetchedResultsController?.sections {
 			return sections.count

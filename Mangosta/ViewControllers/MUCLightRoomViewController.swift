@@ -135,7 +135,7 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
-		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave"){(UITableViewRowAction,NSIndexPath) in
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
 			self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
 			self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 		}

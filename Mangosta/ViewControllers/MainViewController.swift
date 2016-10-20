@@ -1,4 +1,3 @@
-
 //
 //  ViewController.swift
 //  Mangosta
@@ -77,7 +76,7 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	func logOut(sender: UIBarButtonItem){
+	func logOut(sender: UIBarButtonItem) {
 		AuthenticationModel.remove()
 		self.presentLogInView()
 		self.xmppController.disconnect()
@@ -91,7 +90,7 @@ class MainViewController: UIViewController {
 		
 	}
 	
-	func addFriend(sender: UIBarButtonItem){
+	func addFriend(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)

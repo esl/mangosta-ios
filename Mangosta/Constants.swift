@@ -32,7 +32,7 @@ public struct Constants {
 	}
 }
 
-func delay(delay:Double, closure:()->()) {
+func delay(delay: Double, closure:()->()) {
 	dispatch_after(
 		dispatch_time(
 			DISPATCH_TIME_NOW,

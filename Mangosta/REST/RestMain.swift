@@ -96,7 +96,7 @@ class MIMMainInterface: MIMCommunicable {
 		return messages
 	}
 	
-	func createRoomWithSubject(room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?){
+	func createRoomWithSubject(room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?) {
 		let roomToCreate = Room(id: "", subject: subject, name: name, participants: ["":""])
 		RoomRepository().create(roomToCreate).start() {
 			result in

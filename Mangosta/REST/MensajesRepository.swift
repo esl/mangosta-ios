@@ -21,7 +21,7 @@ class MessageRepository: CRUDRepository {
 
 	func getNMessages(limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
 		let path = self.name
-		var parameters : [String : AnyObject] = [:]
+		var parameters: [String : AnyObject] = [:]
 		if let limit = limit {
 			 parameters["limit"] = limit
 		}
@@ -35,7 +35,7 @@ class MessageRepository: CRUDRepository {
 	
 	func getNMessagesWithUser(withJID: String, limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
 		let path = self.name + "/" + withJID
-		var parameters : [String : AnyObject]? = nil
+		var parameters: [String : AnyObject]? = nil
 		if let limit = limit {
 			parameters!["limit"] = limit.integerValue
 		}

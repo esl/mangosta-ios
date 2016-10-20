@@ -77,7 +77,7 @@ extension BlockingMembersViewController: UITableViewDelegate, UITableViewDataSou
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
-		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Unblock"){(UITableViewRowAction,NSIndexPath) in
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Unblock") { (UITableViewRowAction, NSIndexPath) in
 			let blockedJID = self.blockingList[indexPath.row]
 			self.showHUDwithMessage("Unblocking...")
 			self.xmppBlocking?.unblockJID(XMPPJID.jidWithString(blockedJID))

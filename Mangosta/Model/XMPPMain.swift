@@ -22,8 +22,8 @@ class MIMMainInterface: MIMCommunicable {
 		// TODO: self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchiveWithFields(fields, withResultSet: resultSet)
 		return []
 	}
-	func getRooms() -> [XMPPRoom]{return [] }
-	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom]  {return [] }  // Not implemented func fetchHistory()
+	func getRooms() -> [XMPPRoom] {return [] }
+	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom] {return [] }  // Not implemented func fetchHistory()
 
 	
 	func createRoomWithSubject(room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?) {
@@ -32,7 +32,7 @@ class MIMMainInterface: MIMCommunicable {
 	}
 	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight) {}
 	
-	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject]{return [:]} // func showMUCDetails()
+	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] {return [:] } // func showMUCDetails()
 	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID) {}
 	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {
 		// TODO: self.xmppController.xmppStream.sendElement(msg)
