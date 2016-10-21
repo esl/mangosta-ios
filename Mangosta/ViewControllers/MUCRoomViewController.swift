@@ -97,7 +97,10 @@ extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDe
 	func xmppRoomDidCreate(sender: XMPPRoom!) {
 		let xElement = NSXMLElement(name: "x", xmlns: "jabber:x:data")
 		xElement.addAttributeWithName("type", stringValue: "submit")
-		xElement.addChild(self.configuration("muc#roomconfig_roomname", configValue: self.newRoomName))
+		let childName = self.configuration("muc#roomconfig_roomname", configValue: self.newRoomName)
+		let attributedName = DDXMLNode.attributeWithName("type", stringValue: "text-single") as! DDXMLNode
+		childName.addAttribute(attributedName)
+		xElement.addChild(childName)
 		let child = self.configuration("muc#roomconfig_persistentroom", configValue: "0")
 		let attribute = DDXMLNode.attributeWithName("type", stringValue: "boolean") as! DDXMLNode
 		child.addAttribute(attribute)
