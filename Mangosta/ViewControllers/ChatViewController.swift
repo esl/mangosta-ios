@@ -10,12 +10,12 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class ChatViewController: UIViewController {
+class ChatViewController: NoChatViewController {
 	@IBOutlet internal var tableView: UITableView!
 	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
-
+	
 	weak var room: XMPPRoom?
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
@@ -24,8 +24,29 @@ class ChatViewController: UIViewController {
 	var lastID = ""
 	
 	let MIMCommonInterface = MIMMainInterface()
-	
 
+	let messageLayoutCache = NSCache()
+	
+	override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
+		return [
+		 DateItem.itemType : [
+				DateItemPresenterBuider()
+			],
+			MessageType.Text.rawValue : [
+				MessagePresenterBuilder<TextBubbleView, TGTextMessageViewModelBuilder>(
+					viewModelBuilder: TGTextMessageViewModelBuilder(),
+					layoutCache: messageLayoutCache
+				)
+			]
+		]
+	}
+	
+	override func createChatInputViewController() -> UIViewController {
+		let inputController = ChatInputViewController()
+		
+		return inputController
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -38,13 +59,12 @@ class ChatViewController: UIViewController {
 			self.title = "Chatting with \(roomSubject)"
 		}
 
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
-		self.subject.addGestureRecognizer(tapGesture)
+		// TODO add gesture recognizer to this viewcontroller
+		//	let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
+		//	self.subject.addGestureRecognizer(tapGesture)
 		
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
-			self.buttonHeight.constant = 0
-			self.subjectHeight.constant = 0
 		} else {
 			if let rLight = self.roomLight {
 				rLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
@@ -60,6 +80,11 @@ class ChatViewController: UIViewController {
 
 		self.navigationItem.rightBarButtonItems = rightBarButtonItems
 	}
+	
+	override func canBecomeFirstResponder() -> Bool {
+		return true
+	}
+	
 	
 	internal func showChangeSubject(sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
@@ -120,6 +145,7 @@ class ChatViewController: UIViewController {
 		return controller
 	}
 	
+	// TODO: Implement this for the new UI
 	internal func showChatAlert(sender: AnyObject?) {
 		var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
 		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
@@ -284,5 +310,9 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		cell.backgroundColor = message.isFromMe ? UIColor.lightGrayColor() : UIColor.whiteColor()
 		cell.textLabel?.text = message.body
 		return cell
+	}
+	
+	func sendMessageButtonPressed() {
+		print("pressed button!")
 	}
 }

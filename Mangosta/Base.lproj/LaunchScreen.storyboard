@@ -17,29 +17,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MANGOSTA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgd-MX-7zF">
-                                <rect key="frame" x="199" y="28" width="203" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mangosta" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgd-MX-7zF">
+                                <rect key="frame" x="189" y="208" width="222" height="38"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="203" id="dpp-EI-HRC"/>
+                                    <constraint firstAttribute="width" constant="222" id="dpp-EI-HRC"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <color key="textColor" red="0.074509803920000006" green="0.52941176469999995" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="mongoose" translatesAutoresizingMaskIntoConstraints="NO" id="Fnn-gB-i4x">
-                                <rect key="frame" x="144" y="92" width="312" height="243"/>
+                                <rect key="frame" x="150" y="277" width="312" height="122"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="312" id="AJi-yp-ypF"/>
-                                    <constraint firstAttribute="height" constant="243" id="ta7-th-XIb"/>
+                                    <constraint firstAttribute="width" constant="312" id="0so-FO-PYL"/>
+                                    <constraint firstAttribute="height" constant="122" id="GOh-IV-Qjq"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="top" secondItem="Zgd-MX-7zF" secondAttribute="bottom" constant="31" id="5ox-H6-Xt2"/>
                             <constraint firstItem="Zgd-MX-7zF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="7Hr-mz-1rA"/>
-                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="top" secondItem="Zgd-MX-7zF" secondAttribute="bottom" constant="43" id="8xw-64-ThD"/>
-                            <constraint firstItem="Zgd-MX-7zF" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="8" id="Rc1-Oc-i1n"/>
-                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="centerX" secondItem="Zgd-MX-7zF" secondAttribute="centerX" id="X5k-Bu-YwF"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Fnn-gB-i4x" secondAttribute="bottom" constant="201" id="RXg-ig-SK9"/>
+                            <constraint firstItem="Zgd-MX-7zF" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="188" id="Rc1-Oc-i1n"/>
+                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="150" id="fCw-jX-eF2"/>
                         </constraints>
                     </view>
                 </viewController>
