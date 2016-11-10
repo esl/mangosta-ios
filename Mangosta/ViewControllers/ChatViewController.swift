@@ -27,6 +27,7 @@ class ChatViewController: NoChatViewController {
 
 	let messageLayoutCache = NSCache()
 	
+	//var tempMessage: [Message] = [] // TODO: implement queing offline messages.
 
 	lazy var titleView: TitleView! = {
 		let view = TitleView()
@@ -171,30 +172,6 @@ class ChatViewController: NoChatViewController {
 		try! controller.performFetch()
 		
 		return controller
-	}
-	
-	// TODO: Implement this for the new UI
-	internal func showChatAlert(sender: AnyObject?) {
-		var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
-		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
-			if let messageText = inputMessage where messageText.characters.count > 0 {
-				message = messageText
-			}
-
-			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-			let type = self.userJID != nil ? "chat" : "groupchat"
-			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
-			msg.addBody(message)
-			if type == "chat" {
-				self.MIMCommonInterface.sendMessage(msg)
-			}
-			else {
-				// TODO:
-				// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-				self.xmppController.xmppStream.sendElement(msg) 
-			}
-		}
-		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
 	internal func invite(sender: AnyObject?) {
@@ -354,7 +331,6 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 	func sendText(text: String) {
 		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
 		  (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-		print("sent \(text)")
 	}
 	
 	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> Message {
@@ -370,6 +346,24 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		)
 		
 		return message
+	}
+	
+	// MARK: chatDataSourceDelegate
+	
+	func chatDataSourceDidUpdate() {
+		
+		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let type = self.userJID != nil ? "chat" : "groupchat"
+		let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
+		// FIXME: msg.addBody(message)
+		if type == "chat" {
+			self.MIMCommonInterface.sendMessage(msg)
+		}
+		else {
+			// TODO:
+			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+			self.xmppController.xmppStream.sendElement(msg)
+		}
 	}
 }
 
