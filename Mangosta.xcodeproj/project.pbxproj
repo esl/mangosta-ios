@@ -133,6 +133,8 @@
 		ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */; };
 		ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045951D99C26B00B3AEB8 /* RestMain.swift */; };
 		ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */; };
+		ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
+		ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
@@ -279,6 +281,7 @@
 		ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsRepository.swift; sourceTree = "<group>"; };
 		ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIMCommonInterfaceDelegate.swift; sourceTree = "<group>"; };
 		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
+		ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 1to1NoChatItems.swift; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
@@ -518,6 +521,7 @@
 				AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */,
 				AC4FE9E31DD0E96D00B3AEB8 /* NoChat.h */,
 				AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */,
+				ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */,
 			);
 			name = NoChat;
 			path = Source;
@@ -992,6 +996,7 @@
 				AC4FEA281DD113EC00B3AEB8 /* ManualLayoutUtils.swift in Sources */,
 				AC4FE9EC1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
+				ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
 				AC4FE9E81DD0E96D00B3AEB8 /* NoChatViewController.swift in Sources */,
 				AC4FEA2C1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift in Sources */,
 				AC4FEA201DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */,
@@ -1078,6 +1083,7 @@
 				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
+				ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
 				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,

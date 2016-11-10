@@ -27,6 +27,26 @@ class ChatViewController: NoChatViewController {
 
 	let messageLayoutCache = NSCache()
 	
+
+	lazy var titleView: TitleView! = {
+		let view = TitleView()
+		return view
+	}()
+	
+	lazy var avatarButton: AvatarButton! = {
+		let button = AvatarButton()
+		return button
+	}()
+	
+	override var title: String? {
+		set {
+			titleView.titleLabel.text = newValue
+		}
+		get {
+			return titleView.titleLabel.text
+		}
+	}
+	
 	override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
 		return [
 		 DateItem.itemType : [
@@ -44,14 +64,22 @@ class ChatViewController: NoChatViewController {
 	override func createChatInputViewController() -> UIViewController {
 		let inputController = ChatInputViewController()
 		
+		inputController.onSendText = { [weak self] text in
+			self?.sendText(text)
+		}
+		
 		return inputController
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		chatItemsDecorator = TGChatItemsDecorator()
+		chatDataSource = ChatDataSourceInterface()
+		
 		var rightBarButtonItems: [UIBarButtonItem] = []
-		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
+
+		wallpaperView.image = UIImage(named: "chat_background")!
 		
 		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
@@ -315,4 +343,34 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 	func sendMessageButtonPressed() {
 		print("pressed button!")
 	}
+	
+	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> Message {
+		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
+		message.content = text
+		return message
+	}
+
+
+	func sendText(text: String) {
+		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
+		  (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+		print("sent \(text)")
+	}
+	
+	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> Message {
+		let message = Message(
+			msgId: NSUUID().UUIDString,
+			msgType: msgType,
+			senderId: senderId,
+			isIncoming: isIncoming,
+			date: NSDate(),
+			deliveryStatus: .Delivering,
+			attachments: [],
+			content: ""
+		)
+		
+		return message
+	}
 }
+
+
