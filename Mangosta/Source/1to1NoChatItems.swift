@@ -29,7 +29,6 @@ class ChatDataSourceInterface: ChatDataSourceProtocol {
 	
 	func addMessages(messages: [Message]) {
 		chatItems.insertContentsOf(messages.reverse().map { $0 as ChatItemProtocol }, at: 0)
-		(delegate? as! ChatViewController).tempMessage = messages
 		delegate?.chatDataSourceDidUpdate(self)
 	}
 	

@@ -26,8 +26,6 @@ class ChatViewController: NoChatViewController {
 	let MIMCommonInterface = MIMMainInterface()
 
 	let messageLayoutCache = NSCache()
-	
-	//var tempMessage: [Message] = [] // TODO: implement queing offline messages.
 
 	lazy var titleView: TitleView! = {
 		let view = TitleView()
@@ -77,6 +75,7 @@ class ChatViewController: NoChatViewController {
 		
 		chatItemsDecorator = TGChatItemsDecorator()
 		chatDataSource = ChatDataSourceInterface()
+		chatDataSource?.delegate = self
 		
 		var rightBarButtonItems: [UIBarButtonItem] = []
 
@@ -224,7 +223,26 @@ class ChatViewController: NoChatViewController {
 		self.room?.removeDelegate(self)
 		self.roomLight?.removeDelegate(self)
 	}
+	
+	func sendMessage(lastMessage: Message?) {
+		
+		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let type = self.userJID != nil ? "chat" : "groupchat"
+		let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
+		
+		msg.addBody(lastMessage?.content)
+		if type == "chat" {
+			self.MIMCommonInterface.sendMessage(msg)
+		}
+		else {
+			// TODO:
+			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+			self.xmppController.xmppStream.sendElement(msg)
+		}
+	}
 }
+
+// MARK: ChatDataSourceDelegateProtocol
 
 extension ChatViewController: XMPPRoomLightDelegate {
 	
@@ -261,7 +279,7 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	                                atIndexPath indexPath: NSIndexPath?,
 	                                            forChangeType type: NSFetchedResultsChangeType,
 	                                                          newIndexPath: NSIndexPath?) {
-		self.tableView.reloadData()
+		// FIXME use the self.tableView.reloadData()
 	}
 }
 
@@ -331,6 +349,10 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 	func sendText(text: String) {
 		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
 		  (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+		
+		// TODO: implement queing offline messages.
+		
+		self.sendMessage(message)
 	}
 	
 	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> Message {
@@ -348,23 +370,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		return message
 	}
 	
-	// MARK: chatDataSourceDelegate
-	
-	func chatDataSourceDidUpdate() {
-		
-		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-		let type = self.userJID != nil ? "chat" : "groupchat"
-		let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
-		// FIXME: msg.addBody(message)
-		if type == "chat" {
-			self.MIMCommonInterface.sendMessage(msg)
-		}
-		else {
-			// TODO:
-			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-			self.xmppController.xmppStream.sendElement(msg)
-		}
-	}
+
 }
 
 
