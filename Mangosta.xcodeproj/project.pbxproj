@@ -66,6 +66,49 @@
 		AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */; };
 		AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
 		AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
+		AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */; };
+		AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */; };
+		AC9CE6991DDA401A00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
+		AC9CE69A1DDA401A00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
+		AC9CE69B1DDA401A00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DA1DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift */; };
+		AC9CE69C1DDA401A00B3AEB8 /* NoChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DB1DD0E96D00B3AEB8 /* NoChatViewController.swift */; };
+		AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DC1DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift */; };
+		AC9CE69E1DDA401A00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DD1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift */; };
+		AC9CE69F1DDA401A00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DE1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift */; };
+		AC9CE6A01DDA401A00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DF1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift */; };
+		AC9CE6A11DDA401A00B3AEB8 /* CollectionChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E01DD0E96D00B3AEB8 /* CollectionChanges.swift */; };
+		AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E11DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift */; };
+		AC9CE6A31DDA402100B3AEB8 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA141DD113EC00B3AEB8 /* Observable.swift */; };
+		AC9CE6A41DDA402100B3AEB8 /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA151DD113EC00B3AEB8 /* TextBubbleView.swift */; };
+		AC9CE6A51DDA402100B3AEB8 /* TextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */; };
+		AC9CE6A61DDA402100B3AEB8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */; };
+		AC9CE6A71DDA402600B3AEB8 /* NoChatTG.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA131DD113EC00B3AEB8 /* NoChatTG.xcassets */; };
+		AC9CE6A81DDA403000B3AEB8 /* KeyboardMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */; };
+		AC9CE6A91DDA403000B3AEB8 /* ManualLayoutUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */; };
+		AC9CE6AA1DDA403000B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0B1DD113EC00B3AEB8 /* Message.swift */; };
+		AC9CE6AB1DDA403000B3AEB8 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */; };
+		AC9CE6AC1DDA403000B3AEB8 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */; };
+		AC9CE6AD1DDA403000B3AEB8 /* MessagePresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */; };
+		AC9CE6AE1DDA403000B3AEB8 /* MessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0F1DD113EC00B3AEB8 /* MessageProtocol.swift */; };
+		AC9CE6AF1DDA403000B3AEB8 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA101DD113EC00B3AEB8 /* MessageViewModel.swift */; };
+		AC9CE6B01DDA403000B3AEB8 /* MessageViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA111DD113EC00B3AEB8 /* MessageViewModelProtocol.swift */; };
+		AC9CE6B11DDA403500B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA081DD113EC00B3AEB8 /* Info.plist */; };
+		AC9CE6B21DDA403E00B3AEB8 /* BubbleViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FA1DD113EC00B3AEB8 /* BubbleViewProtocol.swift */; };
+		AC9CE6B31DDA403E00B3AEB8 /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FB1DD113EC00B3AEB8 /* ChatInputViewController.swift */; };
+		AC9CE6B41DDA403E00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FC1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift */; };
+		AC9CE6B51DDA403E00B3AEB8 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FD1DD113EC00B3AEB8 /* ChatTextView.swift */; };
+		AC9CE6B61DDA403E00B3AEB8 /* ClockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FE1DD113EC00B3AEB8 /* ClockProgressView.swift */; };
+		AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FF1DD113EC00B3AEB8 /* ColorLabel.swift */; };
+		AC9CE6B81DDA403E00B3AEB8 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA001DD113EC00B3AEB8 /* ColorUtils.swift */; };
+		AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA011DD113EC00B3AEB8 /* DateItem.swift */; };
+		AC9CE6BA1DDA403E00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA021DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift */; };
+		AC9CE6BB1DDA403E00B3AEB8 /* DateItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA031DD113EC00B3AEB8 /* DateItemPresenter.swift */; };
+		AC9CE6BC1DDA403E00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA041DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift */; };
+		AC9CE6BD1DDA403E00B3AEB8 /* GrowTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA051DD113EC00B3AEB8 /* GrowTextView.swift */; };
+		AC9CE6BE1DDA403E00B3AEB8 /* ImageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA061DD113EC00B3AEB8 /* ImageFactory.swift */; };
+		AC9CE6BF1DDA403E00B3AEB8 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA071DD113EC00B3AEB8 /* ImageUtils.swift */; };
+		AC9CE6C01DDA404100B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
+		AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */; };
 		AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
 		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
@@ -818,6 +861,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */,
+				AC9CE6A71DDA402600B3AEB8 /* NoChatTG.xcassets in Resources */,
 				AC9F660F1D957ABD00B3AEB8 /* MUCLight.storyboard in Resources */,
 				AC9F66101D957ABD00B3AEB8 /* LaunchScreen.storyboard in Resources */,
 				AC9F66111D957ABD00B3AEB8 /* Assets.xcassets in Resources */,
@@ -825,8 +869,10 @@
 				AC9F66131D957ABD00B3AEB8 /* Main.storyboard in Resources */,
 				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
 				AC9F66151D957ABD00B3AEB8 /* MUC.storyboard in Resources */,
+				AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */,
 				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
 				AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */,
+				AC9CE6B11DDA403500B3AEB8 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1048,9 +1094,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */,
+				AC9CE6AB1DDA403000B3AEB8 /* MessageCollectionViewCell.swift in Sources */,
+				AC9CE6BC1DDA403E00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */,
+				AC9CE6AC1DDA403000B3AEB8 /* MessagePresenter.swift in Sources */,
 				AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */,
+				AC9CE6AD1DDA403000B3AEB8 /* MessagePresenterBuilder.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
+				AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */,
+				AC9CE6AE1DDA403000B3AEB8 /* MessageProtocol.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
 				AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */,
@@ -1058,51 +1110,85 @@
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
 				AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */,
 				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
+				AC9CE6B21DDA403E00B3AEB8 /* BubbleViewProtocol.swift in Sources */,
 				AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
+				AC9CE6A31DDA402100B3AEB8 /* Observable.swift in Sources */,
 				AC9F65FA1D957ABD00B3AEB8 /* MUCLightRoomViewController.swift in Sources */,
 				AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */,
 				AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */,
+				AC9CE6991DDA401A00B3AEB8 /* ChatViewController+Changes.swift in Sources */,
 				AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */,
 				AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */,
 				AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */,
+				AC9CE6B61DDA403E00B3AEB8 /* ClockProgressView.swift in Sources */,
+				AC9CE6C01DDA404100B3AEB8 /* TGChatViewController.swift in Sources */,
 				AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */,
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
+				AC9CE6B41DDA403E00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */,
+				AC9CE6A11DDA401A00B3AEB8 /* CollectionChanges.swift in Sources */,
 				AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */,
 				ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
 				AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */,
+				AC9CE6A91DDA403000B3AEB8 /* ManualLayoutUtils.swift in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
 				AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */,
 				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
 				AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */,
+				AC9CE6BA1DDA403E00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */,
 				AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */,
 				AC9F66011D957ABD00B3AEB8 /* ChatViewController.swift in Sources */,
 				AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */,
 				AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */,
 				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
+				AC9CE69A1DDA401A00B3AEB8 /* ChatViewController+Presenters.swift in Sources */,
+				AC9CE6AF1DDA403000B3AEB8 /* MessageViewModel.swift in Sources */,
+				AC9CE6B01DDA403000B3AEB8 /* MessageViewModelProtocol.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
+				AC9CE6A41DDA402100B3AEB8 /* TextBubbleView.swift in Sources */,
 				ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
+				AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
+				AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */,
+				AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
+				AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */,
+				AC9CE69B1DDA401A00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */,
 				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
 				AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */,
+				AC9CE6BF1DDA403E00B3AEB8 /* ImageUtils.swift in Sources */,
+				AC9CE6A81DDA403000B3AEB8 /* KeyboardMan.swift in Sources */,
+				AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */,
+				AC9CE6B31DDA403E00B3AEB8 /* ChatInputViewController.swift in Sources */,
 				AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */,
 				AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */,
 				AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */,
 				AC9F66061D957ABD00B3AEB8 /* LoginViewController.swift in Sources */,
 				AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */,
 				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
+				AC9CE69F1DDA401A00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */,
+				AC9CE69E1DDA401A00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */,
+				AC9CE69C1DDA401A00B3AEB8 /* NoChatViewController.swift in Sources */,
+				AC9CE6A61DDA402100B3AEB8 /* ThreadHelper.swift in Sources */,
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
+				AC9CE6A01DDA401A00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */,
 				AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */,
+				AC9CE6AA1DDA403000B3AEB8 /* Message.swift in Sources */,
 				AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */,
 				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
 				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
 				AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */,
+				AC9CE6BD1DDA403E00B3AEB8 /* GrowTextView.swift in Sources */,
+				AC9CE6BB1DDA403E00B3AEB8 /* DateItemPresenter.swift in Sources */,
+				AC9CE6B81DDA403E00B3AEB8 /* ColorUtils.swift in Sources */,
+				AC9CE6BE1DDA403E00B3AEB8 /* ImageFactory.swift in Sources */,
 				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
 				AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */,
+				AC9CE6B51DDA403E00B3AEB8 /* ChatTextView.swift in Sources */,
 				AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */,
+				AC9CE6A51DDA402100B3AEB8 /* TextMessageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
