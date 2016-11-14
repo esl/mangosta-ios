@@ -224,7 +224,7 @@ class ChatViewController: NoChatViewController {
 		self.roomLight?.removeDelegate(self)
 	}
 	
-	func sendMessage(lastMessage: Message?) {
+	func sendMessage(lastMessage: NoChatMessage?) {
 		
 		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
@@ -339,7 +339,7 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		print("pressed button!")
 	}
 	
-	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> Message {
+	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
 		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
 		message.content = text
 		return message
@@ -355,8 +355,8 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 		self.sendMessage(message)
 	}
 	
-	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> Message {
-		let message = Message(
+	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
+		let message = NoChatMessage(
 			msgId: NSUUID().UUIDString,
 			msgType: msgType,
 			senderId: senderId,

@@ -27,7 +27,7 @@ class ChatDataSourceInterface: ChatDataSourceProtocol {
 	}
 	
 	
-	func addMessages(messages: [Message]) {
+	func addMessages(messages: [NoChatMessage]) {
 		chatItems.insertContentsOf(messages.reverse().map { $0 as ChatItemProtocol }, at: 0)
 		delegate?.chatDataSourceDidUpdate(self)
 	}

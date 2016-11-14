@@ -25,7 +25,7 @@ public class MessageViewModel: NSObject, MessageViewModelProtocol {
     private let dateFormatter: NSDateFormatter
     
     deinit {
-        guard let msg = message as? Message else { return }
+        guard let msg = message as? NoChatMessage else { return }
         msg.removeObserver(self, forKeyPath: "deliveryStatus")
     }
     
@@ -36,14 +36,14 @@ public class MessageViewModel: NSObject, MessageViewModelProtocol {
         
         super.init()
         
-        guard let msg = message as? Message else { return }
+        guard let msg = message as? NoChatMessage else { return }
         msg.addObserver(self, forKeyPath: "deliveryStatus", options: .New, context: nil)
     }
     
     // MARK: KVO
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
-        if let msg = object as? Message,
+        if let msg = object as? NoChatMessage,
             keyPath = keyPath where keyPath == "deliveryStatus" {
                 dispatch_async_safely_to_main_queue {
                     self.status.value = msg.deliveryStatus.viewModelStatus()

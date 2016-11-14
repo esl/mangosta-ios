@@ -52,7 +52,7 @@
 		AC4FEA261DD113EC00B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA081DD113EC00B3AEB8 /* Info.plist */; };
 		AC4FEA271DD113EC00B3AEB8 /* KeyboardMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */; };
 		AC4FEA281DD113EC00B3AEB8 /* ManualLayoutUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */; };
-		AC4FEA291DD113EC00B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0B1DD113EC00B3AEB8 /* Message.swift */; };
+		AC4FEA291DD113EC00B3AEB8 /* NoChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */; };
 		AC4FEA2A1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */; };
 		AC4FEA2B1DD113EC00B3AEB8 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */; };
 		AC4FEA2C1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */; };
@@ -85,7 +85,7 @@
 		AC9CE6A71DDA402600B3AEB8 /* NoChatTG.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA131DD113EC00B3AEB8 /* NoChatTG.xcassets */; };
 		AC9CE6A81DDA403000B3AEB8 /* KeyboardMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */; };
 		AC9CE6A91DDA403000B3AEB8 /* ManualLayoutUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */; };
-		AC9CE6AA1DDA403000B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0B1DD113EC00B3AEB8 /* Message.swift */; };
+		AC9CE6AA1DDA403000B3AEB8 /* NoChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */; };
 		AC9CE6AB1DDA403000B3AEB8 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */; };
 		AC9CE6AC1DDA403000B3AEB8 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */; };
 		AC9CE6AD1DDA403000B3AEB8 /* MessagePresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */; };
@@ -277,7 +277,7 @@
 		AC4FEA081DD113EC00B3AEB8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardMan.swift; sourceTree = "<group>"; };
 		AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualLayoutUtils.swift; sourceTree = "<group>"; };
-		AC4FEA0B1DD113EC00B3AEB8 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoChatMessage.swift; sourceTree = "<group>"; };
 		AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresenter.swift; sourceTree = "<group>"; };
 		AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresenterBuilder.swift; sourceTree = "<group>"; };
@@ -590,7 +590,7 @@
 				AC4FEA081DD113EC00B3AEB8 /* Info.plist */,
 				AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */,
 				AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */,
-				AC4FEA0B1DD113EC00B3AEB8 /* Message.swift */,
+				AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */,
 				AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */,
 				AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */,
 				AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */,
@@ -1017,7 +1017,7 @@
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
-				AC4FEA291DD113EC00B3AEB8 /* Message.swift in Sources */,
+				AC4FEA291DD113EC00B3AEB8 /* NoChatMessage.swift in Sources */,
 				AC4FEA1D1DD113EC00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC4FEA181DD113EC00B3AEB8 /* BubbleViewProtocol.swift in Sources */,
 				AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */,
@@ -1175,7 +1175,7 @@
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
 				AC9CE6A01DDA401A00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */,
 				AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */,
-				AC9CE6AA1DDA403000B3AEB8 /* Message.swift in Sources */,
+				AC9CE6AA1DDA403000B3AEB8 /* NoChatMessage.swift in Sources */,
 				AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */,
 				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
 				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
