@@ -11,8 +11,6 @@ import XMPPFramework
 import MBProgressHUD
 
 class ChatViewController: NoChatViewController {
-	@IBOutlet internal var tableView: UITableView!
-	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	
@@ -73,9 +71,8 @@ class ChatViewController: NoChatViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		chatItemsDecorator = TGChatItemsDecorator()
-		chatDataSource = ChatDataSourceInterface()
-		chatDataSource?.delegate = self
+		self.chatItemsDecorator = TGChatItemsDecorator()
+		self.chatDataSource = ChatDataSourceInterface()
 		
 		var rightBarButtonItems: [UIBarButtonItem] = []
 
@@ -224,7 +221,7 @@ class ChatViewController: NoChatViewController {
 		self.roomLight?.removeDelegate(self)
 	}
 	
-	func sendMessage(lastMessage: NoChatMessage?) {
+	func sendMessageToServer(lastMessage: NoChatMessage?) {
 		
 		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
@@ -280,6 +277,12 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	                                            forChangeType type: NSFetchedResultsChangeType,
 	                                                          newIndexPath: NSIndexPath?) {
 		// FIXME use the self.tableView.reloadData()
+		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
+			if mamMessage.body != nil && !mamMessage.isOutgoing {
+				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
+				(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+			}
+		}
 	}
 }
 
@@ -303,41 +306,7 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 	}
 }
 
-extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
-	// MARK: UITableViewDataSource, UITableViewDelegate
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		if let sections = self.fetchedResultsController?.sections {
-			return sections.count
-		}
-		return 0
-	}
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		let sections = self.fetchedResultsController?.sections
-		if section < sections!.count {
-			let sectionInfo = sections![section]
-			return sectionInfo.numberOfObjects
-		}
-		return 0
-	}
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
-		
-		if userJID != nil {
-			let message = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPMessageArchiving_Message_CoreDataObject
-			cell.backgroundColor = message.isOutgoing ? UIColor.lightGrayColor() : UIColor.whiteColor()
-			cell.textLabel?.text = message.body
-			return cell
-		}
-		
-		let message = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPRoomMessageCoreDataStorageObject
-		cell.backgroundColor = message.isFromMe ? UIColor.lightGrayColor() : UIColor.whiteColor()
-		cell.textLabel?.text = message.body
-		return cell
-	}
-	
-	func sendMessageButtonPressed() {
-		print("pressed button!")
-	}
+extension ChatViewController {
 	
 	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
 		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
@@ -348,11 +317,11 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 
 	func sendText(text: String) {
 		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
-		  (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 		
 		// TODO: implement queing offline messages.
+		(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 		
-		self.sendMessage(message)
+		self.sendMessageToServer(message)
 	}
 	
 	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
