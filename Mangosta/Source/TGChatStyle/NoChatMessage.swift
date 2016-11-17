@@ -1,5 +1,5 @@
 //
-//  Message.swift
+//  NoChatMessage.swift
 //  NoChat
 //
 //  Created by little2s on 16/3/16.
@@ -13,7 +13,7 @@ public enum MessageType: String {
     case Image = "Image"
 }
 
-public class Message: NSObject, MessageProtocol {
+public class NoChatMessage: NSObject, MessageProtocol {
     public var msgId: String
     public var msgType: String
     public var senderId: String

@@ -11,8 +11,6 @@ import XMPPFramework
 import MBProgressHUD
 
 class ChatViewController: NoChatViewController {
-	@IBOutlet internal var tableView: UITableView!
-	@IBOutlet internal var buttonHeight: NSLayoutConstraint!
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	
@@ -26,6 +24,25 @@ class ChatViewController: NoChatViewController {
 	let MIMCommonInterface = MIMMainInterface()
 
 	let messageLayoutCache = NSCache()
+
+	lazy var titleView: TitleView! = {
+		let view = TitleView()
+		return view
+	}()
+	
+	lazy var avatarButton: AvatarButton! = {
+		let button = AvatarButton()
+		return button
+	}()
+	
+	override var title: String? {
+		set {
+			titleView.titleLabel.text = newValue
+		}
+		get {
+			return titleView.titleLabel.text
+		}
+	}
 	
 	override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
 		return [
@@ -44,14 +61,22 @@ class ChatViewController: NoChatViewController {
 	override func createChatInputViewController() -> UIViewController {
 		let inputController = ChatInputViewController()
 		
+		inputController.onSendText = { [weak self] text in
+			self?.sendText(text)
+		}
+		
 		return inputController
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		self.chatItemsDecorator = TGChatItemsDecorator()
+		self.chatDataSource = ChatDataSourceInterface()
+		
 		var rightBarButtonItems: [UIBarButtonItem] = []
-		rightBarButtonItems.append(UIBarButtonItem(title: "Chat", style: UIBarButtonItemStyle.Done, target: self, action: #selector(showChatAlert(_:))))
+
+		wallpaperView.image = UIImage(named: "chat_background")!
 		
 		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
@@ -145,30 +170,6 @@ class ChatViewController: NoChatViewController {
 		return controller
 	}
 	
-	// TODO: Implement this for the new UI
-	internal func showChatAlert(sender: AnyObject?) {
-		var message = "Yo! " + "\(self.tableView.numberOfRowsInSection(0))"
-		let alertController = UIAlertController.textFieldAlertController("Warning", message: "It will send \(message) by default. Continue?") { (inputMessage) in
-			if let messageText = inputMessage where messageText.characters.count > 0 {
-				message = messageText
-			}
-
-			let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-			let type = self.userJID != nil ? "chat" : "groupchat"
-			let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
-			msg.addBody(message)
-			if type == "chat" {
-				self.MIMCommonInterface.sendMessage(msg)
-			}
-			else {
-				// TODO:
-				// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-				self.xmppController.xmppStream.sendElement(msg) 
-			}
-		}
-		self.presentViewController(alertController, animated: true, completion: nil)
-	}
-	
 	internal func invite(sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
@@ -219,7 +220,26 @@ class ChatViewController: NoChatViewController {
 		self.room?.removeDelegate(self)
 		self.roomLight?.removeDelegate(self)
 	}
+	
+	func sendMessageToServer(lastMessage: NoChatMessage?) {
+		
+		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let type = self.userJID != nil ? "chat" : "groupchat"
+		let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
+		
+		msg.addBody(lastMessage?.content)
+		if type == "chat" {
+			self.MIMCommonInterface.sendMessage(msg)
+		}
+		else {
+			// TODO:
+			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+			self.xmppController.xmppStream.sendElement(msg)
+		}
+	}
 }
+
+// MARK: ChatDataSourceDelegateProtocol
 
 extension ChatViewController: XMPPRoomLightDelegate {
 	
@@ -256,7 +276,13 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	                                atIndexPath indexPath: NSIndexPath?,
 	                                            forChangeType type: NSFetchedResultsChangeType,
 	                                                          newIndexPath: NSIndexPath?) {
-		self.tableView.reloadData()
+		// FIXME use the self.tableView.reloadData()
+		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
+			if mamMessage.body != nil && !mamMessage.isOutgoing {
+				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
+				(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+			}
+		}
 	}
 }
 
@@ -280,39 +306,40 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 	}
 }
 
-extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
-	// MARK: UITableViewDataSource, UITableViewDelegate
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		if let sections = self.fetchedResultsController?.sections {
-			return sections.count
-		}
-		return 0
+extension ChatViewController {
+	
+	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
+		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
+		message.content = text
+		return message
 	}
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		let sections = self.fetchedResultsController?.sections
-		if section < sections!.count {
-			let sectionInfo = sections![section]
-			return sectionInfo.numberOfObjects
-		}
-		return 0
-	}
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
+
+
+	func sendText(text: String) {
+		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
 		
-		if userJID != nil {
-			let message = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPMessageArchiving_Message_CoreDataObject
-			cell.backgroundColor = message.isOutgoing ? UIColor.lightGrayColor() : UIColor.whiteColor()
-			cell.textLabel?.text = message.body
-			return cell
-		}
+		// TODO: implement queing offline messages.
+		(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 		
-		let message = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPRoomMessageCoreDataStorageObject
-		cell.backgroundColor = message.isFromMe ? UIColor.lightGrayColor() : UIColor.whiteColor()
-		cell.textLabel?.text = message.body
-		return cell
+		self.sendMessageToServer(message)
 	}
 	
-	func sendMessageButtonPressed() {
-		print("pressed button!")
+	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
+		let message = NoChatMessage(
+			msgId: NSUUID().UUIDString,
+			msgType: msgType,
+			senderId: senderId,
+			isIncoming: isIncoming,
+			date: NSDate(),
+			deliveryStatus: .Delivering,
+			attachments: [],
+			content: ""
+		)
+		
+		return message
 	}
+	
+
 }
+
+

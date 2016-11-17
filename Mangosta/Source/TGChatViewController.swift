@@ -103,6 +103,7 @@ extension TGChatViewController {
     func sendText(text: String) {
       //  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
       //  (self.chatDataSource as! TGChatDataSource).addMessages([message])
+		print("sent \(text)")
     }
     
     func showAttachSheet() {
