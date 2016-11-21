@@ -22,7 +22,6 @@ class MainViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.title = "Roster"
 
 		let addFriendButton = UIBarButtonItem(title: "Add Friend", style: UIBarButtonItemStyle.Done, target: self, action: #selector(addFriend(_:)))
 		self.navigationItem.rightBarButtonItem = addFriendButton

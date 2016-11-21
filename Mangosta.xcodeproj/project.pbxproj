@@ -65,6 +65,12 @@
 		AC4FEA331DD113EC00B3AEB8 /* TextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */; };
 		AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */; };
 		AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
+		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
+		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
+		AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
+		AC87CADF1DE35A7200B3AEB8 /* SocialMedia.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */; };
+		AC87CAE01DE3673600B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
+		AC87CAE11DE3673900B3AEB8 /* SocialMedia.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */; };
 		AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
 		AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */; };
 		AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */; };
@@ -142,7 +148,6 @@
 		AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */; };
 		AC9F66131D957ABD00B3AEB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3531C92CDE4000602F2 /* Main.storyboard */; };
 		AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
-		AC9F66151D957ABD00B3AEB8 /* MUC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9161CE25CCC00225EC7 /* MUC.storyboard */; };
 		AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
 		AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66211D957E5900B3AEB8 /* Backend.swift */; };
@@ -182,7 +187,6 @@
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
 		C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
-		C135D9171CE25CCC00225EC7 /* MUC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9161CE25CCC00225EC7 /* MUC.storyboard */; };
 		C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
 		C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
@@ -291,6 +295,9 @@
 		AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewModel.swift; sourceTree = "<group>"; };
 		AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
 		AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGChatViewController.swift; sourceTree = "<group>"; };
+		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
+		AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
+		AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SocialMedia.storyboard; sourceTree = "<group>"; };
 		AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPMain.swift; sourceTree = "<group>"; };
 		AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mangosta REST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "REST-Info.plist"; path = "Mangosta/REST-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -330,7 +337,6 @@
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
 		C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoom+ExtraActions.m"; sourceTree = "<group>"; };
 		C135D9121CE257B700225EC7 /* LogIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LogIn.storyboard; sourceTree = "<group>"; };
-		C135D9161CE25CCC00225EC7 /* MUC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUC.storyboard; sourceTree = "<group>"; };
 		C135D9181CE25E2000225EC7 /* Roster.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Roster.storyboard; sourceTree = "<group>"; };
 		C135D91A1CE25FE200225EC7 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		C135D91C1CE39FFD00225EC7 /* Members.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Members.storyboard; sourceTree = "<group>"; };
@@ -522,6 +528,7 @@
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
 				C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */,
 				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
+				AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -663,9 +670,10 @@
 		C12EA9551CE255C800F29606 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */,
+				AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */,
 				81ECA3531C92CDE4000602F2 /* Main.storyboard */,
 				C135D9121CE257B700225EC7 /* LogIn.storyboard */,
-				C135D9161CE25CCC00225EC7 /* MUC.storyboard */,
 				C1072DAC1CEB91300007B99E /* MUCLight.storyboard */,
 				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
 				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
@@ -830,10 +838,11 @@
 				C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */,
 				81ECA35A1C92CDE4000602F2 /* LaunchScreen.storyboard in Resources */,
 				81ECA3571C92CDE4000602F2 /* Assets.xcassets in Resources */,
+				AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */,
 				C1AEEF321D24038600E25C48 /* BlockingMembers.storyboard in Resources */,
+				AC87CADF1DE35A7200B3AEB8 /* SocialMedia.storyboard in Resources */,
 				81ECA3551C92CDE4000602F2 /* Main.storyboard in Resources */,
 				C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */,
-				C135D9171CE25CCC00225EC7 /* MUC.storyboard in Resources */,
 				AC4FEA261DD113EC00B3AEB8 /* Info.plist in Resources */,
 				AC4FE9EF1DD0E96D00B3AEB8 /* Info.plist in Resources */,
 				AC4FEA301DD113EC00B3AEB8 /* NoChatTG.xcassets in Resources */,
@@ -862,13 +871,14 @@
 			files = (
 				AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */,
 				AC9CE6A71DDA402600B3AEB8 /* NoChatTG.xcassets in Resources */,
+				AC87CAE11DE3673900B3AEB8 /* SocialMedia.storyboard in Resources */,
+				AC87CAE01DE3673600B3AEB8 /* IM.storyboard in Resources */,
 				AC9F660F1D957ABD00B3AEB8 /* MUCLight.storyboard in Resources */,
 				AC9F66101D957ABD00B3AEB8 /* LaunchScreen.storyboard in Resources */,
 				AC9F66111D957ABD00B3AEB8 /* Assets.xcassets in Resources */,
 				AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */,
 				AC9F66131D957ABD00B3AEB8 /* Main.storyboard in Resources */,
 				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
-				AC9F66151D957ABD00B3AEB8 /* MUC.storyboard in Resources */,
 				AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */,
 				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
 				AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */,
@@ -1005,6 +1015,7 @@
 				AC4FE9EE1DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
 				C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */,
 				AC4FEA2F1DD113EC00B3AEB8 /* MessageViewModelProtocol.swift in Sources */,
+				AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				AC4FE9EA1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */,
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
 				AC4FEA251DD113EC00B3AEB8 /* ImageUtils.swift in Sources */,
@@ -1158,6 +1169,7 @@
 				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
 				AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */,
+				AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				AC9CE6BF1DDA403E00B3AEB8 /* ImageUtils.swift in Sources */,
 				AC9CE6A81DDA403000B3AEB8 /* KeyboardMan.swift in Sources */,
 				AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */,
