@@ -8,6 +8,6 @@
 
 import Foundation
 
-class SocialMedia: UIViewController {
+class SocialMediaViewController: UIViewController {
 	
 }

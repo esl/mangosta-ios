@@ -63,6 +63,7 @@ class MainViewController: UIViewController {
 		#endif
 	}
 	
+	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
 	@IBAction func activateDeactivate(sender: UIButton) {
 		if activated {
 			self.xmppController.xmppStream.sendElement(XMPPElement.indicateInactiveElement())

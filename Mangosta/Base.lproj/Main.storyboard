@@ -29,11 +29,11 @@
             </objects>
             <point key="canvasLocation" x="195" y="-420"/>
         </scene>
-        <!--IM-->
+        <!--Chat-->
         <scene sceneID="Sgn-Fc-cuM">
             <objects>
-                <viewControllerPlaceholder storyboardName="IM" referencedIdentifier="IM" id="8lZ-lh-fcR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="IM" id="Jsq-Fb-Uiw"/>
+                <viewControllerPlaceholder storyboardName="IM" referencedIdentifier="Chat" id="8lZ-lh-fcR" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chat" id="Jsq-Fb-Uiw"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y22-2F-EEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,7 +43,7 @@
         <scene sceneID="7cg-gm-b4f">
             <objects>
                 <viewControllerPlaceholder storyboardName="SocialMedia" referencedIdentifier="Social Media" id="Hqe-Gx-0K5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Social Media" id="i58-9H-xzB"/>
+                    <tabBarItem key="tabBarItem" title="Social" id="i58-9H-xzB"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0K-j0-LNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

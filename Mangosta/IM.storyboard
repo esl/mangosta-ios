@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -45,26 +44,6 @@
                                     <outlet property="delegate" destination="g2L-eS-DII" id="uu0-Wh-eEz"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xM3-DY-Q5w">
-                                <rect key="frame" x="502" y="516" width="67" height="50"/>
-                                <color key="backgroundColor" red="0.24307585579999999" green="0.59701426020000004" blue="0.49965547129999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="DKa-xU-msi"/>
-                                    <constraint firstAttribute="width" constant="67" id="kdj-GL-dlA"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                <state key="normal" title="Deactivate">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="activateDeactivate:" destination="g2L-eS-DII" eventType="touchUpInside" id="ynh-te-Gyh"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -72,8 +51,6 @@
                             <constraint firstAttribute="trailing" secondItem="FlV-Hd-TLo" secondAttribute="trailing" id="Cmq-sf-4uP"/>
                             <constraint firstItem="FlV-Hd-TLo" firstAttribute="top" secondItem="nS6-wY-Gr4" secondAttribute="bottom" id="LHH-Sd-pfU"/>
                             <constraint firstItem="Zn8-w6-Fok" firstAttribute="top" secondItem="FlV-Hd-TLo" secondAttribute="bottom" id="avC-1D-GXN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="xM3-DY-Q5w" secondAttribute="trailing" constant="11" id="azm-7I-Pj7"/>
-                            <constraint firstItem="Zn8-w6-Fok" firstAttribute="top" secondItem="xM3-DY-Q5w" secondAttribute="bottom" constant="34" id="mIU-SH-Utn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aIU-qT-l9u"/>
@@ -85,11 +62,11 @@
             </objects>
             <point key="canvasLocation" x="2227" y="-444"/>
         </scene>
-        <!--IM-->
+        <!--Chat-->
         <scene sceneID="sCD-KZ-nQe">
             <objects>
-                <navigationController storyboardIdentifier="IM" automaticallyAdjustsScrollViewInsets="NO" id="7TH-bl-YGF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="IM" id="qqj-m8-tri"/>
+                <navigationController storyboardIdentifier="Chat" automaticallyAdjustsScrollViewInsets="NO" id="7TH-bl-YGF" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chat" id="qqj-m8-tri"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="27d-PA-7We">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
