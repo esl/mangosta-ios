@@ -71,7 +71,7 @@
         <scene sceneID="sCD-KZ-nQe">
             <objects>
                 <navigationController storyboardIdentifier="Social Media" automaticallyAdjustsScrollViewInsets="NO" id="7TH-bl-YGF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Social Media" id="qqj-m8-tri"/>
+                    <tabBarItem key="tabBarItem" title="Social Media" image="Social" selectedImage="Social Filled" id="qqj-m8-tri"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="27d-PA-7We">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -84,4 +84,8 @@
             <point key="canvasLocation" x="1151" y="-444"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Social" width="29" height="29"/>
+        <image name="Social Filled" width="29" height="29"/>
+    </resources>
 </document>

@@ -33,7 +33,7 @@
         <scene sceneID="Sgn-Fc-cuM">
             <objects>
                 <viewControllerPlaceholder storyboardName="IM" referencedIdentifier="Chat" id="8lZ-lh-fcR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chat" id="Jsq-Fb-Uiw"/>
+                    <tabBarItem key="tabBarItem" title="Chat" image="Chat" selectedImage="Chat Filled" id="Jsq-Fb-Uiw"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y22-2F-EEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,11 +43,17 @@
         <scene sceneID="7cg-gm-b4f">
             <objects>
                 <viewControllerPlaceholder storyboardName="SocialMedia" referencedIdentifier="Social Media" id="Hqe-Gx-0K5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Social" id="i58-9H-xzB"/>
+                    <tabBarItem key="tabBarItem" title="Social" image="Conference" selectedImage="Conference Filled" id="i58-9H-xzB"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0K-j0-LNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="612.5" y="148"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Chat" width="29" height="29"/>
+        <image name="Chat Filled" width="29" height="29"/>
+        <image name="Conference" width="29" height="29"/>
+        <image name="Conference Filled" width="29" height="29"/>
+    </resources>
 </document>
