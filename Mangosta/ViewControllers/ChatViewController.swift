@@ -171,7 +171,7 @@ class ChatViewController: NoChatViewController {
 	}
 	
 	internal func invite(sender: AnyObject?) {
-		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID") { (jidString) in
+		let alertController = UIAlertController.textFieldAlertController("Add member", message: "Enter the JID") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
 
 			if self.roomLight != nil {
