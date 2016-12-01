@@ -81,12 +81,11 @@ class ChatViewController: NoChatViewController {
 		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
 		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
-			self.title = "Chatting with \(roomSubject)"
+			self.title = "\(roomSubject)"
 		}
 
-		// TODO add gesture recognizer to this viewcontroller
-		//	let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
-		//	self.subject.addGestureRecognizer(tapGesture)
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
+		self.titleView.addGestureRecognizer(tapGesture)
 		
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
