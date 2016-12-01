@@ -125,7 +125,9 @@ class TitleView: UIView {
     
     var titleLabel: UILabel!
     var detailLabel: UILabel!
-    
+	var tapGestureRecognizer: UITapGestureRecognizer!
+	var internalButton: UIButton!
+	
     override init(frame: CGRect) {
         super.init(frame: frame)
         
