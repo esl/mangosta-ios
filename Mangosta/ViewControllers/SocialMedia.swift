@@ -10,4 +10,7 @@ import Foundation
 
 class SocialMediaViewController: UIViewController {
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+	}
 }

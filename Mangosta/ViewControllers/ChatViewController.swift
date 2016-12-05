@@ -122,7 +122,7 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 	}
 	
 	override func viewWillAppear(animated: Bool) {
-		// FIXME
+		// FIXME TapGestureRecognizer
 		// Set up TittleBar
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
 		self.titleView.userInteractionEnabled = true

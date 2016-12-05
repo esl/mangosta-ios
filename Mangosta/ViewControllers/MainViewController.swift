@@ -185,6 +185,14 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		items?.removeAtIndex(sourceIndexPath.row)
 		items?.insert(item!, atIndex: destinationIndexPath.row)
 	}
+	
+	func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+		return true
+	}
+
+	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+		return .None
+	}
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {
