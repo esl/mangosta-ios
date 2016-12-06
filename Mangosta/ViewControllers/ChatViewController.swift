@@ -65,6 +65,10 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 			self?.sendText(text)
 		}
 		
+		inputController.onChooseAttach = { [weak self] in
+			self?.showAttachSheet()
+		}
+
 		return inputController
 	}
 	
@@ -352,6 +356,20 @@ extension ChatViewController {
 		self.sendMessageToServer(message)
 	}
 	
+	func showAttachSheet() {
+		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .ActionSheet)
+		
+		sheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { _ in
+		}))
+		
+		sheet.addAction(UIAlertAction(title: "Photos", style: .Default, handler: { _ in
+		}))
+		
+		sheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+		
+		presentViewController(sheet, animated: true, completion: nil)
+	}
+
 	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
 		let message = NoChatMessage(
 			msgId: NSUUID().UUIDString,
