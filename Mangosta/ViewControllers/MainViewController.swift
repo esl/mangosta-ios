@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addFriend(_:)))
+		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
 		self.navigationItem.rightBarButtonItems = [addButton, editButton]
 
@@ -92,7 +92,32 @@ class MainViewController: UIViewController {
 		
 	}
 	
-	func addFriend(sender: UIBarButtonItem) {
+	func selectChat(sender: UIBarButtonItem) {
+		let alertController = UIAlertController(title: nil, message: "New Chat", preferredStyle: .ActionSheet)
+		
+		
+		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .Default) { (action) in
+			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
+				let roomViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! MUCLightCreateRoomPresenterViewController
+			self.presentViewController(roomViewController, animated: true, completion: nil)
+		}
+		alertController.addAction(roomChatAction)
+		
+		let privateChatAction = UIAlertAction(title: "New Private Chat", style: .Default) { (action) in
+			self.createNewFriendChat(sender)
+		}
+		alertController.addAction(privateChatAction)
+		
+		let cancelAction = UIAlertAction(title: "Cancel", style: .Destructive) { (action) in
+			
+		}
+		alertController.addAction(cancelAction)
+		
+		self.presentViewController(alertController, animated: true) {
+			
+		}
+	}
+	func createNewFriendChat(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("New Conversation", message: "Enter the JID of the user or group name") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)

@@ -31,20 +31,15 @@ class MUCRoomCreateViewController: UIViewController {
 
 		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
 		
-		let createButton = UIBarButtonItem(title: "Create", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(createRoom(_:)))
-		let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(cancelCreation(_:)))
-
-		self.navigationItem.rightBarButtonItems = [cancelButton, createButton]
-
 		self.setupFetchedResultsController()
 	}
 	
-	internal func createRoom(sender: UIBarButtonItem) {
+	@IBAction func createRoom(sender: UIBarButtonItem) {
 		self.delegate?.createRoom(self.roomNameField.text!, users: Array(self.usersForRoom))
 	}
 	
-	internal func cancelCreation(sender: UIBarButtonItem) {
-		self.navigationController?.popViewControllerAnimated(true)
+	@IBAction func cancelCreation(sender: UIBarButtonItem) {
+		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 
 	internal func setupFetchedResultsController() {
