@@ -150,7 +150,9 @@ class MainViewController: UIViewController {
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		if let sections = self.fetchedResultsController?.sections {
-			return sections.count
+			// FIXME: sections from datasource
+			return 2
+			//return sections.count
 		}
 		return 0
 	}
@@ -162,6 +164,17 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		}
 		return 0
 	}
+	
+	func tableView( tableView : UITableView,  titleForHeaderInSection section: Int)->String? {
+		switch(section) {
+		case 1: return "Group chats"
+		case 0:return "Private chats"
+			
+		default :return "Private chats"
+			
+		}
+	}
+
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
