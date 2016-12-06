@@ -20,6 +20,8 @@ class MainViewController: UIViewController {
 	weak var mongooseRESTController : MongooseAPI!
 	#endif
 	
+	var xmppMUCLight: XMPPMUCLight!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -36,6 +38,16 @@ class MainViewController: UIViewController {
 		} else {
 			configureAndStartXMPP()
 		}
+		
+	}
+	
+	override func viewWillAppear(animated: Bool) {
+		self.xmppMUCLight = XMPPMUCLight()
+		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.xmppMUCLight.activate(self.xmppController.xmppStream)
+		
+		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+
 	}
 	
 	func presentLogInView() {
@@ -162,6 +174,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			let sectionInfo = sections![section]
 			return sectionInfo.numberOfObjects
 		}
+		else if section == 1 {
+			return self.xmppController.roomsLight.count
+		}
 		return 0
 	}
 	
@@ -178,6 +193,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
+		if indexPath.section == 0 {
 		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
 			if let firstResource = user.resources.first {
 				if let pres = firstResource.valueForKey("presence") {
@@ -195,6 +211,11 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			cell.textLabel?.text = user.jidStr
 		} else {
 			cell.textLabel?.text = "nope"
+		}
+		}
+		else if indexPath.section == 1 {
+			let room = self.xmppController.roomsLight[indexPath.row]
+			cell.textLabel?.text = room.roomname()
 		}
 		
 		return cell
@@ -244,4 +265,43 @@ extension MainViewController: LoginControllerDelegate {
 		self.configureAndStartXMPP() // and MongooseREST API
 	}
 }
+
+extension MainViewController: XMPPMUCLightDelegate {
+	
+	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
+		let storage = self.xmppController.xmppRoomLightCoreDataStorage
+		
+		self.xmppController.roomsLight.forEach { (room) in
+			room.deactivate()
+			room.removeDelegate(self)
+		}
+		
+		self.xmppController.roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
+			let rawJid = rawElement.attributeStringValueForName("jid")
+			let rawName = rawElement.attributeStringValueForName("name")
+			let jid = XMPPJID.jidWithString(rawJid)
+			
+			let r = XMPPCustomRoomLight(roomLightStorage: storage, jid: jid, roomname: rawName, dispatchQueue: dispatch_get_main_queue())
+			r.activate(self.xmppController.xmppStream)
+			
+			return r
+		}
+		self.tableView.reloadData()
+	}
+	
+	func xmppMUCLight(sender: XMPPMUCLight, changedAffiliation affiliation: String, roomJID: XMPPJID) {
+		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+	}
+}
+
+// FIXME: create room
+//extension MainViewController: XMPPRoomLightDelegate {
+//	
+//	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
+//		sender.addUsers(self.newRoomUsers)
+//		
+//		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+//		self.tableView.reloadData()
+//	}
+//}
 
