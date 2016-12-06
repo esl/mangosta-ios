@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
 
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
-		self.navigationItem.rightBarButtonItems = [addButton, editButton]
+		self.navigationItem.rightBarButtonItems = [editButton, addButton]
 
 		
 		let logOut = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logOut(_:)))
