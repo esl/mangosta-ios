@@ -23,8 +23,10 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		let addFriendButton = UIBarButtonItem(title: "Add Friend", style: UIBarButtonItemStyle.Done, target: self, action: #selector(addFriend(_:)))
-		self.navigationItem.rightBarButtonItem = addFriendButton
+		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addFriend(_:)))
+		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
+		self.navigationItem.rightBarButtonItems = [addButton, editButton]
+
 		
 		let logOut = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logOut(_:)))
 		self.navigationItem.leftBarButtonItem = logOut
@@ -91,11 +93,14 @@ class MainViewController: UIViewController {
 	}
 	
 	func addFriend(sender: UIBarButtonItem) {
-		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
+		let alertController = UIAlertController.textFieldAlertController("New Conversation", message: "Enter the JID of the user or group name") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
+	}
+	func editTable(sender: UIBarButtonItem) {
+		
 	}
 	
 	internal func setupFetchedResultsController() {
@@ -167,6 +172,26 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		
 		self.navigationController?.pushViewController(chatController, animated: true)
 		
+	}
+	
+	func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+		return true
+	}
+	
+	func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+		// TODO: use safe optionals
+		let item = self.fetchedResultsController?.objectAtIndexPath(sourceIndexPath)
+		var items = self.fetchedResultsController?.fetchedObjects
+		items?.removeAtIndex(sourceIndexPath.row)
+		items?.insert(item!, atIndex: destinationIndexPath.row)
+	}
+	
+	func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+		return true
+	}
+
+	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+		return .None
 	}
 }
 

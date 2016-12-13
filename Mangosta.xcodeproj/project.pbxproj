@@ -527,8 +527,8 @@
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
 				C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */,
-				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 				AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */,
+				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
