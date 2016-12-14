@@ -20,7 +20,10 @@ class MUCRoomCreateViewController: UIViewController {
 	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController!
 
 	weak var xmppController: XMPPController!
-
+	
+	let MIMCommonInterface = MIMMainInterface()
+	
+	var newRoomUsers = [XMPPJID]()
 	
 	var usersForRoom = Set<XMPPJID>()
 	weak var delegate: MUCRoomCreateViewControllerDelegate?
@@ -35,7 +38,20 @@ class MUCRoomCreateViewController: UIViewController {
 	}
 	
 	@IBAction func createRoom(sender: UIBarButtonItem) {
-		self.delegate?.createRoom(self.roomNameField.text!, users: Array(self.usersForRoom))
+		self.createRoom(self.roomNameField.text!, users: Array(self.usersForRoom))
+	}
+	
+	func createRoom(roomName: String, users: [XMPPJID]?) {
+		self.newRoomUsers = users ?? []
+		
+		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
+		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
+		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		
+		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
+		
+		self.dismissViewControllerAnimated(true, completion: nil)
+		
 	}
 	
 	@IBAction func cancelCreation(sender: UIBarButtonItem) {

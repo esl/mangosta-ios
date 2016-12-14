@@ -20,7 +20,11 @@ class MainViewController: UIViewController {
 	weak var mongooseRESTController : MongooseAPI!
 	#endif
 	
+	let MIMCommonInterface = MIMMainInterface()
+	
 	var xmppMUCLight: XMPPMUCLight!
+	
+	var newRoomUsers = [XMPPJID]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -42,11 +46,7 @@ class MainViewController: UIViewController {
 	}
 	
 	override func viewWillAppear(animated: Bool) {
-		self.xmppMUCLight = XMPPMUCLight()
-		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.xmppMUCLight.activate(self.xmppController.xmppStream)
 		
-		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
 
 	}
 	
@@ -110,8 +110,9 @@ class MainViewController: UIViewController {
 		
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .Default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
-				let roomViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! MUCLightCreateRoomPresenterViewController
-			self.presentViewController(roomViewController, animated: true, completion: nil)
+				let roomCreateViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
+			//roomCreateViewController.MUCLightDelegate = self
+			self.presentViewController(roomCreateViewController, animated: true, completion: nil)
 		}
 		alertController.addAction(roomChatAction)
 		
@@ -155,6 +156,15 @@ class MainViewController: UIViewController {
 		self.fetchedResultsController?.delegate = self
 
 		try! self.fetchedResultsController?.performFetch()
+		
+		
+		self.xmppMUCLight = XMPPMUCLight()
+		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.xmppMUCLight.activate(self.xmppController.xmppStream)
+		
+		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+		
+		
 		self.tableView.reloadData()
 	}
 }
@@ -173,6 +183,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		if section < sections!.count {
 			let sectionInfo = sections![section]
 			return sectionInfo.numberOfObjects
+			
 		}
 		else if section == 1 {
 			return self.xmppController.roomsLight.count
@@ -194,24 +205,24 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
 		if indexPath.section == 0 {
-		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
-			if let firstResource = user.resources.first {
-				if let pres = firstResource.valueForKey("presence") {
-					if pres.type == "available" {
-						cell.textLabel?.textColor = UIColor.blueColor()
-					} else {
-						cell.textLabel?.textColor = UIColor.darkGrayColor()
+			if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+				if let firstResource = user.resources.first {
+					if let pres = firstResource.valueForKey("presence") {
+						if pres.type == "available" {
+							cell.textLabel?.textColor = UIColor.blueColor()
+						} else {
+							cell.textLabel?.textColor = UIColor.darkGrayColor()
+						}
+						
 					}
-					
+				} else {
+					cell.textLabel?.textColor = UIColor.darkGrayColor()
 				}
+				
+				cell.textLabel?.text = user.jidStr
 			} else {
-				cell.textLabel?.textColor = UIColor.darkGrayColor()
+				cell.textLabel?.text = "nope"
 			}
-			
-			cell.textLabel?.text = user.jidStr
-		} else {
-			cell.textLabel?.text = "nope"
-		}
 		}
 		else if indexPath.section == 1 {
 			let room = self.xmppController.roomsLight[indexPath.row]
@@ -294,14 +305,29 @@ extension MainViewController: XMPPMUCLightDelegate {
 	}
 }
 
+extension MainViewController: MUCRoomCreateViewControllerDelegate {
+	
+	func createRoom(roomName: String, users: [XMPPJID]?) {
+		self.newRoomUsers = users ?? []
+		
+		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
+		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
+		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		
+		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
+		
+		self.navigationController?.popViewControllerAnimated(true)
+		
+	}
+}
 // FIXME: create room
-//extension MainViewController: XMPPRoomLightDelegate {
-//	
-//	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
-//		sender.addUsers(self.newRoomUsers)
-//		
-//		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
-//		self.tableView.reloadData()
-//	}
-//}
+extension MainViewController: XMPPRoomLightDelegate {
+	
+	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
+		sender.addUsers(self.newRoomUsers)
+		
+		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+		self.tableView.reloadData()
+	}
+}
 

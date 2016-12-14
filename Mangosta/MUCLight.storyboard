@@ -146,10 +146,10 @@
             </objects>
             <point key="canvasLocation" x="65" y="466"/>
         </scene>
-        <!--Light Create Room Presenter View Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="mUe-ac-ckg">
             <objects>
-                <navigationController storyboardIdentifier="MUCLightCreateRoomPresenterViewController" automaticallyAdjustsScrollViewInsets="NO" id="2TX-xX-beO" customClass="MUCLightCreateRoomPresenterViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MUCLightCreateRoomPresenterViewController" automaticallyAdjustsScrollViewInsets="NO" id="2TX-xX-beO" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="X0e-fz-JWP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

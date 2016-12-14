@@ -9,5 +9,10 @@
 import Foundation
 
 class MUCLightCreateRoomPresenterViewController: UINavigationController {
+	weak var MUCLightDelegate: MUCRoomCreateViewControllerDelegate?
 	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		let createRoomViewController = segue.destinationViewController as! MUCRoomCreateViewController
+  		createRoomViewController.delegate = MUCLightDelegate
+	}
 }
