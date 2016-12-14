@@ -180,7 +180,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		return 0
 	}
 	
-	func tableView( tableView : UITableView,  titleForHeaderInSection section: Int)->String? {
+	func tableView( tableView : UITableView,  titleForHeaderInSection section: Int) -> String? {
 		switch(section) {
 		case 1: return "Group chats"
 		case 0:return "Private chats"

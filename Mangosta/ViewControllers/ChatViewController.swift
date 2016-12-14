@@ -72,14 +72,6 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 		return inputController
 	}
 	
-	override func didMoveToParentViewController(parent: UIViewController?) {
-		super.didMoveToParentViewController(parent)
-		
-		if parent != nil && self.navigationItem.titleView == nil {
-			
-		}
-	}
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -126,12 +118,6 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 	}
 	
 	override func viewWillAppear(animated: Bool) {
-		// FIXME TapGestureRecognizer
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
-		self.titleView.userInteractionEnabled = true
-		tapGesture.delegate = self
-		self.titleView.tapGestureRecognizer = tapGesture
-		self.titleView.addGestureRecognizer(tapGesture)
 		let button = UIButton.init(type: .Custom)
 		button.bounds = self.titleView.frame
 		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
