@@ -20,19 +20,25 @@ class MainViewController: UIViewController {
 	weak var mongooseRESTController : MongooseAPI!
 	#endif
 	
+	let sections = ["Group chats", "Private chats"]
+	
 	let MIMCommonInterface = MIMMainInterface()
 	
 	var xmppMUCLight: XMPPMUCLight!
 	
 	var newRoomUsers = [XMPPJID]()
 	
+	var localDataSource = NSMutableArray()
+	
+	let MUCLightServiceName = "muclight.erlang-solutions.com"
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
+		
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
 		self.navigationItem.rightBarButtonItems = [editButton, addButton]
-
+		
 		
 		let logOut = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logOut(_:)))
 		self.navigationItem.leftBarButtonItem = logOut
@@ -46,8 +52,8 @@ class MainViewController: UIViewController {
 	}
 	
 	override func viewWillAppear(animated: Bool) {
+		self.tableView.reloadData()
 		
-
 	}
 	
 	func presentLogInView() {
@@ -58,9 +64,9 @@ class MainViewController: UIViewController {
 	}
 	
 	func configureAndStartXMPP() {
-
+		
 		let authModel = AuthenticationModel.load()!
-
+		
 		self.xmppController = XMPPController(hostName: authModel.serverName!,
 		                                     userJID: authModel.jid,
 		                                     password: authModel.password)
@@ -69,7 +75,7 @@ class MainViewController: UIViewController {
 		appDelegate.xmppController = self.xmppController
 		
 		xmppController.connect()
-		self.setupFetchedResultsController()
+		self.setupDataSources()
 		
 		#if MangostaREST
 			self.mongooseRESTController = MongooseAPI()
@@ -110,8 +116,7 @@ class MainViewController: UIViewController {
 		
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .Default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
-				let roomCreateViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
-			//roomCreateViewController.MUCLightDelegate = self
+			let roomCreateViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
 			self.presentViewController(roomCreateViewController, animated: true, completion: nil)
 		}
 		alertController.addAction(roomChatAction)
@@ -141,28 +146,27 @@ class MainViewController: UIViewController {
 		
 	}
 	
-	internal func setupFetchedResultsController() {
-
+	internal func setupDataSources() {
+		
 		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
 		
 		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
 		let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
 		let sd2 = NSSortDescriptor(key: "displayName", ascending: true)
-
+		
 		let fetchRequest = NSFetchRequest()
 		fetchRequest.entity = entity
 		fetchRequest.sortDescriptors = [sd1, sd2]
 		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
 		self.fetchedResultsController?.delegate = self
-
-		try! self.fetchedResultsController?.performFetch()
 		
+		try! self.fetchedResultsController?.performFetch()
 		
 		self.xmppMUCLight = XMPPMUCLight()
 		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppMUCLight.activate(self.xmppController.xmppStream)
 		
-		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
 		
 		
 		self.tableView.reloadData()
@@ -171,41 +175,45 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		if let sections = self.fetchedResultsController?.sections {
-			// FIXME: sections from datasource
-			return 2
-			//return sections.count
-		}
-		return 0
+		return sections.count
 	}
+	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		let sections = self.fetchedResultsController?.sections
-		if section < sections!.count {
-			let sectionInfo = sections![section]
-			return sectionInfo.numberOfObjects
-			
+		if section < self.sections.count {
+			switch section {
+			case 0:
+				return self.xmppController.roomsLight.count
+			case 1:
+				let fetchedSections = self.fetchedResultsController?.sections
+				let sectionInfo = fetchedSections!.first
+				if sectionInfo?.numberOfObjects > 0 {
+					return sectionInfo!.numberOfObjects
+				}
+				else {
+					return 0
+				}
+			default:
+				return 0
+			}
+			//TODO
+			print("unknown ")
 		}
-		else if section == 1 {
-			return self.xmppController.roomsLight.count
-		}
+		
 		return 0
 	}
 	
-	func tableView( tableView : UITableView,  titleForHeaderInSection section: Int) -> String? {
-		switch(section) {
-		case 1: return "Group chats"
-		case 0:return "Private chats"
-			
-		default :return "Private chats"
-			
+	func tableView(tableView : UITableView, titleForHeaderInSection section: Int) -> String? {
+		switch section {
+		default: return sections[section]
 		}
 	}
-
+	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
-		if indexPath.section == 0 {
-			if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+		if indexPath.section == 1 {
+			let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
+			if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
 				if let firstResource = user.resources.first {
 					if let pres = firstResource.valueForKey("presence") {
 						if pres.type == "available" {
@@ -213,7 +221,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 						} else {
 							cell.textLabel?.textColor = UIColor.darkGrayColor()
 						}
-						
 					}
 				} else {
 					cell.textLabel?.textColor = UIColor.darkGrayColor()
@@ -224,23 +231,31 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 				cell.textLabel?.text = "nope"
 			}
 		}
-		else if indexPath.section == 1 {
-			let room = self.xmppController.roomsLight[indexPath.row]
-			cell.textLabel?.text = room.roomname()
+		else if indexPath.section == 0 {
+			if self.xmppController.roomsLight.count > 0 {
+				let room = self.xmppController.roomsLight[indexPath.row]
+				cell.textLabel?.text = room.roomname()
+			}
+			else {
+				cell.textLabel?.text = "No rooms"
+			}
 		}
 		
 		return cell
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
+		if indexPath.section == 1 {
+			let useThisIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
+		let user = self.fetchedResultsController?.objectAtIndexPath(useThisIndexPath) as! XMPPUserCoreDataStorageObject
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-
+		
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
 		chatController.xmppController = self.xmppController
 		chatController.userJID = user.jid
 		
 		self.navigationController?.pushViewController(chatController, animated: true)
+		}
 		
 	}
 	
@@ -259,7 +274,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 		return true
 	}
-
+	
 	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
 		return .None
 	}
@@ -301,7 +316,7 @@ extension MainViewController: XMPPMUCLightDelegate {
 	}
 	
 	func xmppMUCLight(sender: XMPPMUCLight, changedAffiliation affiliation: String, roomJID: XMPPJID) {
-		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
 	}
 }
 
@@ -310,7 +325,7 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 	func createRoom(roomName: String, users: [XMPPJID]?) {
 		self.newRoomUsers = users ?? []
 		
-		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
+		let jid = XMPPJID.jidWithString(MUCLightServiceName)
 		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
@@ -326,7 +341,7 @@ extension MainViewController: XMPPRoomLightDelegate {
 	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
 		sender.addUsers(self.newRoomUsers)
 		
-		self.xmppMUCLight.discoverRoomsForServiceNamed("muclight.erlang-solutions.com")
+		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
 		self.tableView.reloadData()
 	}
 }
