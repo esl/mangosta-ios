@@ -52,6 +52,7 @@ class MainViewController: UIViewController {
 	}
 	
 	override func viewWillAppear(animated: Bool) {
+		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
 		self.tableView.reloadData()
 		
 	}
@@ -195,8 +196,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			default:
 				return 0
 			}
-			//TODO
-			print("unknown ")
 		}
 		
 		return 0
