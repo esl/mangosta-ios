@@ -277,14 +277,31 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		
-		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
+		var leaveArray : [UITableViewRowAction] = []
+		if indexPath.section  == 0 {
 			
-			self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
-			self.tableView.reloadData()
+			let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
+				
+				self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
+				self.tableView.reloadData()
+			}
+			leave.backgroundColor = UIColor.orangeColor()
+			
+			leaveArray.append(leave)
 		}
-		leave.backgroundColor = UIColor.orangeColor()
-		return [leave]
+			
+		else if indexPath.section == 1 {
+			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
+				
+				// TODO: Delete chat entry
+				print ("Delete chat entry")
+				self.tableView.reloadData()
+			}
+			delete.backgroundColor = UIColor.redColor()
+			leaveArray.append(delete)
+		}
+		
+		return leaveArray
 	}
 
 	
@@ -292,20 +309,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		return true
 	}
 
-//	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//		if editingStyle == .Delete {
-//			if indexPath.section  == 0 {
-//				
-//			// TODO: delete MucRoom
-//				
-//			}
-//			else if indexPath.section == 1 {
-//				//TODO: Delete private chat
-//			}
-//			
-//			tableView.reloadData()
-//		}
-//	}
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {
