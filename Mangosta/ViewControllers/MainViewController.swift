@@ -292,20 +292,20 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		return true
 	}
 
-	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-		if editingStyle == .Delete {
-			if indexPath.section  == 0 {
-				
-			// TODO: delete MucRoom
-				
-			}
-			else if indexPath.section == 1 {
-				//TODO: Delete private chat
-			}
-			
-			tableView.reloadData()
-		}
-	}
+//	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//		if editingStyle == .Delete {
+//			if indexPath.section  == 0 {
+//				
+//			// TODO: delete MucRoom
+//				
+//			}
+//			else if indexPath.section == 1 {
+//				//TODO: Delete private chat
+//			}
+//			
+//			tableView.reloadData()
+//		}
+//	}
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {
