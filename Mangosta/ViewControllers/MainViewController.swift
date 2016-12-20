@@ -244,7 +244,10 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if indexPath.section == 1 {
+		if indexPath.section == 0 {
+			
+		}
+		else if indexPath.section == 1 {
 			let useThisIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
 		let user = self.fetchedResultsController?.objectAtIndexPath(useThisIndexPath) as! XMPPUserCoreDataStorageObject
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
@@ -255,7 +258,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		
 		self.navigationController?.pushViewController(chatController, animated: true)
 		}
-		
 	}
 	
 	func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -274,8 +276,35 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		return true
 	}
 	
-	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-		return .None
+	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+		
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
+			
+			self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
+			self.tableView.reloadData()
+		}
+		leave.backgroundColor = UIColor.orangeColor()
+		return [leave]
+	}
+
+	
+	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+		return true
+	}
+
+	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+		if editingStyle == .Delete {
+			if indexPath.section  == 0 {
+				
+			// TODO: delete MucRoom
+				
+			}
+			else if indexPath.section == 1 {
+				//TODO: Delete private chat
+			}
+			
+			tableView.reloadData()
+		}
 	}
 }
 
