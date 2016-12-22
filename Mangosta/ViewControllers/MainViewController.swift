@@ -53,8 +53,6 @@ class MainViewController: UIViewController {
 	
 	override func viewWillAppear(animated: Bool) {
 		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
-		self.tableView.reloadData()
-		
 	}
 	
 	func presentLogInView() {
@@ -183,12 +181,23 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		if section < self.sections.count {
 			switch section {
 			case 0:
-				return self.xmppController.roomsLight.count
+				if self.xmppController != nil {
+					return self.xmppController.roomsLight.count
+				}
+				else {
+					return 0
+				}
+				
 			case 1:
-				let fetchedSections = self.fetchedResultsController?.sections
-				let sectionInfo = fetchedSections!.first
-				if sectionInfo?.numberOfObjects > 0 {
-					return sectionInfo!.numberOfObjects
+				if self.fetchedResultsController != nil {
+					let fetchedSections = self.fetchedResultsController?.sections
+					let sectionInfo = fetchedSections!.first
+					if sectionInfo?.numberOfObjects > 0 {
+						return sectionInfo!.numberOfObjects
+					}
+					else {
+						return 0
+					}
 				}
 				else {
 					return 0
@@ -283,7 +292,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
 				
 				self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
-				self.tableView.reloadData()
 			}
 			leave.backgroundColor = UIColor.orangeColor()
 			
@@ -291,12 +299,22 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		}
 			
 		else if indexPath.section == 1 {
+			let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
 			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
 				
-				// TODO: Delete chat entry
-				print ("Delete chat entry")
-				self.tableView.reloadData()
+				let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+				
+				if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
+					rosterContext?.deleteObject(user as NSManagedObject)
+				}
+				
+				do {
+					try rosterContext.save()
+				} catch {
+					print("Error saving roster context: \(error)")
+				}
 			}
+			
 			delete.backgroundColor = UIColor.redColor()
 			leaveArray.append(delete)
 		}
@@ -347,7 +365,7 @@ extension MainViewController: XMPPMUCLightDelegate {
 	}
 	
 	func xmppMUCLight(sender: XMPPMUCLight, changedAffiliation affiliation: String, roomJID: XMPPJID) {
-		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
+		self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
 	}
 }
 
