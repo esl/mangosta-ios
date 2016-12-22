@@ -43,7 +43,7 @@
         <scene sceneID="7cg-gm-b4f">
             <objects>
                 <viewControllerPlaceholder storyboardName="SocialMedia" referencedIdentifier="Social Media" id="Hqe-Gx-0K5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" image="Social" selectedImage="chat_background" id="i58-9H-xzB"/>
+                    <tabBarItem key="tabBarItem" image="Social" selectedImage="Social Filled" id="i58-9H-xzB"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0K-j0-LNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -54,6 +54,6 @@
         <image name="Chat" width="29" height="29"/>
         <image name="Chat Filled" width="29" height="29"/>
         <image name="Social" width="29" height="29"/>
-        <image name="chat_background" width="640" height="1002"/>
+        <image name="Social Filled" width="29" height="29"/>
     </resources>
 </document>
