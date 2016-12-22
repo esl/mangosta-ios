@@ -343,7 +343,7 @@ extension ChatViewController {
 	
 	func showAttachSheet() {
 		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .ActionSheet)
-		
+		// TODO: to be implemented  when server guys finish the implemetation of file attachment
 		sheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { _ in
 		}))
 		

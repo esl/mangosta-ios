@@ -30,7 +30,7 @@ class MainViewController: UIViewController {
 	
 	var localDataSource = NSMutableArray()
 	
-	let MUCLightServiceName = "muclight.erlang-solutions.com"
+	let MUCLightServiceName = "muclight.erlang-solutions.com" // TODO: use a .plist entry for all constants in this app.
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -178,42 +178,25 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section < self.sections.count {
-			switch section {
-			case 0:
-				if self.xmppController != nil {
-					return self.xmppController.roomsLight.count
-				}
-				else {
-					return 0
-				}
-				
-			case 1:
-				if self.fetchedResultsController != nil {
-					let fetchedSections = self.fetchedResultsController?.sections
-					let sectionInfo = fetchedSections!.first
-					if sectionInfo?.numberOfObjects > 0 {
-						return sectionInfo!.numberOfObjects
-					}
-					else {
-						return 0
-					}
-				}
-				else {
-					return 0
-				}
-			default:
+		guard section < self.sections.count else {
+			return 0
+		}
+		switch section {
+		case 0:
+			return self.xmppController?.roomsLight.count ?? 0
+			
+		case 1:
+			guard let controller = self.fetchedResultsController else {
 				return 0
 			}
+			return controller.sections?.first?.numberOfObjects ?? 0
+		default:
+			return 0
 		}
-		
-		return 0
 	}
-	
+
 	func tableView(tableView : UITableView, titleForHeaderInSection section: Int) -> String? {
-		switch section {
-		default: return sections[section]
-		}
+		return self.sections[section]
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
