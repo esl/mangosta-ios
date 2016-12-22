@@ -51,8 +51,8 @@ class MainViewController: UIViewController {
 		
 	}
 	
-	override func viewWillAppear(animated: Bool) {
-		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
+	override func viewDidAppear(animated: Bool) {
+		self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
 	}
 	
 	func presentLogInView() {
