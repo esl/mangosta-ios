@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -44,7 +44,7 @@
                     <navigationItem key="navigationItem" id="c71-tl-9M6">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="U56-aX-DrC">
                             <connections>
-                                <segue destination="Vqp-Ye-pJF" kind="show" identifier="createRoomViewController" id="KHO-L4-QLo">
+                                <segue destination="2TX-xX-beO" kind="show" identifier="createRoomViewController" id="KHO-L4-QLo">
                                     <nil key="action"/>
                                 </segue>
                             </connections>
@@ -61,7 +61,7 @@
         <!--Room Create View Controller-->
         <scene sceneID="27j-pd-ot2">
             <objects>
-                <viewController id="Vqp-Ye-pJF" customClass="MUCRoomCreateViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RoomCreateViewController" id="Vqp-Ye-pJF" customClass="MUCRoomCreateViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vsW-eh-W8M"/>
                         <viewControllerLayoutGuide type="bottom" id="xGp-MP-qK2"/>
@@ -106,6 +106,18 @@
                             <constraint firstAttribute="trailingMargin" secondItem="EQN-Pv-jhi" secondAttribute="trailing" id="y6K-eX-yyw"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Zbs-7q-ZOG">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="O2V-FC-3d5">
+                            <connections>
+                                <action selector="cancelCreation:" destination="Vqp-Ye-pJF" id="xHD-Sa-WCJ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Create" id="RAg-5y-Mp8">
+                            <connections>
+                                <action selector="createRoom:" destination="Vqp-Ye-pJF" id="4lF-Ua-4Bh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="roomNameField" destination="EQN-Pv-jhi" id="tWN-HE-5Dn"/>
                         <outlet property="rosterTableView" destination="tLf-qM-30Q" id="b1d-sz-Nap"/>
@@ -113,7 +125,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aki-Ib-xb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="856" y="1286"/>
+            <point key="canvasLocation" x="1668" y="1286"/>
         </scene>
         <!--MUCLight-->
         <scene sceneID="rdm-Rs-HUs">
@@ -133,6 +145,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vne-FH-bvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="65" y="466"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="mUe-ac-ckg">
+            <objects>
+                <navigationController storyboardIdentifier="MUCLightCreateRoomPresenterViewController" automaticallyAdjustsScrollViewInsets="NO" id="2TX-xX-beO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="X0e-fz-JWP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Vqp-Ye-pJF" kind="relationship" relationship="rootViewController" id="uL7-sd-4iV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D6C-W2-vG0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="856" y="1286"/>
         </scene>
     </scenes>
 </document>

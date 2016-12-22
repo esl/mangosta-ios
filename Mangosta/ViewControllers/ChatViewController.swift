@@ -65,15 +65,11 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 			self?.sendText(text)
 		}
 		
-		return inputController
-	}
-	
-	override func didMoveToParentViewController(parent: UIViewController?) {
-		super.didMoveToParentViewController(parent)
-		
-		if parent != nil && self.navigationItem.titleView == nil {
-			
+		inputController.onChooseAttach = { [weak self] in
+			self?.showAttachSheet()
 		}
+
+		return inputController
 	}
 	
 	override func viewDidLoad() {
@@ -122,13 +118,6 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 	}
 	
 	override func viewWillAppear(animated: Bool) {
-		// FIXME TapGestureRecognizer
-		// Set up TittleBar
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
-		self.titleView.userInteractionEnabled = true
-		tapGesture.delegate = self
-		self.titleView.tapGestureRecognizer = tapGesture
-		self.titleView.addGestureRecognizer(tapGesture)
 		let button = UIButton.init(type: .Custom)
 		button.bounds = self.titleView.frame
 		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
@@ -352,6 +341,20 @@ extension ChatViewController {
 		self.sendMessageToServer(message)
 	}
 	
+	func showAttachSheet() {
+		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .ActionSheet)
+		// TODO: to be implemented  when server guys finish the implemetation of file attachment
+		sheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { _ in
+		}))
+		
+		sheet.addAction(UIAlertAction(title: "Photos", style: .Default, handler: { _ in
+		}))
+		
+		sheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+		
+		presentViewController(sheet, animated: true, completion: nil)
+	}
+
 	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
 		let message = NoChatMessage(
 			msgId: NSUUID().UUIDString,
