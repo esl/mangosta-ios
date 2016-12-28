@@ -13,7 +13,6 @@
 		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */; };
-		81ECA3551C92CDE4000602F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3531C92CDE4000602F2 /* Main.storyboard */; };
 		81ECA3571C92CDE4000602F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3561C92CDE4000602F2 /* Assets.xcassets */; };
 		81ECA35A1C92CDE4000602F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3581C92CDE4000602F2 /* LaunchScreen.storyboard */; };
 		81ECA3651C92CDE5000602F2 /* MangostaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA3641C92CDE5000602F2 /* MangostaTests.swift */; };
@@ -68,6 +67,8 @@
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
 		AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
+		AC8020D71E13F88100B3AEB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC8020D61E13F88100B3AEB8 /* Main.storyboard */; };
+		AC8020D81E13F88500B3AEB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC8020D61E13F88100B3AEB8 /* Main.storyboard */; };
 		AC87CADF1DE35A7200B3AEB8 /* SocialMedia.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */; };
 		AC87CAE01DE3673600B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC87CAE11DE3673900B3AEB8 /* SocialMedia.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */; };
@@ -146,7 +147,6 @@
 		AC9F66101D957ABD00B3AEB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3581C92CDE4000602F2 /* LaunchScreen.storyboard */; };
 		AC9F66111D957ABD00B3AEB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3561C92CDE4000602F2 /* Assets.xcassets */; };
 		AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */; };
-		AC9F66131D957ABD00B3AEB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81ECA3531C92CDE4000602F2 /* Main.storyboard */; };
 		AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
 		AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
 		AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
@@ -237,7 +237,6 @@
 		814D4CAA1C970F5500AB28FA /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		81ECA34C1C92CDE4000602F2 /* Mangosta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mangosta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		81ECA3541C92CDE4000602F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		81ECA3561C92CDE4000602F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81ECA3591C92CDE4000602F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81ECA35B1C92CDE4000602F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -299,6 +298,7 @@
 		AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGChatViewController.swift; sourceTree = "<group>"; };
 		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
 		AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
+		AC8020D61E13F88100B3AEB8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SocialMedia.storyboard; sourceTree = "<group>"; };
 		AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XMPPMain.swift; path = Mangosta/Model/XMPPMain.swift; sourceTree = "<group>"; };
 		AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mangosta REST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -683,9 +683,9 @@
 		C12EA9551CE255C800F29606 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				AC8020D61E13F88100B3AEB8 /* Main.storyboard */,
 				AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */,
 				AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */,
-				81ECA3531C92CDE4000602F2 /* Main.storyboard */,
 				C135D9121CE257B700225EC7 /* LogIn.storyboard */,
 				C1072DAC1CEB91300007B99E /* MUCLight.storyboard */,
 				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
@@ -826,7 +826,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = 81ECA3431C92CDE4000602F2;
@@ -854,7 +853,7 @@
 				AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */,
 				C1AEEF321D24038600E25C48 /* BlockingMembers.storyboard in Resources */,
 				AC87CADF1DE35A7200B3AEB8 /* SocialMedia.storyboard in Resources */,
-				81ECA3551C92CDE4000602F2 /* Main.storyboard in Resources */,
+				AC8020D71E13F88100B3AEB8 /* Main.storyboard in Resources */,
 				C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */,
 				AC4FEA261DD113EC00B3AEB8 /* Info.plist in Resources */,
 				AC4FE9EF1DD0E96D00B3AEB8 /* Info.plist in Resources */,
@@ -889,8 +888,8 @@
 				AC9F660F1D957ABD00B3AEB8 /* MUCLight.storyboard in Resources */,
 				AC9F66101D957ABD00B3AEB8 /* LaunchScreen.storyboard in Resources */,
 				AC9F66111D957ABD00B3AEB8 /* Assets.xcassets in Resources */,
+				AC8020D81E13F88500B3AEB8 /* Main.storyboard in Resources */,
 				AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */,
-				AC9F66131D957ABD00B3AEB8 /* Main.storyboard in Resources */,
 				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
 				AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */,
 				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
@@ -1235,14 +1234,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		81ECA3531C92CDE4000602F2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				81ECA3541C92CDE4000602F2 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		81ECA3581C92CDE4000602F2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

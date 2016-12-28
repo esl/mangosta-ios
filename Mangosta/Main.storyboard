@@ -43,7 +43,7 @@
         <scene sceneID="7cg-gm-b4f">
             <objects>
                 <viewControllerPlaceholder storyboardName="SocialMedia" referencedIdentifier="Social Media" id="Hqe-Gx-0K5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" image="Social" selectedImage="Social Filled" id="i58-9H-xzB"/>
+                    <tabBarItem key="tabBarItem" title="Social" image="Social" selectedImage="Social Filled" id="i58-9H-xzB"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0K-j0-LNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
