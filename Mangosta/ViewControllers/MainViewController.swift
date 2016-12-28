@@ -236,20 +236,25 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		guard indexPath.section <= 1 else { return }
+		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
 		if indexPath.section == 0 {
+			let room = self.xmppController.roomsLight[indexPath.row]
+			
+			chatController.roomLight = room
+			chatController.xmppController = self.xmppController
 			
 		}
 		else if indexPath.section == 1 {
 			let useThisIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
-		let user = self.fetchedResultsController?.objectAtIndexPath(useThisIndexPath) as! XMPPUserCoreDataStorageObject
-		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-		
-		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
-		chatController.xmppController = self.xmppController
-		chatController.userJID = user.jid
-		
-		self.navigationController?.pushViewController(chatController, animated: true)
+			let user = self.fetchedResultsController?.objectAtIndexPath(useThisIndexPath) as! XMPPUserCoreDataStorageObject
+			
+			chatController.xmppController = self.xmppController
+			chatController.userJID = user.jid
+			
 		}
+		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 	
 	func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
