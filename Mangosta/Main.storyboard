@@ -21,7 +21,6 @@
                         </userDefinedRuntimeAttributes>
                     </tabBar>
                     <connections>
-                        <outlet property="thisTabBar" destination="RUI-i5-9li" id="Ox9-pY-kI2"/>
                         <segue destination="8lZ-lh-fcR" kind="relationship" relationship="viewControllers" id="g2y-Tk-yYz"/>
                         <segue destination="Hqe-Gx-0K5" kind="relationship" relationship="viewControllers" id="RJC-UC-DZM"/>
                     </connections>
@@ -34,7 +33,7 @@
         <scene sceneID="Sgn-Fc-cuM">
             <objects>
                 <viewControllerPlaceholder storyboardName="IM" referencedIdentifier="Chat" id="8lZ-lh-fcR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" image="Chat" selectedImage="Chat Filled" id="Jsq-Fb-Uiw"/>
+                    <tabBarItem key="tabBarItem" title="Chat" image="Chat" selectedImage="Chat Filled" id="Jsq-Fb-Uiw"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y22-2F-EEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
