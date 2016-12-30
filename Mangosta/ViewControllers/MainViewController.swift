@@ -38,9 +38,8 @@ class MainViewController: UIViewController {
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
 		self.navigationItem.rightBarButtonItems = [editButton, addButton]
-		
-		
-		let logOut = UIBarButtonItem(title: "Log Out", style: UIBarButtonItemStyle.Done, target: self, action: #selector(logOut(_:)))
+		 
+		let logOut = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
 		self.navigationItem.leftBarButtonItem = logOut
 		
 		if AuthenticationModel.load() == nil {
@@ -95,18 +94,11 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	func logOut(sender: UIBarButtonItem) {
-		AuthenticationModel.remove()
-		self.presentLogInView()
-		self.xmppController.disconnect()
-		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-		appDelegate.xmppController = nil
-		self.xmppController = nil
-		#if MangostaREST
-			appDelegate.mongooseRESTController = nil
-			self.mongooseRESTController = nil
-		#endif
-		
+	func pushMeViewControler(sender: UIBarButtonItem) {
+		let storyboard = UIStoryboard(name: "Me", bundle: nil)
+		let meController = storyboard.instantiateViewControllerWithIdentifier("MeViewController") as! Me
+		meController.xmppController = self.xmppController
+		self.navigationController?.pushViewController(meController, animated: true)
 	}
 	
 	func selectChat(sender: UIBarButtonItem) {

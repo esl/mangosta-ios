@@ -181,6 +181,10 @@
 		ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */; };
 		ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045951D99C26B00B3AEB8 /* RestMain.swift */; };
 		ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */; };
+		ACB2D2B61E1599FC00B3AEB8 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */; };
+		ACB2D2B71E1599FC00B3AEB8 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */; };
+		ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB2D2B81E16ABB000B3AEB8 /* Me.swift */; };
+		ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB2D2B81E16ABB000B3AEB8 /* Me.swift */; };
 		ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
@@ -333,6 +337,8 @@
 		ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsRepository.swift; sourceTree = "<group>"; };
 		ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIMCommonInterfaceDelegate.swift; sourceTree = "<group>"; };
 		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
+		ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
+		ACB2D2B81E16ABB000B3AEB8 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightCreateRoomPresenterViewController.swift; sourceTree = "<group>"; };
 		ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 1to1NoChatItems.swift; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
@@ -530,6 +536,7 @@
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
+				ACB2D2B81E16ABB000B3AEB8 /* Me.swift */,
 				C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */,
 				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 				ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */,
@@ -692,6 +699,7 @@
 				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
 				C135D91C1CE39FFD00225EC7 /* Members.storyboard */,
 				C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */,
+				ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";
@@ -848,6 +856,7 @@
 			files = (
 				C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */,
 				C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */,
+				ACB2D2B61E1599FC00B3AEB8 /* Me.storyboard in Resources */,
 				81ECA35A1C92CDE4000602F2 /* LaunchScreen.storyboard in Resources */,
 				81ECA3571C92CDE4000602F2 /* Assets.xcassets in Resources */,
 				AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */,
@@ -883,6 +892,7 @@
 			files = (
 				AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */,
 				AC9CE6A71DDA402600B3AEB8 /* NoChatTG.xcassets in Resources */,
+				ACB2D2B71E1599FC00B3AEB8 /* Me.storyboard in Resources */,
 				AC87CAE11DE3673900B3AEB8 /* SocialMedia.storyboard in Resources */,
 				AC87CAE01DE3673600B3AEB8 /* IM.storyboard in Resources */,
 				AC9F660F1D957ABD00B3AEB8 /* MUCLight.storyboard in Resources */,
@@ -1030,6 +1040,7 @@
 				AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				AC4FE9EA1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */,
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
+				ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC4FEA251DD113EC00B3AEB8 /* ImageUtils.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
@@ -1128,6 +1139,7 @@
 				AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */,
 				AC9CE6AE1DDA403000B3AEB8 /* MessageProtocol.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
+				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
 				AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */,
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
