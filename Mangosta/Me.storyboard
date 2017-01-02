@@ -119,7 +119,9 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ryf-AE-nse">
                                                     <rect key="frame" x="174" y="5" width="60" height="30"/>
-                                                    <state key="normal" title="Sign Out"/>
+                                                    <state key="normal" title="Sign Out">
+                                                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="signOut:" destination="wsJ-PN-Jc9" eventType="touchUpInside" id="AWB-xX-FCO"/>
                                                     </connections>
