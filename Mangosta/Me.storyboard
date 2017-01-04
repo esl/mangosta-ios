@@ -149,7 +149,9 @@
         <!--BlockingMembers-->
         <scene sceneID="mK0-Sz-zkN">
             <objects>
-                <viewControllerPlaceholder storyboardName="BlockingMembers" id="5rA-Ac-8W6" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="BlockingMembers" id="5rA-Ac-8W6" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="o5L-eV-74n"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PW4-mB-Ilc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="780.5" y="431"/>
