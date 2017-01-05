@@ -124,80 +124,51 @@ class RosterViewController: UIViewController {
 		
 		try! self.fetchedResultsController?.performFetch()
 		
-		self.xmppMUCLight = XMPPMUCLight()
-		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.xmppMUCLight.activate(self.xmppController.xmppStream)
-		
-		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
-		
-		
 		self.tableView.reloadData()
 	}
 }
 
 extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		return sections.count
+		if let sections = self.fetchedResultsController?.sections {
+			return sections.count
+		}
+		return 0
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		guard section < self.sections.count else {
-			return 0
+		let sections = self.fetchedResultsController?.sections
+		if section < sections!.count {
+			let sectionInfo = sections![section]
+			return sectionInfo.numberOfObjects
 		}
-		switch section {
-		case 0:
-			return self.xmppController?.roomsLight.count ?? 0
-			
-		case 1:
-			guard let controller = self.fetchedResultsController else {
-				return 0
-			}
-			return controller.sections?.first?.numberOfObjects ?? 0
-		default:
-			return 0
-		}
-	}
-
-	func tableView(tableView : UITableView, titleForHeaderInSection section: Int) -> String? {
-		return self.sections[section]
+		return 0
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
-		if indexPath.section == 1 {
-			let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
-			if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
-				if let firstResource = user.resources.first {
-					if let pres = firstResource.valueForKey("presence") {
-						if pres.type == "available" {
-							cell.textLabel?.textColor = UIColor.blueColor()
-						} else {
-							cell.textLabel?.textColor = UIColor.darkGrayColor()
-						}
+		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+			if let firstResource = user.resources.first {
+				if let pres = firstResource.valueForKey("presence") {
+					if pres.type == "available" {
+						cell.textLabel?.textColor = UIColor.blueColor()
+					} else {
+						cell.textLabel?.textColor = UIColor.darkGrayColor()
 					}
-				} else {
-					cell.textLabel?.textColor = UIColor.darkGrayColor()
+					
 				}
-				
-				cell.textLabel?.text = user.jidStr
 			} else {
-				cell.textLabel?.text = "nope"
+				cell.textLabel?.textColor = UIColor.darkGrayColor()
 			}
-		}
-		else if indexPath.section == 0 {
-			if self.xmppController.roomsLight.count > 0 {
-				let room = self.xmppController.roomsLight[indexPath.row]
-				cell.textLabel?.text = room.roomname()
-			}
-			else {
-				cell.textLabel?.text = "No rooms"
-			}
+			
+			cell.textLabel?.text = user.jidStr
+		} else {
+			cell.textLabel?.text = "nope"
 		}
 		
 		return cell
 	}
-	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		guard indexPath.section <= 1 else { return }
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
