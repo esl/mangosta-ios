@@ -97,6 +97,11 @@ class RosterViewController: UIViewController {
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
+	func removeRoster(userJID: XMPPJID ){
+		self.xmppController.xmppRoster.removeUser(userJID) // TODO: revise callback
+	}
+
+	
 	func createNewFriendChat(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("New Conversation", message: "Enter the JID of the user or group name") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
@@ -169,26 +174,14 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 		
 		return cell
 	}
+
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		guard indexPath.section <= 1 else { return }
-		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
-		if indexPath.section == 0 {
-			let room = self.xmppController.roomsLight[indexPath.row]
-			
-			chatController.roomLight = room
-			chatController.xmppController = self.xmppController
-			
-		}
-		else if indexPath.section == 1 {
-			let useThisIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
-			let user = self.fetchedResultsController?.objectAtIndexPath(useThisIndexPath) as! XMPPUserCoreDataStorageObject
-			
-			chatController.xmppController = self.xmppController
-			chatController.userJID = user.jid
-			
-		}
-		self.navigationController?.pushViewController(chatController, animated: true)
+		guard indexPath.section == 0 else { return }
+		
+		let useThisIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
+		let user = self.fetchedResultsController?.objectAtIndexPath(useThisIndexPath) as! XMPPUserCoreDataStorageObject
+		
+		self.removeRoster(user.jid)
 	}
 	
 	func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -209,37 +202,24 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		var leaveArray : [UITableViewRowAction] = []
-		if indexPath.section  == 0 {
+		let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
+		let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
 			
-			let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
-				
-				self.xmppController.roomsLight[indexPath.row].leaveRoomLight()
-			}
-			leave.backgroundColor = UIColor.orangeColor()
+			let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
 			
-			leaveArray.append(leave)
-		}
-			
-		else if indexPath.section == 1 {
-			let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
-			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
-				
-				let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
-				
-				if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
-					rosterContext?.deleteObject(user as NSManagedObject)
-				}
-				
-				do {
-					try rosterContext.save()
-				} catch {
-					print("Error saving roster context: \(error)")
-				}
+			if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
+				self.removeRoster(user.jid)
 			}
 			
-			delete.backgroundColor = UIColor.redColor()
-			leaveArray.append(delete)
+			do {
+				try rosterContext.save()
+			} catch {
+				print("Error saving roster context: \(error)")
+			}
 		}
+		
+		delete.backgroundColor = UIColor.redColor()
+		leaveArray.append(delete)
 		
 		return leaveArray
 	}
