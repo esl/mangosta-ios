@@ -65,10 +65,6 @@ class RosterViewController: UIViewController {
 		}
 	}
 	
-	func configureAndStartXMPP() {
-		self.setupDataSources()
-	}
-	
 	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
 	@IBAction func activateDeactivate(sender: UIButton) {
 		if activated {
@@ -239,7 +235,7 @@ extension RosterViewController: NSFetchedResultsControllerDelegate {
 
 extension RosterViewController: LoginControllerDelegate {
 	func didLogIn() {
-		self.configureAndStartXMPP() // and MongooseREST API
+		self.setupDataSources() // and MongooseREST API
 	}
 }
 
