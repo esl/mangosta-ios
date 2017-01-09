@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationWillResignActive(application: UIApplication) {
-		
+		self.xmppController?.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
 	}
 
 	func applicationDidEnterBackground(application: UIApplication) {
@@ -39,11 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationDidBecomeActive(application: UIApplication) {
-		// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+		self.xmppController?.xmppStream.sendElement(XMPPElement.indicateActiveElement())
 	}
 
 	func applicationWillTerminate(application: UIApplication) {
-		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+		self.xmppController?.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
 	}
 
 
