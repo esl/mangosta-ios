@@ -24,7 +24,7 @@ class BlockingMembersViewController: UIViewController {
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
 
-		self.title = "Blocking Members"
+		self.title = "Select"
     }
 	
 	override func viewWillAppear(animated: Bool) {

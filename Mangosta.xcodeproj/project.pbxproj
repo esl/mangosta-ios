@@ -64,6 +64,8 @@
 		AC4FEA331DD113EC00B3AEB8 /* TextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */; };
 		AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */; };
 		AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
+		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
+		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
 		AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -300,6 +302,7 @@
 		AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewModel.swift; sourceTree = "<group>"; };
 		AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
 		AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGChatViewController.swift; sourceTree = "<group>"; };
+		AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
 		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
 		AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
 		AC8020D61E13F88100B3AEB8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -532,6 +535,7 @@
 				AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */,
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
 				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
+				AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */,
 				ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
@@ -1069,6 +1073,7 @@
 				AC4FE9F01DD0E96D00B3AEB8 /* SerialTaskQueue.swift in Sources */,
 				AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */,
 				AC4FEA221DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */,
+				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
 				AC4FEA311DD113EC00B3AEB8 /* Observable.swift in Sources */,
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
 				AC4FEA2D1DD113EC00B3AEB8 /* MessageProtocol.swift in Sources */,
@@ -1143,6 +1148,7 @@
 				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
 				AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */,
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
+				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
 				AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */,
 				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
