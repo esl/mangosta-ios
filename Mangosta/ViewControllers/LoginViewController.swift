@@ -14,10 +14,6 @@ class LoginViewController: UIViewController {
 	@IBOutlet private var serverNameField: UITextField!
 	var loginDelegate: LoginControllerDelegate?
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
-	
 	@IBAction func logIn(sender: AnyObject?) {
 		if let serverText = self.serverNameField.text {
 			let auth = AuthenticationModel(jidString: self.jidField.text!, serverName: serverText, password: self.passwordField.text!)

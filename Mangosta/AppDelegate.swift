@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationWillResignActive(application: UIApplication) {
-		self.xmppController?.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
+		self.xmppController?.setXEP0352(false)
 	}
 
 	func applicationDidEnterBackground(application: UIApplication) {
@@ -39,11 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationDidBecomeActive(application: UIApplication) {
-		self.xmppController?.xmppStream.sendElement(XMPPElement.indicateActiveElement())
+		self.xmppController?.setXEP0352(true)
 	}
 
 	func applicationWillTerminate(application: UIApplication) {
-		self.xmppController?.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
+		self.xmppController?.setXEP0352(false)
 	}
 
 
