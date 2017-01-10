@@ -13,7 +13,7 @@ import MBProgressHUD
 class RosterViewController: UIViewController {
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
-	var activated = true
+	
 	weak var xmppController: XMPPController!
 	
 	#if MangostaREST // TODO: probably better way.
@@ -62,19 +62,6 @@ class RosterViewController: UIViewController {
 			
 			self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
 			self.setupDataSources()
-		}
-	}
-	
-	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
-	@IBAction func activateDeactivate(sender: UIButton) {
-		if activated {
-			self.xmppController.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
-			self.activated = false
-			sender.setTitle("activate", forState: UIControlState.Normal)
-		} else {
-			self.xmppController.xmppStream.sendElement(XMPPElement.indicateActiveElement())
-			self.activated = true
-			sender .setTitle("deactivate", forState: UIControlState.Normal)
 		}
 	}
 	

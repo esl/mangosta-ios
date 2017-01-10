@@ -37,6 +37,8 @@ class XMPPController: NSObject {
 	let userJID: XMPPJID
 	let hostPort: UInt16
 	let password: String
+	
+	var activated = true
 
 	init(hostName: String, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
 		self.hostName = hostName
@@ -117,6 +119,18 @@ class XMPPController: NSObject {
 	func disconnect() {
 		self.xmppStream.disconnect()
 	}
+	
+	func  setXEP0352(active: Bool) {
+		if activated {
+			self.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
+			self.activated = false
+
+		} else {
+			self.xmppStream.sendElement(XMPPElement.indicateActiveElement())
+			self.activated = true
+		}
+		print("XEP-0352 set to " + (active ? "active":"inactive") + ".")
+	}
 
 	deinit {
 		self.roomsLight.forEach { (roomLight) in
@@ -149,6 +163,7 @@ extension XMPPController: XMPPStreamDelegate {
 	func xmppStreamDidAuthenticate(sender: XMPPStream!) {
 		self.xmppStreamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1000)
 		print("Stream: Authenticated")
+		self.setXEP0352(true)
 	}
 	
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
