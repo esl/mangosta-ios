@@ -11,6 +11,13 @@ import Foundation
 class Me: UITableViewController, LoginControllerDelegate {
 	weak var xmppController: XMPPController!
 	
+	@IBOutlet weak var accountJID: UILabel!
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		// TODO: when implementing vCard XEP-0054 add the FN field here
+		self.accountJID.text = self.xmppController?.xmppStream.myJID.bare()
+	}
 	@IBAction func signOut(sender: AnyObject) {
 		AuthenticationModel.remove()
 		self.presentLogInView()
