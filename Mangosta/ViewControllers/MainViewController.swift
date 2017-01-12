@@ -37,9 +37,7 @@ class MainViewController: UIViewController {
 		let buttonColor = "009ab5"
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		addButton.tintColor = MangostaSettings().colorWithHexString(buttonColor)
-		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
-		editButton.tintColor = MangostaSettings().colorWithHexString(buttonColor)
-		self.navigationItem.rightBarButtonItems = [editButton, addButton]
+		self.navigationItem.rightBarButtonItems = [addButton]
 		 
 		let meButton = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
 		meButton.tintColor =  MangostaSettings().colorWithHexString(buttonColor)
@@ -138,9 +136,6 @@ class MainViewController: UIViewController {
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
-	}
-	func editTable(sender: UIBarButtonItem) {
-		
 	}
 	
 	internal func setupDataSources() {
