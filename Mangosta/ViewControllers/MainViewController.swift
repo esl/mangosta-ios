@@ -34,13 +34,19 @@ class MainViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		let buttonColor = "009ab5"
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
+		addButton.tintColor = MangostaSettings().colorWithHexString(buttonColor)
 		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
+		editButton.tintColor = MangostaSettings().colorWithHexString(buttonColor)
 		self.navigationItem.rightBarButtonItems = [editButton, addButton]
 		 
-		let logOut = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
-		self.navigationItem.leftBarButtonItem = logOut
+		let meButton = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
+		meButton.tintColor =  MangostaSettings().colorWithHexString(buttonColor)
+		self.navigationItem.leftBarButtonItem = meButton
+		
+		MangostaSettings.setNavigationBarColor()
+
 		
 		if AuthenticationModel.load() == nil {
 			presentLogInView()

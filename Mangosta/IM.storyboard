@@ -65,7 +65,7 @@
         <!--Chat-->
         <scene sceneID="sCD-KZ-nQe">
             <objects>
-                <navigationController storyboardIdentifier="Chat" automaticallyAdjustsScrollViewInsets="NO" id="7TH-bl-YGF" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Chat" automaticallyAdjustsScrollViewInsets="NO" id="7TH-bl-YGF" customClass="MangostaNavigationController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Chat" image="Chat" selectedImage="Chat Filled" id="qqj-m8-tri"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="27d-PA-7We">
