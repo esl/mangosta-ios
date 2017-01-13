@@ -23,11 +23,11 @@ class LoginViewController: UIViewController {
 			auth.save()
 		}
 
-		self.loginDelegate?.didLogIn()
+		self.loginDelegate?.didPressLogInButton()
 		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 }
 
 protocol LoginControllerDelegate {
-	func didLogIn()
+	func didPressLogInButton()
 }

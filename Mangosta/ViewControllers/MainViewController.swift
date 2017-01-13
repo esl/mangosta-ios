@@ -129,7 +129,7 @@ class MainViewController: UIViewController {
 	func createNewFriendChat(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("New Conversation", message: "Enter the JID of the user or group name") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
-			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
+			self.xmppController?.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
@@ -316,7 +316,7 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 }
 
 extension MainViewController: LoginControllerDelegate {
-	func didLogIn() {
+	func didPressLogInButton() {
 		self.configureAndStartXMPP() // and MongooseREST API
 	}
 }

@@ -44,7 +44,7 @@ extension NSURLSessionBackend {
 }
 
 extension MongooseAPI: LoginControllerDelegate {
-	func didLogIn() {
+	func didPressLogInButton() {
 		self.xmppController = self.referenceForXMPPController()
 	}
 }

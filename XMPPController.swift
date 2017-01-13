@@ -163,11 +163,21 @@ extension XMPPController: XMPPStreamDelegate {
 	func xmppStreamDidAuthenticate(sender: XMPPStream!) {
 		self.xmppStreamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1000)
 		print("Stream: Authenticated")
-		self.setXEP0352(true)
+		self.goOnline()
 	}
 	
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
 		print("Stream: Fail to Authenticate")
+	}
+	
+	func goOnline() {
+		let presence = XMPPPresence()
+		self.xmppStream.sendElement(presence)
+	}
+	
+	func goOffLine() {
+		let presence = XMPPPresence(type: "unavailable")
+		self.xmppStream.sendElement(presence)
 	}
 }
 
