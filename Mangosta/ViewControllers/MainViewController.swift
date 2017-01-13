@@ -34,16 +34,20 @@ class MainViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let buttonColor = "009ab5"
+		let darkGreenColor = "009ab5"
+		let lightGreenColor = "cc58cfe4"
+		
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
-		addButton.tintColor = MangostaSettings().colorWithHexString(buttonColor)
+		addButton.tintColor = MangostaSettings().colorWithHexString(darkGreenColor)
 		self.navigationItem.rightBarButtonItems = [addButton]
 		 
 		let meButton = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
-		meButton.tintColor =  MangostaSettings().colorWithHexString(buttonColor)
+		meButton.tintColor =  MangostaSettings().colorWithHexString(darkGreenColor)
 		self.navigationItem.leftBarButtonItem = meButton
 		
 		MangostaSettings.setNavigationBarColor()
+		
+		self.tableView.backgroundColor = MangostaSettings().colorWithHexString(lightGreenColor)
 
 		
 		if AuthenticationModel.load() == nil {
