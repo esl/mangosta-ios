@@ -35,8 +35,8 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		let darkGreenColor = "009ab5"
-		let lightGreenColor = "cc58cfe4"
-		
+		let lightGreenColor = "cc58cfe4"	
+	
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		addButton.tintColor = MangostaSettings().colorWithHexString(darkGreenColor)
 		self.navigationItem.rightBarButtonItems = [addButton]
@@ -247,6 +247,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		guard indexPath.section <= 1 else { return }
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
+		
 		if indexPath.section == 0 {
 			let room = self.xmppController.roomsLight[indexPath.row]
 			
