@@ -111,8 +111,7 @@ class MainViewController: UIViewController {
 	
 	func selectChat(sender: UIBarButtonItem) {
 		let alertController = UIAlertController(title: nil, message: "New Chat", preferredStyle: .ActionSheet)
-		
-		
+		alertController.view.tintColor = MangostaSettings().colorWithHexString("009ab5")
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .Default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
 			let roomCreateViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
