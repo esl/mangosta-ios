@@ -196,6 +196,12 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		return self.sections[section]
 	}
 	
+	func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+		let header = view as? UITableViewHeaderFooterView
+		header?.tintColor = UIColor.whiteColor()
+		header?.textLabel?.textColor = MangostaSettings().colorWithHexString("009ab5")
+	}
+	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
@@ -228,6 +234,11 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 				cell.textLabel?.text = "No rooms"
 			}
 		}
+		
+		cell.backgroundColor = MangostaSettings().colorWithHexString("009ab5")
+		cell.textLabel?.textColor = UIColor.whiteColor()
+		cell.textLabel?.font = UIFont.boldSystemFontOfSize(15.0)
+		cell.detailTextLabel?.textColor = UIColor.whiteColor()
 		
 		return cell
 	}
