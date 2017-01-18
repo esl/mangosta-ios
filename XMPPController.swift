@@ -142,6 +142,7 @@ class XMPPController: NSObject {
 		self.xmppStream.removeDelegate(self)
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
+		
 		self.xmppCapabilities.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
@@ -150,7 +151,7 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
 		
-		self.xmppStream.disconnect()
+		self.disconnect()
 
 	}
 }
@@ -198,4 +199,18 @@ extension XMPPController: XMPPStreamManagementDelegate {
 		print("Stream Management: not enabled")
 	}
 	
+}
+
+extension XMPPController: XMPPRosterDelegate {
+	func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
+		// TODO: show a marker in main VC list
+	}
+	
+	func xmppRoster(sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
+		// TODO:
+		
+		// if I already sent a request to that JID, theh auto add.
+		
+		// write an entry in the chat main view having a button to add / ignore / block the request.
+	}
 }
