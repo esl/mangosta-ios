@@ -130,13 +130,13 @@ extension GrowTextView: UITextViewDelegate {
 // MARK: Convenience
 
 extension GrowTextView {
-    
+    // swiftlint:disable legacy_constructor
     public func resetContentSizeAndOffset() {
         layoutIfNeeded()
         let textViewHeight = max(min(contentSize.height, Constant.maxHeight), Constant.minHeight)
         growTextViewDelegate?.growTextViewDidChange(self, height: textViewHeight)
         if let selectedTextRange = self.selectedTextRange {
-            let caretRect = self.caretRectForPosition(selectedTextRange.end);
+            let caretRect = self.caretRectForPosition(selectedTextRange.end)
             let height = textContainerInset.bottom + caretRect.size.height
             self.scrollRectToVisible(CGRectMake(caretRect.origin.x, caretRect.origin.y, caretRect.size.width, height))
         }

@@ -34,25 +34,25 @@ class KeyboardMan: NSObject {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    struct KeyboardInfo {
-
-        let animationDuration: NSTimeInterval
-        let animationCurve: UInt
-
-        let frameBegin: CGRect
-        let frameEnd: CGRect
-        var height: CGFloat {
-            return frameEnd.height
-        }
-        let heightIncrement: CGFloat
-
-        enum Action {
-            case Show
-            case Hide
-        }
-        let action: Action
-        let isSameAction: Bool
-    }
+	struct KeyboardInfo {
+		
+		let animationDuration: NSTimeInterval
+		let animationCurve: UInt
+		
+		let frameBegin: CGRect
+		let frameEnd: CGRect
+		var height: CGFloat {
+			return frameEnd.height
+		}
+		let heightIncrement: CGFloat
+		// swiftlint:disable nesting
+		enum Action {
+			case Show
+			case Hide
+		}
+		let action: Action
+		let isSameAction: Bool
+	}
 
     var appearPostIndex = 0
 

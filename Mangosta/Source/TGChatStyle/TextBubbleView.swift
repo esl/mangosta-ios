@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 // MARK: TextBubbleViewStyle
 public protocol TextBubbleViewStyleProtocol {
     func bubbleImage(viewModel viewModel: TextMessageViewModelProtocol, isSelected: Bool) -> UIImage
@@ -17,6 +16,7 @@ public protocol TextBubbleViewStyleProtocol {
     func linkAttributes(viewModel viewModel: TextMessageViewModelProtocol, isSelected: Bool) -> [String: AnyObject]
 }
 
+// swiftlint:disable file_length
 public class TextBubbleViewStyle: TextBubbleViewStyleProtocol {
     public init() {}
     
@@ -254,7 +254,7 @@ public class TextBubbleView: UIView, BubbleViewProtocol, UITextViewDelegate {
         let bubbleImage = style.bubbleImage(viewModel: viewModel, isSelected: selected)
         let linkAttributes = style.linkAttributes(viewModel: viewModel, isSelected: selected)
         
-        if !textView.attributedText.isEqualToAttributedString(viewModel.attributedText)  {
+        if !textView.attributedText.isEqualToAttributedString(viewModel.attributedText) {
             textView.attributedText = viewModel.attributedText
         }
         
@@ -367,7 +367,7 @@ private final class TextBubbleLayoutModel {
     init(layoutContext: LayoutContext) {
         self.layoutContext = layoutContext
     }
-    
+    // swiftlint:disable function_parameter_count
     class LayoutContext {
         let attributedText: NSAttributedString
         let font: UIFont
@@ -453,5 +453,4 @@ private func == (lhs: TextBubbleLayoutModel.LayoutContext, rhs: TextBubbleLayout
         lhs.font == rhs.font &&
         lhs.preferredMaxLayoutWidth == rhs.preferredMaxLayoutWidth
 }
-
 

@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
+class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	

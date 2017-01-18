@@ -72,7 +72,7 @@ class RosterViewController: UIViewController {
 		self.navigationController?.pushViewController(meController, animated: true)
 	}
 	
-	func addRoster(sender: UIBarButtonItem){
+	func addRoster(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
@@ -80,7 +80,7 @@ class RosterViewController: UIViewController {
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
-	func removeRoster(userJID: XMPPJID ){
+	func removeRoster(userJID: XMPPJID) {
 		self.xmppController.xmppRoster.removeUser(userJID) // TODO: revise callback
 	}
 

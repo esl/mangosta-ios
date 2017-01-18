@@ -22,8 +22,9 @@ public class NoChatMessage: NSObject, MessageProtocol {
     public dynamic var deliveryStatus: MessageDeliveryStatus
     public var attachments: [MessageAttachmentProtocol]
     public var content: String
-    
-    public init(
+    // swiftlint:disable function_parameter_count
+	// swiftlint:disable opening_brace
+    public init (
         msgId: String,
         msgType: String,
         senderId: String,
