@@ -15,10 +15,10 @@ class Me: UITableViewController, LoginControllerDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// TODO: when implementing vCard XEP-0054 add the FN field here
-		self.accountJID.text = self.xmppController?.xmppStream.myJID.bare()
 		let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
 		self.xmppController = appDelegate?.xmppController
+		// TODO: when implementing vCard XEP-0054 add the FN field here
+		self.accountJID.text = self.xmppController?.xmppStream.myJID.bare()
 	}
 	@IBAction func signOut(sender: AnyObject) {
 		self.xmppController?.disconnect()

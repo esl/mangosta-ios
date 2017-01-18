@@ -139,8 +139,6 @@ class XMPPController: NSObject {
 		}
 		self.roomsLight = [XMPPRoomLight]()
 		
-		self.xmppStream.disconnect()
-		
 		self.xmppStream.removeDelegate(self)
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
@@ -151,6 +149,8 @@ class XMPPController: NSObject {
 		self.xmppMUCStorer.deactivate()
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
+		
+		self.xmppStream.disconnect()
 
 	}
 }
