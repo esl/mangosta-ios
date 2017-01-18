@@ -117,6 +117,7 @@ class XMPPController: NSObject {
 	}
 
 	func disconnect() {
+		self.goOffLine()
 		self.xmppStream.disconnect()
 	}
 	
@@ -138,6 +139,8 @@ class XMPPController: NSObject {
 		}
 		self.roomsLight = [XMPPRoomLight]()
 		
+		self.xmppStream.disconnect()
+		
 		self.xmppStream.removeDelegate(self)
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
@@ -149,14 +152,14 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
 
-		self.xmppStream.disconnect()
 	}
 }
 
 extension XMPPController: XMPPStreamDelegate {
 
 	func xmppStreamDidConnect(stream: XMPPStream!) {
-		print("Stream: Connected")
+		let user = stream.myJID.bare()
+		print("Stream: Connected as user: \(user).")
 		try! stream.authenticateWithPassword(self.password)
 	}
 
@@ -168,6 +171,10 @@ extension XMPPController: XMPPStreamDelegate {
 	
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
 		print("Stream: Fail to Authenticate")
+	}
+	
+	func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
+		print("Stream: Disconnected")
 	}
 	
 	func goOnline() {

@@ -21,7 +21,6 @@ class Me: UITableViewController, LoginControllerDelegate {
 		self.xmppController = appDelegate?.xmppController
 	}
 	@IBAction func signOut(sender: AnyObject) {
-		self.xmppController?.goOffLine()
 		self.xmppController?.disconnect()
 		self.presentLogInView()
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
