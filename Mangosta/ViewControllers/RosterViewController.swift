@@ -44,13 +44,6 @@ class RosterViewController: UIViewController {
 		}
 	}
 	
-	func pushMeViewControler(sender: UIBarButtonItem) {
-		let storyboard = UIStoryboard(name: "Me", bundle: nil)
-		let meController = storyboard.instantiateViewControllerWithIdentifier("MeViewController") as! Me
-		meController.xmppController = self.xmppController
-		self.navigationController?.pushViewController(meController, animated: true)
-	}
-	
 	func addRoster(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
