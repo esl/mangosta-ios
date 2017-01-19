@@ -49,7 +49,7 @@ public class ClockProgressView: UIView {
     
     public func stopAnimating() {
         if !isAnimating {
-            return;
+            return
         }
         
         isAnimating = false

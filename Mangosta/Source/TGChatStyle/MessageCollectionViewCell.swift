@@ -34,8 +34,7 @@ public struct MessageCelloctionViewCellLayoutConstants {
 
 public class MessageCollectionViewCell<BubbleViewT where
     BubbleViewT: UIView,
-    BubbleViewT: BubbleViewProtocol>: UICollectionViewCell, BackgroundSizingQueryable, UIGestureRecognizerDelegate
-{
+    BubbleViewT: BubbleViewProtocol>: UICollectionViewCell, BackgroundSizingQueryable, UIGestureRecognizerDelegate {
     
     static func sizingCell() -> MessageCollectionViewCell<BubbleViewT> {
         let cell = MessageCollectionViewCell<BubbleViewT>(frame: CGRect.zero)

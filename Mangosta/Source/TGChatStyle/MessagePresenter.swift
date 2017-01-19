@@ -12,8 +12,7 @@ import UIKit
 public class MessagePresenter<BubbleViewT, ViewModelBuilderT where
     BubbleViewT: UIView,
     BubbleViewT: BubbleViewProtocol,
-    ViewModelBuilderT: MessageViewModelBuilderProtocol>: BaseChatItemPresenter<MessageCollectionViewCell<BubbleViewT>>
-{
+    ViewModelBuilderT: MessageViewModelBuilderProtocol>: BaseChatItemPresenter<MessageCollectionViewCell<BubbleViewT>> {
     // MARK: Types
     typealias ModelT = MessageProtocol
     typealias CellT = MessageCollectionViewCell<BubbleViewT>
