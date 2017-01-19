@@ -45,7 +45,7 @@ class MainViewController: UIViewController {
 		meButton.tintColor =  MangostaSettings().colorWithHexString(darkGreenColor)
 		self.navigationItem.leftBarButtonItem = meButton
 		
-		MangostaSettings.setNavigationBarColor()
+		MangostaSettings().setNavigationBarColor()
 		
 		self.tableView.backgroundColor = MangostaSettings().colorWithHexString(lightGreenColor)
 

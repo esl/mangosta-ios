@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MangostaSettings: NSObject {
+public struct MangostaSettings {
 	
 	var settingsDictionary : [String:String] = ["darkGrenColor":"009ab5",
 	                          "lightGreenColor":"cc58cfe4",
@@ -17,7 +17,7 @@ class MangostaSettings: NSObject {
 	                          "cellTextLine2Style":"normal"]
 	
 	
-	class func setNavigationBarColor() {
+	public func setNavigationBarColor() {
 		UINavigationBar.appearance().backgroundColor = MangostaSettings().colorWithHexString("009ab5")
 	}
 	
@@ -45,6 +45,6 @@ class MangostaSettings: NSObject {
 class MangostaNavigationController: UINavigationController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		MangostaSettings.setNavigationBarColor()
+		MangostaSettings().setNavigationBarColor()
 	}
 }
