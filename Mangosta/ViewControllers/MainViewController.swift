@@ -34,13 +34,21 @@ class MainViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		let darkGreenColor = "009ab5"
+		let lightGreenColor = "cc58cfe4"	
+	
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
-		let editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: #selector(editTable(_:)))
-		self.navigationItem.rightBarButtonItems = [editButton, addButton]
+		addButton.tintColor = MangostaSettings().colorWithHexString(darkGreenColor)
+		self.navigationItem.rightBarButtonItems = [addButton]
 		 
-		let logOut = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
-		self.navigationItem.leftBarButtonItem = logOut
+		let meButton = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
+		meButton.tintColor =  MangostaSettings().colorWithHexString(darkGreenColor)
+		self.navigationItem.leftBarButtonItem = meButton
+		
+		MangostaSettings().setNavigationBarColor()
+		
+		self.tableView.backgroundColor = MangostaSettings().colorWithHexString(lightGreenColor)
+
 		
 		if AuthenticationModel.load() == nil {
 			presentLogInView()
@@ -103,8 +111,7 @@ class MainViewController: UIViewController {
 	
 	func selectChat(sender: UIBarButtonItem) {
 		let alertController = UIAlertController(title: nil, message: "New Chat", preferredStyle: .ActionSheet)
-		
-		
+		alertController.view.tintColor = MangostaSettings().colorWithHexString("009ab5")
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .Default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
 			let roomCreateViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
@@ -132,9 +139,6 @@ class MainViewController: UIViewController {
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
-	}
-	func editTable(sender: UIBarButtonItem) {
-		
 	}
 	
 	internal func setupDataSources() {
@@ -191,6 +195,12 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		return self.sections[section]
 	}
 	
+	func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+		let header = view as? UITableViewHeaderFooterView
+		header?.tintColor = UIColor.whiteColor()
+		header?.textLabel?.textColor = MangostaSettings().colorWithHexString("009ab5")
+	}
+	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
 		
@@ -224,6 +234,11 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			}
 		}
 		
+		cell.backgroundColor = MangostaSettings().colorWithHexString("009ab5")
+		cell.textLabel?.textColor = UIColor.whiteColor()
+		cell.textLabel?.font = UIFont.boldSystemFontOfSize(15.0)
+		cell.detailTextLabel?.textColor = UIColor.whiteColor()
+		
 		return cell
 	}
 	
@@ -231,6 +246,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		guard indexPath.section <= 1 else { return }
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
 		let chatController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as! ChatViewController
+		
 		if indexPath.section == 0 {
 			let room = self.xmppController.roomsLight[indexPath.row]
 			
