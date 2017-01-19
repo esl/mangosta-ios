@@ -20,17 +20,10 @@ class RosterViewController: UIViewController {
 	weak var mongooseRESTController : MongooseAPI!
 	#endif
 	
-	let sections = ["Group chats", "Private chats"]
-	
 	let MIMCommonInterface = MIMMainInterface()
 	
-	var xmppMUCLight: XMPPMUCLight!
-	
-	var newRoomUsers = [XMPPJID]()
 	
 	var localDataSource = NSMutableArray()
-	
-	let MUCLightServiceName = "muclight.erlang-solutions.com" // TODO: use a .plist entry for all constants in this app.
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -38,21 +31,7 @@ class RosterViewController: UIViewController {
 	let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addRoster(_:)))
 	self.navigationItem.rightBarButtonItems = [addButton]
 		
-		if AuthenticationModel.load() == nil {
-			presentLogInView()
-		} 
-		
-	}
-	
-	override func viewDidAppear(animated: Bool) {
-		self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
-	}
-	
-	func presentLogInView() {
-		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-		loginController.loginDelegate = self
-		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
+
 	}
 	
 	override func viewWillAppear(animated: Bool) {
@@ -72,7 +51,7 @@ class RosterViewController: UIViewController {
 		self.navigationController?.pushViewController(meController, animated: true)
 	}
 	
-	func addRoster(sender: UIBarButtonItem){
+	func addRoster(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
 			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
@@ -80,7 +59,7 @@ class RosterViewController: UIViewController {
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	
-	func removeRoster(userJID: XMPPJID ){
+	func removeRoster(userJID: XMPPJID) {
 		self.xmppController.xmppRoster.removeUser(userJID) // TODO: revise callback
 	}
 
@@ -220,12 +199,6 @@ extension RosterViewController: NSFetchedResultsControllerDelegate {
 	}
 }
 
-extension RosterViewController: LoginControllerDelegate {
-	func didLogIn() {
-		self.setupDataSources() // and MongooseREST API
-	}
-}
-
 extension RosterViewController: XMPPMUCLightDelegate {
 	
 	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
@@ -249,35 +222,4 @@ extension RosterViewController: XMPPMUCLightDelegate {
 		}
 		self.tableView.reloadData()
 	}
-	
-	func xmppMUCLight(sender: XMPPMUCLight, changedAffiliation affiliation: String, roomJID: XMPPJID) {
-		self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
-	}
 }
-
-extension RosterViewController: MUCRoomCreateViewControllerDelegate {
-	
-	func createRoom(roomName: String, users: [XMPPJID]?) {
-		self.newRoomUsers = users ?? []
-		
-		let jid = XMPPJID.jidWithString(MUCLightServiceName)
-		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
-		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		
-		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
-		
-		self.navigationController?.popViewControllerAnimated(true)
-		
-	}
-}
-// FIXME: create room
-extension RosterViewController: XMPPRoomLightDelegate {
-	
-	func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
-		sender.addUsers(self.newRoomUsers)
-		
-		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
-		self.tableView.reloadData()
-	}
-}
-

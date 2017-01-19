@@ -15,13 +15,14 @@ class Me: UITableViewController, LoginControllerDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+		self.xmppController = appDelegate?.xmppController
 		// TODO: when implementing vCard XEP-0054 add the FN field here
 		self.accountJID.text = self.xmppController?.xmppStream.myJID.bare()
 	}
 	@IBAction func signOut(sender: AnyObject) {
-		AuthenticationModel.remove()
-		self.presentLogInView()
 		self.xmppController?.disconnect()
+		self.presentLogInView()
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
 		self.xmppController = nil
@@ -39,7 +40,25 @@ class Me: UITableViewController, LoginControllerDelegate {
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil
 		)
 	}
-	func didLogIn() {
+	func didPressLogInButton() {
+		let authModel = AuthenticationModel.load()!
+		
+		self.xmppController = XMPPController(hostName: authModel.serverName!,
+		                                     userJID: authModel.jid,
+		                                     password: authModel.password)
+		
+		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+		appDelegate.xmppController = self.xmppController
+		
+		xmppController.connect()
+		// TODO: fix self.setupDataSources()
+		
+		#if MangostaREST
+			self.mongooseRESTController = MongooseAPI()
+			appDelegate.mongooseRESTController = self.mongooseRESTController
+		#endif
+
+		
 		self.navigationController?.popViewControllerAnimated(true)
 	}
 }

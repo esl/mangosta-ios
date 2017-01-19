@@ -117,6 +117,7 @@ class XMPPController: NSObject {
 	}
 
 	func disconnect() {
+		self.goOffLine()
 		self.xmppStream.disconnect()
 	}
 	
@@ -141,6 +142,7 @@ class XMPPController: NSObject {
 		self.xmppStream.removeDelegate(self)
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
+		
 		self.xmppCapabilities.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
@@ -148,25 +150,42 @@ class XMPPController: NSObject {
 		self.xmppMUCStorer.deactivate()
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
+		
+		self.disconnect()
 
-		self.xmppStream.disconnect()
 	}
 }
 
 extension XMPPController: XMPPStreamDelegate {
 
 	func xmppStreamDidConnect(stream: XMPPStream!) {
-		print("Stream: Connected")
+		let user = stream.myJID.bare()
+		print("Stream: Connected as user: \(user).")
 		try! stream.authenticateWithPassword(self.password)
 	}
 
 	func xmppStreamDidAuthenticate(sender: XMPPStream!) {
 		self.xmppStreamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1000)
 		print("Stream: Authenticated")
+		self.goOnline()
 	}
 	
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
 		print("Stream: Fail to Authenticate")
+	}
+	
+	func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
+		print("Stream: Disconnected")
+	}
+	
+	func goOnline() {
+		let presence = XMPPPresence()
+		self.xmppStream.sendElement(presence)
+	}
+	
+	func goOffLine() {
+		let presence = XMPPPresence(type: "unavailable")
+		self.xmppStream.sendElement(presence)
 	}
 }
 
@@ -180,4 +199,18 @@ extension XMPPController: XMPPStreamManagementDelegate {
 		print("Stream Management: not enabled")
 	}
 	
+}
+
+extension XMPPController: XMPPRosterDelegate {
+	func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
+		// TODO: show a marker in main VC list
+	}
+	
+	func xmppRoster(sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
+		// TODO:
+		
+		// if I already sent a request to that JID, theh auto add.
+		
+		// write an entry in the chat main view having a button to add / ignore / block the request.
+	}
 }
