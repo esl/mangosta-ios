@@ -212,5 +212,6 @@ extension XMPPController: XMPPRosterDelegate {
 		// if I already sent a request to that JID, theh auto add.
 		
 		// write an entry in the chat main view having a button to add / ignore / block the request.
+		print("Roster: Received presence request from user: \(presence.from().bare())")
 	}
 }
