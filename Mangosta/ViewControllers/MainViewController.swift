@@ -16,10 +16,6 @@ class MainViewController: UIViewController {
 	var activated = true
 	weak var xmppController: XMPPController!
 	
-	#if MangostaREST // TODO: probably better way.
-	weak var mongooseRESTController : MongooseAPI!
-	#endif
-	
 	let sections = ["Group chats", "Private chats"]
 	
 	let MIMCommonInterface = MIMMainInterface()
@@ -82,11 +78,6 @@ class MainViewController: UIViewController {
 		
 		xmppController.connect()
 		self.setupDataSources()
-		
-		#if MangostaREST
-			self.mongooseRESTController = MongooseAPI()
-			appDelegate.mongooseRESTController = self.mongooseRESTController
-		#endif
 	}
 	
 	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication

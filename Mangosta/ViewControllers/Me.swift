@@ -26,10 +26,6 @@ class Me: UITableViewController, LoginControllerDelegate {
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
 		self.xmppController = nil
-		#if MangostaREST
-			appDelegate.mongooseRESTController = nil
-			self.mongooseRESTController = nil
-		#endif
 	}
 	
 	func presentLogInView() {
@@ -52,12 +48,6 @@ class Me: UITableViewController, LoginControllerDelegate {
 		
 		xmppController.connect()
 		// TODO: fix self.setupDataSources()
-		
-		#if MangostaREST
-			self.mongooseRESTController = MongooseAPI()
-			appDelegate.mongooseRESTController = self.mongooseRESTController
-		#endif
-
 		
 		self.navigationController?.popViewControllerAnimated(true)
 	}

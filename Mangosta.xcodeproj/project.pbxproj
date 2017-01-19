@@ -20,6 +20,7 @@
 		81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC0E5F4C1E31459F00B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC4FE9E51DD0E96D00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
 		AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
@@ -1197,6 +1198,7 @@
 				ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
 				AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
+				AC0E5F4C1E31459F00B3AEB8 /* Settings.swift in Sources */,
 				AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */,
 				AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
 				AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */,

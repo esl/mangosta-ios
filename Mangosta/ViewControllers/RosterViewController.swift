@@ -16,10 +16,6 @@ class RosterViewController: UIViewController {
 	
 	weak var xmppController: XMPPController!
 	
-	#if MangostaREST // TODO: probably better way.
-	weak var mongooseRESTController : MongooseAPI!
-	#endif
-	
 	let MIMCommonInterface = MIMMainInterface()
 	
 	
