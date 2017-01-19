@@ -111,6 +111,9 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 			}
 
 			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
+			let d = rightBarButtonItems[0]
+			d.tintColor = MangostaSettings().colorWithHexString("009ab5")
+			
 			self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
 		}
 
@@ -123,10 +126,10 @@ class ChatViewController: NoChatViewController,UIGestureRecognizerDelegate{
 		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
 		self.titleView.addSubview(button)
 	}
+	
 	override func canBecomeFirstResponder() -> Bool {
 		return true
 	}
-	
 	
 	internal func showChangeSubject(sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
