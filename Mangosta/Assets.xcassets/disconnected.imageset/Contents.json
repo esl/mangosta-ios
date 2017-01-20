@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "content_mongooseim_logo__2__copy.png",
+      "filename" : "ic_disconnected-29.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "mongooseim_logo_thumb.png",
+      "filename" : "ic_disconnected-29@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "mongooseim_logo_thumb-1.png",
+      "filename" : "ic_disconnected-29@3x.png",
       "scale" : "3x"
     }
   ],
