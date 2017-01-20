@@ -112,19 +112,22 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 			if let firstResource = user.resources.first {
 				if let pres = firstResource.valueForKey("presence") {
 					if pres.type == "available" {
-						cell.textLabel?.textColor = UIColor.blueColor()
+						cell.textLabel?.textColor = UIColor.greenColor()
+						cell.imageView?.image = UIImage(named: "connected")
 					} else {
 						cell.textLabel?.textColor = UIColor.darkGrayColor()
+						cell.imageView?.image = UIImage(named: "disconnected")
 					}
 					
 				}
 			} else {
 				cell.textLabel?.textColor = UIColor.darkGrayColor()
+				cell.imageView?.image = UIImage(named: "questionMark")
 			}
 			
 			cell.textLabel?.text = user.jidStr
 		} else {
-			cell.textLabel?.text = "nope"
+			cell.textLabel?.text = "No users"
 		}
 		
 		return cell
