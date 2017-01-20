@@ -35,19 +35,19 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		let darkGreenColor = "009ab5"
-		let lightGreenColor = "cc58cfe4"	
+		let lightGreenColor = "58cfe4"	
 	
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
-		addButton.tintColor = MangostaSettings().colorWithHexString(darkGreenColor)
+		addButton.tintColor = UIColor(hexString:darkGreenColor)
 		self.navigationItem.rightBarButtonItems = [addButton]
 		 
 		let meButton = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(pushMeViewControler(_:)))
-		meButton.tintColor =  MangostaSettings().colorWithHexString(darkGreenColor)
+		meButton.tintColor =  UIColor(hexString:darkGreenColor)
 		self.navigationItem.leftBarButtonItem = meButton
 		
 		MangostaSettings().setNavigationBarColor()
 		
-		self.tableView.backgroundColor = MangostaSettings().colorWithHexString(lightGreenColor)
+		self.tableView.backgroundColor = UIColor(hexString:lightGreenColor)
 
 		
 		if AuthenticationModel.load() == nil {
@@ -111,7 +111,7 @@ class MainViewController: UIViewController {
 	
 	func selectChat(sender: UIBarButtonItem) {
 		let alertController = UIAlertController(title: nil, message: "New Chat", preferredStyle: .ActionSheet)
-		alertController.view.tintColor = MangostaSettings().colorWithHexString("009ab5")
+		alertController.view.tintColor = UIColor(hexString:"009ab5")
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .Default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
 			let roomCreateViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
@@ -198,7 +198,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 		let header = view as? UITableViewHeaderFooterView
 		header?.tintColor = UIColor.whiteColor()
-		header?.textLabel?.textColor = MangostaSettings().colorWithHexString("009ab5")
+		header?.textLabel?.textColor = UIColor(hexString:"009ab5")
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -234,7 +234,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			}
 		}
 		
-		cell.backgroundColor = MangostaSettings().colorWithHexString("009ab5")
+		cell.backgroundColor = UIColor(hexString:"009ab5")
 		cell.textLabel?.textColor = UIColor.whiteColor()
 		cell.textLabel?.font = UIFont.boldSystemFontOfSize(15.0)
 		cell.detailTextLabel?.textColor = UIColor.whiteColor()

@@ -112,7 +112,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 
 			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
 			let d = rightBarButtonItems[0]
-			d.tintColor = MangostaSettings().colorWithHexString("009ab5")
+			d.tintColor = UIColor(hexString:"009ab5")
 			
 			self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
 		}

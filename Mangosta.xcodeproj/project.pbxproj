@@ -187,6 +187,7 @@
 		ACB2D2B71E1599FC00B3AEB8 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */; };
 		ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB2D2B81E16ABB000B3AEB8 /* Me.swift */; };
 		ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB2D2B81E16ABB000B3AEB8 /* Me.swift */; };
+		ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
@@ -1197,6 +1198,7 @@
 				ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
 				AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
+				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
 				AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */,
 				AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
 				AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */,
