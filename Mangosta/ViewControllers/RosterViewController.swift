@@ -112,17 +112,13 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 			if let firstResource = user.resources.first {
 				if let pres = firstResource.valueForKey("presence") {
 					if pres.type == "available" {
-						cell.textLabel?.textColor = UIColor.greenColor()
 						cell.imageView?.image = UIImage(named: "connected")
 					} else {
-						cell.textLabel?.textColor = UIColor.darkGrayColor()
 						cell.imageView?.image = UIImage(named: "disconnected")
 					}
-					
 				}
 			} else {
-				cell.textLabel?.textColor = UIColor.darkGrayColor()
-				cell.imageView?.image = UIImage(named: "questionMark")
+				cell.imageView?.image = UIImage(named: "disconnected")
 			}
 			
 			cell.textLabel?.text = user.jidStr
@@ -130,6 +126,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 			cell.textLabel?.text = "No users"
 		}
 		
+		cell.textLabel?.textColor = UIColor.darkGrayColor()
 		return cell
 	}
 
