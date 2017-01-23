@@ -2,7 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 #source 'ssh://git@github.com/private-specs-registry.git'
 # got this structure from https://github.com/robbiehanson/XMPPFramework/issues/688
 
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 workspace 'Mangosta'

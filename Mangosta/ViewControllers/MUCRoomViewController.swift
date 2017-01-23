@@ -95,7 +95,7 @@ extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDe
 	}
 	
 	func xmppRoomDidCreate(sender: XMPPRoom!) {
-		let xElement = NSXMLElement(name: "x", xmlns: "jabber:x:data")
+		let xElement = DDXMLElement(name: "x", xmlns: "jabber:x:data")
 		xElement.addAttributeWithName("type", stringValue: "submit")
 		xElement.addChild(self.configuration("muc#roomconfig_roomname", configValue: self.newRoomName))
 		xElement.addChild(self.configuration("muc#roomconfig_persistentroom", configValue: "0"))
@@ -114,11 +114,11 @@ extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDe
 }
 
 extension MUCRoomViewController {
-	func configuration(name: String, configValue: String) -> NSXMLElement {
-		let value = NSXMLElement(name: "value")
+	func configuration(name: String, configValue: String) -> DDXMLElement {
+		let value = DDXMLElement(name: "value")
 		value.setStringValue(configValue)
 		
-		let field = NSXMLElement(name: "field")
+		let field = DDXMLElement(name: "field")
 		field.addAttributeWithName("var", stringValue: name)
 		field.addChild(value)
 	
