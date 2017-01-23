@@ -10,41 +10,55 @@ import Foundation
 import UIKit
 
 public struct MangostaSettings {
-	
-	var settingsDictionary : [String:String] = ["darkGrenColor":"009ab5",
-	                          "lightGreenColor":"cc58cfe4",
-	                          "cellTextLine1Style":"bold",
-	                          "cellTextLine2Style":"normal"]
-	
-	
+
 	public func setNavigationBarColor() {
-		UINavigationBar.appearance().backgroundColor = MangostaSettings().colorWithHexString("009ab5")
+		UINavigationBar.appearance().backgroundColor = UIColor(hexString:"009ab5")
 	}
 	
-	func colorWithHexString(hexString: String, alpha:CGFloat? = 1.0) -> UIColor {
-		
-		let hexint = Int(self.intFromHexString(hexString))
-		let red = CGFloat((hexint & 0xff0000) >> 16) / 255.0
-		let green = CGFloat((hexint & 0xff00) >> 8) / 255.0
-		let blue = CGFloat((hexint & 0xff) >> 0) / 255.0
-		let alpha = alpha!
-		
-		let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
-		return color
-	}
-	
-	func intFromHexString(hexStr: String) -> UInt32 {
-		var hexInt: UInt32 = 0
-		let scanner: NSScanner = NSScanner(string: hexStr)
-		scanner.charactersToBeSkipped = NSCharacterSet(charactersInString: "#")
-		scanner.scanHexInt(&hexInt)
-		return hexInt
-	}
 }
 
 class MangostaNavigationController: UINavigationController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		MangostaSettings().setNavigationBarColor()
+	}
+}
+
+// RGB hex String without alpha
+extension UIColor {
+	convenience init(hexString:String) {
+		let hexString:NSString = hexString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+		let scanner            = NSScanner(string: hexString as String)
+		
+		if hexString.hasPrefix("#") {
+			scanner.scanLocation = 1
+		}
+		
+		var color:UInt32 = 0
+		scanner.scanHexInt(&color)
+		
+		let mask = 0x000000FF
+		let r = Int(color >> 16) & mask
+		let g = Int(color >> 8) & mask
+		let b = Int(color) & mask
+		
+		let red   = CGFloat(r) / 255.0
+		let green = CGFloat(g) / 255.0
+		let blue  = CGFloat(b) / 255.0
+		
+		self.init(red:red, green:green, blue:blue, alpha:1)
+	}
+	
+	func toHexString() -> String {
+		var r:CGFloat = 0
+		var g:CGFloat = 0
+		var b:CGFloat = 0
+		var a:CGFloat = 0
+		
+		getRed(&r, green: &g, blue: &b, alpha: &a)
+		
+		let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+		
+		return NSString(format:"#%06x", rgb) as String
 	}
 }
