@@ -259,7 +259,7 @@ public class MessageCollectionViewCell<BubbleViewT where
     }
     
     // http://stackoverflow.com/questions/22451793/setcollectionviewlayoutanimated-causing-debug-error-snapshotting-a-view-that-h
-    public override func snapshotViewAfterScreenUpdates(afterUpdates: Bool) -> UIView {
+    public override func snapshotViewAfterScreenUpdates(afterUpdates: Bool) -> UIView? {
         UIGraphicsBeginImageContext(bounds.size)
         
         drawRect(bounds)
