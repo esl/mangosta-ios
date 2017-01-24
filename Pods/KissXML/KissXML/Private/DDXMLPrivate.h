@@ -74,7 +74,7 @@ typedef struct _xmlStd *xmlStdPtr;
 
 NS_INLINE BOOL IsXmlAttrPtr(void *kindPtr)
 {
-	return ((xmlKindPtr)kindPtr)->type == XML_ATTRIBUTE_NODE;
+	return ((xmlKindPtr)kindPtr)->type == DDXMLAttributeKind;
 }
 
 NS_INLINE BOOL IsXmlNodePtr(void *kindPtr)
@@ -102,7 +102,7 @@ NS_INLINE BOOL IsXmlDtdPtr(void *kindPtr)
 
 NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 {
-	return ((xmlKindPtr)kindPtr)->type == XML_NAMESPACE_DECL;
+	return ((xmlKindPtr)kindPtr)->type == DDXMLNamespaceKind;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -23,6 +23,7 @@
 */
 
 import Foundation
+import UIKit
 
 // Handles messages that aren't supported so they appear as invisible
 public class DummyChatItemPresenter: ChatItemPresenterProtocol {

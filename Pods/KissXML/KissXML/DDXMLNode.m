@@ -168,21 +168,21 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 + (id)nodeWithUnknownPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)owner
 {
-	if (kindPtr->type == XML_DOCUMENT_NODE)
+	if (kindPtr->type == DDXMLDocumentKind)
 	{
 		return [DDXMLDocument nodeWithDocPrimitive:(xmlDocPtr)kindPtr owner:owner];
 	}
-	else if (kindPtr->type == XML_ELEMENT_NODE)
+	else if (kindPtr->type == DDXMLDocumentKind)
 	{
 		return [DDXMLElement nodeWithElementPrimitive:(xmlNodePtr)kindPtr owner:owner];
 	}
-	else if (kindPtr->type == XML_NAMESPACE_DECL)
+	else if (kindPtr->type == DDXMLNamespaceKind)
 	{
 		// Todo: This may be a problem...
 		
 		return [DDXMLNamespaceNode nodeWithNsPrimitive:(xmlNsPtr)kindPtr nsParent:NULL owner:owner];
 	}
-	else if (kindPtr->type == XML_ATTRIBUTE_NODE)
+	else if (kindPtr->type == DDXMLAttributeKind)
 	{
 		return [DDXMLAttributeNode nodeWithAttrPrimitive:(xmlAttrPtr)kindPtr owner:owner];
 	}
@@ -788,7 +788,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	// Note: rootNode.parent == docNode
 	
-	if (node->parent == NULL || node->parent->type == XML_DOCUMENT_NODE)
+	if (node->parent == NULL || node->parent->type == DDXMLDocumentKind)
 		return nil;
 	else
 		return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)node->parent owner:self];
@@ -894,7 +894,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	// Note: rootNode.parent == docNode
 		
-	while ((node != NULL) && (node->type != XML_DOCUMENT_NODE))
+	while ((node != NULL) && (node->type != DDXMLDocumentKind))
 	{
 		if ((node->parent == NULL) && (node->doc == NULL))
 		{
