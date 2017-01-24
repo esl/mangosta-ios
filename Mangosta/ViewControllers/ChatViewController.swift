@@ -316,8 +316,8 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 
 	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
 		let fields = iq.childElement().elementForName("x")!.elementsForName("field").map { (field) -> String in
-			let f = field as! NSXMLElement
-			return "\(f.attributeForName("var").stringValue()!) \(f.attributeForName("type").stringValue()!)"
+			let f = field as! DDXMLElement
+			return "\(f.attributeForName("var")!.stringValue!) \(f.attributeForName("type")!.stringValue!)"
 		}.joinWithSeparator("\n")
 		
 		let alertController = UIAlertController(title: "Forms", message: fields, preferredStyle: UIAlertControllerStyle.Alert)
