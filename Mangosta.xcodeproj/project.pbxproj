@@ -257,7 +257,6 @@
 		81F8E8321CA0236A008099D1 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		9BC5B67E3551F54877D0E390 /* Pods-Mangosta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.release.xcconfig"; sourceTree = "<group>"; };
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
 		AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Changes.swift"; sourceTree = "<group>"; };
@@ -378,7 +377,6 @@
 		E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMessageArchivingWithMAM.m; sourceTree = "<group>"; };
 		E094FB591CE107550033E0E0 /* XMPPStreamManagementDiscStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPStreamManagementDiscStorage.h; sourceTree = "<group>"; };
 		E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPStreamManagementDiscStorage.m; sourceTree = "<group>"; };
-		EA33F9AC4D019DF48153C3E3 /* Pods-Mangosta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,15 +412,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F10A6730DED8AB970E282B6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EA33F9AC4D019DF48153C3E3 /* Pods-Mangosta.debug.xcconfig */,
-				9BC5B67E3551F54877D0E390 /* Pods-Mangosta.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		811C5AB21CAC094D008346FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,7 +474,6 @@
 				81ECA3631C92CDE5000602F2 /* MangostaTests */,
 				81ECA36E1C92CDE5000602F2 /* MangostaUITests */,
 				81ECA34D1C92CDE4000602F2 /* Products */,
-				6F10A6730DED8AB970E282B6 /* Pods */,
 				B33D3D8D4E4D849C96046E78 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -735,13 +723,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81ECA3741C92CDE5000602F2 /* Build configuration list for PBXNativeTarget "Mangosta" */;
 			buildPhases = (
-				F33964B5AE9A3D2D559691D5 /* [CP] Check Pods Manifest.lock */,
 				81ECA3481C92CDE4000602F2 /* Sources */,
 				81ECA3491C92CDE4000602F2 /* Frameworks */,
 				81ECA34A1C92CDE4000602F2 /* Resources */,
 				AC3A3D9B1DB80AD900B3AEB8 /* ShellScript */,
-				45652A8F668D36C0565854BD /* [CP] Embed Pods Frameworks */,
-				7AEE02B9DE8BEC6309A1D9F9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -918,36 +903,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		45652A8F668D36C0565854BD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7AEE02B9DE8BEC6309A1D9F9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AC3A3D9B1DB80AD900B3AEB8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -973,21 +928,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --path $PROJECT_DIR/Mangosta\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-		F33964B5AE9A3D2D559691D5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1312,7 +1252,6 @@
 		};
 		81ECA3751C92CDE5000602F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA33F9AC4D019DF48153C3E3 /* Pods-Mangosta.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppLaucherIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1329,7 +1268,6 @@
 		};
 		81ECA3761C92CDE5000602F2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BC5B67E3551F54877D0E390 /* Pods-Mangosta.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppLaucherIcon;
 				CLANG_ENABLE_MODULES = YES;
