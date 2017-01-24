@@ -265,7 +265,7 @@ extension ChatViewController: XMPPRoomLightDelegate {
 	
 	func xmppRoomLight(sender: XMPPRoomLight, didFetchMembersList items: [DDXMLElement]) {
 		let members = items.map { (child) -> (String, String) in
-			return (child.attributeForName("affiliation").stringValue(), child.stringValue())
+			return (child.attributeForName("affiliation")!.stringValue!, child.stringValue!)
 		}
 		self.showMembersViewController(members)
 	}
@@ -281,9 +281,9 @@ extension ChatViewController: XMPPRoomLightDelegate {
 
 extension ChatViewController: XMPPRoomExtraActionsDelegate {
 	func xmppRoom(sender: XMPPRoom!, didQueryRoomItems iqResult: XMPPIQ!) {
-		let members = iqResult.elementForName("query").children().map { (child) -> (String, String) in
+		let members = iqResult.elementForName("query")!.children!.map { (child) -> (String, String) in
 			let ch = child as! DDXMLElement
-			return (ch.attributeForName("jid").stringValue(), ch.attributeForName("name").stringValue())
+			return (ch.attributeForName("jid")!.stringValue!, ch.attributeForName("name")!.stringValue!)
 		}
 		self.showMembersViewController(members)
 	}
@@ -309,15 +309,15 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 	
 	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWithSet resultSet: XMPPResultSet!) {
-		if let lastID = resultSet.elementForName("last")?.stringValue() {
+		if let lastID = resultSet.elementForName("last")?.stringValue! {
 			self.lastID = lastID
 		}
 	}
 
 	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
-		let fields = iq.childElement().elementForName("x").elementsForName("field").map { (field) -> String in
-			let f = field as! NSXMLElement
-			return "\(f.attributeForName("var").stringValue()!) \(f.attributeForName("type").stringValue()!)"
+		let fields = iq.childElement().elementForName("x")!.elementsForName("field").map { (field) -> String in
+			let f = field as! DDXMLElement
+			return "\(f.attributeForName("var")!.stringValue!) \(f.attributeForName("type")!.stringValue!)"
 		}.joinWithSeparator("\n")
 		
 		let alertController = UIAlertController(title: "Forms", message: fields, preferredStyle: UIAlertControllerStyle.Alert)

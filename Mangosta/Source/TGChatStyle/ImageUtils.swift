@@ -31,28 +31,28 @@ extension UIImage {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, self.scale)
         let context = UIGraphicsGetCurrentContext()
         color.setFill()
-        CGContextFillRect(context, rect)
+        CGContextFillRect(context!, rect)
         self.drawInRect(rect, blendMode: .DestinationIn, alpha: 1)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image.resizableImageWithCapInsets(self.capInsets)
+        return image!.resizableImageWithCapInsets(self.capInsets)
     }
     
     public func ntg_blendWithColor(color: UIColor) -> UIImage {
         let rect = CGRect(origin: CGPoint.zero, size: self.size)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale)
         let context = UIGraphicsGetCurrentContext()
-        CGContextTranslateCTM(context, 0, rect.height)
-        CGContextScaleCTM(context, 1.0, -1.0)
-        CGContextSetBlendMode(context, .Normal)
-        CGContextDrawImage(context, rect, self.CGImage)
-        CGContextClipToMask(context, rect, self.CGImage)
+        CGContextTranslateCTM(context!, 0, rect.height)
+        CGContextScaleCTM(context!, 1.0, -1.0)
+        CGContextSetBlendMode(context!, .Normal)
+        CGContextDrawImage(context!, rect, self.CGImage!)
+        CGContextClipToMask(context!, rect, self.CGImage!)
         color.setFill()
-        CGContextAddRect(context, rect)
-        CGContextDrawPath(context, .Fill)
+        CGContextAddRect(context!, rect)
+        CGContextDrawPath(context!, .Fill)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image.resizableImageWithCapInsets(self.capInsets)
+        return image!.resizableImageWithCapInsets(self.capInsets)
     }
     
     public static func ntg_imageWithColor(color: UIColor, size: CGSize) -> UIImage {
@@ -60,7 +60,7 @@ extension UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         color.setFill()
         UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return image
     }

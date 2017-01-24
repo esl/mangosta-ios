@@ -8,7 +8,9 @@ use_frameworks!
 workspace 'Mangosta'
 
 def main_app_pods
-   pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/'
+  # The version pushed to CocoaPods is very out of date, use master branch for now
+  pod 'XMPPFramework', :git => "https://github.com/robbiehanson/XMPPFramework.git", :branch => 'master'
+  #   pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/' # TODO: Update ELS's fork.
    pod 'MBProgressHUD', '~> 0.9.2'
 end
 
@@ -16,19 +18,10 @@ target 'Mangosta' do
   main_app_pods
 end
 
-pre_install do |installer|
-  def installer.verify_no_static_framework_transitive_dependencies; end
-end
-
-post_install do |installer_representation|
-  installer_representation.pods_project.targets.each do |target|
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
-      config.build_settings['ENABLE_BITCODE'] = 'NO'
+      config.build_settings['SWIFT_VERSION'] = '2.3'
     end
-  end
-  
-  installer_representation.pods_project.build_configuration_list.build_configurations.each do |configuration|
-    configuration.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
   end
 end

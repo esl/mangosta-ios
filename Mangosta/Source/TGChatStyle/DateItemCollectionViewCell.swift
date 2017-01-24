@@ -51,7 +51,7 @@ public class DateItemCollectionViewCell: UICollectionViewCell {
         dateLabel.center = contentView.center
     }
     
-    public override func snapshotViewAfterScreenUpdates(afterUpdates: Bool) -> UIView {
+    public override func snapshotViewAfterScreenUpdates(afterUpdates: Bool) -> UIView? {
         UIGraphicsBeginImageContext(bounds.size)
         
         drawRect(bounds)
