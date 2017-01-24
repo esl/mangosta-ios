@@ -165,7 +165,9 @@ NSString *const XMPPMUCLightBlocking = @"urn:xmpp:muclight:0#blocking";
 	NSString *serviceName = [iq attributeStringValueForName:@"from" withDefaultValue:@""];
 	if ([[iq type] isEqualToString:@"result"]) {
 		NSXMLElement *query = [iq elementForName:@"query"];
-		[multicastDelegate xmppMUCLight:self didRequestBlockingList:[query children] forServiceNamed:serviceName];
+        NSArray *children = [query children];
+        if (!children) { children = @[]; }
+		[multicastDelegate xmppMUCLight:self didRequestBlockingList:children forServiceNamed:serviceName];
 	}else{
 		[multicastDelegate xmppMUCLight:self failedToRequestBlockingList:serviceName withError:iq];
 	}
@@ -211,9 +213,9 @@ NSString *const XMPPMUCLightBlocking = @"urn:xmpp:muclight:0#blocking";
 }
 
 - (void)handlePerformAction:(XMPPIQ *)iq withInfo:(XMPPBasicTrackingInfo *)info {
-	NSString *serviceName = [iq attributeStringValueForName:@"from" withDefaultValue:@""];
+	//NSString *serviceName = [iq attributeStringValueForName:@"from" withDefaultValue:@""];
 	if ([[iq type] isEqualToString:@"result"]) {
-		NSXMLElement *query = [iq elementForName:@"query"];
+		//NSXMLElement *query = [iq elementForName:@"query"];
 		[multicastDelegate xmppMUCLight:self didPerformAction:iq];
 	}else{
 		[multicastDelegate xmppMUCLight:self failedToPerformAction:iq];
@@ -276,7 +278,7 @@ NSString *const XMPPMUCLightBlocking = @"urn:xmpp:muclight:0#blocking";
 			// This way the isMUCRoomElement will still remain accurate
 			// for presence elements that may arrive momentarily.
 
-			double delayInSeconds = 30.0;
+			double delayInSeconds = [self delayInSeconds];
 			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
 			dispatch_after(popTime, moduleQueue, ^{ @autoreleasepool {
 				[rooms removeObject:roomJID];
@@ -298,6 +300,10 @@ NSString *const XMPPMUCLightBlocking = @"urn:xmpp:muclight:0#blocking";
 	}
 
 	return NO;
+}
+
+- (double) delayInSeconds {
+	return 30.0;
 }
 
 @end
