@@ -111,9 +111,15 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
 			if let firstResource = user.resources.first {
 				if let pres = firstResource.valueForKey("presence") {
-					if pres.type == "available" {
+                    
+                    if pres.type == "available" {//||
 						cell.imageView?.image = UIImage(named: "connected")
-					} else {
+					} else if pres.type == "unsubscribed" || pres.type == "unsubscribe" {
+                        cell.imageView?.image = UIImage(named: "questionMark")
+                    } else if pres.type == "subscribe" || pres.type == "subscribed" {
+                       cell.imageView?.image = UIImage(named: "connected")
+                        self.tableView.reloadData()
+                    } else {
 						cell.imageView?.image = UIImage(named: "disconnected")
 					}
 				}
