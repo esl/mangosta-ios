@@ -104,37 +104,52 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 		}
 		return 0
 	}
-	
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
-		
-		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
-			if let firstResource = user.resources.first {
-				if let pres = firstResource.valueForKey("presence") {
-                    
-                    if pres.type == "available" {//||
-						cell.imageView?.image = UIImage(named: "connected")
-					} else if pres.type == "unsubscribed" || pres.type == "unsubscribe" {
-                        cell.imageView?.image = UIImage(named: "questionMark")
-                    } else if pres.type == "subscribe" || pres.type == "subscribed" {
-                       cell.imageView?.image = UIImage(named: "connected")
-                        self.tableView.reloadData()
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
+        
+        if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+         
+            print("User info: ask: \(user.ask); subscription: \(user.subscription as String) ")
+            
+            if let firstResource = user.resources.first {
+                
+                if let pres = firstResource.valueForKey("presence") {
+                    if pres.type == "available" {
+                        cell.imageView?.image = UIImage(named: "connected")
+                    } else if pres.type == "unsubscribed" {
+                        print("User \(user.jid) deleted us.")
+                        self.xmppController.xmppRoster.removeUser(user.jid)
+                    } else if pres.type == "subscribed" {
+                        // FIXME: The user accepted us. To dismiss this notification, we should acknowledge the server.
+                        print("User \(user.jid) accepted us.")
+                       // try! self.fetchedResultsController?.performFetch()
+                        
                     } else {
-						cell.imageView?.image = UIImage(named: "disconnected")
-					}
-				}
-			} else {
-				cell.imageView?.image = UIImage(named: "disconnected")
-			}
-			
-			cell.textLabel?.text = user.jidStr
-		} else {
-			cell.textLabel?.text = "No users"
-		}
-		
-		cell.textLabel?.textColor = UIColor.darkGrayColor()
-		return cell
-	}
+                        print("presendce unav? 1 \(pres.type as String)")
+                        cell.imageView?.image = UIImage(named: "disconnected")
+                    }
+                }
+                
+            } else { // no presence information
+                if user.subscription == "none" && user.ask != nil {
+                    if user.ask == "subscribe" {
+                        cell.imageView?.image = UIImage(named: "questionMark")
+                    }
+                }
+                else {
+                    cell.imageView?.image = UIImage(named: "disconnected")
+                }
+            }
+            
+            cell.textLabel?.text = user.jidStr
+        } else {
+            cell.textLabel?.text = "No users"
+        }
+        
+        cell.textLabel?.textColor = UIColor.darkGrayColor()
+        return cell
+    }
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		guard indexPath.section == 0 else { return }

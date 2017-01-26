@@ -203,7 +203,7 @@ extension XMPPController: XMPPStreamManagementDelegate {
 
 extension XMPPController: XMPPRosterDelegate {
 	func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
-		// TODO: show a marker in main VC list
+        print("Received presence type \(presence.type()) from \(presence.from().bare())")
 	}
 	
 	func xmppRoster(sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
