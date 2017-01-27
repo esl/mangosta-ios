@@ -46,7 +46,7 @@ public struct AuthenticationModel {
 	static public func load() -> AuthenticationModel? {
 		if let authDict = NSUserDefaults.standardUserDefaults().objectForKey(Constants.Preferences.Authentication) as? [String:String] {
 			let authJidString = authDict["jid"]!
-			let pass = "+GfG5y^*Cb!r2aY^" // authDict["password"]!
+			let pass = authDict["password"]!
 			
 			if let server = authDict["serverName"] {
 				return AuthenticationModel(jidString: authJidString, serverName: server, password: pass)
