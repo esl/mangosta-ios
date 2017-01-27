@@ -109,25 +109,47 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
         
         if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
-         
-            print("User info: ask: \(user.ask); subscription: \(user.subscription as String) ")
             
-            if let firstResource = user.resources.first {
-                
+            // TODO: Use CocoaLumberJack here
+            //            if let a = user.primaryResource{
+            //                print("***User \(user.jidStr) primary resource: type: \(a.presence.type())")
+            //                print("***User \(user.jidStr) primary resource: show: \(a.presence.show())")
+            //                print("***User \(user.jidStr) primary resource: status: \(a.presence.status())")
+            //            }
+            //            else {
+            //                print("No Resource")
+            //            }
+            //
+            //            print("**User \(user.jidStr) info: ask: \(user.ask); subscription: \(user.subscription as String) ")
+           
+            if let firstResource = user.resources.first  as? XMPPResourceCoreDataStorageObject {
                 if let pres = firstResource.valueForKey("presence") {
+                    print("*5FirstResource presence \(pres.type as String)")
                     if pres.type == "available" {
                         cell.imageView?.image = UIImage(named: "connected")
                     } else if pres.type == "unsubscribed" {
-                        print("User \(user.jid) deleted us.")
+                        print("User \(user.jid) has deleted us.")
                         self.xmppController.xmppRoster.removeUser(user.jid)
                     } else if pres.type == "subscribed" {
-                        // FIXME: The user accepted us. To dismiss this notification, we should acknowledge the server.
+                        // FIXME: The user accepted us. We sould have a way to dismiss this, which last until the next relog or when other we receive presence from other user than this one. :(
                         print("User \(user.jid) accepted us.")
-                       // try! self.fetchedResultsController?.performFetch()
+                        if user.allResources().count > 1 {
+                            for r in user.allResources() {
+                                if let r1 = r as? XMPPResourceCoreDataStorageObject {
+                                    if r1.presence.type() == "available" {
+                                        print("User \(user.jid) is online. ")
+                                        cell.imageView?.image = UIImage(named: "connected")
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            print("User \(user.jid) is offline. ")
+                            cell.imageView?.image = UIImage(named: "disconnected")
+                        }
                         
                     } else {
-                        print("presendce unav? 1 \(pres.type as String)")
-                        cell.imageView?.image = UIImage(named: "disconnected")
+                        print("Unprocesed presence type: \(pres.type as String)")
                     }
                 }
                 
