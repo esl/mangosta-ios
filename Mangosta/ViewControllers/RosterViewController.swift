@@ -111,7 +111,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
         if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
             
             // TODO: Use CocoaLumberJack here
-            //            if let a = user.primaryResource{
+            //            if let a = user.primaryResource {
             //                print("***User \(user.jidStr) primary resource: type: \(a.presence.type())")
             //                print("***User \(user.jidStr) primary resource: show: \(a.presence.show())")
             //                print("***User \(user.jidStr) primary resource: status: \(a.presence.status())")
@@ -133,17 +133,10 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
                     } else if pres.type == "subscribed" {
                         // FIXME: The user accepted us. We sould have a way to dismiss this, which last until the next relog or when other we receive presence from other user than this one. :(
                         print("User \(user.jid) accepted us.")
-                        if user.allResources().count > 1 {
-                            for r in user.allResources() {
-                                if let r1 = r as? XMPPResourceCoreDataStorageObject {
-                                    if r1.presence.type() == "available" {
-                                        print("User \(user.jid) is online. ")
-                                        cell.imageView?.image = UIImage(named: "connected")
-                                    }
-                                }
-                            }
-                        }
-                        else {
+                        if self.isAnyUserResourceAvailable(user) {
+                            print("User \(user.jid) is online. ")
+                            cell.imageView?.image = UIImage(named: "connected")
+                        } else {
                             print("User \(user.jid) is offline. ")
                             cell.imageView?.image = UIImage(named: "disconnected")
                         }
@@ -171,6 +164,20 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.textLabel?.textColor = UIColor.darkGrayColor()
         return cell
+    }
+    
+    func isAnyUserResourceAvailable(user: XMPPUserCoreDataStorageObject) -> Bool {
+        if user.allResources().count > 1 {
+            for r in user.allResources() {
+                if let r1 = r as? XMPPResourceCoreDataStorageObject {
+                    if r1.presence.type() == "available" {
+                        
+                       return true
+                    }
+                }
+            }
+        }
+        return false
     }
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
