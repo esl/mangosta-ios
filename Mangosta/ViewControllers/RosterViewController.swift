@@ -124,7 +124,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
            
             if let firstResource = user.resources.first  as? XMPPResourceCoreDataStorageObject {
                 if let pres = firstResource.valueForKey("presence") {
-                    print("*5FirstResource presence \(pres.type as String)")
+                   // print("*FirstResource presence \(pres.type as String)")
                     if pres.type == "available" {
                         cell.imageView?.image = UIImage(named: "connected")
                     } else if pres.type == "unsubscribed" {
