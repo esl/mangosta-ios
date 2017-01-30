@@ -118,6 +118,8 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 		}
 
 		self.navigationItem.rightBarButtonItems = rightBarButtonItems
+        
+        MangostaSettings().setNavigationBarColor()
 	}
 	
 	override func viewWillAppear(animated: Bool) {
