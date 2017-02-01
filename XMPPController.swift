@@ -59,6 +59,7 @@ class XMPPController: NSObject {
 		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: self.xmppCapabilitiesStorage)
 		self.xmppCapabilities.autoFetchHashedCapabilities = true
 		self.xmppCapabilities.autoFetchNonHashedCapabilities = false
+        self.xmppCapabilities.myCapabilitiesNode = "urn:xmpp:microblog:0+notify"
 		
 		// Delivery Receips
 		self.xmppMessageDeliveryReceipts = XMPPMessageDeliveryReceipts()
