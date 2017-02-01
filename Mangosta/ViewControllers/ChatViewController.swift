@@ -119,7 +119,11 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 
 		self.navigationItem.rightBarButtonItems = rightBarButtonItems
         
+        // FIXME: not complete solution
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.737, green: 0.933, blue: 0.969, alpha: 1.00)
+        
         MangostaSettings().setNavigationBarColor()
+        
 	}
 	
 	override func viewWillAppear(animated: Bool) {
