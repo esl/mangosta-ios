@@ -23,12 +23,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Override point for customization after application launch.
 		let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
 		print("App Path: \(dirPaths)")
+        initializeNotificationServices()
 
         DDLog.addLogger(DDTTYLogger.sharedInstance(), withLevel:  DDLogLevel.Verbose)
         XMPPController.sharedInstance.xmppReconnect.manualStart()
         
 		return true
 	}
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let deviceTokenStr = UnsafeBufferPointer<UInt8>(start: UnsafePointer(deviceToken.bytes),
+            count: deviceToken.length).map { String(format: "%02x", $0) }.joinWithSeparator("")
+        print("DeviceId: \(deviceTokenStr)")
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("Device token for push notifications: FAIL -- ")
+        print(error.description)
+    }
+    
+    func initializeNotificationServices() -> Void {
+        let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        
+        // This is an asynchronous method to retrieve a Device Token
+        // Callbacks are in AppDelegate.swift
+        // Success = didRegisterForRemoteNotificationsWithDeviceToken
+        // Fail = didFailToRegisterForRemoteNotificationsWithError
+        UIApplication.sharedApplication().registerForRemoteNotifications()
+    }
 
 	func applicationWillResignActive(application: UIApplication) {
         
