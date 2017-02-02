@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let deviceTokenStr = UnsafeBufferPointer<UInt8>(start: UnsafePointer(deviceToken.bytes),
             count: deviceToken.length).map { String(format: "%02x", $0) }.joinWithSeparator("")
+        NSUserDefaults.standardUserDefaults().setObject(deviceTokenStr, forKey: Constants.Notifications.DeviceId)
         print("DeviceId: \(deviceTokenStr)")
     }
     
