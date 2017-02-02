@@ -156,6 +156,18 @@ class XMPPController: NSObject {
 		self.xmppStream.disconnectAfterSending()
 	}
 
+    func setXEP0357() {
+        if let deviceId = NSUserDefaults.standardUserDefaults().objectForKey(Constants.Notifications.DeviceId) as? String {
+            let pubsubJID = XMPPJID.jidWithString("pubsub." + self.xmppStream.hostName)
+            let pubsubNode = deviceId
+            let options = ["push_service": "apns", "device_id": deviceId]
+            let pubsub = XMPPPubSub(serviceJID: pubsubJID)
+            pubsub.createNode(pubsubNode)
+            self.xmppStream.sendElement(XMPPIQ.enableNotificationsElementWithJID(pubsubJID, node: pubsubNode, options: options))
+            XMPPPushXMLNS
+        }
+    }
+
     deinit {
         self.tearDownStream()
     }
