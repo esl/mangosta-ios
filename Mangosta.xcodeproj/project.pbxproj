@@ -236,6 +236,7 @@
 
 /* Begin PBXFileReference section */
 		45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		74B4E27A1E43BDD500E72619 /* Mangosta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mangosta.entitlements; sourceTree = "<group>"; };
 		811C5AB31CAC094D008346FE /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
 		8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -504,6 +505,7 @@
 		81ECA34E1C92CDE4000602F2 /* Mangosta */ = {
 			isa = PBXGroup;
 			children = (
+				74B4E27A1E43BDD500E72619 /* Mangosta.entitlements */,
 				AC4FE9D71DD0E70700B3AEB8 /* NoChat */,
 				C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */,
 				81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */,
@@ -818,8 +820,13 @@
 				TargetAttributes = {
 					81ECA34B1C92CDE4000602F2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = RN98T2SU3Z;
+						DevelopmentTeam = ZRK75NDG7H;
 						LastSwiftMigration = 0810;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					81ECA35F1C92CDE5000602F2 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -1316,14 +1323,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppLaucherIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mangosta/Mangosta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZRK75NDG7H;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1333,13 +1343,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppLaucherIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mangosta/Mangosta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZRK75NDG7H;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
