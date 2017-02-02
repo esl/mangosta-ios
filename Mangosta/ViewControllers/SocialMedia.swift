@@ -13,6 +13,9 @@ import MBProgressHUD
 
 class SocialMediaViewController: UIViewController {
     @IBOutlet internal var tableView: UITableView!
+    
+    weak var xmppController: XMPPController!
+    
 	override func viewDidLoad() {
 	
         let darkGreenColor = "009ab5"
@@ -27,16 +30,34 @@ class SocialMediaViewController: UIViewController {
         
         self.tableView.backgroundColor = UIColor(hexString:lightGreenColor)
         
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.allowsMultipleSelectionDuringEditing = false
+
+        
 	}
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if self.xmppController == nil {
+            
+            self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+            
+            self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+            
+            self.xmppController.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
+        }
+        
+        self.showHUDwithMessage("Getting Blog list...")
+    }
+
     func addBlogButtonPressed(sender: AnyObject) {
         let alertController = UIAlertController.textFieldAlertController("Create Blog Post", message: "Enter text here") { (blogString) in
-            if let blogID = XMPPJID.jidWithString(blogString) {
-                self.showHUDwithMessage("Publishing...")
-                // TODO: self.microBlog.publish(blogID)
-                // TODO: add in callback 
-                MBProgressHUD.hideHUDForView(self.view, animated: true)
-            }
+            
+            self.showHUDwithMessage("Publishing...")
+            self.xmppController.xmppPubSub.publishToNode(self.xmppController.myMicroblogNode, entry: DDXMLElement(name: "tittle", stringValue: blogString))
+            
         }
         self.presentViewController(alertController, animated: true, completion: nil)
     }
@@ -57,6 +78,36 @@ extension SocialMediaViewController {
     func showHUDwithMessage(message: String) {
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         hud.labelText = message
+    }
+}
+
+extension SocialMediaViewController: XMPPPubSubDelegate {
+    // TODO: may be not use the following 2
+    func xmppPubSub(sender: XMPPPubSub!, didRetrieveSubscriptions iq: XMPPIQ!, forNode node: String!) {
+        print("PubSub: Did retrieve subcriptions")
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+    }
+    func xmppPubSub(sender: XMPPPubSub!, didNotRetrieveSubscriptions iq: XMPPIQ!) {
+        print("PubSub: Did no retrieve subcriptions")
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+    }
+    
+    func xmppPubSub(sender: XMPPPubSub!, didPublishToNode node: String!, withResult iq: XMPPIQ!) {
+        print("PubSub: Did publish to node \(node).")
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+    }
+    func xmppPubSub(sender: XMPPPubSub!, didNotPublishToNode node: String!, withError iq: XMPPIQ!) {
+        print("PubSub: Did not publish to node \(node) due error: \(iq.childErrorElement())")
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+    }
+    
+    func xmppPubSub(sender: XMPPPubSub!, didRetrieveItems iq: XMPPIQ!, fromNode node: String!) {
+        print("PubSub: Did retrieve items.")
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+    }
+    func xmppPubSub(sender: XMPPPubSub!, didNotRetrieveItems iq: XMPPIQ!, fromNode node: String!) {
+        print("PubSub: Did not retrieve items due error: \(iq.childErrorElement())")
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
 }
 
