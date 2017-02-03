@@ -34,6 +34,10 @@ class SocialMediaViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.allowsMultipleSelectionDuringEditing = false
 
+        self.tabBarItem.image = UIImage(named: "Social") // FIXME: no image is appearing
+        self.tabBarItem.selectedImage = UIImage(named: "Social Filled") // FIXME: no image is appearing
+        
+        self.title = "Social"
         
 	}
     
@@ -46,10 +50,11 @@ class SocialMediaViewController: UIViewController {
             
             self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
             
-            self.xmppController.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
         }
+       
+        self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
         
-        self.showHUDwithMessage("Getting Blog list...")
+        self.showHUDwithMessage("Getting MicroBlog list...")
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
