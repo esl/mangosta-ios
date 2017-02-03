@@ -16,6 +16,9 @@ class SocialMediaViewController: UIViewController {
     
     weak var xmppController: XMPPController!
     
+    var blogItems = []
+    var refreshControl: UIRefreshControl!
+    
 	override func viewDidLoad() {
 	
         let darkGreenColor = "009ab5"
@@ -39,6 +42,17 @@ class SocialMediaViewController: UIViewController {
         
         self.title = "Social"
         
+        if self.refreshControl == nil {
+            self.refreshControl = UIRefreshControl()
+            self.refreshControl?.backgroundColor = UIColor.orangeColor()
+           // self.refreshControl?.alpha = 0.4
+            self.refreshControl?.tintColor = UIColor.whiteColor()
+            
+            self.refreshControl?.addTarget(self, action: #selector(refreshListWithPull),
+                                           forControlEvents: UIControlEvents.ValueChanged)
+            
+            self.tableView.addSubview(self.refreshControl)
+        }
 	}
     
     override func viewWillAppear(animated: Bool) {
@@ -50,10 +64,9 @@ class SocialMediaViewController: UIViewController {
             
             self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
             
-            // TODO: implement pull down/refresh
-            self.refreshList()
         }
         
+        self.autoRefreshList()
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
@@ -66,23 +79,50 @@ class SocialMediaViewController: UIViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
-    func refreshList() {
+    func autoRefreshList() {
         
         self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
         
         self.showHUDwithMessage("Getting MicroBlog list...")
+        
+    }
+    
+    func refreshListWithPull() {
+        if self.refreshControl != nil {
+            
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "MMM d, h:mm a"
+            let title = NSString.localizedStringWithFormat(NSLocalizedString("Last update: %@", comment: ""),
+                                                           formatter.stringFromDate(NSDate()))
+            let attrsDictionary = [ NSForegroundColorAttributeName : UIColor.whiteColor() ]
+            let attributedTitle = NSAttributedString(string: title as String, attributes: attrsDictionary)
+            self.refreshControl!.attributedTitle = attributedTitle
+            
+            self.refreshControl?.endRefreshing()
+        }
     }
 }
 
 extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate {
-    // TODO: implement when PubSub is working at server side
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIdentifier("Social Cell") as UITableViewCell!
+        
+        // TODO: implement when PubSub is working at server side
+        
+        // cell.textLabel?.text = "No items."
         return cell
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        if self.blogItems.count == 0 {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
+            label.text = "No items."
+            label.textAlignment = NSTextAlignment.Center
+            label.sizeToFit()
+            
+            self.tableView.backgroundView = label
+        }
+        return self.blogItems.count
     }
 }
 
@@ -118,10 +158,14 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
         MBProgressHUD.hideHUDForView(self.view, animated: true)
         
         self.tableView.reloadData()
+        self.refreshControl?.endRefreshing()
     }
     func xmppPubSub(sender: XMPPPubSub!, didNotRetrieveItems iq: XMPPIQ!, fromNode node: String!) {
         print("PubSub: Did not retrieve items due error: \(iq.childErrorElement())")
         MBProgressHUD.hideHUDForView(self.view, animated: true)
+        
+        self.tableView.reloadData()
+        self.refreshControl?.endRefreshing()
     }
 }
 
