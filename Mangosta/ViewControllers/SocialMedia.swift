@@ -50,11 +50,10 @@ class SocialMediaViewController: UIViewController {
             
             self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
             
+            // TODO: implement pull down/refresh
+            self.refreshList()
         }
-       
-        self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
         
-        self.showHUDwithMessage("Getting MicroBlog list...")
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
@@ -66,9 +65,17 @@ class SocialMediaViewController: UIViewController {
         }
         self.presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    func refreshList() {
+        
+        self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
+        
+        self.showHUDwithMessage("Getting MicroBlog list...")
+    }
 }
 
 extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate {
+    // TODO: implement when PubSub is working at server side
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         return cell
@@ -109,6 +116,8 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
     func xmppPubSub(sender: XMPPPubSub!, didRetrieveItems iq: XMPPIQ!, fromNode node: String!) {
         print("PubSub: Did retrieve items.")
         MBProgressHUD.hideHUDForView(self.view, animated: true)
+        
+        self.tableView.reloadData()
     }
     func xmppPubSub(sender: XMPPPubSub!, didNotRetrieveItems iq: XMPPIQ!, fromNode node: String!) {
         print("PubSub: Did not retrieve items due error: \(iq.childErrorElement())")
