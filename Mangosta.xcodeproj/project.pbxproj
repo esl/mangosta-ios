@@ -69,6 +69,7 @@
 		AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
+		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
 		AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -308,6 +309,7 @@
 		AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
 		AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGChatViewController.swift; sourceTree = "<group>"; };
 		AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
+		AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
 		AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
 		AC8020D61E13F88100B3AEB8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
 				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 				ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */,
+				AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1018,6 +1021,7 @@
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
+				AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */,
 				AC4FEA291DD113EC00B3AEB8 /* NoChatMessage.swift in Sources */,
 				AC4FEA1D1DD113EC00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC4FEA181DD113EC00B3AEB8 /* BubbleViewProtocol.swift in Sources */,

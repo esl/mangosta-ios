@@ -179,10 +179,10 @@
             </objects>
             <point key="canvasLocation" x="780.5" y="431"/>
         </scene>
-        <!--View Controller-->
+        <!--About View Controller-->
         <scene sceneID="lLB-qA-rtK">
             <objects>
-                <viewController id="81z-yN-OOb" sceneMemberID="viewController">
+                <viewController id="81z-yN-OOb" customClass="AboutViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mxi-dv-Od8"/>
                         <viewControllerLayoutGuide type="bottom" id="0Sb-1S-iG9"/>
@@ -198,7 +198,10 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source code:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rG-DH-iBq">
-                                <rect key="frame" x="31" y="498" width="344" height="21"/>
+                                <rect key="frame" x="31" y="502" width="344" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Y28-q9-J8S"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -210,7 +213,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QPi-1O-4JN">
-                                <rect key="frame" x="31" y="514" width="344" height="30"/>
+                                <rect key="frame" x="28" y="518" width="347" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Dnx-W5-Svm"/>
@@ -236,7 +239,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCM-Mb-ooq">
-                                <rect key="frame" x="32" y="572" width="343" height="29"/>
+                                <rect key="frame" x="28" y="572" width="344" height="39"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
                                     <fragment content="https://github.com/esl/MongooseIM">
@@ -250,7 +253,7 @@
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2017 Erlang Solutions LTD." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cna-pQ-djc">
-                                <rect key="frame" x="31" y="610" width="344" height="21"/>
+                                <rect key="frame" x="31" y="620" width="344" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ABu-GR-8e0"/>
                                 </constraints>
@@ -259,7 +262,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mangosta for iOS is part of the" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hAl-0a-nZ9">
-                                <rect key="frame" x="0.0" y="352" width="375" height="21"/>
+                                <rect key="frame" x="0.0" y="362" width="375" height="11"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -282,41 +285,49 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="QPi-1O-4JN" firstAttribute="centerY" secondItem="gu6-Yn-wTz" secondAttribute="centerY" id="2h1-cP-Ghq"/>
+                            <constraint firstItem="QPi-1O-4JN" firstAttribute="centerY" secondItem="gu6-Yn-wTz" secondAttribute="centerY" constant="3.5" id="2h1-cP-Ghq"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="dfZ-pD-bh4" secondAttribute="trailing" id="42c-WD-6Rv"/>
                             <constraint firstAttribute="bottom" secondItem="dfZ-pD-bh4" secondAttribute="bottom" constant="269" id="4A8-jv-XHs"/>
                             <constraint firstItem="nU0-XO-amA" firstAttribute="top" secondItem="dfZ-pD-bh4" secondAttribute="bottom" constant="6" id="4ZU-xL-n77"/>
                             <constraint firstAttribute="bottom" secondItem="RSh-Qx-STd" secondAttribute="bottom" constant="91" id="9mW-Jb-epg"/>
+                            <constraint firstAttribute="trailing" secondItem="bVi-PH-yBa" secondAttribute="trailing" id="DS2-HT-Mrb"/>
+                            <constraint firstItem="gu6-Yn-wTz" firstAttribute="top" secondItem="7rG-DH-iBq" secondAttribute="bottom" constant="-4" id="Epl-yb-WWe"/>
                             <constraint firstItem="Cna-pQ-djc" firstAttribute="top" secondItem="mCM-Mb-ooq" secondAttribute="bottom" constant="9" id="ExT-Lr-ox3"/>
-                            <constraint firstItem="RSh-Qx-STd" firstAttribute="leading" secondItem="QPi-1O-4JN" secondAttribute="leading" id="H8c-8X-pcb"/>
+                            <constraint firstItem="RSh-Qx-STd" firstAttribute="leading" secondItem="QPi-1O-4JN" secondAttribute="leading" constant="3" id="H8c-8X-pcb"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="top" secondItem="mxi-dv-Od8" secondAttribute="bottom" constant="46" id="HAB-LX-0LI"/>
+                            <constraint firstItem="7rG-DH-iBq" firstAttribute="leading" secondItem="gu6-Yn-wTz" secondAttribute="leading" id="HUy-q8-MYa"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="hAl-0a-nZ9" secondAttribute="trailing" id="JBH-wf-315"/>
-                            <constraint firstItem="QPi-1O-4JN" firstAttribute="top" secondItem="nU0-XO-amA" secondAttribute="bottom" constant="89" id="ODs-Q1-3Nh"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="leading" secondItem="hAl-0a-nZ9" secondAttribute="leading" id="P6D-8O-t2y"/>
-                            <constraint firstItem="gu6-Yn-wTz" firstAttribute="top" secondItem="7rG-DH-iBq" secondAttribute="bottom" id="Q5b-74-94L"/>
-                            <constraint firstItem="RSh-Qx-STd" firstAttribute="centerX" secondItem="mCM-Mb-ooq" secondAttribute="centerX" id="SWT-rX-Lr3"/>
+                            <constraint firstItem="RSh-Qx-STd" firstAttribute="centerX" secondItem="mCM-Mb-ooq" secondAttribute="centerX" constant="3" id="SWT-rX-Lr3"/>
+                            <constraint firstItem="bVi-PH-yBa" firstAttribute="leading" secondItem="2Oi-of-6mw" secondAttribute="leading" id="Ucf-rs-w6b"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="RSh-Qx-STd" secondAttribute="trailing" id="WfY-7F-8O3"/>
-                            <constraint firstItem="RSh-Qx-STd" firstAttribute="leading" secondItem="7rG-DH-iBq" secondAttribute="leading" id="XT0-DZ-cm1"/>
-                            <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="7rG-DH-iBq" secondAttribute="trailing" id="YPt-3Y-91o"/>
+                            <constraint firstItem="nU0-XO-amA" firstAttribute="leading" secondItem="dfZ-pD-bh4" secondAttribute="leading" id="cF2-FH-yoQ"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="nU0-XO-amA" secondAttribute="trailing" id="cln-1V-5Cw"/>
+                            <constraint firstItem="7rG-DH-iBq" firstAttribute="trailing" secondItem="QPi-1O-4JN" secondAttribute="trailing" id="e3M-YK-Apy"/>
                             <constraint firstItem="RSh-Qx-STd" firstAttribute="leading" secondItem="gu6-Yn-wTz" secondAttribute="leading" id="fa8-br-B6q"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="centerX" secondItem="2Oi-of-6mw" secondAttribute="centerX" id="gNh-tA-8IA"/>
-                            <constraint firstItem="RSh-Qx-STd" firstAttribute="top" secondItem="QPi-1O-4JN" secondAttribute="bottom" constant="11" id="iIS-Pm-5og"/>
+                            <constraint firstItem="7rG-DH-iBq" firstAttribute="top" secondItem="nU0-XO-amA" secondAttribute="bottom" constant="77" id="grM-lB-nhW"/>
+                            <constraint firstItem="RSh-Qx-STd" firstAttribute="top" secondItem="QPi-1O-4JN" secondAttribute="bottom" constant="7" id="iIS-Pm-5og"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="leading" secondItem="dfZ-pD-bh4" secondAttribute="leading" id="jna-5g-h9K"/>
+                            <constraint firstItem="dfZ-pD-bh4" firstAttribute="leading" secondItem="hAl-0a-nZ9" secondAttribute="leading" id="k7H-GQ-paD"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="leading" secondItem="2Oi-of-6mw" secondAttribute="leading" id="lYg-iO-eig"/>
-                            <constraint firstItem="7rG-DH-iBq" firstAttribute="top" secondItem="nU0-XO-amA" secondAttribute="bottom" constant="73" id="nKJ-OJ-Nja"/>
                             <constraint firstItem="RSh-Qx-STd" firstAttribute="leading" secondItem="2Oi-of-6mw" secondAttribute="leadingMargin" constant="15" id="oC6-qn-I0M"/>
-                            <constraint firstItem="mCM-Mb-ooq" firstAttribute="top" secondItem="QPi-1O-4JN" secondAttribute="bottom" constant="28" id="oWo-aS-rCo"/>
+                            <constraint firstItem="mCM-Mb-ooq" firstAttribute="top" secondItem="QPi-1O-4JN" secondAttribute="bottom" constant="24" id="oWo-aS-rCo"/>
+                            <constraint firstItem="RSh-Qx-STd" firstAttribute="leading" secondItem="7rG-DH-iBq" secondAttribute="leading" id="p5I-YC-phw"/>
                             <constraint firstItem="dfZ-pD-bh4" firstAttribute="top" secondItem="hAl-0a-nZ9" secondAttribute="bottom" constant="4" id="qTC-F1-m3P"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="leading" secondItem="nU0-XO-amA" secondAttribute="leading" id="rns-n6-kAd"/>
-                            <constraint firstItem="hAl-0a-nZ9" firstAttribute="top" secondItem="bVi-PH-yBa" secondAttribute="bottom" constant="15" id="sib-hn-aFR"/>
-                            <constraint firstItem="0Sb-1S-iG9" firstAttribute="top" secondItem="Cna-pQ-djc" secondAttribute="bottom" constant="36" id="szE-aN-bqX"/>
+                            <constraint firstItem="hAl-0a-nZ9" firstAttribute="top" secondItem="bVi-PH-yBa" secondAttribute="bottom" constant="25" id="sib-hn-aFR"/>
+                            <constraint firstItem="0Sb-1S-iG9" firstAttribute="top" secondItem="Cna-pQ-djc" secondAttribute="bottom" constant="26" id="szE-aN-bqX"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="Cna-pQ-djc" secondAttribute="trailing" id="t5c-tZ-fYG"/>
-                            <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="mCM-Mb-ooq" secondAttribute="trailing" id="xcJ-2H-rgX"/>
+                            <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="mCM-Mb-ooq" secondAttribute="trailing" constant="3" id="xcJ-2H-rgX"/>
                             <constraint firstItem="RSh-Qx-STd" firstAttribute="leading" secondItem="Cna-pQ-djc" secondAttribute="leading" id="yTs-Gp-Ayg"/>
+                            <constraint firstItem="bVi-PH-yBa" firstAttribute="top" secondItem="mxi-dv-Od8" secondAttribute="bottom" constant="46" id="ysn-FG-J5k"/>
                             <constraint firstItem="bVi-PH-yBa" firstAttribute="trailing" secondItem="QPi-1O-4JN" secondAttribute="trailing" id="ztC-LW-hVy"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="versionLabel" destination="nU0-XO-amA" id="e14-Td-vD6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bm2-3X-Z5S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
