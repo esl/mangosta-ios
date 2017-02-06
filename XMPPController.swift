@@ -215,3 +215,12 @@ extension XMPPController: XMPPRosterDelegate {
 		print("Roster: Received presence request from user: \(presence.from().bare())")
 	}
 }
+extension XMPPController: XMPPMUCLightDelegate {
+    
+    func xmppRoomLight(sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
+        print("MUCLight: room created.")
+    }
+    func xmppRoomLight(sender: XMPPRoomLight, didFailToCreateRoomLight iq: XMPPIQ) {
+        print("MUCLight: Failed to create room.")
+    }
+}

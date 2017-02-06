@@ -9,6 +9,6 @@
 #import <XMPPFramework/XMPPFramework.h>
 #import <XMPPFramework/XMPPRoomLight.h>
 
-@interface XMPPCustomRoomLight : XMPPRoomLight
+@interface XMPPCustomRoomLight : XMPPRoomLight <XMPPRoomLightDelegate>
 
 @end

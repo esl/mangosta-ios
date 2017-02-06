@@ -47,6 +47,7 @@ class MUCRoomCreateViewController: UIViewController {
 		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
 		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppController.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
 		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
 		
