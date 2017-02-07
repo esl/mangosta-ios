@@ -70,13 +70,37 @@ class SocialMediaViewController: UIViewController {
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
-        let alertController = UIAlertController.textFieldAlertController("Create Blog Post", message: "Enter text here") { (blogString) in
+        let alertController = UIAlertController.textFieldAlertController("Create Blog Post", message: "Enter text here") { (typedString) in
             
             self.showHUDwithMessage("Publishing...")
-            self.xmppController.xmppPubSub.publishToNode(self.xmppController.myMicroblogNode, entry: DDXMLElement(name: "tittle", stringValue: blogString))
+            if let blogString = typedString {
+                self.xmppController.xmppPubSub.publishToNode(self.xmppController.myMicroblogNode, entry: self.creatEntry(blogString))
+            }
+            else {
+                print("No entry typed.")
+            }
             
         }
         self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func creatEntry(blogString: String) -> DDXMLElement {
+
+        let entry = DDXMLElement(name: "entry", xmlns: "http://www.w3.org/2005/Atom")
+    
+        let titleNode = DDXMLElement(name: "title", stringValue: blogString)
+        titleNode.addAttributeWithName("type", stringValue: "text")
+        
+        let authorName = DDXMLElement(name: "name", stringValue: self.xmppController.xmppStream.myJID.user)
+        let authorUri = DDXMLElement(name: "uri", stringValue: "xmpp:"+self.xmppController.xmppStream.myJID.bare())
+        let author = DDXMLElement(name: "author")
+        author.addChild(authorName)
+        author.addChild(authorUri)
+        
+        entry.addChild(titleNode)
+        entry.addChild(author)
+        
+        return entry
     }
     
     func autoRefreshList() {
@@ -98,7 +122,8 @@ class SocialMediaViewController: UIViewController {
             let attributedTitle = NSAttributedString(string: title as String, attributes: attrsDictionary)
             self.refreshControl!.attributedTitle = attributedTitle
             
-            self.refreshControl?.endRefreshing()
+            self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
+            
         }
     }
 }
