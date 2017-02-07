@@ -77,7 +77,8 @@ class SocialMediaViewController: UIViewController {
                 self.xmppController.xmppPubSub.publishToNode(self.xmppController.myMicroblogNode, entry: self.creatEntry(blogString))
             }
             else {
-                print("No entry typed.")
+                print("BlogEntry: Nothing typed.")
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
             }
             
         }
@@ -180,6 +181,12 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
     
     func xmppPubSub(sender: XMPPPubSub!, didRetrieveItems iq: XMPPIQ!, fromNode node: String!) {
         print("PubSub: Did retrieve items.")
+        if let pubsub = iq.elementForName("pubsub", xmlns: "http://jabber.org/protocol/pubsub") {
+            if  let items = pubsub.elementForName("items")?.elementsForName("item") {
+                self.blogItems = items
+            }
+        }
+        
         MBProgressHUD.hideHUDForView(self.view, animated: true)
         
         self.tableView.reloadData()
