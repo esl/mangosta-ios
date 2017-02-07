@@ -110,18 +110,6 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
         
         if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
             
-            // TODO: Use CocoaLumberJack here
-            //            if let a = user.primaryResource {
-            //                print("***User \(user.jidStr) primary resource: type: \(a.presence.type())")
-            //                print("***User \(user.jidStr) primary resource: show: \(a.presence.show())")
-            //                print("***User \(user.jidStr) primary resource: status: \(a.presence.status())")
-            //            }
-            //            else {
-            //                print("No Resource")
-            //            }
-            //
-            //            print("**User \(user.jidStr) info: ask: \(user.ask); subscription: \(user.subscription as String) ")
-           
             if let firstResource = user.resources.first  as? XMPPResourceCoreDataStorageObject {
                 if let pres = firstResource.valueForKey("presence") {
                    // print("*FirstResource presence \(pres.type as String)")
