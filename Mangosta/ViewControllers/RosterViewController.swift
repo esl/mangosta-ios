@@ -104,31 +104,69 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 		}
 		return 0
 	}
-	
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
-		
-		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
-			if let firstResource = user.resources.first {
-				if let pres = firstResource.valueForKey("presence") {
-					if pres.type == "available" {
-						cell.imageView?.image = UIImage(named: "connected")
-					} else {
-						cell.imageView?.image = UIImage(named: "disconnected")
-					}
-				}
-			} else {
-				cell.imageView?.image = UIImage(named: "disconnected")
-			}
-			
-			cell.textLabel?.text = user.jidStr
-		} else {
-			cell.textLabel?.text = "No users"
-		}
-		
-		cell.textLabel?.textColor = UIColor.darkGrayColor()
-		return cell
-	}
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
+        
+        if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
+            
+            if let firstResource = user.resources.first  as? XMPPResourceCoreDataStorageObject {
+                if let pres = firstResource.valueForKey("presence") {
+                   // print("*FirstResource presence \(pres.type as String)")
+                    if pres.type == "available" {
+                        cell.imageView?.image = UIImage(named: "connected")
+                    } else if pres.type == "unsubscribed" {
+                        print("User \(user.jid) has deleted us.")
+                        self.xmppController.xmppRoster.removeUser(user.jid)
+                    } else if pres.type == "subscribed" {
+                        // FIXME: The user accepted us. We sould have a way to dismiss this, which last until the next relog or when other we receive presence from other user than this one. :(
+                        print("User \(user.jid) accepted us.")
+                        if self.isAnyUserResourceAvailable(user) {
+                            print("User \(user.jid) is online. ")
+                            cell.imageView?.image = UIImage(named: "connected")
+                        } else {
+                            print("User \(user.jid) is offline. ")
+                            cell.imageView?.image = UIImage(named: "disconnected")
+                        }
+                        
+                    } else {
+                        print("Unprocesed presence type: \(pres.type as String)")
+                    }
+                }
+                
+            } else { // no presence information
+                if user.subscription == "none" && user.ask != nil {
+                    if user.ask == "subscribe" {
+                        cell.imageView?.image = UIImage(named: "questionMark")
+                    }
+                }
+                else {
+                    cell.imageView?.image = UIImage(named: "disconnected")
+                }
+            }
+            
+            cell.textLabel?.text = user.jidStr
+        } else {
+            cell.textLabel?.text = "No users"
+        }
+        
+        cell.textLabel?.textColor = UIColor.darkGrayColor()
+        return cell
+    }
+    
+    func isAnyUserResourceAvailable(user: XMPPUserCoreDataStorageObject) -> Bool {
+        if user.allResources().count > 1 {
+            for r in user.allResources() {
+                if let r1 = r as? XMPPResourceCoreDataStorageObject {
+                    if r1.presence.type() == "available" {
+                        
+                       return true
+                    }
+                }
+            }
+        }
+        return false
+    }
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		guard indexPath.section == 0 else { return }
