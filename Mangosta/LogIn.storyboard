@@ -90,7 +90,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="mongoose-1" translatesAutoresizingMaskIntoConstraints="NO" id="IPe-hh-fNU">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="mongoose" translatesAutoresizingMaskIntoConstraints="NO" id="IPe-hh-fNU">
                                 <rect key="frame" x="264" y="100" width="68" height="74"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="68" id="22B-IQ-DuK"/>
@@ -131,6 +131,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="mongoose-1" width="678" height="678"/>
+        <image name="mongoose" width="150" height="150"/>
     </resources>
 </document>
