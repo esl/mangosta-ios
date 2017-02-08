@@ -16,7 +16,7 @@ class SocialMediaViewController: UIViewController {
     
     weak var xmppController: XMPPController!
     
-    var blogItems = []
+    var blogItems = [DDXMLElement]()
     var refreshControl: UIRefreshControl!
     
 	override func viewDidLoad() {
@@ -45,7 +45,6 @@ class SocialMediaViewController: UIViewController {
         if self.refreshControl == nil {
             self.refreshControl = UIRefreshControl()
             self.refreshControl?.backgroundColor = UIColor.orangeColor()
-           // self.refreshControl?.alpha = 0.4
             self.refreshControl?.tintColor = UIColor.whiteColor()
             
             self.refreshControl?.addTarget(self, action: #selector(refreshListWithPull),
@@ -70,13 +69,38 @@ class SocialMediaViewController: UIViewController {
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
-        let alertController = UIAlertController.textFieldAlertController("Create Blog Post", message: "Enter text here") { (blogString) in
+        let alertController = UIAlertController.textFieldAlertController("Create Blog Post", message: "Enter text here") { (typedString) in
             
             self.showHUDwithMessage("Publishing...")
-            self.xmppController.xmppPubSub.publishToNode(self.xmppController.myMicroblogNode, entry: DDXMLElement(name: "tittle", stringValue: blogString))
+            if let blogString = typedString {
+                self.xmppController.xmppPubSub.publishToNode(self.xmppController.myMicroblogNode, entry: self.creatEntry(blogString))
+            }
+            else {
+                print("BlogEntry: Nothing typed.")
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+            }
             
         }
         self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func creatEntry(blogString: String) -> DDXMLElement {
+
+        let entry = DDXMLElement(name: "entry", xmlns: "http://www.w3.org/2005/Atom")
+    
+        let titleNode = DDXMLElement(name: "title", stringValue: blogString)
+        titleNode.addAttributeWithName("type", stringValue: "text")
+        
+        let authorName = DDXMLElement(name: "name", stringValue: self.xmppController.xmppStream.myJID.user)
+        let authorUri = DDXMLElement(name: "uri", stringValue: "xmpp:"+self.xmppController.xmppStream.myJID.bare())
+        let author = DDXMLElement(name: "author")
+        author.addChild(authorName)
+        author.addChild(authorUri)
+        
+        entry.addChild(titleNode)
+        entry.addChild(author)
+        
+        return entry
     }
     
     func autoRefreshList() {
@@ -98,7 +122,8 @@ class SocialMediaViewController: UIViewController {
             let attributedTitle = NSAttributedString(string: title as String, attributes: attrsDictionary)
             self.refreshControl!.attributedTitle = attributedTitle
             
-            self.refreshControl?.endRefreshing()
+            self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
+            
         }
     }
 }
@@ -107,9 +132,32 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Social Cell") as UITableViewCell!
         
-        // TODO: implement when PubSub is working at server side
+        let entry = self.blogItems[indexPath.row]
+        var nodes = [String:String]()
+        if let elements = entry.childAtIndex(0) {
+            for i in 0...elements.childCount - 1 {
+                if let element = elements.childAtIndex(i) as? DDXMLElement {
+                    guard let key = element.name else {
+                        continue
+                    }
+                    let value : String
+                    if element.children != nil {
+                        value = (element.childAtIndex(0)?.stringValue)!
+                    }
+                    else {
+                        value = element.stringValue!
+                    }
+                    nodes[key] = value
+                }
+            }
+        }
         
-        // cell.textLabel?.text = "No items."
+        cell.textLabel?.text = nodes["title"]
+        if let published = nodes["published"], let author = nodes["author"] {
+            let date = NSDate(xmppDateTimeString: published)
+            cell.detailTextLabel?.text = "\(author) published on \(date)."
+        }
+        
         return cell
     }
 
@@ -155,6 +203,12 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
     
     func xmppPubSub(sender: XMPPPubSub!, didRetrieveItems iq: XMPPIQ!, fromNode node: String!) {
         print("PubSub: Did retrieve items.")
+        if let pubsub = iq.elementForName("pubsub", xmlns: "http://jabber.org/protocol/pubsub") {
+            if  let items = pubsub.elementForName("items")?.elementsForName("item") {
+                self.blogItems = items
+            }
+        }
+        
         MBProgressHUD.hideHUDForView(self.view, animated: true)
         
         self.tableView.reloadData()
