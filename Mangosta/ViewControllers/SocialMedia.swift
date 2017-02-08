@@ -133,9 +133,23 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Social Cell") as UITableViewCell!
         
-        // TODO: implement when PubSub is working at server side
+        let entry = self.blogItems[indexPath.row] as! DDXMLNode
+        var nodes: [String:String] = [:]
+        if let elements = entry.childAtIndex(0) {
+            for i in 0...elements.childCount - 1 {
+                if let element = elements.childAtIndex(i) as? DDXMLElement {
+                    let key = element.name
+                    let value = element.stringValue
+                    nodes[key!] = value
+                }
+            }
+        }
         
-        // cell.textLabel?.text = "No items."
+        cell.textLabel?.text = nodes["title"]
+        if let published = nodes["published"], let author = nodes["author"] {
+            cell.detailTextLabel?.text = "\(author) published on \(published)."
+        }
+        
         return cell
     }
 
