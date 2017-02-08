@@ -102,7 +102,7 @@
                                         <rect key="frame" x="0.0" y="280" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pIc-9Y-qsc" id="olJ-C7-I1o">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cd-UN-8Jz">
@@ -130,7 +130,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Kz-aW-tSW">
-                                                    <rect key="frame" x="174" y="5" width="60" height="30"/>
+                                                    <rect key="frame" x="158" y="5" width="60" height="30"/>
                                                     <state key="normal" title="Sign Out">
                                                         <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
@@ -140,8 +140,8 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="4Kz-aW-tSW" firstAttribute="bottom" secondItem="nkg-YE-ap3" secondAttribute="bottomMargin" id="Jbk-B2-YQo"/>
-                                                <constraint firstItem="4Kz-aW-tSW" firstAttribute="leading" secondItem="nkg-YE-ap3" secondAttribute="leading" constant="174" id="KD9-E5-irK"/>
+                                                <constraint firstItem="4Kz-aW-tSW" firstAttribute="top" secondItem="nkg-YE-ap3" secondAttribute="topMargin" constant="-3" id="Pfk-iw-8X0"/>
+                                                <constraint firstItem="4Kz-aW-tSW" firstAttribute="centerX" secondItem="nkg-YE-ap3" secondAttribute="centerX" id="anb-bT-2dB"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
