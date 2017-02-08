@@ -137,7 +137,9 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
         if let elements = entry.childAtIndex(0) {
             for i in 0...elements.childCount - 1 {
                 if let element = elements.childAtIndex(i) as? DDXMLElement {
-                    let key = element.name
+                    guard let key = element.name else {
+                        continue
+                    }
                     let value : String
                     if element.children != nil {
                         value = (element.childAtIndex(0)?.stringValue)!
@@ -145,7 +147,7 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
                     else {
                         value = element.stringValue!
                     }
-                    nodes[key!] = value
+                    nodes[key] = value
                 }
             }
         }
