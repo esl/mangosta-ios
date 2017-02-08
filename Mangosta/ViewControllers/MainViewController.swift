@@ -49,6 +49,10 @@ class MainViewController: UIViewController {
 		
 		self.tableView.backgroundColor = UIColor(hexString:lightGreenColor)
 
+        self.tabBarItem.image = UIImage(named: "Chat") // FIXME: no image is appearing
+        self.tabBarItem.selectedImage = UIImage(named: "Chat Filled") // FIXME: no image is appearing
+        
+        self.title = "Chat"
 		
 		if AuthenticationModel.load() == nil {
 			presentLogInView()

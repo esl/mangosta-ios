@@ -19,6 +19,8 @@ class XMPPController: NSObject {
 	var xmppCapabilities: XMPPCapabilities
 	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 
+    var xmppPubSub: XMPPPubSub
+    
 	var xmppMUCStorage: XMPPMUCCoreDataStorage
 	var xmppMUCStorer: XMPPMUCStorer
 	var xmppMessageArchiving: XMPPMessageArchivingWithMAM
@@ -32,6 +34,8 @@ class XMPPController: NSObject {
 	var xmppStreamManagementStorage: XMPPStreamManagementDiscStorage
 
 	var roomsLight = [XMPPRoomLight]()
+    
+    let myMicroblogNode = "urn:xmpp:microblog:0"
 
 	let hostName: String
 	let userJID: XMPPJID
@@ -59,7 +63,11 @@ class XMPPController: NSObject {
 		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: self.xmppCapabilitiesStorage)
 		self.xmppCapabilities.autoFetchHashedCapabilities = true
 		self.xmppCapabilities.autoFetchNonHashedCapabilities = false
+        self.xmppCapabilities.myCapabilitiesNode = myMicroblogNode + "+notify"
 		
+        // PubSub
+        self.xmppPubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: dispatch_get_main_queue()) // FIME: use pubsub.erlang-solutions.com ??
+        
 		// Delivery Receips
 		self.xmppMessageDeliveryReceipts = XMPPMessageDeliveryReceipts()
 		self.xmppMessageDeliveryReceipts.autoSendMessageDeliveryReceipts = true
@@ -88,6 +96,7 @@ class XMPPController: NSObject {
 		self.xmppReconnect.activate(self.xmppStream)
 		self.xmppRoster.activate(self.xmppStream)
 		self.xmppCapabilities.activate(self.xmppStream)
+        self.xmppPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
 		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
@@ -106,6 +115,7 @@ class XMPPController: NSObject {
 		
 		self.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 
 	func connect() {
@@ -121,7 +131,7 @@ class XMPPController: NSObject {
 		self.xmppStream.disconnect()
 	}
 	
-	func  setXEP0352(active: Bool) {
+	func setXEP0352(active: Bool) {
 		if activated {
 			self.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
 			self.activated = false
@@ -144,6 +154,7 @@ class XMPPController: NSObject {
 		self.xmppRoster.deactivate()
 		
 		self.xmppCapabilities.deactivate()
+        self.xmppPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
 		self.xmppStreamManagement.deactivate()
@@ -181,12 +192,18 @@ extension XMPPController: XMPPStreamDelegate {
 	func goOnline() {
 		let presence = XMPPPresence()
 		self.xmppStream.sendElement(presence)
+        
+        self.createMyPubSubNode()
 	}
 	
 	func goOffLine() {
 		let presence = XMPPPresence(type: "unavailable")
 		self.xmppStream.sendElement(presence)
 	}
+    
+    func createMyPubSubNode() {
+        xmppPubSub.createNode(myMicroblogNode)
+    }
 }
 
 extension XMPPController: XMPPStreamManagementDelegate {
@@ -207,11 +224,15 @@ extension XMPPController: XMPPRosterDelegate {
     }
 	
 	func xmppRoster(sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
-		// TODO:
-		
-		// if I already sent a request to that JID, theh auto add.
-		
-		// write an entry in the chat main view having a button to add / ignore / block the request.
 		print("Roster: Received presence request from user: \(presence.from().bare())")
 	}
+}
+
+extension XMPPController: XMPPPubSubDelegate {
+    func xmppPubSub(sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
+        print("PubSub: Did create node")
+    }
+    func xmppPubSub(sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
+        print("PubSub: Did not create node")
+    }
 }

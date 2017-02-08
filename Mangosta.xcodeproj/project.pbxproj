@@ -340,7 +340,7 @@
 		AC9F663C1D957E5900B3AEB8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ACA045891D99906900B3AEB8 /* MensajesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MensajesRepository.swift; sourceTree = "<group>"; };
 		ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsRepository.swift; sourceTree = "<group>"; };
-		ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIMCommonInterfaceDelegate.swift; sourceTree = "<group>"; };
+		ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIMCommonInterfaceDelegate.swift; path = ../ViewControllers/MIMCommonInterfaceDelegate.swift; sourceTree = "<group>"; };
 		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
 		ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
 		ACB2D2B81E16ABB000B3AEB8 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
@@ -428,6 +428,7 @@
 			children = (
 				ACED08301E28242000B3AEB8 /* Settings.swift */,
 				811C5AB31CAC094D008346FE /* AuthenticationModel.swift */,
+				ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -544,16 +545,15 @@
 		81F8E8311CA02369008099D1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */,
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
-				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
-				AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */,
-				ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
-				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
-				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
+				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
 				ACB2D2B81E16ABB000B3AEB8 /* Me.swift */,
+				AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */,
 				C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */,
+				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
+				AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */,
+				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
 				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
 				ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */,
 			);
@@ -705,16 +705,16 @@
 		C12EA9551CE255C800F29606 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
-				AC8020D61E13F88100B3AEB8 /* Main.storyboard */,
-				AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */,
-				AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */,
 				C135D9121CE257B700225EC7 /* LogIn.storyboard */,
-				C1072DAC1CEB91300007B99E /* MUCLight.storyboard */,
-				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
-				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
-				C135D91C1CE39FFD00225EC7 /* Members.storyboard */,
-				C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */,
+				AC8020D61E13F88100B3AEB8 /* Main.storyboard */,
 				ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */,
+				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
+				C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */,
+				AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */,
+				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
+				C1072DAC1CEB91300007B99E /* MUCLight.storyboard */,
+				AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */,
+				C135D91C1CE39FFD00225EC7 /* Members.storyboard */,
 			);
 			name = "User Interface";
 			sourceTree = "<group>";

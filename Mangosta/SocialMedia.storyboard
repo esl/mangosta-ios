@@ -1,45 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="g2L-eS-DII">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vmF-2u-tdJ">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Social Media View Controller-->
-        <scene sceneID="UFj-HA-r6Q">
+        <!--Mangosta Navigation Controller-->
+        <scene sceneID="lvZ-EZ-j8s">
             <objects>
-                <viewController storyboardIdentifier="Social Media" automaticallyAdjustsScrollViewInsets="NO" id="g2L-eS-DII" customClass="SocialMediaViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Social Media" id="vmF-2u-tdJ" customClass="MangostaNavigationController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lLe-jY-Ans">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="tmX-r7-Qye" kind="relationship" relationship="rootViewController" id="Hu8-6Y-gvz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gf7-JA-NiQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2010" y="-507"/>
+        </scene>
+        <!--Social Media View Controller-->
+        <scene sceneID="wJK-Px-BYV">
+            <objects>
+                <viewController id="tmX-r7-Qye" customClass="SocialMediaViewController" customModule="Mangosta" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="nS6-wY-Gr4"/>
-                        <viewControllerLayoutGuide type="bottom" id="Zn8-w6-Fok"/>
+                        <viewControllerLayoutGuide type="top" id="TKT-Sv-kmr"/>
+                        <viewControllerLayoutGuide type="bottom" id="rpi-WB-dAZ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="3Bb-20-VHX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <view key="view" contentMode="scaleToFill" id="p4g-oJ-Rwl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Feature-not-implemented" translatesAutoresizingMaskIntoConstraints="NO" id="txe-NK-Xqi">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q1n-4K-JER">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Social Cell" textLabel="viE-VC-B6n" detailTextLabel="0Un-ig-Xjt" style="IBUITableViewCellStyleSubtitle" id="iZJ-ZF-hcE">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iZJ-ZF-hcE" id="cPA-DL-XfH">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="viE-VC-B6n">
+                                                    <rect key="frame" x="15" y="5" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Un-ig-Xjt">
+                                                    <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="tmX-r7-Qye" id="eBb-6P-fTc"/>
+                                    <outlet property="delegate" destination="tmX-r7-Qye" id="6FP-nc-9ff"/>
+                                </connections>
+                            </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="txe-NK-Xqi" firstAttribute="top" secondItem="3Bb-20-VHX" secondAttribute="top" id="S1K-8V-r34"/>
-                            <constraint firstItem="txe-NK-Xqi" firstAttribute="leading" secondItem="3Bb-20-VHX" secondAttribute="leading" id="S2L-c0-kb2"/>
-                            <constraint firstAttribute="trailing" secondItem="txe-NK-Xqi" secondAttribute="trailing" id="YPZ-WQ-yIs"/>
-                            <constraint firstItem="txe-NK-Xqi" firstAttribute="bottom" secondItem="Zn8-w6-Fok" secondAttribute="top" id="ijQ-7s-rNw"/>
+                            <constraint firstItem="rpi-WB-dAZ" firstAttribute="top" secondItem="q1n-4K-JER" secondAttribute="bottom" id="cqL-2x-TKZ"/>
+                            <constraint firstItem="q1n-4K-JER" firstAttribute="top" secondItem="p4g-oJ-Rwl" secondAttribute="top" id="hdE-EK-h5G"/>
+                            <constraint firstAttribute="trailing" secondItem="q1n-4K-JER" secondAttribute="trailing" id="qk4-G1-ojG"/>
+                            <constraint firstItem="q1n-4K-JER" firstAttribute="leading" secondItem="p4g-oJ-Rwl" secondAttribute="leading" id="wVk-xE-f9c"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="aIU-qT-l9u"/>
+                    <navigationItem key="navigationItem" id="8cE-7t-fA8"/>
                     <connections>
-                        <outlet property="view" destination="3Bb-20-VHX" id="zgD-84-YqL"/>
+                        <outlet property="tableView" destination="q1n-4K-JER" id="Aso-Nz-gkX"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vF7-Tj-Khv" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q4y-01-acz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2227" y="-444"/>
+            <point key="canvasLocation" x="2855" y="-571"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Feature-not-implemented" width="420" height="420"/>
-    </resources>
 </document>

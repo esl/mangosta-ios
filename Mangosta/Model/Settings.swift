@@ -21,6 +21,7 @@ class MangostaNavigationController: UINavigationController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		MangostaSettings().setNavigationBarColor()
+        self.navigationBar.tintColor = UIColor(hexString: "009ab5")
 	}
 }
 
