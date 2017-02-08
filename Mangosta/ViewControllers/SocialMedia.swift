@@ -139,7 +139,13 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
             for i in 0...elements.childCount - 1 {
                 if let element = elements.childAtIndex(i) as? DDXMLElement {
                     let key = element.name
-                    let value = element.stringValue
+                    let value : String
+                    if element.children != nil {
+                        value = (element.childAtIndex(0)?.stringValue)!
+                    }
+                    else {
+                        value = element.stringValue!
+                    }
                     nodes[key!] = value
                 }
             }
@@ -147,7 +153,8 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
         
         cell.textLabel?.text = nodes["title"]
         if let published = nodes["published"], let author = nodes["author"] {
-            cell.detailTextLabel?.text = "\(author) published on \(published)."
+            let date = NSDate(xmppDateTimeString: published)
+            cell.detailTextLabel?.text = "\(author) published on \(date)."
         }
         
         return cell
