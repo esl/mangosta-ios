@@ -16,7 +16,7 @@ class SocialMediaViewController: UIViewController {
     
     weak var xmppController: XMPPController!
     
-    var blogItems = []
+    var blogItems = [DDXMLElement]()
     var refreshControl: UIRefreshControl!
     
 	override func viewDidLoad() {
@@ -45,7 +45,6 @@ class SocialMediaViewController: UIViewController {
         if self.refreshControl == nil {
             self.refreshControl = UIRefreshControl()
             self.refreshControl?.backgroundColor = UIColor.orangeColor()
-           // self.refreshControl?.alpha = 0.4
             self.refreshControl?.tintColor = UIColor.whiteColor()
             
             self.refreshControl?.addTarget(self, action: #selector(refreshListWithPull),
@@ -133,8 +132,8 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Social Cell") as UITableViewCell!
         
-        let entry = self.blogItems[indexPath.row] as! DDXMLNode
-        var nodes: [String:String] = [:]
+        let entry = self.blogItems[indexPath.row]
+        var nodes = [String:String]()
         if let elements = entry.childAtIndex(0) {
             for i in 0...elements.childCount - 1 {
                 if let element = elements.childAtIndex(i) as? DDXMLElement {
