@@ -26,6 +26,11 @@ class LoginViewController: UIViewController {
 		self.loginDelegate?.didPressLogInButton()
 		self.dismissViewControllerAnimated(true, completion: nil)
 	}
+    
+    // TODO: Deactivated until Landscape rotation is supported.
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
 }
 
 protocol LoginControllerDelegate {
