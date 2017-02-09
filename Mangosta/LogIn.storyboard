@@ -32,17 +32,17 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="test.user@erlang-solutions.com" borderStyle="roundedRect" placeholder="Your JID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eCc-Vu-iFH">
-                                                        <rect key="frame" x="8" y="247" width="359" height="30"/>
+                                                        <rect key="frame" x="8" y="231" width="359" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="9xpW9mmUenFgMjay" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1dT-hX-fgJ">
-                                                        <rect key="frame" x="8" y="291" width="359" height="30"/>
+                                                        <rect key="frame" x="8" y="275" width="359" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" spellCheckingType="no" secureTextEntry="YES"/>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="xmpp.erlang-solutions.com" borderStyle="roundedRect" placeholder="Server (optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uZy-Im-eEj">
-                                                        <rect key="frame" x="8" y="179" width="359" height="30"/>
+                                                        <rect key="frame" x="8" y="168" width="359" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
@@ -52,12 +52,12 @@
                                                     <constraint firstItem="1dT-hX-fgJ" firstAttribute="leading" secondItem="eV2-wq-0Mb" secondAttribute="leading" constant="8" id="4dD-7r-yEf"/>
                                                     <constraint firstAttribute="trailing" secondItem="1dT-hX-fgJ" secondAttribute="trailing" constant="8" id="4jU-zL-4Py"/>
                                                     <constraint firstItem="uZy-Im-eEj" firstAttribute="leading" secondItem="eV2-wq-0Mb" secondAttribute="leading" constant="8" id="5O5-nX-VZG"/>
-                                                    <constraint firstItem="eCc-Vu-iFH" firstAttribute="top" secondItem="eV2-wq-0Mb" secondAttribute="top" constant="247" id="69Y-nV-qmA"/>
                                                     <constraint firstItem="eCc-Vu-iFH" firstAttribute="leading" secondItem="eV2-wq-0Mb" secondAttribute="leading" constant="8" id="8F9-w4-A9d"/>
                                                     <constraint firstAttribute="trailing" secondItem="uZy-Im-eEj" secondAttribute="trailing" constant="8" id="S8Q-Sz-YLo"/>
+                                                    <constraint firstItem="1dT-hX-fgJ" firstAttribute="top" secondItem="eCc-Vu-iFH" secondAttribute="bottom" constant="14" id="SyA-ht-exg"/>
                                                     <constraint firstAttribute="width" constant="286" id="YpU-I6-qVc"/>
+                                                    <constraint firstItem="eCc-Vu-iFH" firstAttribute="top" secondItem="uZy-Im-eEj" secondAttribute="bottom" constant="33" id="fxu-UW-NSs"/>
                                                     <constraint firstAttribute="trailing" secondItem="eCc-Vu-iFH" secondAttribute="trailing" constant="8" id="ntB-uU-6fP"/>
-                                                    <constraint firstItem="uZy-Im-eEj" firstAttribute="top" secondItem="1dT-hX-fgJ" secondAttribute="bottom" constant="-142" id="nwy-Jc-7is"/>
                                                     <constraint firstItem="1dT-hX-fgJ" firstAttribute="top" secondItem="eCc-Vu-iFH" secondAttribute="bottom" constant="14" id="rDq-9y-SJS"/>
                                                 </constraints>
                                                 <variation key="default">
@@ -67,7 +67,7 @@
                                                 </variation>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="iuu-GB-Ei8">
-                                                <rect key="frame" x="174" y="417" width="67" height="30"/>
+                                                <rect key="frame" x="152" y="323" width="67" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LxM-hY-fLo">
                                                         <rect key="frame" x="0.0" y="0.0" width="67" height="30"/>
@@ -88,16 +88,16 @@
                                                 </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cwk-Gy-C4u">
-                                                <rect key="frame" x="176" y="64" width="64" height="21"/>
+                                                <rect key="frame" x="156" y="32" width="64" height="25"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="21" id="ai2-74-ffJ"/>
+                                                    <constraint firstAttribute="height" constant="25" id="ai2-74-ffJ"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mongoose" translatesAutoresizingMaskIntoConstraints="NO" id="IPe-hh-fNU">
-                                                <rect key="frame" x="174" y="98" width="68" height="74"/>
+                                                <rect key="frame" x="152" y="68" width="68" height="74"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="68" id="22B-IQ-DuK"/>
                                                     <constraint firstAttribute="height" constant="74" id="dD5-AZ-9zq"/>
@@ -108,18 +108,20 @@
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="eV2-wq-0Mb" secondAttribute="bottom" id="3mB-tO-NS0"/>
                                             <constraint firstItem="eV2-wq-0Mb" firstAttribute="top" secondItem="iYt-XL-2SC" secondAttribute="top" id="4N2-uH-Ml3"/>
-                                            <constraint firstItem="IPe-hh-fNU" firstAttribute="trailing" secondItem="Cwk-Gy-C4u" secondAttribute="trailing" constant="1.5" id="7tH-BL-vY5"/>
-                                            <constraint firstItem="eV2-wq-0Mb" firstAttribute="centerX" secondItem="Cwk-Gy-C4u" secondAttribute="centerX" constant="-20.5" id="Dfc-79-2me"/>
+                                            <constraint firstItem="IPe-hh-fNU" firstAttribute="trailing" secondItem="Cwk-Gy-C4u" secondAttribute="trailing" id="7tH-BL-vY5"/>
+                                            <constraint firstItem="eV2-wq-0Mb" firstAttribute="centerX" secondItem="Cwk-Gy-C4u" secondAttribute="centerX" constant="-0.5" id="Dfc-79-2me"/>
                                             <constraint firstItem="eV2-wq-0Mb" firstAttribute="centerX" secondItem="iYt-XL-2SC" secondAttribute="centerX" id="Few-Ba-qCs"/>
                                             <constraint firstItem="eV2-wq-0Mb" firstAttribute="top" secondItem="iYt-XL-2SC" secondAttribute="topMargin" constant="-8" id="Iqf-1S-s7I"/>
-                                            <constraint firstItem="Cwk-Gy-C4u" firstAttribute="top" secondItem="iYt-XL-2SC" secondAttribute="top" constant="64" id="M72-U3-zj7"/>
+                                            <constraint firstItem="Cwk-Gy-C4u" firstAttribute="top" secondItem="iYt-XL-2SC" secondAttribute="top" constant="32" id="M72-U3-zj7"/>
                                             <constraint firstItem="eV2-wq-0Mb" firstAttribute="leading" secondItem="iYt-XL-2SC" secondAttribute="leading" id="MkS-7x-B0w"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="eV2-wq-0Mb" secondAttribute="bottom" constant="-8" id="PnD-pb-0Ew"/>
-                                            <constraint firstItem="iuu-GB-Ei8" firstAttribute="leading" secondItem="IPe-hh-fNU" secondAttribute="leading" id="bNx-rI-zdA"/>
-                                            <constraint firstItem="iuu-GB-Ei8" firstAttribute="top" secondItem="iYt-XL-2SC" secondAttribute="top" constant="417" id="bu6-y2-xYS"/>
+                                            <constraint firstItem="iuu-GB-Ei8" firstAttribute="leading" secondItem="IPe-hh-fNU" secondAttribute="leading" constant="-0.5" id="bNx-rI-zdA"/>
+                                            <constraint firstItem="iuu-GB-Ei8" firstAttribute="top" secondItem="iYt-XL-2SC" secondAttribute="top" constant="323" id="bu6-y2-xYS"/>
                                             <constraint firstItem="eV2-wq-0Mb" firstAttribute="centerY" secondItem="iYt-XL-2SC" secondAttribute="centerY" id="f2b-gK-nvg"/>
-                                            <constraint firstItem="IPe-hh-fNU" firstAttribute="top" secondItem="Cwk-Gy-C4u" secondAttribute="bottom" constant="13" id="li1-vc-ZDg"/>
+                                            <constraint firstItem="IPe-hh-fNU" firstAttribute="top" secondItem="Cwk-Gy-C4u" secondAttribute="bottom" constant="11" id="li1-vc-ZDg"/>
+                                            <constraint firstItem="uZy-Im-eEj" firstAttribute="top" secondItem="IPe-hh-fNU" secondAttribute="bottom" constant="26" id="q6D-r2-HrU"/>
                                             <constraint firstAttribute="trailing" secondItem="eV2-wq-0Mb" secondAttribute="trailing" id="vp0-qv-nUw"/>
+                                            <constraint firstItem="LxM-hY-fLo" firstAttribute="top" secondItem="1dT-hX-fgJ" secondAttribute="bottom" constant="18" id="yTm-Zu-QiK"/>
                                         </constraints>
                                     </view>
                                 </subviews>
