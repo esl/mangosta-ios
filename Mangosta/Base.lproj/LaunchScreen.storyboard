@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,42 +19,39 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" verticalCompressionResistancePriority="751" image="mongoose" translatesAutoresizingMaskIntoConstraints="NO" id="Fnn-gB-i4x">
+                                <rect key="frame" x="0.0" y="293" width="375" height="150"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mangosta" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgd-MX-7zF">
-                                <rect key="frame" x="189" y="208" width="222" height="38"/>
+                                <rect key="frame" x="-1" y="219" width="375" height="37"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="222" id="dpp-EI-HRC"/>
+                                    <constraint firstAttribute="height" constant="37" id="5tT-zG-wph"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <color key="textColor" red="0.074509803920000006" green="0.52941176469999995" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.074509803920000006" green="0.52941176469999995" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="mongoose" translatesAutoresizingMaskIntoConstraints="NO" id="Fnn-gB-i4x">
-                                <rect key="frame" x="150" y="277" width="312" height="122"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="312" id="0so-FO-PYL"/>
-                                    <constraint firstAttribute="height" constant="122" id="GOh-IV-Qjq"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="top" secondItem="Zgd-MX-7zF" secondAttribute="bottom" constant="31" id="5ox-H6-Xt2"/>
-                            <constraint firstItem="Zgd-MX-7zF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="7Hr-mz-1rA"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Fnn-gB-i4x" secondAttribute="bottom" constant="201" id="RXg-ig-SK9"/>
-                            <constraint firstItem="Zgd-MX-7zF" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="188" id="Rc1-Oc-i1n"/>
-                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="150" id="fCw-jX-eF2"/>
+                            <constraint firstItem="Zgd-MX-7zF" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="199" id="1q2-8M-S9H"/>
+                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="4wb-6k-hto"/>
+                            <constraint firstAttribute="trailing" secondItem="Fnn-gB-i4x" secondAttribute="trailing" id="duX-G7-1bl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zgd-MX-7zF" secondAttribute="trailing" constant="-15" id="lim-wh-l4k"/>
+                            <constraint firstItem="Fnn-gB-i4x" firstAttribute="top" secondItem="Zgd-MX-7zF" secondAttribute="bottom" constant="37.000000000000057" id="sYM-FV-G51"/>
+                            <constraint firstItem="Zgd-MX-7zF" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-17" id="ycS-eb-317"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
     <resources>
-        <image name="mongoose" width="678" height="678"/>
+        <image name="mongoose" width="150" height="150"/>
     </resources>
 </document>
