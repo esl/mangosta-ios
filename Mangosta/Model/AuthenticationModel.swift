@@ -49,7 +49,7 @@ public struct AuthenticationModel {
 			let pass = authDict["password"]!
 			
 			if let server = authDict["serverName"] {
-				return AuthenticationModel(jidString: authJidString, serverName: "jabb.im" , password: pass)
+				return AuthenticationModel(jidString: authJidString, serverName: server, password: pass)
 			}
 			
 			return AuthenticationModel(jid: XMPPJID.jidWithString(authJidString), password: pass)
