@@ -66,11 +66,13 @@ protocol LoginControllerDelegate {
 
 extension LoginViewController: XMPPStreamDelegate {
     func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
-        print("Stream: Fail to Authenticate")
         MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
     func xmppStreamDidAuthenticate(sender: XMPPStream!) {
-        
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
+        
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
 }

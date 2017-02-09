@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Me: UITableViewController, LoginControllerDelegate {
+class Me: UITableViewController {
 	weak var xmppController: XMPPController!
 	
 	@IBOutlet weak var accountJID: UILabel!
@@ -40,26 +40,5 @@ class Me: UITableViewController, LoginControllerDelegate {
 		
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil
 		)
-	}
-	func didPressLogInButton() {
-		let authModel = AuthenticationModel.load()!
-		
-		self.xmppController = XMPPController(hostName: authModel.serverName!,
-		                                     userJID: authModel.jid,
-		                                     password: authModel.password)
-		
-		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-		appDelegate.xmppController = self.xmppController
-		
-		xmppController.connect()
-		// TODO: fix self.setupDataSources()
-		
-		#if MangostaREST
-			self.mongooseRESTController = MongooseAPI()
-			appDelegate.mongooseRESTController = self.mongooseRESTController
-		#endif
-
-		
-		self.navigationController?.popViewControllerAnimated(true)
 	}
 }
