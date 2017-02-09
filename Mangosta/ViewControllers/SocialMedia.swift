@@ -97,6 +97,12 @@ class SocialMediaViewController: UIViewController {
         author.addChild(authorName)
         author.addChild(authorUri)
         
+        let now =  NSDate().xmppDateTimeString()
+        let published = DDXMLElement(name: "published", stringValue: now)
+        let updated = DDXMLElement(name: "updated", stringValue: now)
+        entry.addChild(published)
+        entry.addChild(updated)
+        
         entry.addChild(titleNode)
         entry.addChild(author)
         
