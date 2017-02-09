@@ -20,8 +20,9 @@ class Me: UITableViewController, LoginControllerDelegate {
 		// TODO: when implementing vCard XEP-0054 add the FN field here
 		self.accountJID.text = self.xmppController?.xmppStream.myJID.bare()
 	}
-	@IBAction func signOut(sender: AnyObject) {
+	@IBAction func didPressSignOutButton(sender: AnyObject) {
 		self.xmppController?.disconnect()
+        AuthenticationModel.remove()
 		self.presentLogInView()
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
