@@ -36,7 +36,6 @@ class Me: UITableViewController {
 	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
 		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-		loginController.loginDelegate = self
 		
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil
 		)
