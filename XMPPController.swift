@@ -54,7 +54,7 @@ class XMPPController: NSObject {
 		self.xmppReconnect = XMPPReconnect()
 
 		// Roster
-		self.xmppRosterStorage = XMPPRosterCoreDataStorage()
+		self.xmppRosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
 		self.xmppRoster = XMPPRoster(rosterStorage: self.xmppRosterStorage)
 		self.xmppRoster.autoFetchRoster = true;
 		
@@ -85,12 +85,12 @@ class XMPPController: NSObject {
 
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
 
-		self.xmppMUCStorage = XMPPMUCCoreDataStorage(databaseFilename: "\(self.userJID).muc.sqlite", storeOptions: nil)
+		self.xmppMUCStorage = XMPPMUCCoreDataStorage()
 		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMUCStorage)
 		
-		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage(databaseFilename: "\(self.userJID).messages.sqlite", storeOptions: nil)
+		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage.sharedInstance()
 		self.xmppMessageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.xmppMessageArchivingStorage)
-		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage(databaseFilename: "\(self.userJID).muc-light.sqlite", storeOptions: nil)
+		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
 
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)

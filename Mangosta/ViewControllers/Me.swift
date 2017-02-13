@@ -23,10 +23,10 @@ class Me: UITableViewController {
 	@IBAction func didPressSignOutButton(sender: AnyObject) {
 		self.xmppController?.disconnect()
         AuthenticationModel.remove()
-		self.presentLogInView()
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
 		self.xmppController = nil
+        self.presentLogInView()
 		#if MangostaREST
 			appDelegate.mongooseRESTController = nil
 			self.mongooseRESTController = nil
