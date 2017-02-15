@@ -69,6 +69,13 @@ extension LoginViewController: XMPPStreamDelegate {
         MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
     func xmppStreamDidAuthenticate(sender: XMPPStream!) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let tabBarRootController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        
+        appDelegate.window?.rootViewController = tabBarRootController.instantiateInitialViewController()
+        appDelegate.window!.makeKeyAndVisible()
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
