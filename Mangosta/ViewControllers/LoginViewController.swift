@@ -70,13 +70,14 @@ extension LoginViewController: XMPPStreamDelegate {
     }
     func xmppStreamDidAuthenticate(sender: XMPPStream!) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.rootViewController = nil
         
         let tabBarRootController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        self.dismissViewControllerAnimated(true, completion: {
+            appDelegate.window?.rootViewController = tabBarRootController.instantiateInitialViewController()
+            appDelegate.window!.makeKeyAndVisible()
+        })
         
-        appDelegate.window?.rootViewController = tabBarRootController.instantiateInitialViewController()
-        appDelegate.window!.makeKeyAndVisible()
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
         
