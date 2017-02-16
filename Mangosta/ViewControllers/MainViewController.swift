@@ -54,22 +54,19 @@ class MainViewController: UIViewController {
         
         self.title = "Chat"
         
-    }
-    
-    override func viewWillAppear(animated: Bool) {
         if AuthenticationModel.load() == nil {
             presentLogInView()
         } else {
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        self.xmppController = appDelegate.xmppController
-            setupDataSources()
+            self.xmppController = appDelegate.xmppController
         }
-        
     }
     
-	override func viewDidAppear(animated: Bool) {
-		self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
-	}
+    override func viewWillAppear(animated: Bool) {
+        self.setupDataSources()
+        self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
+        super.viewWillAppear(animated)
+    }
 	
 	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
@@ -78,12 +75,11 @@ class MainViewController: UIViewController {
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
 	}
 
-    // TODO: ELIMINATE
 	func configureAndStartXMPP() {
 
 		self.setupDataSources()
 		
-        // FIXME: for mangosta REST.
+        // Please not that in the near future xmppController will be refactored. At that point, mongooseRESTController, will need similar changes.
 		#if MangostaREST
 			self.mongooseRESTController = MongooseAPI()
 			appDelegate.mongooseRESTController = self.mongooseRESTController

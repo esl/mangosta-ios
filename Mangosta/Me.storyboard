@@ -141,7 +141,7 @@
                                                         <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="didPressSignOutButton:" destination="wsJ-PN-Jc9" eventType="touchUpInside" id="VIB-wj-cDb"/>
+                                                        <action selector="signOut:" destination="wsJ-PN-Jc9" eventType="touchUpInside" id="X1b-aJ-5Ig"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
