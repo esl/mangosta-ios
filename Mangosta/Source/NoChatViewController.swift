@@ -267,6 +267,7 @@ public class NoChatViewController: UIViewController {
     
     public func handleTapBlank(recognizer: UITapGestureRecognizer) {
         (chatInputViewController as? ChatInputControllerProtocol)?.endInputting(true)
+        print("t")
     }
     
     public func relayoutForChatInputViewHeightChange(change: HeightChange) {

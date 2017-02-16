@@ -38,11 +38,18 @@ public class MessageCollectionViewCell<BubbleViewT where
     
     static func sizingCell() -> MessageCollectionViewCell<BubbleViewT> {
         let cell = MessageCollectionViewCell<BubbleViewT>(frame: CGRect.zero)
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(MessageCollectionViewCell.MyBubbleSelected(_:)))
+        cell.bubbleView.addGestureRecognizer(longPressGesture)
+        
         cell.viewContext = .Sizing
         return cell
     }
     
-    public var showAvatar: Bool = false
+    func MyBubbleSelected(ajaj: UILongPressGestureRecognizer) {
+        print("jjojo")
+    }
+    
+    public var showAvatar: Bool = true
     
     var animationDuration: CFTimeInterval = 0.33
     var viewContext: ViewContext = .Normal {

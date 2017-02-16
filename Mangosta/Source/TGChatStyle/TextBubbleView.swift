@@ -183,10 +183,13 @@ public class TextBubbleView: UIView, BubbleViewProtocol, UITextViewDelegate {
         self.addSubview(timeLabel)
         self.addSubview(deliveringView)
         self.addSubview(deliveredView)
+        self.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(tata)))
         
         textView.delegate = self
     }
-    
+    func tata  () {
+        print("tata")
+    }
     private lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
