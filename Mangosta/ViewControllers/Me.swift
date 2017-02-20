@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Me: UITableViewController, LoginControllerDelegate {
+class Me: UITableViewController {
 	weak var xmppController: XMPPController!
 	
 	@IBOutlet weak var accountJID: UILabel!
@@ -22,10 +22,11 @@ class Me: UITableViewController, LoginControllerDelegate {
 	}
 	@IBAction func signOut(sender: AnyObject) {
 		self.xmppController?.disconnect()
-		self.presentLogInView()
+        AuthenticationModel.remove()
 		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 		appDelegate.xmppController = nil
 		self.xmppController = nil
+        self.presentLogInView()
 		#if MangostaREST
 			appDelegate.mongooseRESTController = nil
 			self.mongooseRESTController = nil
@@ -35,30 +36,8 @@ class Me: UITableViewController, LoginControllerDelegate {
 	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
 		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-		loginController.loginDelegate = self
 		
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil
 		)
-	}
-	func didPressLogInButton() {
-		let authModel = AuthenticationModel.load()!
-		
-		self.xmppController = XMPPController(hostName: authModel.serverName!,
-		                                     userJID: authModel.jid,
-		                                     password: authModel.password)
-		
-		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-		appDelegate.xmppController = self.xmppController
-		
-		xmppController.connect()
-		// TODO: fix self.setupDataSources()
-		
-		#if MangostaREST
-			self.mongooseRESTController = MongooseAPI()
-			appDelegate.mongooseRESTController = self.mongooseRESTController
-		#endif
-
-		
-		self.navigationController?.popViewControllerAnimated(true)
 	}
 }

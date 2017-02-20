@@ -53,18 +53,20 @@ class MainViewController: UIViewController {
         self.tabBarItem.selectedImage = UIImage(named: "Chat Filled") // FIXME: no image is appearing
         
         self.title = "Chat"
-		
-		if AuthenticationModel.load() == nil {
-			presentLogInView()
-		} else {
-			configureAndStartXMPP()
-		}
-		
-	}
-	
-	override func viewDidAppear(animated: Bool) {
-		self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
-	}
+        
+        if AuthenticationModel.load() == nil {
+            presentLogInView()
+        } else {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            self.xmppController = appDelegate.xmppController
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.setupDataSources()
+        self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
+        super.viewWillAppear(animated)
+    }
 	
 	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
@@ -72,21 +74,12 @@ class MainViewController: UIViewController {
 		loginController.loginDelegate = self
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
 	}
-	
+
 	func configureAndStartXMPP() {
-		
-		let authModel = AuthenticationModel.load()!
-		
-		self.xmppController = XMPPController(hostName: authModel.serverName!,
-		                                     userJID: authModel.jid,
-		                                     password: authModel.password)
-		
-		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-		appDelegate.xmppController = self.xmppController
-		
-		xmppController.connect()
+
 		self.setupDataSources()
 		
+        // Please not that in the near future xmppController will be refactored. At that point, mongooseRESTController, will need similar changes.
 		#if MangostaREST
 			self.mongooseRESTController = MongooseAPI()
 			appDelegate.mongooseRESTController = self.mongooseRESTController
@@ -139,7 +132,7 @@ class MainViewController: UIViewController {
 	}
 	func createNewFriendChat(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("New Conversation", message: "Enter the JID of the user or group name") { (jidString) in
-			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
+			guard let userJIDString = jidString, let userJID = XMPPJID.jidWithString(userJIDString) else { return }
 			self.xmppController?.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
@@ -147,6 +140,11 @@ class MainViewController: UIViewController {
 	
 	internal func setupDataSources() {
 		
+        
+        guard self.xmppController != nil else {
+            self.presentLogInView()
+            return
+        }
 		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
 		
 		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
