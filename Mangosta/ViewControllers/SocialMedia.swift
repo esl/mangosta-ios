@@ -176,6 +176,9 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
             
             self.tableView.backgroundView = label
         }
+        else {
+            self.tableView.backgroundView = nil
+        }
         return self.blogItems.count
     }
 }
