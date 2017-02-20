@@ -70,13 +70,7 @@ public class MessagePresenter<BubbleViewT, ViewModelBuilderT where
         UIView.performWithoutAnimation {
             cell.contentView.transform = collectionView.transform
         }
-        let lp = UILongPressGestureRecognizer(target: self, action: #selector(toto))
-       cell.addGestureRecognizer(lp)
         return cell
-    }
-    
-    @objc func toto() {
-        print("totototot")
     }
     
     public final override func configureCell(cell: UICollectionViewCell, decorationAttributes: ChatItemDecorationAttributesProtocol?) {

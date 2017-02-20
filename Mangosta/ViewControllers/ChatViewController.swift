@@ -283,6 +283,11 @@ extension ChatViewController: XMPPRoomLightDelegate {
 	func xmppRoomLight(sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
 		self.title = sender.subject()
 	}
+    
+    func xmppRoomLight(sender: XMPPRoomLight, didReceiveMessage message: XMPPMessage) {
+        print("llego \(message)")
+    }
+    
 }
 
 extension ChatViewController: XMPPRoomExtraActionsDelegate {

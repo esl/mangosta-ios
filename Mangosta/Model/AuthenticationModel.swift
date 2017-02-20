@@ -45,11 +45,11 @@ public struct AuthenticationModel {
 	
 	static public func load() -> AuthenticationModel? {
 		if let authDict = NSUserDefaults.standardUserDefaults().objectForKey(Constants.Preferences.Authentication) as? [String:String] {
-			let authJidString = authDict["jid"]!
-			let pass = authDict["password"]!
+			let authJidString = "kentron2@jabb.im" //authDict["jid"]!
+			let pass = "1234" //authDict["password"]!
 			
 			if let server = authDict["serverName"] {
-				return AuthenticationModel(jidString: authJidString, serverName: server, password: pass)
+				return AuthenticationModel(jidString: authJidString, serverName: "jabb.im", password: pass)
 			}
 			
 			return AuthenticationModel(jid: XMPPJID.jidWithString(authJidString), password: pass)

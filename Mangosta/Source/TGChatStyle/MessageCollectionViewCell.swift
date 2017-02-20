@@ -38,15 +38,8 @@ public class MessageCollectionViewCell<BubbleViewT where
     
     static func sizingCell() -> MessageCollectionViewCell<BubbleViewT> {
         let cell = MessageCollectionViewCell<BubbleViewT>(frame: CGRect.zero)
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(MessageCollectionViewCell.MyBubbleSelected(_:)))
-        cell.bubbleView.addGestureRecognizer(longPressGesture)
-        
         cell.viewContext = .Sizing
         return cell
-    }
-    
-    func MyBubbleSelected(ajaj: UILongPressGestureRecognizer) {
-        print("jjojo")
     }
     
     public var showAvatar: Bool = true
@@ -150,6 +143,42 @@ public class MessageCollectionViewCell<BubbleViewT where
         return button
     }()
     
+    public private (set) lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+        let longpressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(MessageCollectionViewCell.bubbleLongPressed(_:)))
+        longpressGestureRecognizer.delegate = self
+        return longpressGestureRecognizer
+    }()
+    
+//    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+//        return self.bubbleView.bounds.contains(touch.location(in: self.bubbleView))
+//    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer === self.longPressGestureRecognizer
+    }
+    public var onBubbleLongPressBegan: ((cell: MessageCollectionViewCell) -> Void)?
+    public var onBubbleLongPressEnded: ((cell: MessageCollectionViewCell) -> Void)?
+    @objc
+    private func bubbleLongPressed(longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        print("yess")
+        switch longPressGestureRecognizer.state {
+        case .Began:
+            self.onBubbleLongPressBegan?(cell: self)
+        case .Ended, .Cancelled:
+            self.onBubbleLongPressEnded?(cell: self)
+//            if let recognizerView = recognizer.view,
+//                let recognizerSuperView = recognizerView.superview
+//                where recognizerView.becomeFirstResponder()
+//            {
+                let menuController = UIMenuController.sharedMenuController()
+                menuController.setTargetRect(self.frame, inView: self)
+                menuController.setMenuVisible(true, animated:true)
+//            }
+        default:
+            break
+        }
+    }
+    
     // MARK: Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -168,6 +197,9 @@ public class MessageCollectionViewCell<BubbleViewT where
         if showAvatar {
             contentView.addSubview(avatarImageView)
         }
+       // if bubbleView.messageViewModel.isIncoming == false {
+            bubbleView.addGestureRecognizer(self.longPressGestureRecognizer)
+       // }
         contentView.addSubview(failedButton)
         contentView.exclusiveTouch = true // avoid multi events response
         exclusiveTouch = true

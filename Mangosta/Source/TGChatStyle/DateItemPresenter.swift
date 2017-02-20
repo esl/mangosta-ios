@@ -36,14 +36,7 @@ public class DateItemPresenter: ChatItemPresenterProtocol {
         UIView.performWithoutAnimation {
             cell.contentView.transform = collectionView.transform
         }
-        let view = TextBubbleView()
-        let gt = UILongPressGestureRecognizer(target: self, action: #selector(dada))
-        view.addGestureRecognizer(gt)
-       // cell.addSubview(view)
         return cell
-    }
-    @objc func dada () {
-        print("dadadad")
     }
     
     public func configureCell(cell: UICollectionViewCell, decorationAttributes: ChatItemDecorationAttributesProtocol?) {

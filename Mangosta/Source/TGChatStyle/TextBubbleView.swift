@@ -183,12 +183,21 @@ public class TextBubbleView: UIView, BubbleViewProtocol, UITextViewDelegate {
         self.addSubview(timeLabel)
         self.addSubview(deliveringView)
         self.addSubview(deliveredView)
-        self.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(tata)))
+       // if self.messageViewModel.isIncoming == false {
+            self.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(selectMe)))
+       // }
         
         textView.delegate = self
     }
-    func tata  () {
-        print("tata")
+    func selectMe () {
+        let editMenuItem = UIMenuItem(title: "Edit message", action: #selector(editMessage))
+        
+        UIMenuController.sharedMenuController().menuItems = [editMenuItem]
+    }
+    
+    
+    func editMessage () {
+        print("this is only for test")
     }
     private lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView()
