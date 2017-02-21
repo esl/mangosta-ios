@@ -57,8 +57,8 @@ class LoginViewController: UIViewController {
     }
     
     func showError(errorString: String?) {
-        if let errorString = errorString {
-            self.errorLabel.text = "Error: \(errorString)"
+        if let errorText = errorString {
+            self.errorLabel.text = "Error: \(errorText)"
         }
         else {
             self.errorLabel.text = nil
