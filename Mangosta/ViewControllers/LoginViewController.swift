@@ -14,6 +14,8 @@ class LoginViewController: UIViewController {
 	@IBOutlet private var jidField: UITextField!
 	@IBOutlet private var passwordField: UITextField!
 	@IBOutlet private var serverNameField: UITextField!
+    @IBOutlet weak var errorLabel: UILabel!
+    
 	var loginDelegate: LoginControllerDelegate?
     weak var xmppController: XMPPController!
     
@@ -53,6 +55,15 @@ class LoginViewController: UIViewController {
         self.xmppController.connect()
         
     }
+    
+    func showError(errorString: String?) {
+        if let errorText = errorString {
+            self.errorLabel.text = "Error: \(errorText)"
+        }
+        else {
+            self.errorLabel.text = nil
+        }
+    }
 
     // TODO: Deactivated until Landscape rotation is supported.
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -66,6 +77,7 @@ protocol LoginControllerDelegate {
 
 extension LoginViewController: XMPPStreamDelegate {
     func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
+        self.showError(error.children?.first?.name)
         MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
     func xmppStreamDidAuthenticate(sender: XMPPStream!) {
@@ -80,7 +92,7 @@ extension LoginViewController: XMPPStreamDelegate {
         
     }
     func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
-        
+        self.showError(error.localizedDescription)
         MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
 }
