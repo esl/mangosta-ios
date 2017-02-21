@@ -160,23 +160,50 @@ public class MessageCollectionViewCell<BubbleViewT where
     public var onBubbleLongPressEnded: ((cell: MessageCollectionViewCell) -> Void)?
     @objc
     private func bubbleLongPressed(longPressGestureRecognizer: UILongPressGestureRecognizer) {
-        print("yess")
         switch longPressGestureRecognizer.state {
         case .Began:
             self.onBubbleLongPressBegan?(cell: self)
+            self.becomeFirstResponder()
+            let menuController = UIMenuController.sharedMenuController()
+            menuController.setTargetRect(self.bubbleView.frame, inView: self)
+            menuController.setMenuVisible(true, animated:true)
+            let menuEntries = [UIMenuItem.init(title: "tata", action: #selector(self.menuLastMessageCorrectionSelected(_:)))]
+            menuController.menuItems = menuEntries
+            menuController.update()
+            
         case .Ended, .Cancelled:
             self.onBubbleLongPressEnded?(cell: self)
-//            if let recognizerView = recognizer.view,
-//                let recognizerSuperView = recognizerView.superview
-//                where recognizerView.becomeFirstResponder()
-//            {
-                let menuController = UIMenuController.sharedMenuController()
-                menuController.setTargetRect(self.frame, inView: self)
-                menuController.setMenuVisible(true, animated:true)
-//            }
+
         default:
             break
         }
+    }
+
+    override public func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+
+    override public func canPerformAction(action: Selector, withSender sender: AnyObject!) -> Bool {
+        if action == #selector(cut(_:)) {
+            return false
+        }
+        else if action == #selector(copy(_:)) {
+            return false
+        }
+        else if action == #selector(paste(_:)) {
+            return false
+        }
+        else if action == #selector(select(_:)) || action == #selector(selectAll(_:)) {
+            return false
+        }
+        else if action == #selector(self.menuLastMessageCorrectionSelected(_:)) {
+            return true
+        }
+        return super.canPerformAction(action, withSender: sender)
+    }
+    
+    func menuLastMessageCorrectionSelected (sender: UIMenuItem) {
+        print("lalalalala")
     }
     
     // MARK: Initialization
