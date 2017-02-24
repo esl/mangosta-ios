@@ -163,13 +163,6 @@ public class MessageCollectionViewCell<BubbleViewT where
         switch longPressGestureRecognizer.state {
         case .Began:
             self.onBubbleLongPressBegan?(cell: self)
-            self.becomeFirstResponder()
-            let menuController = UIMenuController.sharedMenuController()
-            menuController.setTargetRect(self.bubbleView.frame, inView: self)
-            menuController.setMenuVisible(true, animated:true)
-            let menuEntries = [UIMenuItem.init(title: "tata", action: #selector(self.menuLastMessageCorrectionSelected(_:)))]
-            menuController.menuItems = menuEntries
-            menuController.update()
             
         case .Ended, .Cancelled:
             self.onBubbleLongPressEnded?(cell: self)
@@ -196,15 +189,17 @@ public class MessageCollectionViewCell<BubbleViewT where
         else if action == #selector(select(_:)) || action == #selector(selectAll(_:)) {
             return false
         }
-        else if action == #selector(self.menuLastMessageCorrectionSelected(_:)) {
-            return true
-        }
+//        else if action == #selector(self.menuLastMessageCorrectionSelected(_:)) {
+//            return true
+//        }
         return super.canPerformAction(action, withSender: sender)
     }
     
     func menuLastMessageCorrectionSelected (sender: UIMenuItem) {
         print("lalalalala")
     }
+   
+
     
     // MARK: Initialization
     override init(frame: CGRect) {
@@ -224,9 +219,6 @@ public class MessageCollectionViewCell<BubbleViewT where
         if showAvatar {
             contentView.addSubview(avatarImageView)
         }
-       // if bubbleView.messageViewModel.isIncoming == false {
-            bubbleView.addGestureRecognizer(self.longPressGestureRecognizer)
-       // }
         contentView.addSubview(failedButton)
         contentView.exclusiveTouch = true // avoid multi events response
         exclusiveTouch = true
@@ -239,7 +231,7 @@ public class MessageCollectionViewCell<BubbleViewT where
         guard let viewModel = messageViewModel else { return }
         
         updateStatusViews()
-        
+
         if showAvatar {
         
             avatarImageView.image = nil

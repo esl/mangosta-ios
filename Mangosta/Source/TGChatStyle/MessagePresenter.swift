@@ -66,9 +66,23 @@ public class MessagePresenter<BubbleViewT, ViewModelBuilderT where
     
     public override func dequeueCell(collectionView collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
         let identifier = messageViewModel.isIncoming ? incomingCellIdentifier : outgoingCellIdentifier
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! MessageCollectionViewCell<BubbleViewT>
         UIView.performWithoutAnimation {
             cell.contentView.transform = collectionView.transform
+        }
+        cell.selected = true
+        cell.onBubbleLongPressBegan = { (cell) in
+            if cell.bubbleView.messageViewModel.isIncoming == false {
+                cell.becomeFirstResponder()
+    
+                let menuController = UIMenuController.sharedMenuController()
+                menuController.setTargetRect(cell.bubbleView.frame, inView: cell)
+                menuController.setMenuVisible(true, animated:true)
+                let menuEntries = [MessageCorrectionUIMenuItem.init(title: "Edit message", action: #selector(ChatViewController.correctLastSentMessageFromMenuController(_:)), messageID: cell.bubbleView.messageViewModel.message.msgId)]
+                menuController.menuItems = menuEntries
+            }
+
+       // self.showAlertForRow(collectionView.indexPathForCell(cell)!.row)
         }
         return cell
     }
@@ -105,6 +119,14 @@ public class MessagePresenter<BubbleViewT, ViewModelBuilderT where
         return false
     }
     
+    public override func canPerformMenuControllerAction(action: Selector) -> Bool {
+        return true
+    }
+    
+    public override func performMenuControllerAction(action: Selector) {
+        print("TODO: ")
+    }
+    
     // MARK: Convenience
     func createViewModel() -> ViewModelT {
         let viewModel = viewModelBuilder.createMessageViewModel(message: message)
@@ -115,7 +137,11 @@ public class MessagePresenter<BubbleViewT, ViewModelBuilderT where
         cell.performBatchUpdates({ () -> Void in
             cell.layoutCache = self.layoutCache
             cell.messageViewModel = self.messageViewModel
-            
+            if let currentMessageViewModel = cell.bubbleView.messageViewModel {
+                if currentMessageViewModel.isIncoming == false {
+                    cell.bubbleView.addGestureRecognizer(cell.longPressGestureRecognizer)
+                }
+            }
             additionConfiguration?()
         }, animated: false, completion: nil)
     }

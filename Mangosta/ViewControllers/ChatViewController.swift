@@ -18,6 +18,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
+    var lastMessage: XMPPMessage?
 	weak var xmppController: XMPPController!
 	var lastID = ""
 	
@@ -145,7 +146,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
 	}
-	
+
 	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
 		let groupContext: NSManagedObjectContext!
 		let entity: NSEntityDescription?
@@ -251,9 +252,11 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 		
 		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
-		let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
+		let msg = XMPPMessage(type: type, to: receiverJID, elementID: lastMessage?.msgId)
 		
-		msg.addBody(lastMessage?.content)
+        self.lastMessage = msg
+		
+        msg.addBody(lastMessage?.content)
 		if type == "chat" {
 			self.MIMCommonInterface.sendMessage(msg)
 		}
@@ -263,6 +266,14 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 			self.xmppController.xmppStream.sendElement(msg)
 		}
 	}
+    
+    // TODO: Find out if the XEP is active on the server plus if the other side client also supports this.
+    internal func isLastMessageCorrectionEnabled() -> Bool {
+        return true
+    }
+    func sendMessageCorrection(message: XMPPMessage) {
+        
+    }
 }
 
 // MARK: ChatDataSourceDelegateProtocol
@@ -338,6 +349,59 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 }
 
 extension ChatViewController {
+    func correctLastSentMessageFromMenuController(sender: UIMenuController) {
+        let menuItem = sender.menuItems?.first as! MessageCorrectionUIMenuItem
+     
+        //TODO get the xmppMessage for that id, then uncoment the following line:
+        //self.correctMessage(self.xmppMessageWithID(menuItem.messageIDForCorrection))
+        self.correctMessage(self.lastMessage)
+    }
+    
+    func xmppMessageWithID(ID: String?) -> XMPPMessage? {
+        let message = XMPPMessage()
+        
+        guard ID != nil else {
+            print("Message correction error: ID is nil")
+            return nil
+        }
+        //TODO: find message in fetchresults
+        return message
+    }
+     func correctMessage(xmppMessage: XMPPMessage?) {
+        guard let originalMessage = xmppMessage else { return }
+        
+        let alertController = UIAlertController.textFieldAlertController("Edit message", message: "Enter the text that will replace this entry") { (messageCorrectionString) in
+            
+            if let messageCorrectionString = messageCorrectionString where messageCorrectionString.characters.count > 0 {
+                let correctedMessage = originalMessage.generateCorrectionMessageWithID(NSUUID().UUIDString, body: messageCorrectionString)
+                
+                self.MIMCommonInterface.sendMessage(correctedMessage)
+                
+                self.lastMessage = correctedMessage
+                 let message = self.createTextMessage(text: correctedMessage.body(), senderId: "outgoing", isIncoming: false)
+                (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+            }
+        }
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+
+    func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        return action == #selector(self.correctLastSentMessageFromMenuController(_:))
+    }
+    
+    func indexPathForLastRow () -> NSIndexPath {
+        self.fetchedResultsController.sections?.count
+        let lastSectionNumber = self.fetchedResultsController.sections!.count - 1
+        let lastItemNumber = self.fetchedResultsController.sections!.last!.objects!.count - 1
+        
+        return NSIndexPath.init(forItem: lastItemNumber, inSection: lastSectionNumber)
+    }
+}
+extension ChatViewController {
 	
 	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
 		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
@@ -354,7 +418,7 @@ extension ChatViewController {
 		
 		self.sendMessageToServer(message)
 	}
-	
+    
 	func showAttachSheet() {
 		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .ActionSheet)
 		// TODO: to be implemented  when server guys finish the implemetation of file attachment
@@ -383,8 +447,4 @@ extension ChatViewController {
 		
 		return message
 	}
-	
-
 }
-
-
