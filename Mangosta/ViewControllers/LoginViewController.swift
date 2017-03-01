@@ -43,9 +43,6 @@ class LoginViewController: UIViewController {
                                              userJID: authModel.jid,
                                              password: authModel.password)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        appDelegate.xmppController = self.xmppController
-        
         self.xmppController.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         
         // TODO: revert to UIActivityIndicatorView.

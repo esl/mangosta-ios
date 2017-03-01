@@ -11,6 +11,8 @@ import XMPPFramework
 
 class XMPPController: NSObject {
 
+    static let sharedInstance = XMPPController()
+    
 	var xmppStream: XMPPStream
 	var xmppReconnect: XMPPReconnect
 	var xmppRoster: XMPPRoster
@@ -37,20 +39,21 @@ class XMPPController: NSObject {
     
     let myMicroblogNode = "urn:xmpp:microblog:0"
 
-	let hostName: String
-	let userJID: XMPPJID
-	let hostPort: UInt16
-	let password: String
-	
+    var hostPort: UInt16 = 5222
+    var password: String = ""
+    
 	var activated = true
-
-	init(hostName: String, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
-		self.hostName = hostName
-		self.userJID = userJID
-		self.hostPort = hostPort
-		self.password = password
-
-		self.xmppStream = XMPPStream()
+    
+    convenience init(hostName: String, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
+        self.init()
+		self.xmppStream.hostName = hostName
+		self.xmppStream.myJID = userJID
+		self.xmppStream.hostPort = hostPort
+        self.password = password
+    }
+		
+        override init() {
+        self.xmppStream = XMPPStream()
 		self.xmppReconnect = XMPPReconnect()
 
 		// Roster
@@ -106,10 +109,7 @@ class XMPPController: NSObject {
 		
 
 		// Stream Settings
-		self.xmppStream.hostName = hostName
-		self.xmppStream.hostPort = hostPort
 		self.xmppStream.startTLSPolicy = XMPPStreamStartTLSPolicy.Allowed
-		self.xmppStream.myJID = userJID
 
 		super.init()
 		
@@ -118,15 +118,25 @@ class XMPPController: NSObject {
         self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 
-	func connect() {
+	func connect() -> Bool {
+        
 		if !self.xmppStream.isDisconnected() {
-			return
+			return true
 		}
-
-		try! self.xmppStream.connectWithTimeout(XMPPStreamTimeoutNone)
+		
+        do {
+           try self.xmppStream.connectWithTimeout(XMPPStreamTimeoutNone)
+        }
+        catch {
+            return false
+        }
+        return true
 	}
 
 	func disconnect() {
+      //  self.xmppStream.myJID = nil
+      //  self.xmppStream.hostName = nil
+        
 		self.goOffLine()
 		self.xmppStream.disconnect()
 	}
@@ -163,7 +173,6 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiveManagement.deactivate()
 		
 		self.disconnect()
-
 	}
 }
 
@@ -193,12 +202,17 @@ extension XMPPController: XMPPStreamDelegate {
 		let presence = XMPPPresence()
 		self.xmppStream.sendElement(presence)
         
+        self.setXEP0352(true)
+        
         self.createMyPubSubNode()
 	}
 	
 	func goOffLine() {
 		let presence = XMPPPresence(type: "unavailable")
 		self.xmppStream.sendElement(presence)
+        
+        self.setXEP0352(false)
+        
 	}
     
     func createMyPubSubNode() {

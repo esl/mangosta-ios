@@ -35,7 +35,7 @@ class MUCRoomViewController: UIViewController {
 
 		if self.xmppController == nil {
 
-			self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+			self.xmppController = XMPPController.sharedInstance
 
 			self.xmppMUC?.deactivate()
 

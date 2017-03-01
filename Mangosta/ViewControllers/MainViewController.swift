@@ -57,8 +57,7 @@ class MainViewController: UIViewController {
         if AuthenticationModel.load() == nil {
             presentLogInView()
         } else {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            self.xmppController = appDelegate.xmppController
+            self.xmppController = XMPPController.sharedInstance
         }
     }
     

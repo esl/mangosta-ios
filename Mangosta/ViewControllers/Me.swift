@@ -15,17 +15,17 @@ class Me: UITableViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
-		self.xmppController = appDelegate?.xmppController
+
+		self.xmppController = XMPPController.sharedInstance
 		// TODO: when implementing vCard XEP-0054 add the FN field here
-		self.accountJID.text = self.xmppController?.xmppStream.myJID.bare()
+		self.accountJID.text = self.xmppController?.xmppStream.myJID?.bare()
 	}
 	@IBAction func signOut(sender: AnyObject) {
 		self.xmppController?.disconnect()
         AuthenticationModel.remove()
-		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-		appDelegate.xmppController = nil
-		self.xmppController = nil
+
+		self.xmppController.disconnect()
+        
         self.presentLogInView()
 		#if MangostaREST
 			appDelegate.mongooseRESTController = nil
