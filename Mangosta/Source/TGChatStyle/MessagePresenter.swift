@@ -80,6 +80,7 @@ public class MessagePresenter<BubbleViewT, ViewModelBuilderT where
                 menuController.setMenuVisible(true, animated:true)
                 let menuEntries = [MessageCorrectionUIMenuItem.init(title: "Edit message", action: #selector(ChatViewController.correctLastSentMessageFromMenuController(_:)), messageID: cell.bubbleView.messageViewModel.message.msgId)]
                 menuController.menuItems = menuEntries
+                menuController.update()
             }
 
        // self.showAlertForRow(collectionView.indexPathForCell(cell)!.row)

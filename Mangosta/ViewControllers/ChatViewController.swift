@@ -14,7 +14,6 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	
-	weak var room: XMPPRoom?
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController!
@@ -85,7 +84,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 		
 		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
-		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
+		if let roomSubject = (userJID?.user ?? self.roomLight?.roomname()) {
 			self.title = "\(roomSubject)"
 		}
 
@@ -106,9 +105,6 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 			if let rLight = self.roomLight {
 				rLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 				rLight.getConfiguration()
-			}else {
-				self.room?.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-				self.subjectHeight.constant = 0	
 			}
 
 			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
@@ -150,16 +146,11 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
 		let groupContext: NSManagedObjectContext!
 		let entity: NSEntityDescription?
-		
-		if self.room != nil {
-			groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext
-			entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
-		} else {
-			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext
-			entity = NSEntityDescription.entityForName("XMPPRoomLightMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
-		}
+        
+        groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext
+        entity = NSEntityDescription.entityForName("XMPPRoomLightMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
 
-		let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
+		let roomJID = (self.roomLight?.roomJID.bare())!
 
 		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
 		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
@@ -203,8 +194,6 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 
 			if self.roomLight != nil {
 				self.roomLight!.addUsers([userJID])
-			} else {
-				self.room!.inviteUser(userJID, withMessage: self.room!.roomSubject)
 			}
 		}
 		self.presentViewController(alertController, animated: true, completion: nil)
@@ -214,8 +203,6 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 
 		if self.roomLight != nil {
 			self.roomLight!.fetchMembersList()
-		} else {
-			self.room!.queryRoomItems()
 		}
 	}
 
@@ -233,7 +220,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 	}
 
 	@IBAction func fetchHistory(sender: AnyObject) {
-		let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let jid = self.userJID ?? self.roomLight?.roomJID
 		let fields = [XMPPMessageArchiveManagement.fieldWithVar("with", type: nil, andValue: jid!.bare())]
 		let resultSet = XMPPResultSet(max: 5, after: self.lastID)
 		#if MangostaREST
@@ -244,13 +231,12 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 	}
 
 	deinit {
-		self.room?.removeDelegate(self)
 		self.roomLight?.removeDelegate(self)
 	}
 	
 	func sendMessageToServer(lastMessage: NoChatMessage?) {
 		
-		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let receiverJID = self.userJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
 		let msg = XMPPMessage(type: type, to: receiverJID, elementID: lastMessage?.msgId)
 		
@@ -266,14 +252,6 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 			self.xmppController.xmppStream.sendElement(msg)
 		}
 	}
-    
-    // TODO: Find out if the XEP is active on the server plus if the other side client also supports this.
-    internal func isLastMessageCorrectionEnabled() -> Bool {
-        return true
-    }
-    func sendMessageCorrection(message: XMPPMessage) {
-        
-    }
 }
 
 // MARK: ChatDataSourceDelegateProtocol
@@ -348,59 +326,6 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 	}
 }
 
-extension ChatViewController {
-    func correctLastSentMessageFromMenuController(sender: UIMenuController) {
-        let menuItem = sender.menuItems?.first as! MessageCorrectionUIMenuItem
-     
-        //TODO get the xmppMessage for that id, then uncoment the following line:
-        //self.correctMessage(self.xmppMessageWithID(menuItem.messageIDForCorrection))
-        self.correctMessage(self.lastMessage)
-    }
-    
-    func xmppMessageWithID(ID: String?) -> XMPPMessage? {
-        let message = XMPPMessage()
-        
-        guard ID != nil else {
-            print("Message correction error: ID is nil")
-            return nil
-        }
-        //TODO: find message in fetchresults
-        return message
-    }
-     func correctMessage(xmppMessage: XMPPMessage?) {
-        guard let originalMessage = xmppMessage else { return }
-        
-        let alertController = UIAlertController.textFieldAlertController("Edit message", message: "Enter the text that will replace this entry") { (messageCorrectionString) in
-            
-            if let messageCorrectionString = messageCorrectionString where messageCorrectionString.characters.count > 0 {
-                let correctedMessage = originalMessage.generateCorrectionMessageWithID(NSUUID().UUIDString, body: messageCorrectionString)
-                
-                self.MIMCommonInterface.sendMessage(correctedMessage)
-                
-                self.lastMessage = correctedMessage
-                 let message = self.createTextMessage(text: correctedMessage.body(), senderId: "outgoing", isIncoming: false)
-                (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-            }
-        }
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-
-    func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return action == #selector(self.correctLastSentMessageFromMenuController(_:))
-    }
-    
-    func indexPathForLastRow () -> NSIndexPath {
-        self.fetchedResultsController.sections?.count
-        let lastSectionNumber = self.fetchedResultsController.sections!.count - 1
-        let lastItemNumber = self.fetchedResultsController.sections!.last!.objects!.count - 1
-        
-        return NSIndexPath.init(forItem: lastItemNumber, inSection: lastSectionNumber)
-    }
-}
 extension ChatViewController {
 	
 	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {

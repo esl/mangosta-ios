@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
-		81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
 		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */; };
@@ -21,6 +20,8 @@
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		AC0339411E60881800B3AEB8 /* XMPPMessage+XEP_0308Fix.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0339401E60881800B3AEB8 /* XMPPMessage+XEP_0308Fix.m */; };
+		AC4A42A71E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4A42A61E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift */; };
+		AC4A42A81E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4A42A61E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC4FE9E51DD0E96D00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
 		AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
@@ -125,7 +126,6 @@
 		AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
 		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
-		AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
 		AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
 		AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
 		AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
@@ -242,7 +242,6 @@
 		811C5AB31CAC094D008346FE /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
 		8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
-		81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomViewController.swift; sourceTree = "<group>"; };
 		81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomCreateViewController.swift; sourceTree = "<group>"; };
 		814D4CA41C970E6900AB28FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		814D4CAA1C970F5500AB28FA /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -262,6 +261,7 @@
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		AC03393F1E60881800B3AEB8 /* XMPPMessage+XEP_0308Fix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0308Fix.h"; path = "Subclasses/XMPPMessage+XEP_0308Fix.h"; sourceTree = "<group>"; };
 		AC0339401E60881800B3AEB8 /* XMPPMessage+XEP_0308Fix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0308Fix.m"; path = "Subclasses/XMPPMessage+XEP_0308Fix.m"; sourceTree = "<group>"; };
+		AC4A42A61E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+LastMessageCorrection.swift"; sourceTree = "<group>"; };
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
 		AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Changes.swift"; sourceTree = "<group>"; };
@@ -437,6 +437,7 @@
 				811C5AB31CAC094D008346FE /* AuthenticationModel.swift */,
 				ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */,
 				AC8F8F581E607A0500B3AEB8 /* MessageCorrectionUIMenuItem.swift */,
+				AC4A42A61E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -454,7 +455,6 @@
 		81473D8E1CC1092D006FCEC9 /* MUC Rooms */ = {
 			isa = PBXGroup;
 			children = (
-				81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */,
 				C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */,
 				81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */,
 			);
@@ -1026,7 +1026,6 @@
 				AC4FEA251DD113EC00B3AEB8 /* ImageUtils.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
-				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				AC4FE9EB1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */,
@@ -1042,6 +1041,7 @@
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				ACED08311E28242000B3AEB8 /* Settings.swift in Sources */,
+				AC4A42A71E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift in Sources */,
 				AC4FEA2B1DD113EC00B3AEB8 /* MessagePresenter.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				AC4FEA191DD113EC00B3AEB8 /* ChatInputViewController.swift in Sources */,
@@ -1127,7 +1127,6 @@
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
-				AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */,
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
@@ -1175,6 +1174,7 @@
 				ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
 				AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
+				AC4A42A81E60BD3C00B3AEB8 /* ChatViewController+LastMessageCorrection.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
 				AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */,
 				AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
