@@ -72,7 +72,7 @@ public class MessagePresenter<BubbleViewT, ViewModelBuilderT where
         }
         cell.selected = true
         cell.onBubbleLongPressBegan = { (cell) in
-            if cell.bubbleView.messageViewModel.isIncoming == false {
+            if cell.bubbleView.messageViewModel.isIncoming == false && cell.isLastRow {
                 cell.becomeFirstResponder()
     
                 let menuController = UIMenuController.sharedMenuController()

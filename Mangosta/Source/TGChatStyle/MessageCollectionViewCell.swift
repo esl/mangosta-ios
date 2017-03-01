@@ -41,7 +41,7 @@ public class MessageCollectionViewCell<BubbleViewT where
         cell.viewContext = .Sizing
         return cell
     }
-    
+   
     public var showAvatar: Bool = true
     
     var animationDuration: CFTimeInterval = 0.33
@@ -117,6 +117,15 @@ public class MessageCollectionViewCell<BubbleViewT where
         }
     }
     
+    public var isLastRow: Bool {
+        didSet {
+            if oldValue != self.isLastRow {
+                self.updateViews()
+            }
+            bubbleView.isLastRow = isLastRow
+        }
+    }
+    
     var layoutCache: NSCache!
     
     var layoutConstants = MessageCelloctionViewCellLayoutConstants() {
@@ -189,25 +198,19 @@ public class MessageCollectionViewCell<BubbleViewT where
         else if action == #selector(select(_:)) || action == #selector(selectAll(_:)) {
             return false
         }
-//        else if action == #selector(self.menuLastMessageCorrectionSelected(_:)) {
-//            return true
-//        }
+        
         return super.canPerformAction(action, withSender: sender)
     }
     
-    func menuLastMessageCorrectionSelected (sender: UIMenuItem) {
-        print("lalalalala")
-    }
-   
-
-    
     // MARK: Initialization
     override init(frame: CGRect) {
+        self.isLastRow = false
         super.init(frame: frame)
         commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
+        self.isLastRow = false
         super.init(coder: aDecoder)
         commonInit()
     }

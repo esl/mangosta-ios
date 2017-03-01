@@ -167,6 +167,14 @@ public class TextBubbleView: UIView, BubbleViewProtocol, UITextViewDelegate {
         }
     }
     
+    public var isLastRow: Bool = false {
+        didSet {
+            if oldValue != self.isLastRow {
+                updateViews()
+            }
+        }
+    }
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
@@ -183,17 +191,17 @@ public class TextBubbleView: UIView, BubbleViewProtocol, UITextViewDelegate {
         self.addSubview(timeLabel)
         self.addSubview(deliveringView)
         self.addSubview(deliveredView)
-       // if self.messageViewModel.isIncoming == false {
-            self.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(selectMe)))
-       // }
+//       // if self.messageViewModel.isIncoming == false {
+//            self.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(selectMe)))
+//       // }
         
         textView.delegate = self
     }
-    func selectMe () {
-        let editMenuItem = UIMenuItem(title: "Edit message", action: #selector(editMessage))
-        
-        UIMenuController.sharedMenuController().menuItems = [editMenuItem]
-    }
+//    func selectMe () {
+//        let editMenuItem = UIMenuItem(title: "Edit message", action: #selector(editMessage))
+//        
+//        UIMenuController.sharedMenuController().menuItems = [editMenuItem]
+//    }
     
     
     func editMessage () {

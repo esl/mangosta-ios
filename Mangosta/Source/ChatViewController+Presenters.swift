@@ -33,6 +33,10 @@ extension NoChatViewController: UICollectionViewDataSource, UICollectionViewDele
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let presenter = self.presenterForIndexPath(indexPath)
         let cell = presenter.dequeueCell(collectionView: collectionView, indexPath: indexPath)
+        if let c = cell as? MessageCollectionViewCell<TextBubbleView> {
+            c.isLastRow = indexPath.item == 0 //collectionView.numberOfItemsInSection(collectionView.numberOfSections()-1) - 1 == indexPath.item
+            return c
+        }
         return cell
     }
 
