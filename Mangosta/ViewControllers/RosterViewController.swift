@@ -230,27 +230,3 @@ extension RosterViewController: NSFetchedResultsControllerDelegate {
 	}
 }
 
-extension RosterViewController: XMPPMUCLightDelegate {
-	
-	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
-		guard self.xmppController != nil else { return }
-		let storage = self.xmppController.xmppRoomLightCoreDataStorage
-		
-		self.xmppController.roomsLight.forEach { (room) in
-			room.deactivate()
-			room.removeDelegate(self)
-		}
-		
-		self.xmppController.roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
-			let rawJid = rawElement.attributeStringValueForName("jid")
-			let rawName = rawElement.attributeStringValueForName("name")
-			let jid = XMPPJID.jidWithString(rawJid)
-			
-			let r = XMPPCustomRoomLight(roomLightStorage: storage, jid: jid, roomname: rawName, dispatchQueue: dispatch_get_main_queue())
-			r.activate(self.xmppController.xmppStream)
-			
-			return r
-		}
-		self.tableView.reloadData()
-	}
-}

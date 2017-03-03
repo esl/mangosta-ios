@@ -140,11 +140,6 @@ class MainViewController: UIViewController {
 	
 	internal func setupDataSources() {
 		
-        
-        guard self.xmppController != nil else {
-            self.presentLogInView()
-            return
-        }
 		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
 		
 		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
@@ -342,7 +337,7 @@ extension MainViewController: LoginControllerDelegate {
 extension MainViewController: XMPPMUCLightDelegate {
 	
 	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
-		guard self.xmppController != nil else { return }
+
 		let storage = self.xmppController.xmppRoomLightCoreDataStorage
 		
 		self.xmppController.roomsLight.forEach { (room) in
