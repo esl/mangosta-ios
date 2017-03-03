@@ -32,7 +32,7 @@ class BlockingMembersViewController: UIViewController {
 		
 		if self.xmppController == nil {
 
-			self.xmp pController = XMPPController.sharedInstance
+			self.xmppController = XMPPController.sharedInstance
 
 			self.xmppBlocking?.deactivate()
 

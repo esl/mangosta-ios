@@ -21,10 +21,10 @@ class Me: UITableViewController {
 		self.accountJID.text = self.xmppController?.xmppStream.myJID?.bare()
 	}
 	@IBAction func signOut(sender: AnyObject) {
-		self.xmppController?.disconnect()
-        AuthenticationModel.remove()
+		
+        self.xmppController.disconnect()
 
-		self.xmppController.disconnect()
+        AuthenticationModel.remove()
         
         self.presentLogInView()
 		#if MangostaREST

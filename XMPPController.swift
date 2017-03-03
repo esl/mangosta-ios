@@ -44,22 +44,17 @@ class XMPPController: NSObject {
     
 	var activated = true
     
-    convenience init(hostName: String, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
-        self.init()
-		self.xmppStream.hostName = hostName
-		self.xmppStream.myJID = userJID
-		self.xmppStream.hostPort = hostPort
-        self.password = password
-    }
+    var isXmppConnected = false
 		
-        override init() {
+    override init() {
         self.xmppStream = XMPPStream()
 		self.xmppReconnect = XMPPReconnect()
 
 		// Roster
 		self.xmppRosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
 		self.xmppRoster = XMPPRoster(rosterStorage: self.xmppRosterStorage)
-		self.xmppRoster.autoFetchRoster = true;
+		self.xmppRoster.autoFetchRoster = true
+        self.xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = true
 		
 		// Capabilities
 		self.xmppCapabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
@@ -113,17 +108,37 @@ class XMPPController: NSObject {
 
 		super.init()
 		
+        // Add delegates
 		self.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 
+    func setStreamCredentials(hostName: String?, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
+        if let host = hostName where hostName?.characters.count > 0 {
+            self.xmppStream.hostName = host
+        }
+        self.xmppStream.myJID = userJID
+        self.xmppStream.hostPort = hostPort
+        self.password = password
+    }
+    
 	func connect() -> Bool {
         
 		if !self.xmppStream.isDisconnected() {
 			return true
 		}
 		
+        guard let authModel =  AuthenticationModel.load() else {
+            return false
+        }
+        
+        self.xmppStream.myJID = authModel.jid
+        self.password = authModel.password
+        if let host = authModel.serverName where authModel.serverName?.characters.count > 0 {
+            self.xmppStream.hostName = host
+        }
+        
         do {
            try self.xmppStream.connectWithTimeout(XMPPStreamTimeoutNone)
         }
@@ -134,9 +149,7 @@ class XMPPController: NSObject {
 	}
 
 	func disconnect() {
-      //  self.xmppStream.myJID = nil
-      //  self.xmppStream.hostName = nil
-        
+    
 		self.goOffLine()
 		self.xmppStream.disconnect()
 	}
@@ -153,17 +166,25 @@ class XMPPController: NSObject {
 		print("XEP-0352 set to " + (active ? "active":"inactive") + ".")
 	}
 
-	deinit {
+    deinit {
+        self.tearDownStream()
+    }
+    
+	func tearDownStream() {
+        self.xmppStream.removeDelegate(self)
+        self.xmppRoster.removeDelegate(self)
+        self.xmppPubSub.removeDelegate(self)
+        
 		self.roomsLight.forEach { (roomLight) in
 			roomLight.deactivate()
 		}
 		self.roomsLight = [XMPPRoomLight]()
 		
-		self.xmppStream.removeDelegate(self)
+        
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
-		
 		self.xmppCapabilities.deactivate()
+        
         self.xmppPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
@@ -171,15 +192,17 @@ class XMPPController: NSObject {
 		self.xmppMUCStorer.deactivate()
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
-		
-		self.disconnect()
+        
+        self.disconnect()
 	}
 }
 
 extension XMPPController: XMPPStreamDelegate {
 
 	func xmppStreamDidConnect(stream: XMPPStream!) {
-		let user = stream.myJID.bare()
+        self.isXmppConnected = true
+		
+        let user = stream.myJID.bare()
 		print("Stream: Connected as user: \(user).")
 		try! stream.authenticateWithPassword(self.password)
 	}
@@ -196,6 +219,10 @@ extension XMPPController: XMPPStreamDelegate {
 	
 	func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
 		print("Stream: Disconnected")
+        if !self.isXmppConnected {
+            print("Unable to connect to server. Check xmppStream.hostName")
+        }
+        self.isXmppConnected = false
 	}
 	
 	func goOnline() {

@@ -31,17 +31,14 @@ class LoginViewController: UIViewController {
 		}
         
 
-        self.configureAndStartXMPP()
+        self.configureAndStartStream()
 
 	}
     
-    func configureAndStartXMPP() {
+    func configureAndStartStream() {
         
-        let authModel = AuthenticationModel.load()!
         
-        self.xmppController = XMPPController(hostName: authModel.serverName!,
-                                             userJID: authModel.jid,
-                                             password: authModel.password)
+        self.xmppController = XMPPController.sharedInstance
         
         self.xmppController.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         
@@ -78,6 +75,7 @@ extension LoginViewController: XMPPStreamDelegate {
         MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
     func xmppStreamDidAuthenticate(sender: XMPPStream!) {
+        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.rootViewController = nil
         

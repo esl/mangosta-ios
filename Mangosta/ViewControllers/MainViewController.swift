@@ -58,6 +58,7 @@ class MainViewController: UIViewController {
             presentLogInView()
         } else {
             self.xmppController = XMPPController.sharedInstance
+            self.xmppController.connect()
         }
     }
     
