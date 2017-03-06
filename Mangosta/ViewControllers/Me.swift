@@ -23,7 +23,7 @@ class Me: UITableViewController {
 	@IBAction func signOut(sender: AnyObject) {
 		
         self.xmppController.disconnect()
-
+        
         AuthenticationModel.remove()
         
         self.presentLogInView()

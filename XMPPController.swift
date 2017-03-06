@@ -110,6 +110,7 @@ class XMPPController: NSObject {
 		
         // Add delegates
 		self.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
@@ -132,12 +133,8 @@ class XMPPController: NSObject {
         guard let authModel =  AuthenticationModel.load() else {
             return false
         }
-        
-        self.xmppStream.myJID = authModel.jid
-        self.password = authModel.password
-        if let host = authModel.serverName where authModel.serverName?.characters.count > 0 {
-            self.xmppStream.hostName = host
-        }
+
+        self.setStreamCredentials(authModel.serverName, userJID: authModel.jid, password: authModel.password)
         
         do {
            try self.xmppStream.connectWithTimeout(XMPPStreamTimeoutNone)
@@ -151,7 +148,7 @@ class XMPPController: NSObject {
 	func disconnect() {
     
 		self.goOffLine()
-		self.xmppStream.disconnect()
+		self.xmppStream.disconnectAfterSending()
 	}
 	
 	func setXEP0352(active: Bool) {
@@ -178,8 +175,6 @@ class XMPPController: NSObject {
 		self.roomsLight.forEach { (roomLight) in
 			roomLight.deactivate()
 		}
-		self.roomsLight = [XMPPRoomLight]()
-		
         
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
@@ -194,6 +189,10 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiveManagement.deactivate()
         
         self.disconnect()
+        
+        self.xmppStream.myJID = nil
+        self.xmppStream.hostName = nil
+        self.password = ""
 	}
 }
 
@@ -211,6 +210,7 @@ extension XMPPController: XMPPStreamDelegate {
 		self.xmppStreamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1000)
 		print("Stream: Authenticated")
 		self.goOnline()
+        
 	}
 	
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
@@ -224,6 +224,10 @@ extension XMPPController: XMPPStreamDelegate {
         }
         self.isXmppConnected = false
 	}
+    
+    func xmppStreamDidChangeMyJID(xmppStream: XMPPStream!) {
+        print("Stream: new JID: \(xmppStream.myJID.bare())")
+    }
 	
 	func goOnline() {
 		let presence = XMPPPresence()

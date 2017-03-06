@@ -24,24 +24,26 @@ class RosterViewController: UIViewController {
 	
 	
 	var localDataSource = NSMutableArray()
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-	let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addRoster(_:)))
-	self.navigationItem.rightBarButtonItems = [addButton]
-		
-
-	}
-	
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.xmppController = XMPPController.sharedInstance
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addRoster(_:)))
+        self.navigationItem.rightBarButtonItems = [addButton]
+        
+        self.setupDataSources()
+        
+        self.xmppController.xmppRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        
+        
+    }
+    
 	override func viewWillAppear(animated: Bool) {
-		
+        try! self.fetchedResultsController?.performFetch()
 		super.viewWillAppear(animated)
-		if self.xmppController == nil {
-			
-			self.xmppController = XMPPController.sharedInstance
-			self.setupDataSources()
-		}
+
 	}
 	
 	func addRoster(sender: UIBarButtonItem) {
@@ -82,9 +84,6 @@ class RosterViewController: UIViewController {
 		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
 		self.fetchedResultsController?.delegate = self
 		
-		try! self.fetchedResultsController?.performFetch()
-		
-		self.tableView.reloadData()
 	}
 }
 
@@ -228,5 +227,11 @@ extension RosterViewController: NSFetchedResultsControllerDelegate {
 	func controllerDidChangeContent(controller: NSFetchedResultsController) {
 		self.tableView.reloadData()
 	}
+}
+
+extension RosterViewController: XMPPRosterDelegate {
+    func xmppRoster(sender: XMPPRoster!, didReceiveRosterPush iq: XMPPIQ!) {
+        print("asdfasfsdf")
+    }
 }
 

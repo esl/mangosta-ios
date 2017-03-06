@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationDidBecomeActive(application: UIApplication) {
-		
+		XMPPController.sharedInstance.connect()
 	}
 
 	func applicationWillTerminate(application: UIApplication) {

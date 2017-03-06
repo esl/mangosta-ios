@@ -32,10 +32,16 @@ class MainViewController: UIViewController {
 	
 	let MUCLightServiceName = "muclight.erlang-solutions.com" // TODO: use a .plist entry for all constants in this app.
 	
+    let normalTitleText = "Chat"
+    let connectingText = "Connecting..."
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        
+        self.xmppController = XMPPController.sharedInstance
+        
 		let darkGreenColor = "009ab5"
-		let lightGreenColor = "58cfe4"	
+		let lightGreenColor = "58cfe4"
 	
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		addButton.tintColor = UIColor(hexString:darkGreenColor)
@@ -52,38 +58,26 @@ class MainViewController: UIViewController {
         self.tabBarItem.image = UIImage(named: "Chat") // FIXME: no image is appearing
         self.tabBarItem.selectedImage = UIImage(named: "Chat Filled") // FIXME: no image is appearing
         
-        self.title = "Chat"
+        self.title = self.normalTitleText
         
         if AuthenticationModel.load() == nil {
             presentLogInView()
         } else {
-            self.xmppController = XMPPController.sharedInstance
-            self.xmppController.connect()
+                self.setupDataSources()
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.setupDataSources()
+    override func viewDidAppear(animated: Bool) {
+        try! self.fetchedResultsController?.performFetch()
         self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
     }
 	
 	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
 		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-		loginController.loginDelegate = self
+
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
-	}
-
-	func configureAndStartXMPP() {
-
-		self.setupDataSources()
-		
-        // Please not that in the near future xmppController will be refactored. At that point, mongooseRESTController, will need similar changes.
-		#if MangostaREST
-			self.mongooseRESTController = MongooseAPI()
-			appDelegate.mongooseRESTController = self.mongooseRESTController
-		#endif
 	}
 	
 	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
@@ -152,13 +146,11 @@ class MainViewController: UIViewController {
 		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
 		self.fetchedResultsController?.delegate = self
 		
-		try! self.fetchedResultsController?.performFetch()
-		
 		self.xmppMUCLight = XMPPMUCLight()
 		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppMUCLight.activate(self.xmppController.xmppStream)
 		
-		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
+		
 		
 		
 		self.tableView.reloadData()
@@ -328,12 +320,6 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 	}
 }
 
-extension MainViewController: LoginControllerDelegate {
-	func didPressLogInButton() {
-		self.configureAndStartXMPP() // and MongooseREST API
-	}
-}
-
 extension MainViewController: XMPPMUCLightDelegate {
 	
 	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
@@ -387,5 +373,15 @@ extension MainViewController: XMPPRoomLightDelegate {
 		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
 		self.tableView.reloadData()
 	}
+}
+
+extension MainViewController: XMPPStreamDelegate {
+    func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
+        self.title = self.connectingText
+    }
+    
+    func xmppStreamDidAuthenticate(sender: XMPPStream!) {
+        self.title = self.normalTitleText
+    }
 }
 

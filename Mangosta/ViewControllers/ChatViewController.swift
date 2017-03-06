@@ -302,7 +302,7 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	                                atIndexPath indexPath: NSIndexPath?,
 	                                            forChangeType type: NSFetchedResultsChangeType,
 	                                                          newIndexPath: NSIndexPath?) {
-		// FIXME use the self.tableView.reloadData()
+
 		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
 			if mamMessage.body != nil && !mamMessage.isOutgoing {
 				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)

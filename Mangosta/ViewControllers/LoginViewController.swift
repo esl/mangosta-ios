@@ -16,13 +16,12 @@ class LoginViewController: UIViewController {
 	@IBOutlet private var serverNameField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     
-	var loginDelegate: LoginControllerDelegate?
     weak var xmppController: XMPPController!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
 	@IBAction func logIn(sender: AnyObject?) {
-		if let serverText = self.serverNameField.text {
+		if let serverText = self.serverNameField.text where self.serverNameField.text?.characters.count > 0 {
 			let auth = AuthenticationModel(jidString: self.jidField.text!, serverName: serverText, password: self.passwordField.text!)
 			auth.save()
 		} else {
@@ -65,10 +64,6 @@ class LoginViewController: UIViewController {
     }
 }
 
-protocol LoginControllerDelegate {
-	func didPressLogInButton()
-}
-
 extension LoginViewController: XMPPStreamDelegate {
     func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
         self.showError(error.children?.first?.name)
@@ -87,7 +82,7 @@ extension LoginViewController: XMPPStreamDelegate {
         
     }
     func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
-        self.showError(error.localizedDescription)
+        self.showError(error?.localizedDescription)
         MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
 }

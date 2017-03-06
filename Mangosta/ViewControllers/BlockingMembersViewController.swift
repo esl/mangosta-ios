@@ -29,8 +29,6 @@ class BlockingMembersViewController: UIViewController {
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		if self.xmppController == nil {
 
 			self.xmppController = XMPPController.sharedInstance
 
@@ -40,7 +38,6 @@ class BlockingMembersViewController: UIViewController {
 			self.xmppBlocking!.autoRetrieveBlockingListItems = true
 			self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 			self.xmppBlocking!.activate(xmppController.xmppStream)
-		}
 
 		self.showHUDwithMessage("Getting blocked list...")
 		self.xmppBlocking?.retrieveBlockingListItems()

@@ -23,11 +23,13 @@ class SocialMediaViewController: UIViewController {
 	
         let darkGreenColor = "009ab5"
         let lightGreenColor = "58cfe4"
-                
+        
        	let addBlogEntryButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addBlogButtonPressed(_:)))
         addBlogEntryButton.tintColor = UIColor(hexString:darkGreenColor)
         self.navigationItem.rightBarButtonItems = [addBlogEntryButton]
         
+        self.xmppController = XMPPController.sharedInstance
+        self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         
         MangostaSettings().setNavigationBarColor()
         
@@ -56,15 +58,6 @@ class SocialMediaViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if self.xmppController == nil {
-            
-            self.xmppController = XMPPController.sharedInstance
-            
-            self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-            
-        }
-        
         self.autoRefreshList()
     }
 
