@@ -281,3 +281,14 @@ extension XMPPController: XMPPPubSubDelegate {
         print("PubSub: Did not create node")
     }
 }
+
+extension XMPPController {
+    func managedObjectContext_roster() -> NSManagedObjectContext {
+        return self.xmppRosterStorage.mainThreadManagedObjectContext
+    }
+    
+    func managedObjectContext_Capabilities() -> NSManagedObjectContext {
+        return self.xmppCapabilitiesStorage.mainThreadManagedObjectContext
+    }
+    
+}

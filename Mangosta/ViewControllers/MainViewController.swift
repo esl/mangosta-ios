@@ -134,7 +134,7 @@ class MainViewController: UIViewController {
 	
 	internal func setupDataSources() {
 		
-		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+		let rosterContext = self.xmppController.managedObjectContext_roster()
 		
 		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
 		let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
@@ -287,10 +287,10 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
 			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
 				
-				let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+				let rosterContext = self.xmppController.managedObjectContext_roster()
 				
 				if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
-					rosterContext?.deleteObject(user as NSManagedObject)
+					rosterContext.deleteObject(user as NSManagedObject)
 				}
 				
 				do {
