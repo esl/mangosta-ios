@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class RosterViewController: UIViewController {
+class RosterViewController: UIViewController, titleViewModifiable {
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
 	
@@ -24,6 +24,12 @@ class RosterViewController: UIViewController {
 	
 	
 	var localDataSource = NSMutableArray()
+    
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Chat"
+    func resetTitleViewTextToOriginal() {
+        self.navigationController?.navigationItem.title = originalTitleViewText
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,7 +140,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 
             } else { // no presence information
-                if user.subscription == "none" && user.ask != nil {
+                if (user.subscription != nil || user.subscription == "none") && user.ask != nil {
                     if user.ask == "subscribe" {
                         cell.imageView?.image = UIImage(named: "questionMark")
                     }

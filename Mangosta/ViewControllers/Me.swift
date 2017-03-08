@@ -8,11 +8,17 @@
 
 import Foundation
 
-class Me: UITableViewController {
+class Me: UITableViewController, titleViewModifiable {
 	weak var xmppController: XMPPController!
 	
 	@IBOutlet weak var accountJID: UILabel!
 	
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Chat"
+    func resetTitleViewTextToOriginal() {
+        self.navigationController?.navigationItem.title = originalTitleViewText
+    }
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 

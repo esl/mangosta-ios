@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
+class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, titleViewModifiable {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	
@@ -71,6 +71,12 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 
 		return inputController
 	}
+    
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Chat"
+    func resetTitleViewTextToOriginal() {
+        self.navigationController?.navigationItem.title = originalTitleViewText
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()

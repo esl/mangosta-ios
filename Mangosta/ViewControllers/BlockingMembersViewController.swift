@@ -10,13 +10,19 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class BlockingMembersViewController: UIViewController {
+class BlockingMembersViewController: UIViewController, titleViewModifiable {
 
 	@IBOutlet weak var tableView: UITableView!
 	var xmppBlocking: XMPPBlocking?
 	var blockingList = [String]()
 	weak var xmppController: XMPPController!
 
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Chat"
+    func resetTitleViewTextToOriginal() {
+        self.navigationController?.navigationItem.title = originalTitleViewText
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

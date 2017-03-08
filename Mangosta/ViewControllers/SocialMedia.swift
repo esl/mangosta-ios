@@ -11,13 +11,19 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class SocialMediaViewController: UIViewController {
+class SocialMediaViewController: UIViewController, titleViewModifiable {
     @IBOutlet internal var tableView: UITableView!
     
     weak var xmppController: XMPPController!
     
     var blogItems = [DDXMLElement]()
     var refreshControl: UIRefreshControl!
+    
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Chat"
+    func resetTitleViewTextToOriginal() {
+        self.navigationController?.navigationItem.title = originalTitleViewText
+    }
     
 	override func viewDidLoad() {
 	
@@ -197,6 +203,7 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
     func xmppPubSub(sender: XMPPPubSub!, didPublishToNode node: String!, withResult iq: XMPPIQ!) {
         print("PubSub: Did publish to node \(node).")
         MBProgressHUD.hideHUDForView(self.view, animated: true)
+        self.autoRefreshList()
     }
     func xmppPubSub(sender: XMPPPubSub!, didNotPublishToNode node: String!, withError iq: XMPPIQ!) {
         print("PubSub: Did not publish to node \(node) due error: \(iq.childErrorElement())")
@@ -222,6 +229,7 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
         
         self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
 }
 

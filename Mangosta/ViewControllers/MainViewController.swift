@@ -10,7 +10,8 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, titleViewModifiable {
+   
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
 	var activated = true
@@ -32,8 +33,11 @@ class MainViewController: UIViewController {
 	
 	let MUCLightServiceName = "muclight.erlang-solutions.com" // TODO: use a .plist entry for all constants in this app.
 	
-    let normalTitleText = "Chat"
-    let connectingText = "Connecting..."
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Chat"
+    func resetTitleViewTextToOriginal() {
+        self.navigationController?.navigationItem.title = originalTitleViewText
+    }
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -150,7 +154,7 @@ class MainViewController: UIViewController {
 		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppMUCLight.activate(self.xmppController.xmppStream)
 		
-		
+
 		
 		
 		self.tableView.reloadData()

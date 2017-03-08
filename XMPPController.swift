@@ -112,6 +112,7 @@ class XMPPController: NSObject {
 		self.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppReconnect.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 
@@ -275,10 +276,15 @@ extension XMPPController: XMPPRosterDelegate {
 
 extension XMPPController: XMPPPubSubDelegate {
     func xmppPubSub(sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
+        self.configureNode(node)
         print("PubSub: Did create node")
     }
     func xmppPubSub(sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
-        print("PubSub: Did not create node")
+        self.configureNode(node)
+        print("PubSub: Did not create node: \(iq.stringValue)")
+    }
+    func configureNode(node: String) {
+        self.xmppPubSub.configureNode(node, withOptions: ["access_model":"presence"])
     }
 }
 
