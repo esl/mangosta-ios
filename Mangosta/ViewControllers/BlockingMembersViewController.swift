@@ -40,13 +40,7 @@ class BlockingMembersViewController: UIViewController, titleViewModifiable {
         
         super.viewWillAppear(animated)
         
-        if self.xmppController.xmppStream.isAuthenticated() {
             self.resetTitleViewTextToOriginal()
-            
-            
-            
-            self.xmppController = XMPPController.sharedInstance
-            
             self.xmppBlocking?.deactivate()
             
             self.xmppBlocking = XMPPBlocking()
@@ -54,6 +48,7 @@ class BlockingMembersViewController: UIViewController, titleViewModifiable {
             self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
             self.xmppBlocking!.activate(xmppController.xmppStream)
             
+        if self.xmppController.xmppStream.isAuthenticated() {
             self.showHUDwithMessage("Getting blocked list...")
             self.xmppBlocking?.retrieveBlockingListItems()
         }

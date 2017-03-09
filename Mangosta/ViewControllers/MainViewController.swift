@@ -34,7 +34,7 @@ class MainViewController: UIViewController, titleViewModifiable {
 	let MUCLightServiceName = "muclight.erlang-solutions.com" // TODO: use a .plist entry for all constants in this app.
 	
     // MARK: titleViewModifiable protocol
-    var originalTitleViewText: String? = "Chat"
+    var originalTitleViewText: String? = "Chats"
     func resetTitleViewTextToOriginal() {
         self.navigationItem.titleView = nil
         self.navigationItem.title = originalTitleViewText
@@ -76,6 +76,12 @@ class MainViewController: UIViewController, titleViewModifiable {
         if self.xmppController.xmppStream.isAuthenticated() {
             self.resetTitleViewTextToOriginal()
             
+        }
+        else {
+            let titleLabel = UILabel()
+            titleLabel.text = "Connecting"
+            self.navigationItem.titleView = titleLabel
+            titleLabel.sizeToFit()
         }
         super.viewWillAppear(animated)
     }

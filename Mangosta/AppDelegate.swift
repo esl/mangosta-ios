@@ -25,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		print("App Path: \(dirPaths)")
 
         DDLog.addLogger(DDTTYLogger.sharedInstance(), withLevel:  DDLogLevel.Verbose)
-    
+        XMPPController.sharedInstance.xmppReconnect.manualStart()
+        
 		return true
 	}
 

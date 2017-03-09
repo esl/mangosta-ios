@@ -218,10 +218,15 @@ extension XMPPController: XMPPStreamDelegate {
 		print("Stream: Fail to Authenticate")
 	}
 	
+    func xmppStreamWasToldToDisconnect(sender: XMPPStream!) {
+        print("Stream was told to disconnect.")
+    }
+    
 	func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
 		print("Stream: Disconnected")
         if !self.isXmppConnected {
             print("Unable to connect to server. Check xmppStream.hostName")
+          //  self.xmppReconnect.manualStart()
         }
         self.isXmppConnected = false
 	}
