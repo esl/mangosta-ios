@@ -26,9 +26,10 @@ class RosterViewController: UIViewController, titleViewModifiable {
 	var localDataSource = NSMutableArray()
     
     // MARK: titleViewModifiable protocol
-    var originalTitleViewText: String? = "Chat"
+    var originalTitleViewText: String? = ""
     func resetTitleViewTextToOriginal() {
-        self.navigationController?.navigationItem.title = originalTitleViewText
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
     }
     
     override func viewDidLoad() {
@@ -46,11 +47,17 @@ class RosterViewController: UIViewController, titleViewModifiable {
         
     }
     
-	override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.resetTitleViewTextToOriginal()
+            
+        }
+    }
+    override func viewDidAppear(animated: Bool) {
         try! self.fetchedResultsController?.performFetch()
-		super.viewWillAppear(animated)
-
-	}
+        super.viewDidAppear(animated)
+        
+    }
 	
 	func addRoster(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in

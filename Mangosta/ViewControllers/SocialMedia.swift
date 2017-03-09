@@ -20,9 +20,10 @@ class SocialMediaViewController: UIViewController, titleViewModifiable {
     var refreshControl: UIRefreshControl!
     
     // MARK: titleViewModifiable protocol
-    var originalTitleViewText: String? = "Chat"
+    var originalTitleViewText: String? = "Social"
     func resetTitleViewTextToOriginal() {
-        self.navigationController?.navigationItem.title = originalTitleViewText
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
     }
     
 	override func viewDidLoad() {
@@ -48,7 +49,7 @@ class SocialMediaViewController: UIViewController, titleViewModifiable {
         self.tabBarItem.image = UIImage(named: "Social") // FIXME: no image is appearing
         self.tabBarItem.selectedImage = UIImage(named: "Social Filled") // FIXME: no image is appearing
         
-        self.title = "Social"
+        self.title = self.originalTitleViewText
         
         if self.refreshControl == nil {
             self.refreshControl = UIRefreshControl()
@@ -64,7 +65,11 @@ class SocialMediaViewController: UIViewController, titleViewModifiable {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.autoRefreshList()
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.autoRefreshList()
+            self.resetTitleViewTextToOriginal()
+            
+        }
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
@@ -110,6 +115,8 @@ class SocialMediaViewController: UIViewController, titleViewModifiable {
     
     func autoRefreshList() {
         
+        guard self.xmppController.xmppStream.isAuthenticated() else { return }
+        
         self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
         
         self.showHUDwithMessage("Getting MicroBlog list...")
@@ -117,6 +124,8 @@ class SocialMediaViewController: UIViewController, titleViewModifiable {
     }
     
     func refreshListWithPull() {
+        guard self.xmppController.xmppStream.isAuthenticated() else { return }
+        
         if self.refreshControl != nil {
             
             let formatter = NSDateFormatter()

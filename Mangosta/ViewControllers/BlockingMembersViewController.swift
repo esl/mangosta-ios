@@ -18,36 +18,46 @@ class BlockingMembersViewController: UIViewController, titleViewModifiable {
 	weak var xmppController: XMPPController!
 
     // MARK: titleViewModifiable protocol
-    var originalTitleViewText: String? = "Chat"
+    var originalTitleViewText: String? = ""
     func resetTitleViewTextToOriginal() {
-        self.navigationController?.navigationItem.title = originalTitleViewText
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.xmppController = XMPPController.sharedInstance
+        
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.allowsMultipleSelectionDuringEditing = false
 
-		self.title = "Select"
+		self.title = self.originalTitleViewText
     }
 	
-	override func viewWillAppear(animated: Bool) {
-		super.viewWillAppear(animated)
-
-			self.xmppController = XMPPController.sharedInstance
-
-			self.xmppBlocking?.deactivate()
-
-			self.xmppBlocking = XMPPBlocking()
-			self.xmppBlocking!.autoRetrieveBlockingListItems = true
-			self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-			self.xmppBlocking!.activate(xmppController.xmppStream)
-
-		self.showHUDwithMessage("Getting blocked list...")
-		self.xmppBlocking?.retrieveBlockingListItems()
-	}
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.resetTitleViewTextToOriginal()
+            
+            
+            
+            self.xmppController = XMPPController.sharedInstance
+            
+            self.xmppBlocking?.deactivate()
+            
+            self.xmppBlocking = XMPPBlocking()
+            self.xmppBlocking!.autoRetrieveBlockingListItems = true
+            self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+            self.xmppBlocking!.activate(xmppController.xmppStream)
+            
+            self.showHUDwithMessage("Getting blocked list...")
+            self.xmppBlocking?.retrieveBlockingListItems()
+        }
+    }
 
 	@IBAction func blockMember(sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Block Member", message: "Enter JID") { (jidString) in

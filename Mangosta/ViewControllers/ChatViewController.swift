@@ -73,9 +73,10 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, tit
 	}
     
     // MARK: titleViewModifiable protocol
-    var originalTitleViewText: String? = "Chat"
+    var originalTitleViewText: String?
     func resetTitleViewTextToOriginal() {
-        self.navigationController?.navigationItem.title = originalTitleViewText
+            self.navigationItem.titleView = nil
+            self.navigationItem.title = originalTitleViewText
     }
 	
 	override func viewDidLoad() {
@@ -91,7 +92,8 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, tit
 		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
 		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
-			self.title = "\(roomSubject)"
+            self.title = "\(roomSubject)"
+			self.originalTitleViewText = self.title
 		}
 
 		// Set up TittleBar
@@ -100,9 +102,9 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, tit
 		tapGesture.delegate = self
 		self.titleView.tapGestureRecognizer = tapGesture
 		let button = UIButton.init(type: .Custom)
-		button.bounds = self.titleView.frame
 		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
 		self.titleView.addSubview(button)
+        button.sizeToFit()
 
 		
 		if self.userJID != nil {
@@ -132,12 +134,13 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, tit
         
 	}
 	
-	override func viewWillAppear(animated: Bool) {
-		let button = UIButton.init(type: .Custom)
-		button.bounds = self.titleView.frame
-		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
-		self.titleView.addSubview(button)
-	}
+    override func viewWillAppear(animated: Bool) {
+        let button = UIButton.init(type: .Custom)
+        button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
+        self.titleView.addSubview(button)
+        button.sizeToFit()
+        self.titleView.bringSubviewToFront(button)
+    }
 	
 	override func canBecomeFirstResponder() -> Bool {
 		return true

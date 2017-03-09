@@ -14,9 +14,10 @@ class Me: UITableViewController, titleViewModifiable {
 	@IBOutlet weak var accountJID: UILabel!
 	
     // MARK: titleViewModifiable protocol
-    var originalTitleViewText: String? = "Chat"
+    var originalTitleViewText: String? = ""
     func resetTitleViewTextToOriginal() {
-        self.navigationController?.navigationItem.title = originalTitleViewText
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
     }
     
 	override func viewDidLoad() {
@@ -26,6 +27,14 @@ class Me: UITableViewController, titleViewModifiable {
 		// TODO: when implementing vCard XEP-0054 add the FN field here
 		self.accountJID.text = self.xmppController?.xmppStream.myJID?.bare()
 	}
+    
+    override func viewWillAppear(animated: Bool) {
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.resetTitleViewTextToOriginal()
+            
+        }
+    }
+
 	@IBAction func signOut(sender: AnyObject) {
 		
         self.xmppController.disconnect()

@@ -36,11 +36,11 @@ class MainViewController: UIViewController, titleViewModifiable {
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String? = "Chat"
     func resetTitleViewTextToOriginal() {
-        self.navigationController?.navigationItem.title = originalTitleViewText
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
     }
     
 	override func viewDidLoad() {
-		super.viewDidLoad()
         
         self.xmppController = XMPPController.sharedInstance
         
@@ -62,16 +62,28 @@ class MainViewController: UIViewController, titleViewModifiable {
         self.tabBarItem.image = UIImage(named: "Chat") // FIXME: no image is appearing
         self.tabBarItem.selectedImage = UIImage(named: "Chat Filled") // FIXME: no image is appearing
         
-        self.title = self.normalTitleText
+        self.title = self.originalTitleViewText
         
         if AuthenticationModel.load() == nil {
             presentLogInView()
         } else {
                 self.setupDataSources()
         }
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.resetTitleViewTextToOriginal()
+            
+        }
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(animated: Bool) {
+        
+        guard self.xmppController.xmppStream.isAuthenticated() else { return }
+        
         try! self.fetchedResultsController?.performFetch()
         self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
         super.viewDidAppear(animated)
@@ -153,9 +165,6 @@ class MainViewController: UIViewController, titleViewModifiable {
 		self.xmppMUCLight = XMPPMUCLight()
 		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppMUCLight.activate(self.xmppController.xmppStream)
-		
-
-		
 		
 		self.tableView.reloadData()
 	}
@@ -379,13 +388,4 @@ extension MainViewController: XMPPRoomLightDelegate {
 	}
 }
 
-extension MainViewController: XMPPStreamDelegate {
-    func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
-        self.title = self.connectingText
-    }
-    
-    func xmppStreamDidAuthenticate(sender: XMPPStream!) {
-        self.title = self.normalTitleText
-    }
-}
 

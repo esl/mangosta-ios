@@ -20,22 +20,10 @@ class TabBarController: UITabBarController {
         
         XMPPController.sharedInstance.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         XMPPController.sharedInstance.xmppReconnect.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		
-		guard let socialMediaViewController = self.viewControllers?[1] as? SocialMediaViewController else {
-			return
-		}
-		
-		// Fixes a nasty problem is the sub storyboard controller's viewDidLoad is not still intantiated.
-		
-		socialMediaViewController.tabBarItem.title = NSLocalizedString("Social", comment: "")
-		socialMediaViewController.tabBarItem.image = UIImage(named: "Social")!
-		socialMediaViewController.tabBarItem.selectedImage = UIImage(named: "Social Filled")
-		
+      
         super.viewDidLoad()
-	}
-
+    }
 }
-
 extension TabBarController: XMPPStreamDelegate {
     func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
         self.presentLogInView()
@@ -48,9 +36,11 @@ extension TabBarController: XMPPStreamDelegate {
         self.presentViewController(loginController, animated: true, completion: nil)
     }
     
-    func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
+    func xmppStreamDidAuthenticate(sender: XMPPStream!) {
         if let currentNavigationController = self.selectedViewController as? MangostaNavigationController {
-       // currentNavigationController.topViewController.
+            if let topViewControllerTittleViewModifiable = currentNavigationController.topViewController as? titleViewModifiable {
+                topViewControllerTittleViewModifiable.resetTitleViewTextToOriginal()
+            }
         }
     }
     
