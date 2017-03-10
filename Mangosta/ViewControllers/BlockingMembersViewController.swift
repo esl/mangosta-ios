@@ -49,8 +49,16 @@ class BlockingMembersViewController: UIViewController, titleViewModifiable {
             self.xmppBlocking!.activate(xmppController.xmppStream)
             
         if self.xmppController.xmppStream.isAuthenticated() {
+            self.resetTitleViewTextToOriginal()
             self.showHUDwithMessage("Getting blocked list...")
             self.xmppBlocking?.retrieveBlockingListItems()
+        }
+        else {
+            let titleLabel = UILabel()
+            titleLabel.text = "Connecting"
+            self.navigationItem.titleView = titleLabel
+            titleLabel.sizeToFit()
+ 
         }
     }
 

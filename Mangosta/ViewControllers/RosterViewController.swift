@@ -52,6 +52,12 @@ class RosterViewController: UIViewController, titleViewModifiable {
             self.resetTitleViewTextToOriginal()
             
         }
+        else {
+            let titleLabel = UILabel()
+            titleLabel.text = "Connecting"
+            self.navigationItem.titleView = titleLabel
+            titleLabel.sizeToFit()
+        }
     }
     override func viewDidAppear(animated: Bool) {
         try! self.fetchedResultsController?.performFetch()

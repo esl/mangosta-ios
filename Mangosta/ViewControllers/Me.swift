@@ -8,18 +8,11 @@
 
 import Foundation
 
-class Me: UITableViewController, titleViewModifiable {
+class Me: UITableViewController {
 	weak var xmppController: XMPPController!
 	
 	@IBOutlet weak var accountJID: UILabel!
 	
-    // MARK: titleViewModifiable protocol
-    var originalTitleViewText: String? = ""
-    func resetTitleViewTextToOriginal() {
-        self.navigationItem.titleView = nil
-        self.navigationItem.title = originalTitleViewText
-    }
-    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -28,13 +21,6 @@ class Me: UITableViewController, titleViewModifiable {
 		self.accountJID.text = self.xmppController?.xmppStream.myJID?.bare()
 	}
     
-    override func viewWillAppear(animated: Bool) {
-        if self.xmppController.xmppStream.isAuthenticated() {
-            self.resetTitleViewTextToOriginal()
-            
-        }
-    }
-
 	@IBAction func signOut(sender: AnyObject) {
 		
         self.xmppController.disconnect()

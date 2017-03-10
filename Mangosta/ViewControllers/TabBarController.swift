@@ -48,11 +48,13 @@ extension TabBarController: XMPPStreamDelegate {
 extension TabBarController: XMPPReconnectDelegate {
     func xmppReconnect(sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
         if let currentNavigationController = self.selectedViewController as? MangostaNavigationController {
-           let myTitleView = UILabel()
-            myTitleView.text = self.connectingString
-
-            currentNavigationController.topViewController?.navigationItem.titleView = myTitleView
-            myTitleView.sizeToFit()
+            if (currentNavigationController.topViewController as? titleViewModifiable) != nil {
+                let myTitleView = UILabel()
+                myTitleView.text = self.connectingString
+                
+                currentNavigationController.topViewController?.navigationItem.titleView = myTitleView
+                myTitleView.sizeToFit()
+            }
         }
     }
 }

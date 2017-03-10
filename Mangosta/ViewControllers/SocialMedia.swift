@@ -70,6 +70,12 @@ class SocialMediaViewController: UIViewController, titleViewModifiable {
             self.resetTitleViewTextToOriginal()
             
         }
+        else {
+            let titleLabel = UILabel()
+            titleLabel.text = "Connecting"
+            self.navigationItem.titleView = titleLabel
+            titleLabel.sizeToFit()
+        }
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
