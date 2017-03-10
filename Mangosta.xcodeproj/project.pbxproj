@@ -20,8 +20,6 @@
 		81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
-		AC48469D1E6F53AF005EA75B /* MangostaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48469C1E6F53AF005EA75B /* MangostaViewController.swift */; };
-		AC48469E1E6F53AF005EA75B /* MangostaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48469C1E6F53AF005EA75B /* MangostaViewController.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC4FE9E51DD0E96D00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
 		AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
@@ -260,7 +258,6 @@
 		81F8E8321CA0236A008099D1 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		AC48469C1E6F53AF005EA75B /* MangostaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MangostaViewController.swift; sourceTree = "<group>"; };
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
 		AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Changes.swift"; sourceTree = "<group>"; };
@@ -434,7 +431,6 @@
 				ACED08301E28242000B3AEB8 /* Settings.swift */,
 				811C5AB31CAC094D008346FE /* AuthenticationModel.swift */,
 				ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */,
-				AC48469C1E6F53AF005EA75B /* MangostaViewController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1015,7 +1011,6 @@
 				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
 				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
 				AC4FE9EB1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */,
-				AC48469D1E6F53AF005EA75B /* MangostaViewController.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
@@ -1110,7 +1105,6 @@
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
 				AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */,
-				AC48469E1E6F53AF005EA75B /* MangostaViewController.swift in Sources */,
 				AC9CE6AE1DDA403000B3AEB8 /* MessageProtocol.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
