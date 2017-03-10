@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, titleViewModifiable {
+class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	
@@ -135,6 +135,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, tit
 	}
 	
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         let button = UIButton.init(type: .Custom)
         button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
         self.titleView.addSubview(button)

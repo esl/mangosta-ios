@@ -11,7 +11,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class SocialMediaViewController: UIViewController, titleViewModifiable {
+class SocialMediaViewController: UIViewController, TitleViewModifiable {
     @IBOutlet internal var tableView: UITableView!
     
     weak var xmppController: XMPPController!

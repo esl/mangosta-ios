@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class BlockingMembersViewController: UIViewController, titleViewModifiable {
+class BlockingMembersViewController: UIViewController, TitleViewModifiable {
 
 	@IBOutlet weak var tableView: UITableView!
 	var xmppBlocking: XMPPBlocking?

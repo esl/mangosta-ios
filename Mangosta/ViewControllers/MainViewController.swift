@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class MainViewController: UIViewController, titleViewModifiable {
+class MainViewController: UIViewController, TitleViewModifiable {
    
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?

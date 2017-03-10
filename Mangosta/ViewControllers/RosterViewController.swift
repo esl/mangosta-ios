@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class RosterViewController: UIViewController, titleViewModifiable {
+class RosterViewController: UIViewController, TitleViewModifiable {
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
 	
@@ -48,6 +48,7 @@ class RosterViewController: UIViewController, titleViewModifiable {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         if self.xmppController.xmppStream.isAuthenticated() {
             self.resetTitleViewTextToOriginal()
             

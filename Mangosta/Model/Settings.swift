@@ -25,7 +25,7 @@ class MangostaNavigationController: UINavigationController {
 	}
 }
 
-protocol titleViewModifiable {
+protocol TitleViewModifiable {
     var originalTitleViewText: String? {
         get
         set
