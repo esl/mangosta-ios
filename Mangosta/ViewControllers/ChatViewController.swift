@@ -96,16 +96,6 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 			self.originalTitleViewText = self.title
 		}
 
-		// Set up TittleBar
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
-		self.titleView.userInteractionEnabled = true
-		tapGesture.delegate = self
-		self.titleView.tapGestureRecognizer = tapGesture
-		let button = UIButton.init(type: .Custom)
-		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
-		self.titleView.addSubview(button)
-        button.sizeToFit()
-
 		
 		if self.userJID != nil {
 			self.fetchedResultsController = self.createFetchedResultsController()
@@ -136,11 +126,6 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 	
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let button = UIButton.init(type: .Custom)
-        button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
-        self.titleView.addSubview(button)
-        button.sizeToFit()
-        self.titleView.bringSubviewToFront(button)
     }
 	
 	override func canBecomeFirstResponder() -> Bool {

@@ -38,7 +38,7 @@ extension TabBarController: XMPPStreamDelegate {
     
     func xmppStreamDidAuthenticate(sender: XMPPStream!) {
         if let currentNavigationController = self.selectedViewController as? MangostaNavigationController {
-            if let topViewControllerTittleViewModifiable = currentNavigationController.topViewController as? titleViewModifiable {
+            if let topViewControllerTittleViewModifiable = currentNavigationController.topViewController as? TitleViewModifiable {
                 topViewControllerTittleViewModifiable.resetTitleViewTextToOriginal()
             }
         }
@@ -48,7 +48,7 @@ extension TabBarController: XMPPStreamDelegate {
 extension TabBarController: XMPPReconnectDelegate {
     func xmppReconnect(sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
         if let currentNavigationController = self.selectedViewController as? MangostaNavigationController {
-            if (currentNavigationController.topViewController as? titleViewModifiable) != nil {
+            if (currentNavigationController.topViewController as? TitleViewModifiable) != nil {
                 let myTitleView = UILabel()
                 myTitleView.text = self.connectingString
                 
