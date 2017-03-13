@@ -11,7 +11,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class SocialMediaViewController: UIViewController {
+class SocialMediaViewController: UIViewController, TitleViewModifiable {
     @IBOutlet internal var tableView: UITableView!
     
     weak var xmppController: XMPPController!
@@ -19,15 +19,24 @@ class SocialMediaViewController: UIViewController {
     var blogItems = [DDXMLElement]()
     var refreshControl: UIRefreshControl!
     
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Social"
+    func resetTitleViewTextToOriginal() {
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
+    }
+    
 	override func viewDidLoad() {
 	
         let darkGreenColor = "009ab5"
         let lightGreenColor = "58cfe4"
-                
+        
        	let addBlogEntryButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addBlogButtonPressed(_:)))
         addBlogEntryButton.tintColor = UIColor(hexString:darkGreenColor)
         self.navigationItem.rightBarButtonItems = [addBlogEntryButton]
         
+        self.xmppController = XMPPController.sharedInstance
+        self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         
         MangostaSettings().setNavigationBarColor()
         
@@ -40,7 +49,7 @@ class SocialMediaViewController: UIViewController {
         self.tabBarItem.image = UIImage(named: "Social") // FIXME: no image is appearing
         self.tabBarItem.selectedImage = UIImage(named: "Social Filled") // FIXME: no image is appearing
         
-        self.title = "Social"
+        self.title = self.originalTitleViewText
         
         if self.refreshControl == nil {
             self.refreshControl = UIRefreshControl()
@@ -56,16 +65,17 @@ class SocialMediaViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if self.xmppController == nil {
-            
-            self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-            
-            self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.autoRefreshList()
+            self.resetTitleViewTextToOriginal()
             
         }
-        
-        self.autoRefreshList()
+        else {
+            let titleLabel = UILabel()
+            titleLabel.text = "Connecting"
+            self.navigationItem.titleView = titleLabel
+            titleLabel.sizeToFit()
+        }
     }
 
     func addBlogButtonPressed(sender: AnyObject) {
@@ -111,6 +121,8 @@ class SocialMediaViewController: UIViewController {
     
     func autoRefreshList() {
         
+        guard self.xmppController.xmppStream.isAuthenticated() else { return }
+        
         self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
         
         self.showHUDwithMessage("Getting MicroBlog list...")
@@ -118,6 +130,8 @@ class SocialMediaViewController: UIViewController {
     }
     
     func refreshListWithPull() {
+        guard self.xmppController.xmppStream.isAuthenticated() else { return }
+        
         if self.refreshControl != nil {
             
             let formatter = NSDateFormatter()
@@ -204,6 +218,7 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
     func xmppPubSub(sender: XMPPPubSub!, didPublishToNode node: String!, withResult iq: XMPPIQ!) {
         print("PubSub: Did publish to node \(node).")
         MBProgressHUD.hideHUDForView(self.view, animated: true)
+        self.autoRefreshList()
     }
     func xmppPubSub(sender: XMPPPubSub!, didNotPublishToNode node: String!, withError iq: XMPPIQ!) {
         print("PubSub: Did not publish to node \(node) due error: \(iq.childErrorElement())")
@@ -229,6 +244,7 @@ extension SocialMediaViewController: XMPPPubSubDelegate {
         
         self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
 }
 

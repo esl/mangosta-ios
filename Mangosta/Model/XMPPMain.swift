@@ -11,7 +11,7 @@ import XMPPFramework
 
 class MIMMainInterface: MIMCommunicable {
 
-	var xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+	var xmppController = XMPPController.sharedInstance
 	
 	func getMessages(limit: Int?, before: CLong?) {}
 	func sendMessage(xmppMessage: XMPPMessage) {

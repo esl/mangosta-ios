@@ -25,6 +25,17 @@ class MangostaNavigationController: UINavigationController {
 	}
 }
 
+protocol TitleViewModifiable {
+    var originalTitleViewText: String? {
+        get
+        set
+    }
+    
+    func resetTitleViewTextToOriginal()
+}
+
+
+
 // RGB hex String without alpha
 extension UIColor {
 	convenience init(hexString:String) {

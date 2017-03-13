@@ -10,7 +10,8 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, TitleViewModifiable {
+   
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
 	var activated = true
@@ -32,10 +33,19 @@ class MainViewController: UIViewController {
 	
 	let MUCLightServiceName = "muclight.erlang-solutions.com" // TODO: use a .plist entry for all constants in this app.
 	
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = "Chats"
+    func resetTitleViewTextToOriginal() {
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
+    }
+    
 	override func viewDidLoad() {
-		super.viewDidLoad()
+        
+        self.xmppController = XMPPController.sharedInstance
+        
 		let darkGreenColor = "009ab5"
-		let lightGreenColor = "58cfe4"	
+		let lightGreenColor = "58cfe4"
 	
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(selectChat(_:)))
 		addButton.tintColor = UIColor(hexString:darkGreenColor)
@@ -52,38 +62,44 @@ class MainViewController: UIViewController {
         self.tabBarItem.image = UIImage(named: "Chat") // FIXME: no image is appearing
         self.tabBarItem.selectedImage = UIImage(named: "Chat Filled") // FIXME: no image is appearing
         
-        self.title = "Chat"
+        self.title = self.originalTitleViewText
         
         if AuthenticationModel.load() == nil {
             presentLogInView()
         } else {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            self.xmppController = appDelegate.xmppController
+                self.setupDataSources()
         }
+        super.viewDidLoad()
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.setupDataSources()
-        self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.resetTitleViewTextToOriginal()
+            
+        }
+        else {
+            let titleLabel = UILabel()
+            titleLabel.text = "Connecting"
+            self.navigationItem.titleView = titleLabel
+            titleLabel.sizeToFit()
+        }
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        guard self.xmppController.xmppStream.isAuthenticated() else { return }
+        
+        try! self.fetchedResultsController?.performFetch()
+        self.xmppMUCLight?.discoverRoomsForServiceNamed(MUCLightServiceName)
+        super.viewDidAppear(animated)
     }
 	
 	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
 		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-		loginController.loginDelegate = self
+
 		self.navigationController?.presentViewController(loginController, animated: true, completion: nil)
-	}
-
-	func configureAndStartXMPP() {
-
-		self.setupDataSources()
-		
-        // Please not that in the near future xmppController will be refactored. At that point, mongooseRESTController, will need similar changes.
-		#if MangostaREST
-			self.mongooseRESTController = MongooseAPI()
-			appDelegate.mongooseRESTController = self.mongooseRESTController
-		#endif
 	}
 	
 	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
@@ -140,12 +156,7 @@ class MainViewController: UIViewController {
 	
 	internal func setupDataSources() {
 		
-        
-        guard self.xmppController != nil else {
-            self.presentLogInView()
-            return
-        }
-		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+		let rosterContext = self.xmppController.managedObjectContext_roster()
 		
 		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
 		let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
@@ -157,14 +168,9 @@ class MainViewController: UIViewController {
 		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
 		self.fetchedResultsController?.delegate = self
 		
-		try! self.fetchedResultsController?.performFetch()
-		
 		self.xmppMUCLight = XMPPMUCLight()
 		self.xmppMUCLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppMUCLight.activate(self.xmppController.xmppStream)
-		
-		self.xmppMUCLight.discoverRoomsForServiceNamed(MUCLightServiceName)
-		
 		
 		self.tableView.reloadData()
 	}
@@ -300,10 +306,10 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
 			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
 				
-				let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+				let rosterContext = self.xmppController.managedObjectContext_roster()
 				
 				if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
-					rosterContext?.deleteObject(user as NSManagedObject)
+					rosterContext.deleteObject(user as NSManagedObject)
 				}
 				
 				do {
@@ -333,16 +339,10 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 	}
 }
 
-extension MainViewController: LoginControllerDelegate {
-	func didPressLogInButton() {
-		self.configureAndStartXMPP() // and MongooseREST API
-	}
-}
-
 extension MainViewController: XMPPMUCLightDelegate {
 	
 	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
-		guard self.xmppController != nil else { return }
+
 		let storage = self.xmppController.xmppRoomLightCoreDataStorage
 		
 		self.xmppController.roomsLight.forEach { (room) in
@@ -393,4 +393,5 @@ extension MainViewController: XMPPRoomLightDelegate {
 		self.tableView.reloadData()
 	}
 }
+
 

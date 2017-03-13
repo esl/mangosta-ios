@@ -11,6 +11,8 @@ import XMPPFramework
 
 class XMPPController: NSObject {
 
+    static let sharedInstance = XMPPController()
+    
 	var xmppStream: XMPPStream
 	var xmppReconnect: XMPPReconnect
 	var xmppRoster: XMPPRoster
@@ -37,26 +39,22 @@ class XMPPController: NSObject {
     
     let myMicroblogNode = "urn:xmpp:microblog:0"
 
-	let hostName: String
-	let userJID: XMPPJID
-	let hostPort: UInt16
-	let password: String
-	
+    var hostPort: UInt16 = 5222
+    var password: String = ""
+    
 	var activated = true
-
-	init(hostName: String, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
-		self.hostName = hostName
-		self.userJID = userJID
-		self.hostPort = hostPort
-		self.password = password
-
-		self.xmppStream = XMPPStream()
+    
+    var isXmppConnected = false
+		
+    override init() {
+        self.xmppStream = XMPPStream()
 		self.xmppReconnect = XMPPReconnect()
 
 		// Roster
 		self.xmppRosterStorage = XMPPRosterCoreDataStorage.sharedInstance()
 		self.xmppRoster = XMPPRoster(rosterStorage: self.xmppRosterStorage)
-		self.xmppRoster.autoFetchRoster = true;
+		self.xmppRoster.autoFetchRoster = true
+        self.xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = true
 		
 		// Capabilities
 		self.xmppCapabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
@@ -106,29 +104,52 @@ class XMPPController: NSObject {
 		
 
 		// Stream Settings
-		self.xmppStream.hostName = hostName
-		self.xmppStream.hostPort = hostPort
 		self.xmppStream.startTLSPolicy = XMPPStreamStartTLSPolicy.Allowed
-		self.xmppStream.myJID = userJID
 
 		super.init()
 		
+        // Add delegates
 		self.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppReconnect.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 
-	func connect() {
+    func setStreamCredentials(hostName: String?, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
+        if let host = hostName where hostName?.characters.count > 0 {
+            self.xmppStream.hostName = host
+        }
+        self.xmppStream.myJID = userJID
+        self.xmppStream.hostPort = hostPort
+        self.password = password
+    }
+    
+	func connect() -> Bool {
+        
 		if !self.xmppStream.isDisconnected() {
-			return
+			return true
 		}
+		
+        guard let authModel =  AuthenticationModel.load() else {
+            return false
+        }
 
-		try! self.xmppStream.connectWithTimeout(XMPPStreamTimeoutNone)
+        self.setStreamCredentials(authModel.serverName, userJID: authModel.jid, password: authModel.password)
+        
+        do {
+           try self.xmppStream.connectWithTimeout(XMPPStreamTimeoutNone)
+        }
+        catch {
+            return false
+        }
+        return true
 	}
 
 	func disconnect() {
+    
 		self.goOffLine()
-		self.xmppStream.disconnect()
+		self.xmppStream.disconnectAfterSending()
 	}
 	
 	func setXEP0352(active: Bool) {
@@ -143,17 +164,23 @@ class XMPPController: NSObject {
 		print("XEP-0352 set to " + (active ? "active":"inactive") + ".")
 	}
 
-	deinit {
+    deinit {
+        self.tearDownStream()
+    }
+    
+	func tearDownStream() {
+        self.xmppStream.removeDelegate(self)
+        self.xmppRoster.removeDelegate(self)
+        self.xmppPubSub.removeDelegate(self)
+        
 		self.roomsLight.forEach { (roomLight) in
 			roomLight.deactivate()
 		}
-		self.roomsLight = [XMPPRoomLight]()
-		
-		self.xmppStream.removeDelegate(self)
+        
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
-		
 		self.xmppCapabilities.deactivate()
+        
         self.xmppPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
@@ -161,16 +188,21 @@ class XMPPController: NSObject {
 		self.xmppMUCStorer.deactivate()
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
-		
-		self.disconnect()
-
+        
+        self.disconnect()
+        
+        self.xmppStream.myJID = nil
+        self.xmppStream.hostName = nil
+        self.password = ""
 	}
 }
 
 extension XMPPController: XMPPStreamDelegate {
 
 	func xmppStreamDidConnect(stream: XMPPStream!) {
-		let user = stream.myJID.bare()
+        self.isXmppConnected = true
+		
+        let user = stream.myJID.bare()
 		print("Stream: Connected as user: \(user).")
 		try! stream.authenticateWithPassword(self.password)
 	}
@@ -179,19 +211,35 @@ extension XMPPController: XMPPStreamDelegate {
 		self.xmppStreamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1000)
 		print("Stream: Authenticated")
 		self.goOnline()
+        
 	}
 	
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
 		print("Stream: Fail to Authenticate")
 	}
 	
+    func xmppStreamWasToldToDisconnect(sender: XMPPStream!) {
+        print("Stream was told to disconnect.")
+    }
+    
 	func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
 		print("Stream: Disconnected")
+        if !self.isXmppConnected {
+            print("Unable to connect to server. Check xmppStream.hostName")
+          //  self.xmppReconnect.manualStart()
+        }
+        self.isXmppConnected = false
 	}
+    
+    func xmppStreamDidChangeMyJID(xmppStream: XMPPStream!) {
+        print("Stream: new JID: \(xmppStream.myJID.bare())")
+    }
 	
 	func goOnline() {
 		let presence = XMPPPresence()
 		self.xmppStream.sendElement(presence)
+        
+        self.setXEP0352(true)
         
         self.createMyPubSubNode()
 	}
@@ -199,6 +247,9 @@ extension XMPPController: XMPPStreamDelegate {
 	func goOffLine() {
 		let presence = XMPPPresence(type: "unavailable")
 		self.xmppStream.sendElement(presence)
+        
+        self.setXEP0352(false)
+        
 	}
     
     func createMyPubSubNode() {
@@ -230,9 +281,25 @@ extension XMPPController: XMPPRosterDelegate {
 
 extension XMPPController: XMPPPubSubDelegate {
     func xmppPubSub(sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
+        self.configureNode(node)
         print("PubSub: Did create node")
     }
     func xmppPubSub(sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
-        print("PubSub: Did not create node")
+        self.configureNode(node)
+        print("PubSub: Did not create node: \(iq.stringValue)")
     }
+    func configureNode(node: String) {
+        self.xmppPubSub.configureNode(node, withOptions: ["access_model":"presence"])
+    }
+}
+
+extension XMPPController {
+    func managedObjectContext_roster() -> NSManagedObjectContext {
+        return self.xmppRosterStorage.mainThreadManagedObjectContext
+    }
+    
+    func managedObjectContext_Capabilities() -> NSManagedObjectContext {
+        return self.xmppCapabilitiesStorage.mainThreadManagedObjectContext
+    }
+    
 }

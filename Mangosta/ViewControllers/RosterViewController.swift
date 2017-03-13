@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class RosterViewController: UIViewController {
+class RosterViewController: UIViewController, TitleViewModifiable {
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
 	
@@ -24,25 +24,47 @@ class RosterViewController: UIViewController {
 	
 	
 	var localDataSource = NSMutableArray()
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-	let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addRoster(_:)))
-	self.navigationItem.rightBarButtonItems = [addButton]
-		
-
-	}
-	
-	override func viewWillAppear(animated: Bool) {
-		
-		super.viewWillAppear(animated)
-		if self.xmppController == nil {
-			
-			self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-			self.setupDataSources()
-		}
-	}
+    
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String? = ""
+    func resetTitleViewTextToOriginal() {
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = originalTitleViewText
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.xmppController = XMPPController.sharedInstance
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(addRoster(_:)))
+        self.navigationItem.rightBarButtonItems = [addButton]
+        
+        self.setupDataSources()
+        
+        self.xmppController.xmppRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if self.xmppController.xmppStream.isAuthenticated() {
+            self.resetTitleViewTextToOriginal()
+            
+        }
+        else {
+            let titleLabel = UILabel()
+            titleLabel.text = "Connecting"
+            self.navigationItem.titleView = titleLabel
+            titleLabel.sizeToFit()
+        }
+    }
+    override func viewDidAppear(animated: Bool) {
+        try! self.fetchedResultsController?.performFetch()
+        super.viewDidAppear(animated)
+        
+    }
 	
 	func addRoster(sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
@@ -70,7 +92,7 @@ class RosterViewController: UIViewController {
 	
 	internal func setupDataSources() {
 		
-		let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+		let rosterContext = self.xmppController.managedObjectContext_roster()
 		
 		let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: rosterContext)
 		let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
@@ -82,9 +104,6 @@ class RosterViewController: UIViewController {
 		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
 		self.fetchedResultsController?.delegate = self
 		
-		try! self.fetchedResultsController?.performFetch()
-		
-		self.tableView.reloadData()
 	}
 }
 
@@ -135,7 +154,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 
             } else { // no presence information
-                if user.subscription == "none" && user.ask != nil {
+                if (user.subscription != nil || user.subscription == "none") && user.ask != nil {
                     if user.ask == "subscribe" {
                         cell.imageView?.image = UIImage(named: "questionMark")
                     }
@@ -198,7 +217,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 		let privateChatsIndexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
 		let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
 			
-			let rosterContext = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext
+			let rosterContext = self.xmppController.managedObjectContext_roster()
 			
 			if let user = self.fetchedResultsController?.objectAtIndexPath(privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
 				self.removeRoster(user.jid)
@@ -230,27 +249,9 @@ extension RosterViewController: NSFetchedResultsControllerDelegate {
 	}
 }
 
-extension RosterViewController: XMPPMUCLightDelegate {
-	
-	func xmppMUCLight(sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
-		guard self.xmppController != nil else { return }
-		let storage = self.xmppController.xmppRoomLightCoreDataStorage
-		
-		self.xmppController.roomsLight.forEach { (room) in
-			room.deactivate()
-			room.removeDelegate(self)
-		}
-		
-		self.xmppController.roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
-			let rawJid = rawElement.attributeStringValueForName("jid")
-			let rawName = rawElement.attributeStringValueForName("name")
-			let jid = XMPPJID.jidWithString(rawJid)
-			
-			let r = XMPPCustomRoomLight(roomLightStorage: storage, jid: jid, roomname: rawName, dispatchQueue: dispatch_get_main_queue())
-			r.activate(self.xmppController.xmppStream)
-			
-			return r
-		}
-		self.tableView.reloadData()
-	}
+extension RosterViewController: XMPPRosterDelegate {
+    func xmppRoster(sender: XMPPRoster!, didReceiveRosterPush iq: XMPPIQ!) {
+        // print("iq: \(iq)")
+    }
 }
+

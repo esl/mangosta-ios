@@ -8,12 +8,13 @@
 
 import UIKit
 import XMPPFramework
+import CocoaLumberjack
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-	var xmppController: XMPPController!
+
 	#if MangostaREST
 	var mongooseRESTController: MongooseAPI!
 	#endif
@@ -23,15 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
 		print("App Path: \(dirPaths)")
 
+        DDLog.addLogger(DDTTYLogger.sharedInstance(), withLevel:  DDLogLevel.Verbose)
+        XMPPController.sharedInstance.xmppReconnect.manualStart()
+        
 		return true
 	}
 
 	func applicationWillResignActive(application: UIApplication) {
-		self.xmppController?.setXEP0352(false)
+        
 	}
 
 	func applicationDidEnterBackground(application: UIApplication) {
-		
+        XMPPController.sharedInstance.disconnect()
 	}
 
 	func applicationWillEnterForeground(application: UIApplication) {
@@ -39,11 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationDidBecomeActive(application: UIApplication) {
-		self.xmppController?.setXEP0352(true)
+		XMPPController.sharedInstance.connect()
 	}
 
 	func applicationWillTerminate(application: UIApplication) {
-		self.xmppController?.setXEP0352(false)
+		XMPPController.sharedInstance.disconnect()
 	}
 
 

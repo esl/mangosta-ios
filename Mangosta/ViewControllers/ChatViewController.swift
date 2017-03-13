@@ -10,7 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
-class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
+class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	
@@ -71,6 +71,13 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 
 		return inputController
 	}
+    
+    // MARK: titleViewModifiable protocol
+    var originalTitleViewText: String?
+    func resetTitleViewTextToOriginal() {
+            self.navigationItem.titleView = nil
+            self.navigationItem.title = originalTitleViewText
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -85,18 +92,9 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
 		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
 		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
-			self.title = "\(roomSubject)"
+            self.title = "\(roomSubject)"
+			self.originalTitleViewText = self.title
 		}
-
-		// Set up TittleBar
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showChangeSubject(_:)))
-		self.titleView.userInteractionEnabled = true
-		tapGesture.delegate = self
-		self.titleView.tapGestureRecognizer = tapGesture
-		let button = UIButton.init(type: .Custom)
-		button.bounds = self.titleView.frame
-		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
-		self.titleView.addSubview(button)
 
 		
 		if self.userJID != nil {
@@ -126,12 +124,9 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate {
         
 	}
 	
-	override func viewWillAppear(animated: Bool) {
-		let button = UIButton.init(type: .Custom)
-		button.bounds = self.titleView.frame
-		button.addTarget(self, action: #selector(showChangeSubject(_:)), forControlEvents: UIControlEvents.TouchUpOutside)
-		self.titleView.addSubview(button)
-	}
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 	
 	override func canBecomeFirstResponder() -> Bool {
 		return true
@@ -302,7 +297,7 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	                                atIndexPath indexPath: NSIndexPath?,
 	                                            forChangeType type: NSFetchedResultsChangeType,
 	                                                          newIndexPath: NSIndexPath?) {
-		// FIXME use the self.tableView.reloadData()
+
 		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
 			if mamMessage.body != nil && !mamMessage.isOutgoing {
 				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)

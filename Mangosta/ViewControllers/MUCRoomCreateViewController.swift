@@ -32,7 +32,7 @@ class MUCRoomCreateViewController: UIViewController {
 		super.viewDidLoad()
 		self.title = "Create Room"
 
-		self.xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
+		self.xmppController = XMPPController.sharedInstance
 		
 		self.setupFetchedResultsController()
 	}
