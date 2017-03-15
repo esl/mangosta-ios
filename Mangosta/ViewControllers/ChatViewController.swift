@@ -9,8 +9,10 @@
 import UIKit
 import XMPPFramework
 import MBProgressHUD
+import Chatto
+import ChattoAdditions
 
-class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
+class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 	
@@ -23,54 +25,92 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 	
 	let MIMCommonInterface = MIMMainInterface()
 
+    var chatInputPresenter: BasicChatInputBarPresenter!
+    
+    override func createChatInputView() -> UIView {
+        let chatInputView = ChatInputBar.loadNib()
+        var appearance = ChatInputBarAppearance()
+        appearance.sendButtonAppearance.title = NSLocalizedString("Send", comment: "")
+        appearance.textInputAppearance.placeholderText = NSLocalizedString("Type a message", comment: "")
+        self.chatInputPresenter = BasicChatInputBarPresenter(chatInputBar: chatInputView, chatInputItems: self.createChatInputItems(), chatInputBarAppearance: appearance)
+        chatInputView.maxCharactersCount = 1000
+        return chatInputView
+    }
+    
+    func createChatInputItems() -> [ChatInputItemProtocol] {
+        var items = [ChatInputItemProtocol]()
+        items.append(self.createTextInputItem())
+        items.append(self.createPhotoInputItem())
+        return items
+    }
+    
+    private func createTextInputItem() -> TextChatInputItem {
+        let item = TextChatInputItem()
+        item.textInputHandler = { [weak self] text in
+            // Your handling logic
+        }
+        return item
+    }
+    
+    private func createPhotoInputItem() -> PhotosChatInputItem {
+        let item = PhotosChatInputItem(presentingController: self)
+        item.photoInputHandler = { [weak self] image in
+            // Your handling logic
+        }
+        return item
+    }
+    
+    
+  
+    // ==old
 	let messageLayoutCache = NSCache()
 
-	lazy var titleView: TitleView! = {
-		let view = TitleView()
-		return view
-	}()
+//	lazy var titleView: TitleView! = {
+//		let view = TitleView()
+//		return view
+//	}()
+//	
+//	lazy var avatarButton: AvatarButton! = {
+//		let button = AvatarButton()
+//		return button
+//	}()
+//	
+//	override var title: String? {
+//		set {
+//			titleView.titleLabel.text = newValue
+//		}
+//		get {
+//			return titleView.titleLabel.text
+//		}
+//	}
 	
-	lazy var avatarButton: AvatarButton! = {
-		let button = AvatarButton()
-		return button
-	}()
-	
-	override var title: String? {
-		set {
-			titleView.titleLabel.text = newValue
-		}
-		get {
-			return titleView.titleLabel.text
-		}
-	}
-	
-	override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
-		return [
-		 DateItem.itemType : [
-				DateItemPresenterBuider()
-			],
-			MessageType.Text.rawValue : [
-				MessagePresenterBuilder<TextBubbleView, TGTextMessageViewModelBuilder>(
-					viewModelBuilder: TGTextMessageViewModelBuilder(),
-					layoutCache: messageLayoutCache
-				)
-			]
-		]
-	}
-	
-	override func createChatInputViewController() -> UIViewController {
-		let inputController = ChatInputViewController()
-		
-		inputController.onSendText = { [weak self] text in
-			self?.sendText(text)
-		}
-		
-		inputController.onChooseAttach = { [weak self] in
-			self?.showAttachSheet()
-		}
-
-		return inputController
-	}
+//	 func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
+//		return [
+//		 DateItem.itemType : [
+//				DateItemPresenterBuider()
+//			],
+//			MessageType.Text.rawValue : [
+//				MessagePresenterBuilder<TextBubbleView, TGTextMessageViewModelBuilder>(
+//					viewModelBuilder: TGTextMessageViewModelBuilder(),
+//					layoutCache: messageLayoutCache
+//				)
+//			]
+//		]
+//	}
+//	
+//	 func createChatInputViewController() -> UIViewController {
+//		let inputController = ChatInputViewController()
+//		
+//		inputController.onSendText = { [weak self] text in
+//			self?.sendText(text)
+//		}
+//		
+//		inputController.onChooseAttach = { [weak self] in
+//			self?.showAttachSheet()
+//		}
+//
+//		return inputController
+//	}
     
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String?
@@ -82,12 +122,12 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		self.chatItemsDecorator = TGChatItemsDecorator()
-		self.chatDataSource = ChatDataSourceInterface()
+		//self.chatItemsDecorator = TGChatItemsDecorator()
+		//self.chatDataSource = ChatDataSourceInterface()
 		
 		var rightBarButtonItems: [UIBarButtonItem] = []
 
-		wallpaperView.image = UIImage(named: "chat_background")!
+		//wallpaperView.image = UIImage(named: "chat_background")!
 		
 		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		
@@ -193,7 +233,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 	
 	internal func invite(sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Add member", message: "Enter the JID") { (jidString) in
-			guard let userJIDString = jidString, userJID = XMPPJID.jidWithString(userJIDString) else { return }
+			guard let userJIDString = jidString, let userJID = XMPPJID.jidWithString(userJIDString) else { return }
 
 			if self.roomLight != nil {
 				self.roomLight!.addUsers([userJID])
@@ -301,7 +341,7 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
 			if mamMessage.body != nil && !mamMessage.isOutgoing {
 				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
-				(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+				// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 			}
 		}
 	}
@@ -340,7 +380,7 @@ extension ChatViewController {
 		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
 		
 		// TODO: implement queing offline messages.
-		(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+		// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 		
 		self.sendMessageToServer(message)
 	}

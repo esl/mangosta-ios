@@ -21,10 +21,6 @@
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
-		AC4FE9E51DD0E96D00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
-		AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
-		AC4FE9E71DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DA1DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift */; };
-		AC4FE9E81DD0E96D00B3AEB8 /* NoChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DB1DD0E96D00B3AEB8 /* NoChatViewController.swift */; };
 		AC4FE9E91DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DC1DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift */; };
 		AC4FE9EA1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DD1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift */; };
 		AC4FE9EB1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DE1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift */; };
@@ -33,9 +29,7 @@
 		AC4FE9EE1DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E11DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift */; };
 		AC4FE9EF1DD0E96D00B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */; };
 		AC4FE9F01DD0E96D00B3AEB8 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */; };
-		AC4FE9F81DD112BD00B3AEB8 /* ChatItemsDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */; };
 		AC4FEA181DD113EC00B3AEB8 /* BubbleViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FA1DD113EC00B3AEB8 /* BubbleViewProtocol.swift */; };
-		AC4FEA191DD113EC00B3AEB8 /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FB1DD113EC00B3AEB8 /* ChatInputViewController.swift */; };
 		AC4FEA1A1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FC1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift */; };
 		AC4FEA1B1DD113EC00B3AEB8 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FD1DD113EC00B3AEB8 /* ChatTextView.swift */; };
 		AC4FEA1C1DD113EC00B3AEB8 /* ClockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FE1DD113EC00B3AEB8 /* ClockProgressView.swift */; };
@@ -63,7 +57,6 @@
 		AC4FEA321DD113EC00B3AEB8 /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA151DD113EC00B3AEB8 /* TextBubbleView.swift */; };
 		AC4FEA331DD113EC00B3AEB8 /* TextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */; };
 		AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */; };
-		AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
 		AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
@@ -79,10 +72,6 @@
 		AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
 		AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */; };
 		AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */; };
-		AC9CE6991DDA401A00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
-		AC9CE69A1DDA401A00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
-		AC9CE69B1DDA401A00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DA1DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift */; };
-		AC9CE69C1DDA401A00B3AEB8 /* NoChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DB1DD0E96D00B3AEB8 /* NoChatViewController.swift */; };
 		AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DC1DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift */; };
 		AC9CE69E1DDA401A00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DD1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift */; };
 		AC9CE69F1DDA401A00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DE1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift */; };
@@ -105,7 +94,6 @@
 		AC9CE6B01DDA403000B3AEB8 /* MessageViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA111DD113EC00B3AEB8 /* MessageViewModelProtocol.swift */; };
 		AC9CE6B11DDA403500B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA081DD113EC00B3AEB8 /* Info.plist */; };
 		AC9CE6B21DDA403E00B3AEB8 /* BubbleViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FA1DD113EC00B3AEB8 /* BubbleViewProtocol.swift */; };
-		AC9CE6B31DDA403E00B3AEB8 /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FB1DD113EC00B3AEB8 /* ChatInputViewController.swift */; };
 		AC9CE6B41DDA403E00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FC1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift */; };
 		AC9CE6B51DDA403E00B3AEB8 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FD1DD113EC00B3AEB8 /* ChatTextView.swift */; };
 		AC9CE6B61DDA403E00B3AEB8 /* ClockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FE1DD113EC00B3AEB8 /* ClockProgressView.swift */; };
@@ -118,7 +106,6 @@
 		AC9CE6BD1DDA403E00B3AEB8 /* GrowTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA051DD113EC00B3AEB8 /* GrowTextView.swift */; };
 		AC9CE6BE1DDA403E00B3AEB8 /* ImageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA061DD113EC00B3AEB8 /* ImageFactory.swift */; };
 		AC9CE6BF1DDA403E00B3AEB8 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA071DD113EC00B3AEB8 /* ImageUtils.swift */; };
-		AC9CE6C01DDA404100B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
 		AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */; };
 		AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
 		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
@@ -191,8 +178,6 @@
 		ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
-		ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
-		ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
 		ACED08311E28242000B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		B746A60CC34A8AE4580308D8 /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
@@ -563,6 +548,13 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		AC49CDC21E788B6B005EA75B /* ChatUI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ChatUI;
+			sourceTree = "<group>";
+		};
 		AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,6 +700,7 @@
 		C12EA9551CE255C800F29606 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				AC49CDC21E788B6B005EA75B /* ChatUI */,
 				C135D9121CE257B700225EC7 /* LogIn.storyboard */,
 				AC8020D61E13F88100B3AEB8 /* Main.storyboard */,
 				ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */,
@@ -816,7 +809,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Inaka;
 				TargetAttributes = {
 					81ECA34B1C92CDE4000602F2 = {
@@ -1020,21 +1013,17 @@
 				AC4FEA291DD113EC00B3AEB8 /* NoChatMessage.swift in Sources */,
 				AC4FEA1D1DD113EC00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC4FEA181DD113EC00B3AEB8 /* BubbleViewProtocol.swift in Sources */,
-				AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */,
-				AC4FE9E71DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				ACED08311E28242000B3AEB8 /* Settings.swift in Sources */,
 				AC4FEA2B1DD113EC00B3AEB8 /* MessagePresenter.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
-				AC4FEA191DD113EC00B3AEB8 /* ChatInputViewController.swift in Sources */,
 				AC4FEA241DD113EC00B3AEB8 /* ImageFactory.swift in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				AC4FEA1E1DD113EC00B3AEB8 /* ColorUtils.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
 				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				AC4FE9F01DD0E96D00B3AEB8 /* SerialTaskQueue.swift in Sources */,
-				AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */,
 				AC4FEA221DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
 				AC4FEA311DD113EC00B3AEB8 /* Observable.swift in Sources */,
@@ -1045,8 +1034,6 @@
 				ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
 				AC4FE9EC1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */,
 				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
-				ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
-				AC4FE9E81DD0E96D00B3AEB8 /* NoChatViewController.swift in Sources */,
 				AC4FEA2C1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift in Sources */,
 				AC4FEA201DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
@@ -1054,12 +1041,10 @@
 				AC4FEA1B1DD113EC00B3AEB8 /* ChatTextView.swift in Sources */,
 				AC4FEA211DD113EC00B3AEB8 /* DateItemPresenter.swift in Sources */,
 				AC4FEA2A1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift in Sources */,
-				AC4FE9E51DD0E96D00B3AEB8 /* ChatViewController+Changes.swift in Sources */,
 				AC4FE9E91DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				AC4FEA1C1DD113EC00B3AEB8 /* ClockProgressView.swift in Sources */,
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
-				AC4FE9F81DD112BD00B3AEB8 /* ChatItemsDecorator.swift in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */,
 				C135D92B1CEB4DAD00225EC7 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
@@ -1122,12 +1107,10 @@
 				AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */,
 				AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */,
-				AC9CE6991DDA401A00B3AEB8 /* ChatViewController+Changes.swift in Sources */,
 				AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */,
 				AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */,
 				AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */,
 				AC9CE6B61DDA403E00B3AEB8 /* ClockProgressView.swift in Sources */,
-				AC9CE6C01DDA404100B3AEB8 /* TGChatViewController.swift in Sources */,
 				AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */,
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
@@ -1147,21 +1130,18 @@
 				AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */,
 				AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */,
 				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
-				AC9CE69A1DDA401A00B3AEB8 /* ChatViewController+Presenters.swift in Sources */,
 				AC9CE6AF1DDA403000B3AEB8 /* MessageViewModel.swift in Sources */,
 				AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */,
 				AC9CE6B01DDA403000B3AEB8 /* MessageViewModelProtocol.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
 				AC9CE6A41DDA402100B3AEB8 /* TextBubbleView.swift in Sources */,
-				ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
 				AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
 				AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */,
 				AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
 				AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */,
-				AC9CE69B1DDA401A00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */,
 				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
 				AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */,
@@ -1169,7 +1149,6 @@
 				AC9CE6BF1DDA403E00B3AEB8 /* ImageUtils.swift in Sources */,
 				AC9CE6A81DDA403000B3AEB8 /* KeyboardMan.swift in Sources */,
 				AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */,
-				AC9CE6B31DDA403E00B3AEB8 /* ChatInputViewController.swift in Sources */,
 				AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */,
 				AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */,
 				AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */,
@@ -1178,7 +1157,6 @@
 				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
 				AC9CE69F1DDA401A00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */,
 				AC9CE69E1DDA401A00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */,
-				AC9CE69C1DDA401A00B3AEB8 /* NoChatViewController.swift in Sources */,
 				AC9CE6A61DDA402100B3AEB8 /* ThreadHelper.swift in Sources */,
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
 				AC9CE6A01DDA401A00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */,
@@ -1318,6 +1296,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FB21A84DE3DB4A7D04D49713 /* Pods-Mangosta.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1335,6 +1314,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC0B48606E9587DFCED6A206 /* Pods-Mangosta.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
