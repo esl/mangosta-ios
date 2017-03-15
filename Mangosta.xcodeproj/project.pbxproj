@@ -178,6 +178,14 @@
 		ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
+		ACE2E2681E79D8F1005EA75B /* DemoPhotoMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E2651E79D8F1005EA75B /* DemoPhotoMessageHandler.swift */; };
+		ACE2E2691E79D8F1005EA75B /* DemoPhotoMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E2651E79D8F1005EA75B /* DemoPhotoMessageHandler.swift */; };
+		ACE2E26A1E79D8F1005EA75B /* DemoPhotoMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E2661E79D8F1005EA75B /* DemoPhotoMessageModel.swift */; };
+		ACE2E26B1E79D8F1005EA75B /* DemoPhotoMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E2661E79D8F1005EA75B /* DemoPhotoMessageModel.swift */; };
+		ACE2E26C1E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E2671E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift */; };
+		ACE2E26D1E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E2671E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift */; };
+		ACE2E26F1E79D965005EA75B /* FakeMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E26E1E79D965005EA75B /* FakeMessageSender.swift */; };
+		ACE2E2701E79D965005EA75B /* FakeMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE2E26E1E79D965005EA75B /* FakeMessageSender.swift */; };
 		ACED08311E28242000B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		B746A60CC34A8AE4580308D8 /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
@@ -332,6 +340,10 @@
 		ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
 		ACB2D2B81E16ABB000B3AEB8 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightCreateRoomPresenterViewController.swift; sourceTree = "<group>"; };
+		ACE2E2651E79D8F1005EA75B /* DemoPhotoMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageHandler.swift; sourceTree = "<group>"; };
+		ACE2E2661E79D8F1005EA75B /* DemoPhotoMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageModel.swift; sourceTree = "<group>"; };
+		ACE2E2671E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageViewModel.swift; sourceTree = "<group>"; };
+		ACE2E26E1E79D965005EA75B /* FakeMessageSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeMessageSender.swift; sourceTree = "<group>"; };
 		ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 1to1NoChatItems.swift; sourceTree = "<group>"; };
 		ACED08301E28242000B3AEB8 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
@@ -532,6 +544,7 @@
 		81F8E8311CA02369008099D1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				ACE2E2641E79D8C7005EA75B /* ChatUI */,
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
@@ -678,6 +691,17 @@
 				ACA045951D99C26B00B3AEB8 /* RestMain.swift */,
 			);
 			path = REST;
+			sourceTree = "<group>";
+		};
+		ACE2E2641E79D8C7005EA75B /* ChatUI */ = {
+			isa = PBXGroup;
+			children = (
+				ACE2E26E1E79D965005EA75B /* FakeMessageSender.swift */,
+				ACE2E2651E79D8F1005EA75B /* DemoPhotoMessageHandler.swift */,
+				ACE2E2661E79D8F1005EA75B /* DemoPhotoMessageModel.swift */,
+				ACE2E2671E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift */,
+			);
+			name = ChatUI;
 			sourceTree = "<group>";
 		};
 		B33D3D8D4E4D849C96046E78 /* Frameworks */ = {
@@ -1019,6 +1043,7 @@
 				AC4FEA2B1DD113EC00B3AEB8 /* MessagePresenter.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				AC4FEA241DD113EC00B3AEB8 /* ImageFactory.swift in Sources */,
+				ACE2E26F1E79D965005EA75B /* FakeMessageSender.swift in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				AC4FEA1E1DD113EC00B3AEB8 /* ColorUtils.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
@@ -1038,6 +1063,7 @@
 				AC4FEA201DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
 				C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */,
+				ACE2E26C1E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
 				AC4FEA1B1DD113EC00B3AEB8 /* ChatTextView.swift in Sources */,
 				AC4FEA211DD113EC00B3AEB8 /* DateItemPresenter.swift in Sources */,
 				AC4FEA2A1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift in Sources */,
@@ -1045,6 +1071,7 @@
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				AC4FEA1C1DD113EC00B3AEB8 /* ClockProgressView.swift in Sources */,
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
+				ACE2E2681E79D8F1005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */,
 				C135D92B1CEB4DAD00225EC7 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
@@ -1054,6 +1081,7 @@
 				C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */,
 				AC4FEA321DD113EC00B3AEB8 /* TextBubbleView.swift in Sources */,
 				AC4FEA231DD113EC00B3AEB8 /* GrowTextView.swift in Sources */,
+				ACE2E26A1E79D8F1005EA75B /* DemoPhotoMessageModel.swift in Sources */,
 				AC4FEA2E1DD113EC00B3AEB8 /* MessageViewModel.swift in Sources */,
 				AC4FE9ED1DD0E96D00B3AEB8 /* CollectionChanges.swift in Sources */,
 				AC4FEA1A1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */,
@@ -1091,6 +1119,7 @@
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
 				AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */,
 				AC9CE6AE1DDA403000B3AEB8 /* MessageProtocol.swift in Sources */,
+				ACE2E2691E79D8F1005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
@@ -1115,6 +1144,7 @@
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
 				AC9CE6B41DDA403E00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */,
+				ACE2E26B1E79D8F1005EA75B /* DemoPhotoMessageModel.swift in Sources */,
 				AC9CE6A11DDA401A00B3AEB8 /* CollectionChanges.swift in Sources */,
 				AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */,
 				ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
@@ -1125,6 +1155,7 @@
 				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
 				AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */,
 				AC9CE6BA1DDA403E00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */,
+				ACE2E26D1E79D8F1005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
 				AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */,
 				AC9F66011D957ABD00B3AEB8 /* ChatViewController.swift in Sources */,
 				AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */,
@@ -1132,6 +1163,7 @@
 				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
 				AC9CE6AF1DDA403000B3AEB8 /* MessageViewModel.swift in Sources */,
 				AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */,
+				ACE2E2701E79D965005EA75B /* FakeMessageSender.swift in Sources */,
 				AC9CE6B01DDA403000B3AEB8 /* MessageViewModelProtocol.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,

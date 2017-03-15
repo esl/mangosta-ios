@@ -60,7 +60,28 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         return item
     }
     
-    
+     func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
+        let dateItemPresenter = DateItemPresenterBuider()
+       //        let textMessagePresenter = TextMessagePresenterBuilder(
+//            viewModelBuilder: DemoTextMessageViewModelBuilder(),
+//            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+//        )
+//        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellAvatarStyle()
+//        
+        let photoMessagePresenter = PhotoMessagePresenterBuilder(
+            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
+            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
+        )
+        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellAvatarStyle()
+        
+        return [
+            DateItem.itemType : [dateItemPresenter],
+         
+//            "text-message-type": [textMessagePresenter],
+//            "photo-message-type": [photoMessagePresenter],
+        ]
+    }
+
   
     // ==old
 	let messageLayoutCache = NSCache()
@@ -415,6 +436,18 @@ extension ChatViewController {
 	}
 	
 
+}
+
+class TGTextMessageViewModelBuilder: MessageViewModelBuilderProtocol {
+    
+    private let messageViewModelBuilder = MessageViewModelBuilder()
+    
+    func createMessageViewModel(message message: MessageProtocol) -> MessageViewModelProtocol {
+        let messageViewModel = messageViewModelBuilder.createMessageViewModel(message: message)
+        messageViewModel.status.value = .Success
+        let textMessageViewModel = TextMessageViewModel(text: message.content, messageViewModel: messageViewModel)
+        return textMessageViewModel
+    }
 }
 
 
