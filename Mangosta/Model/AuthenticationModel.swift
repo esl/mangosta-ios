@@ -22,13 +22,13 @@ public struct AuthenticationModel {
 			dict["serverName"] = server
 		}
 		
-		NSUserDefaults.standardUserDefaults().setObject(dict, forKey: Constants.Preferences.Authentication)
-		NSUserDefaults.standardUserDefaults().synchronize()
+		UserDefaults.standard.set(dict, forKey: Constants.Preferences.Authentication)
+		UserDefaults.standard.synchronize()
 	}
 	
 	public init(jidString: String, password: String) {
-		let myJid = XMPPJID.jidWithString(jidString)
-		self.jid = myJid
+		let myJid = XMPPJID.withString(jidString)
+		self.jid = myJid!
 		self.password = password
 	}
 	
@@ -38,13 +38,13 @@ public struct AuthenticationModel {
 	}
 	
 	public init(jidString: String, serverName: String, password: String) {
-		self.jid = XMPPJID.jidWithString(jidString)
+		self.jid = XMPPJID.withString(jidString)
 		self.serverName = serverName
 		self.password = password
 	}
 	
 	static public func load() -> AuthenticationModel? {
-		if let authDict = NSUserDefaults.standardUserDefaults().objectForKey(Constants.Preferences.Authentication) as? [String:String] {
+		if let authDict = UserDefaults.standard.object(forKey: Constants.Preferences.Authentication) as? [String:String] {
 			let authJidString = authDict["jid"]!
 			let pass = authDict["password"]!
 			
@@ -52,14 +52,14 @@ public struct AuthenticationModel {
 				return AuthenticationModel(jidString: authJidString, serverName: server, password: pass)
 			}
 			
-			return AuthenticationModel(jid: XMPPJID.jidWithString(authJidString), password: pass)
+			return AuthenticationModel(jid: XMPPJID.withString(authJidString), password: pass)
 		}
 		return nil
 	}
 	
 	static public func remove() {
-		NSUserDefaults.standardUserDefaults().removeObjectForKey(Constants.Preferences.Authentication)
-		NSUserDefaults.standardUserDefaults().synchronize()
+		UserDefaults.standard.removeObject(forKey: Constants.Preferences.Authentication)
+		UserDefaults.standard.synchronize()
 	}
 }
 

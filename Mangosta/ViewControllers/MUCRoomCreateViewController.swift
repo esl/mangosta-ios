@@ -11,13 +11,13 @@ import CoreData
 import XMPPFramework
 
 protocol MUCRoomCreateViewControllerDelegate: class {
-	func createRoom(roomName: String, users: [XMPPJID]?)
+	func createRoom(_ roomName: String, users: [XMPPJID]?)
 }
 
 class MUCRoomCreateViewController: UIViewController {
 	@IBOutlet internal var roomNameField: UITextField!
 	@IBOutlet internal var rosterTableView: UITableView!
-	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController!
+	@IBOutlet internal var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
 
 	weak var xmppController: XMPPController!
 	
@@ -37,25 +37,25 @@ class MUCRoomCreateViewController: UIViewController {
 		self.setupFetchedResultsController()
 	}
 	
-	@IBAction func createRoom(sender: UIBarButtonItem) {
+	@IBAction func createRoom(_ sender: UIBarButtonItem) {
 		self.createRoom(self.roomNameField.text!, users: Array(self.usersForRoom))
 	}
 	
-	func createRoom(roomName: String, users: [XMPPJID]?) {
+	func createRoom(_ roomName: String, users: [XMPPJID]?) {
 		self.newRoomUsers = users ?? []
 		
-		let jid = XMPPJID.jidWithString("muclight.erlang-solutions.com")
-		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
-		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		let jid = XMPPJID.withString("muclight.erlang-solutions.com")
+		let roomLight = XMPPCustomRoomLight(jid: jid!, roomname: roomName)
+		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 		
 		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
 		
-		self.dismissViewControllerAnimated(true, completion: nil)
+		self.dismiss(animated: true, completion: nil)
 		
 	}
 	
-	@IBAction func cancelCreation(sender: UIBarButtonItem) {
-		self.dismissViewControllerAnimated(true, completion: nil)
+	@IBAction func cancelCreation(_ sender: UIBarButtonItem) {
+		self.dismiss(animated: true, completion: nil)
 	}
 
 	internal func setupFetchedResultsController() {
@@ -63,11 +63,11 @@ class MUCRoomCreateViewController: UIViewController {
 			self.fetchedResultsController = nil
 		}
 		if let context = self.xmppController.xmppRosterStorage.mainThreadManagedObjectContext {
-			let entity = NSEntityDescription.entityForName("XMPPUserCoreDataStorageObject", inManagedObjectContext: context)
+			let entity = NSEntityDescription.entity(forEntityName: "XMPPUserCoreDataStorageObject", in: context)
 			let sd1 = NSSortDescriptor(key: "sectionNum", ascending: true)
 			let sd2 = NSSortDescriptor(key: "displayName", ascending: true)
 			
-			let fetchRequest = NSFetchRequest()
+			let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
 			fetchRequest.entity = entity
 			fetchRequest.sortDescriptors = [sd1, sd2]
 			self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "sectionNum", cacheName: nil)
@@ -81,19 +81,19 @@ class MUCRoomCreateViewController: UIViewController {
 }
 
 extension MUCRoomCreateViewController: NSFetchedResultsControllerDelegate {
-	func controllerDidChangeContent(controller: NSFetchedResultsController) {
+	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		self.rosterTableView.reloadData()
 	}
 }
 
 extension MUCRoomCreateViewController: UITableViewDelegate, UITableViewDataSource {
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	func numberOfSections(in tableView: UITableView) -> Int {
 		if let sections = self.fetchedResultsController?.sections {
 			return sections.count
 		}
 		return 0
 	}
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		let sections = self.fetchedResultsController?.sections
 		if section < sections!.count {
 			let sectionInfo = sections![section]
@@ -101,29 +101,29 @@ extension MUCRoomCreateViewController: UITableViewDelegate, UITableViewDataSourc
 		}
 		return 0
 	}
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as UITableViewCell!
 		
-		if let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? XMPPUserCoreDataStorageObject {
-			cell?.accessoryType = self.usersForRoom.contains(user.jid) ? .Checkmark : .None
-			cell.textLabel?.text = user.jidStr
+		if let user = self.fetchedResultsController?.object(at: indexPath) as? XMPPUserCoreDataStorageObject {
+			cell?.accessoryType = self.usersForRoom.contains(user.jid) ? .checkmark : .none
+			cell?.textLabel?.text = user.jidStr
 		} else {
-			cell.textLabel?.text = "nope"
+			cell?.textLabel?.text = "nope"
 		}
 
-		return cell
+		return cell!
 	}
 	
-	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let user = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! XMPPUserCoreDataStorageObject
-		let cell = self.rosterTableView.cellForRowAtIndexPath(indexPath)
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let user = self.fetchedResultsController?.object(at: indexPath) as! XMPPUserCoreDataStorageObject
+		let cell = self.rosterTableView.cellForRow(at: indexPath)
 		
 		if self.usersForRoom.contains(user.jid) {
 			self.usersForRoom.remove(user.jid)
-			cell?.accessoryType = .None
+			cell?.accessoryType = .none
 		} else {
 			self.usersForRoom.insert(user.jid)
-			cell?.accessoryType = .Checkmark
+			cell?.accessoryType = .checkmark
 		}
 	}
 }

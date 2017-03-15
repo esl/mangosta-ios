@@ -19,11 +19,11 @@ typealias TGChatItemDecorationAttributes = ChatItemDecorationAttributes
 
 class TGChatItemsDecorator: ChatItemsDecoratorProtocol {
     lazy var dateItem: TGDateItem = {
-        let dateUid = NSUUID().UUIDString
-        return TGDateItem(uid: dateUid, date: NSDate())
+        let dateUid = UUID().uuidString
+        return TGDateItem(uid: dateUid, date: Date())
     }()
     
-    func decorateItems(chatItems: [ChatItemProtocol], inverted: Bool) -> [DecoratedChatItem] {
+    func decorateItems(_ chatItems: [ChatItemProtocol], inverted: Bool) -> [DecoratedChatItem] {
         let bottomMargin: CGFloat = 2
         
         var decoratedChatItems = [DecoratedChatItem]()

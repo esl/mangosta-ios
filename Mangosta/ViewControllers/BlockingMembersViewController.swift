@@ -36,7 +36,7 @@ class BlockingMembersViewController: UIViewController, TitleViewModifiable {
 		self.title = self.originalTitleViewText
     }
 	
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         
@@ -45,7 +45,7 @@ class BlockingMembersViewController: UIViewController, TitleViewModifiable {
             
             self.xmppBlocking = XMPPBlocking()
             self.xmppBlocking!.autoRetrieveBlockingListItems = true
-            self.xmppBlocking!.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+            self.xmppBlocking!.addDelegate(self, delegateQueue: DispatchQueue.main)
             self.xmppBlocking!.activate(xmppController.xmppStream)
             
         if self.xmppController.xmppStream.isAuthenticated() {
@@ -62,14 +62,14 @@ class BlockingMembersViewController: UIViewController, TitleViewModifiable {
         }
     }
 
-	@IBAction func blockMember(sender: AnyObject?) {
+	@IBAction func blockMember(_ sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Block Member", message: "Enter JID") { (jidString) in
-			if let jid = XMPPJID.jidWithString(jidString) {
+			if let jid = XMPPJID.withString(jidString) {
 				self.showHUDwithMessage("Blocking...")
 				self.xmppBlocking?.blockJID(jid)
 			}
 		}
-		self.presentViewController(alertController, animated: true, completion: nil)
+		self.present(alertController, animated: true, completion: nil)
 	}
 	
 	deinit {
@@ -80,51 +80,51 @@ class BlockingMembersViewController: UIViewController, TitleViewModifiable {
 
 extension BlockingMembersViewController: UITableViewDelegate, UITableViewDataSource {
 
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as UITableViewCell!
 		let blockedJID = self.blockingList[indexPath.row]
-		cell.textLabel?.text = blockedJID
-		return cell
+		cell?.textLabel?.text = blockedJID
+		return cell!
 	}
 
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return blockingList.count
 	}
 	
-	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		
-		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Unblock") { (UITableViewRowAction, NSIndexPath) in
+		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Unblock") { (UITableViewRowAction, NSIndexPath) in
 			let blockedJID = self.blockingList[indexPath.row]
 			self.showHUDwithMessage("Unblocking...")
-			self.xmppBlocking?.unblockJID(XMPPJID.jidWithString(blockedJID))
+			self.xmppBlocking?.unblockJID(XMPPJID.withString(blockedJID))
 		}
-		leave.backgroundColor = UIColor.orangeColor()
+		leave.backgroundColor = UIColor.orange
 		return [leave]
 	}
 }
 
 extension BlockingMembersViewController {
-	func showHUDwithMessage(message: String) {
-		let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-		hud.labelText = message
+	func showHUDwithMessage(_ message: String) {
+		let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+		hud?.labelText = message
 	}
 }
 
 extension BlockingMembersViewController: XMPPBlockingDelegate {
 	
-	func xmppBlocking(sender: XMPPBlocking!, didBlockJID xmppJID: XMPPJID!) {
+	func xmppBlocking(_ sender: XMPPBlocking!, didBlockJID xmppJID: XMPPJID!) {
 		self.xmppBlocking?.retrieveBlockingListItems()
-		MBProgressHUD.hideHUDForView(self.view, animated: true)
+		MBProgressHUD.hide(for: self.view, animated: true)
 	}
 	
-	func xmppBlocking(sender: XMPPBlocking!, didUnblockJID xmppJID: XMPPJID!) {
+	func xmppBlocking(_ sender: XMPPBlocking!, didUnblockJID xmppJID: XMPPJID!) {
 		self.xmppBlocking?.retrieveBlockingListItems()
-		MBProgressHUD.hideHUDForView(self.view, animated: true)
+		MBProgressHUD.hide(for: self.view, animated: true)
 	}
 
-	func xmppBlocking(sender: XMPPBlocking!, didReceivedBlockingList blockingList: [AnyObject]!) {
+	func xmppBlocking(_ sender: XMPPBlocking!, didReceivedBlockingList blockingList: [AnyObject]!) {
 		self.blockingList = blockingList as! [String]
 		self.tableView.reloadData()
-		MBProgressHUD.hideHUDForView(self.view, animated: true)
+		MBProgressHUD.hide(for: self.view, animated: true)
 	}
 }

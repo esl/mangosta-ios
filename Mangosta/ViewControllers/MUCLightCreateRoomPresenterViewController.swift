@@ -11,8 +11,8 @@ import Foundation
 class MUCLightCreateRoomPresenterViewController: UINavigationController {
 	weak var MUCLightDelegate: MUCRoomCreateViewControllerDelegate?
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		let createRoomViewController = segue.destinationViewController as! MUCRoomCreateViewController
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		let createRoomViewController = segue.destination as! MUCRoomCreateViewController
   		createRoomViewController.delegate = MUCLightDelegate
 	}
 }

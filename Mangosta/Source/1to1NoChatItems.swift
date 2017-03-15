@@ -14,21 +14,21 @@ class ChatDataSourceInterface: ChatDataSourceProtocol {
 	var chatItems: [ChatItemProtocol] = []
 	weak var delegate: ChatDataSourceDelegateProtocol?
 	
-	func loadNext(completion: () -> Void) {
+	func loadNext(_ completion: () -> Void) {
 		completion()
 	}
 	
-	func loadPrevious(completion: () -> Void) {
+	func loadPrevious(_ completion: () -> Void) {
 		completion()
 	}
 	
-	func adjustNumberOfMessages(preferredMaxCount preferredMaxCount: Int?, focusPosition: Double, completion:(didAdjust: Bool) -> Void) {
-		completion(didAdjust: false)
+	func adjustNumberOfMessages(preferredMaxCount: Int?, focusPosition: Double, completion:(_ didAdjust: Bool) -> Void) {
+		completion(false)
 	}
 	
 	
-	func addMessages(messages: [NoChatMessage]) {
-		chatItems.insertContentsOf(messages.reverse().map { $0 as ChatItemProtocol }, at: 0)
+	func addMessages(_ messages: [NoChatMessage]) {
+		chatItems.insert(contentsOf: messages.reversed().map { $0 as ChatItemProtocol }, at: 0)
 		delegate?.chatDataSourceDidUpdate(self)
 	}
 	
@@ -36,11 +36,11 @@ class ChatDataSourceInterface: ChatDataSourceProtocol {
 
 class ChatItemsDecorator: ChatItemsDecoratorProtocol {
 	lazy var dateItem: TGDateItem = {
-		let dateUid = NSUUID().UUIDString
-		return TGDateItem(uid: dateUid, date: NSDate())
+		let dateUid = UUID().uuidString
+		return TGDateItem(uid: dateUid, date: Date())
 	}()
 	
-	func decorateItems(chatItems: [ChatItemProtocol], inverted: Bool) -> [DecoratedChatItem] {
+	func decorateItems(_ chatItems: [ChatItemProtocol], inverted: Bool) -> [DecoratedChatItem] {
 		let bottomMargin: CGFloat = 2
 		
 		var decoratedChatItems = [DecoratedChatItem]()
