@@ -67,7 +67,7 @@ extension MUCLightRoomViewController: XMPPMUCLightDelegate {
 		self.xmppController.roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
 			let rawJid = rawElement.attributeStringValue(forName: "jid")
 			let rawName = rawElement.attributeStringValue(forName: "name")
-			let jid = XMPPJID.withString(rawJid)
+			let jid = XMPPJID.init(string: rawJid)
 
 			let r = XMPPCustomRoomLight(roomLightStorage: storage, jid: jid!, roomname: rawName!, dispatchQueue: DispatchQueue.main)
 			r.activate(self.xmppController.xmppStream)
@@ -98,7 +98,7 @@ extension MUCLightRoomViewController: MUCRoomCreateViewControllerDelegate {
 	func createRoom(_ roomName: String, users: [XMPPJID]?) {
 		self.newRoomUsers = users ?? []
 
-		let jid = XMPPJID.withString("muclight.erlang-solutions.com")
+		let jid = XMPPJID.init(string: "muclight.erlang-solutions.com")
 		let roomLight = XMPPCustomRoomLight(jid: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 

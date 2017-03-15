@@ -228,8 +228,8 @@ open class NoChatViewController: UIViewController {
     var autoLoadingEnabled: Bool = false
     var inputContainer: UIView!
     var presenterBuildersByType = [ChatItemType: [ChatItemPresenterBuilderProtocol]]()
-    let presentersByChatItem = NSMapTable(keyOptions: .weakMemory, valueOptions: NSPointerFunctions.Options())
-    let presentersByCell = NSMapTable(keyOptions: .weakMemory, valueOptions: .weakMemory)
+    let presentersByChatItem = NSMapTable<UICollectionViewCell, AnyObject>(keyOptions: .weakMemory, valueOptions: NSPointerFunctions.Options())
+    let presentersByCell = NSMapTable<UICollectionViewCell, AnyObject>(keyOptions: .weakMemory, valueOptions: .weakMemory)
     var updateQueue: SerialTaskQueueProtocol = SerialTaskQueue()
     
     open func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {

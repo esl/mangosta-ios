@@ -148,7 +148,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
 	}
 	func createNewFriendChat(_ sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("New Conversation", message: "Enter the JID of the user or group name") { (jidString) in
-			guard let userJIDString = jidString, let userJID = XMPPJID.withString(userJIDString) else { return }
+            guard let userJIDString = jidString, let userJID = XMPPJID.init(string: userJIDString) else { return }
 			self.xmppController?.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.present(alertController, animated: true, completion: nil)
@@ -353,7 +353,7 @@ extension MainViewController: XMPPMUCLightDelegate {
 		self.xmppController.roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
 			let rawJid = rawElement.attributeStringValue(forName: "jid")
 			let rawName = rawElement.attributeStringValue(forName: "name")
-			let jid = XMPPJID.withString(rawJid)
+			let jid = XMPPJID.init(string: rawJid)
 			
 			let r = XMPPCustomRoomLight(roomLightStorage: storage, jid: jid!, roomname: rawName!, dispatchQueue: DispatchQueue.main)
 			r.activate(self.xmppController.xmppStream)
@@ -373,7 +373,7 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 	func createRoom(_ roomName: String, users: [XMPPJID]?) {
 		self.newRoomUsers = users ?? []
 		
-		let jid = XMPPJID.withString(MUCLightServiceName)
+		let jid = XMPPJID.init(string: MUCLightServiceName)
 		let roomLight = XMPPCustomRoomLight(jid: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 		

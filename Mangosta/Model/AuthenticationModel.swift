@@ -27,7 +27,7 @@ public struct AuthenticationModel {
 	}
 	
 	public init(jidString: String, password: String) {
-		let myJid = XMPPJID.withString(jidString)
+		let myJid = XMPPJID.init(string: String(jidString))
 		self.jid = myJid!
 		self.password = password
 	}
@@ -38,7 +38,7 @@ public struct AuthenticationModel {
 	}
 	
 	public init(jidString: String, serverName: String, password: String) {
-		self.jid = XMPPJID.withString(jidString)
+        self.jid = XMPPJID.init(string: String(jidString))
 		self.serverName = serverName
 		self.password = password
 	}
@@ -52,7 +52,7 @@ public struct AuthenticationModel {
 				return AuthenticationModel(jidString: authJidString, serverName: server, password: pass)
 			}
 			
-			return AuthenticationModel(jid: XMPPJID.withString(authJidString), password: pass)
+            return AuthenticationModel(jid: XMPPJID.init(string: String(authJidString)), password: pass)
 		}
 		return nil
 	}

@@ -44,7 +44,7 @@ class MUCRoomCreateViewController: UIViewController {
 	func createRoom(_ roomName: String, users: [XMPPJID]?) {
 		self.newRoomUsers = users ?? []
 		
-		let jid = XMPPJID.withString("muclight.erlang-solutions.com")
+		let jid = XMPPJID.init(string: "muclight.erlang-solutions.com")
 		let roomLight = XMPPCustomRoomLight(jid: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 		

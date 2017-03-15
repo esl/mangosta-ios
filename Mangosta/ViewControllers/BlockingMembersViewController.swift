@@ -64,7 +64,7 @@ class BlockingMembersViewController: UIViewController, TitleViewModifiable {
 
 	@IBAction func blockMember(_ sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Block Member", message: "Enter JID") { (jidString) in
-			if let jid = XMPPJID.withString(jidString) {
+			if let jid = XMPPJID.init(string: jidString) {
 				self.showHUDwithMessage("Blocking...")
 				self.xmppBlocking?.blockJID(jid)
 			}
@@ -96,7 +96,7 @@ extension BlockingMembersViewController: UITableViewDelegate, UITableViewDataSou
 		let leave = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Unblock") { (UITableViewRowAction, NSIndexPath) in
 			let blockedJID = self.blockingList[indexPath.row]
 			self.showHUDwithMessage("Unblocking...")
-			self.xmppBlocking?.unblockJID(XMPPJID.withString(blockedJID))
+			self.xmppBlocking?.unblockJID(XMPPJID.init(string: blockedJID))
 		}
 		leave.backgroundColor = UIColor.orange
 		return [leave]

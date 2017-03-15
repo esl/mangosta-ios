@@ -67,7 +67,7 @@ extension MUCRoomViewController: XMPPMUCDelegate {
 		self.rooms = xmlRooms.map { (rawElement) -> XMPPRoom in
 			let rawJid = rawElement.attributeStringValue(forName: "jid")
 			let rawName = rawElement.attributeStringValue(forName: "name")
-			let jid = XMPPJID.withString(rawJid)
+            let jid = XMPPJID.init(string: rawJid)
 
 			var room: XMPPRoom?
 			if jid?.domain == "muc.erlang-solutions.com" {
@@ -87,7 +87,7 @@ extension MUCRoomViewController: MUCRoomCreateViewControllerDelegate, XMPPRoomDe
 		self.newRoomName = roomName
 		self.newRoomUsers = users ?? []
 		self.navigationController?.popToRootViewController(animated: true)
-		let roomJID = XMPPJID.withUser(XMPPStream.generateUUID(), domain: "muc.erlang-solutions.com", resource: "ios")
+        let roomJID = XMPPJID.init(user: XMPPStream.generateUUID(), domain: "muc.erlang-solutions.com", resource: "ios")
 		let room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: roomJID)
 		room?.addDelegate(self, delegateQueue: DispatchQueue.main)
 		room?.activate(self.xmppController.xmppStream)

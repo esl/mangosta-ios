@@ -193,7 +193,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 	
 	internal func invite(_ sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Add member", message: "Enter the JID") { (jidString) in
-			guard let userJIDString = jidString, let userJID = XMPPJID.withString(userJIDString) else { return }
+			guard let userJIDString = jidString, let userJID = XMPPJID.init(string: userJIDString) else { return }
 
 			if self.roomLight != nil {
 				self.roomLight!.addUsers([userJID])
@@ -250,7 +250,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 		
 		msg?.addBody(lastMessage?.content)
 		if type == "chat" {
-			self.MIMCommonInterface.sendMessage(msg)
+            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
 		}
 		else {
 			// TODO:

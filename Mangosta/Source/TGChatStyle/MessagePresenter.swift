@@ -94,7 +94,7 @@ open class MessagePresenter<BubbleViewT, ViewModelBuilderT>: BaseChatItemPresent
             return 0
         }
         configureCell(sizingCell, decorationAttributes: attr, animated: false, additionConfiguration: nil)
-        return sizingCell.cellSizeThatFits(CGSize(width: width, height: CGFloat.max)).height
+        return sizingCell.cellSizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).height
     }
     
     open override var canCalculateHeightInBackground: Bool {
