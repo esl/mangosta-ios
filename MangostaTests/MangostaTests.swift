@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Mangosta
+// @testable import Mangosta
 
 class MangostaTests: XCTestCase {
     

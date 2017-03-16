@@ -127,10 +127,10 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 		let room = self.xmppController.roomsLight[indexPath.row]
 
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-		let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-		chatController.roomLight = room
-		chatController.xmppController = self.xmppController
-		self.navigationController?.pushViewController(chatController, animated: true)
+//		let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+//		chatController.roomLight = room
+//		chatController.xmppController = self.xmppController
+//		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 
 	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
