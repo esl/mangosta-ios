@@ -26,6 +26,11 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	let MIMCommonInterface = MIMMainInterface()
 
     var messageSender: FakeMessageSender!
+    var dataSource: FakeDataSource! {
+        didSet {
+            self.chatDataSource = self.dataSource
+        }
+    }
     lazy private var baseMessageHandler: BaseMessageHandler = {
         return BaseMessageHandler(messageSender: self.messageSender)
     }()
