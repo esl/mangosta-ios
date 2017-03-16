@@ -69,7 +69,7 @@ class LoginViewController: UIViewController {
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud?.labelText = "Please wait"
         
-        self.xmppController.connect()
+        _ = self.xmppController.connect()
         
     }
     

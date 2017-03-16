@@ -104,7 +104,7 @@ extension MUCLightRoomViewController: MUCRoomCreateViewControllerDelegate {
 
 		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
 		
-		self.navigationController?.popViewController(animated: true)
+		_ = self.navigationController?.popViewController(animated: true)
 
 	}
 }
@@ -127,10 +127,11 @@ extension MUCLightRoomViewController: UITableViewDelegate, UITableViewDataSource
 		let room = self.xmppController.roomsLight[indexPath.row]
 
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-//		let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-//		chatController.roomLight = room
-//		chatController.xmppController = self.xmppController
-//		self.navigationController?.pushViewController(chatController, animated: true)
+        
+		let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+		chatController.roomLight = room
+		chatController.xmppController = self.xmppController
+		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 
 	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

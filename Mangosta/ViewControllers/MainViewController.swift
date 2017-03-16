@@ -380,7 +380,7 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 		
 		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
 		
-		self.navigationController?.popViewController(animated: true)
+		_ = self.navigationController?.popViewController(animated: true)
 		
 	}
 }

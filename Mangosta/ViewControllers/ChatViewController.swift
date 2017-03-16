@@ -58,7 +58,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     private func createTextInputItem() -> TextChatInputItem {
         let item = TextChatInputItem()
         item.textInputHandler = { [weak self] text in
-            // Your handling logic
+            // TODO: handling logic
         }
         return item
     }
@@ -66,7 +66,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     private func createPhotoInputItem() -> PhotosChatInputItem {
         let item = PhotosChatInputItem(presentingController: self)
         item.photoInputHandler = { [weak self] image in
-            // Your handling logic
+            // TODO: handling logic
         }
         return item
     }

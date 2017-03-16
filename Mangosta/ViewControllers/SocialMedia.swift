@@ -123,7 +123,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
         
         guard self.xmppController.xmppStream.isAuthenticated() else { return }
         
-        self.xmppController?.xmppPubSub.retrieveItems(fromNode: self.xmppController.myMicroblogNode)
+        _ = self.xmppController?.xmppPubSub.retrieveItems(fromNode: self.xmppController.myMicroblogNode)
         
         self.showHUDwithMessage("Getting MicroBlog list...")
         
@@ -142,7 +142,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
             let attributedTitle = NSAttributedString(string: title as String, attributes: attrsDictionary)
             self.refreshControl!.attributedTitle = attributedTitle
             
-            self.xmppController?.xmppPubSub.retrieveItems(fromNode: self.xmppController.myMicroblogNode)
+            _ = self.xmppController?.xmppPubSub.retrieveItems(fromNode: self.xmppController.myMicroblogNode)
             
         }
     }
