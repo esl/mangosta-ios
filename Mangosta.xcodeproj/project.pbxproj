@@ -22,6 +22,16 @@
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
+		AC5B96091E7B32CB005EA75B /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B96081E7B32CB005EA75B /* TimeSeparatorModel.swift */; };
+		AC5B960A1E7B32CB005EA75B /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B96081E7B32CB005EA75B /* TimeSeparatorModel.swift */; };
+		AC5B960C1E7B32F3005EA75B /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B960B1E7B32F3005EA75B /* TimeSeparatorPresenter.swift */; };
+		AC5B960D1E7B32F3005EA75B /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B960B1E7B32F3005EA75B /* TimeSeparatorPresenter.swift */; };
+		AC5B960F1E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B960E1E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift */; };
+		AC5B96101E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B960E1E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift */; };
+		AC5B96131E7B3344005EA75B /* SendingStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B96111E7B3344005EA75B /* SendingStatusCollectionViewCell.swift */; };
+		AC5B96141E7B3344005EA75B /* SendingStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5B96111E7B3344005EA75B /* SendingStatusCollectionViewCell.swift */; };
+		AC5B96151E7B3344005EA75B /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC5B96121E7B3344005EA75B /* SendingStatusCollectionViewCell.xib */; };
+		AC5B96161E7B3344005EA75B /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC5B96121E7B3344005EA75B /* SendingStatusCollectionViewCell.xib */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC6CBDA81E7AFC95005EA75B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
@@ -48,6 +58,10 @@
 		AC6CBDC81E7B1569005EA75B /* SlidingDatasSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDC61E7B1569005EA75B /* SlidingDatasSource.swift */; };
 		AC6CBDCA1E7B159F005EA75B /* FakeMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDC91E7B159F005EA75B /* FakeMessageFactory.swift */; };
 		AC6CBDCB1E7B159F005EA75B /* FakeMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDC91E7B159F005EA75B /* FakeMessageFactory.swift */; };
+		AC6CBDD21E7B3129005EA75B /* ChatItemsDemoDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDD11E7B3129005EA75B /* ChatItemsDemoDecorator.swift */; };
+		AC6CBDD31E7B3129005EA75B /* ChatItemsDemoDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDD11E7B3129005EA75B /* ChatItemsDemoDecorator.swift */; };
+		AC6CBDD51E7B31B3005EA75B /* SendingStatusPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDD41E7B31B3005EA75B /* SendingStatusPresenter.swift */; };
+		AC6CBDD61E7B31B3005EA75B /* SendingStatusPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDD41E7B31B3005EA75B /* SendingStatusPresenter.swift */; };
 		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -197,6 +211,11 @@
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
+		AC5B96081E7B32CB005EA75B /* TimeSeparatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorModel.swift; sourceTree = "<group>"; };
+		AC5B960B1E7B32F3005EA75B /* TimeSeparatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorPresenter.swift; sourceTree = "<group>"; };
+		AC5B960E1E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorCollectionViewCell.swift; sourceTree = "<group>"; };
+		AC5B96111E7B3344005EA75B /* SendingStatusCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusCollectionViewCell.swift; sourceTree = "<group>"; };
+		AC5B96121E7B3344005EA75B /* SendingStatusCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendingStatusCollectionViewCell.xib; sourceTree = "<group>"; };
 		AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
 		AC6CBDAB1E7AFEDA005EA75B /* DemoTextMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageHandler.swift; sourceTree = "<group>"; };
 		AC6CBDAC1E7AFEDA005EA75B /* DemoTextMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageModel.swift; sourceTree = "<group>"; };
@@ -209,6 +228,8 @@
 		AC6CBDC31E7B1537005EA75B /* FakeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeDataSource.swift; sourceTree = "<group>"; };
 		AC6CBDC61E7B1569005EA75B /* SlidingDatasSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingDatasSource.swift; sourceTree = "<group>"; };
 		AC6CBDC91E7B159F005EA75B /* FakeMessageFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeMessageFactory.swift; sourceTree = "<group>"; };
+		AC6CBDD11E7B3129005EA75B /* ChatItemsDemoDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItemsDemoDecorator.swift; sourceTree = "<group>"; };
+		AC6CBDD41E7B31B3005EA75B /* SendingStatusPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusPresenter.swift; sourceTree = "<group>"; };
 		AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
 		AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
@@ -489,6 +510,13 @@
 		AC6CBDAA1E7AFE5B005EA75B /* ChatUI */ = {
 			isa = PBXGroup;
 			children = (
+				AC5B960E1E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift */,
+				AC5B960B1E7B32F3005EA75B /* TimeSeparatorPresenter.swift */,
+				AC5B96081E7B32CB005EA75B /* TimeSeparatorModel.swift */,
+				AC5B96111E7B3344005EA75B /* SendingStatusCollectionViewCell.swift */,
+				AC5B96121E7B3344005EA75B /* SendingStatusCollectionViewCell.xib */,
+				AC6CBDD41E7B31B3005EA75B /* SendingStatusPresenter.swift */,
+				AC6CBDD11E7B3129005EA75B /* ChatItemsDemoDecorator.swift */,
 				AC6CBDC91E7B159F005EA75B /* FakeMessageFactory.swift */,
 				AC6CBDC61E7B1569005EA75B /* SlidingDatasSource.swift */,
 				AC6CBDC31E7B1537005EA75B /* FakeDataSource.swift */,
@@ -741,6 +769,7 @@
 				C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */,
 				C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */,
 				C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */,
+				AC5B96151E7B3344005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,6 +803,7 @@
 				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
 				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
 				AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */,
+				AC5B96161E7B3344005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,14 +945,19 @@
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
+				AC5B960C1E7B32F3005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
+				AC5B96131E7B3344005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				ACED08311E28242000B3AEB8 /* Settings.swift in Sources */,
 				AC6CBDAE1E7AFEDA005EA75B /* DemoTextMessageHandler.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
+				AC6CBDD51E7B31B3005EA75B /* SendingStatusPresenter.swift in Sources */,
+				AC5B96091E7B32CB005EA75B /* TimeSeparatorModel.swift in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
+				AC5B960F1E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
 				AC6CBDC71E7B1569005EA75B /* SlidingDatasSource.swift in Sources */,
 				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
@@ -932,6 +967,7 @@
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
 				C19BA80A1D26D79D00F5BAB2 /* XMPPCustomRoomLight.m in Sources */,
 				AC6CBDCA1E7B159F005EA75B /* FakeMessageFactory.swift in Sources */,
+				AC6CBDD21E7B3129005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
 				AC6CBDC41E7B1537005EA75B /* FakeDataSource.swift in Sources */,
 				ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
 				AC6CBDBE1E7B0012005EA75B /* BaseMessageHandler.swift in Sources */,
@@ -970,9 +1006,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */,
+				AC6CBDD31E7B3129005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
 				AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
+				AC6CBDD61E7B31B3005EA75B /* SendingStatusPresenter.swift in Sources */,
 				AC6CBDBC1E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
@@ -981,6 +1019,7 @@
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
+				AC5B960D1E7B32F3005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				AC6CBDB81E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
 				AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */,
 				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
@@ -993,6 +1032,7 @@
 				AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */,
 				AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */,
 				AC6CBDAF1E7AFEDA005EA75B /* DemoTextMessageHandler.swift in Sources */,
+				AC5B960A1E7B32CB005EA75B /* TimeSeparatorModel.swift in Sources */,
 				AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */,
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
@@ -1014,6 +1054,7 @@
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
+				AC5B96141E7B3344005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
 				AC6CBDBA1E7AFFBD005EA75B /* DemoPhotoMessageModel.swift in Sources */,
 				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
@@ -1024,6 +1065,7 @@
 				AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */,
 				AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */,
 				AC9F66061D957ABD00B3AEB8 /* LoginViewController.swift in Sources */,
+				AC5B96101E7B3312005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */,
 				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,

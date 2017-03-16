@@ -87,6 +87,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         return [
             "text-message-type": [textMessagePresenter],
             "photo-message-type": [photoMessagePresenter],
+            SendingStatusModel.chatItemType: [SendingStatusPresenterBuilder()],
+            TimeSeparatorModel.chatItemType: [TimeSeparatorPresenterBuilder()]
         ]
     }
     
@@ -137,7 +139,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		//self.chatItemsDecorator = TGChatItemsDecorator()
+		self.chatItemsDecorator = ChatItemsDemoDecorator()
 		//self.chatDataSource = ChatDataSourceInterface()
 		
 		var rightBarButtonItems: [UIBarButtonItem] = []
