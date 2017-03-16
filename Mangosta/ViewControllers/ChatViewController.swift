@@ -25,77 +25,76 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	
 	let MIMCommonInterface = MIMMainInterface()
 
-    var chatInputPresenter: BasicChatInputBarPresenter!
-    
-    override func createChatInputView() -> UIView {
-        let chatInputView = ChatInputBar.loadNib()
-        var appearance = ChatInputBarAppearance()
-        appearance.sendButtonAppearance.title = NSLocalizedString("Send", comment: "")
-        appearance.textInputAppearance.placeholderText = NSLocalizedString("Type a message", comment: "")
-        self.chatInputPresenter = BasicChatInputBarPresenter(chatInputBar: chatInputView, chatInputItems: self.createChatInputItems(), chatInputBarAppearance: appearance)
-        chatInputView.maxCharactersCount = 1000
-        return chatInputView
-    }
-    
-    func createChatInputItems() -> [ChatInputItemProtocol] {
-        var items = [ChatInputItemProtocol]()
-        items.append(self.createTextInputItem())
-        items.append(self.createPhotoInputItem())
-        return items
-    }
-    
-    private func createTextInputItem() -> TextChatInputItem {
-        let item = TextChatInputItem()
-        item.textInputHandler = { [weak self] text in
-            // Your handling logic
-        }
-        return item
-    }
-    
-    private func createPhotoInputItem() -> PhotosChatInputItem {
-        let item = PhotosChatInputItem(presentingController: self)
-        item.photoInputHandler = { [weak self] image in
-            // Your handling logic
-        }
-        return item
-    }
-    
-     func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
-        let dateItemPresenter = DateItemPresenterBuider()
-       //        let textMessagePresenter = TextMessagePresenterBuilder(
-//            viewModelBuilder: DemoTextMessageViewModelBuilder(),
-//            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+//    var chatInputPresenter: BasicChatInputBarPresenter!
+//    
+//    override func createChatInputView() -> UIView {
+//        let chatInputView = ChatInputBar.loadNib()
+//        var appearance = ChatInputBarAppearance()
+//        appearance.sendButtonAppearance.title = NSLocalizedString("Send", comment: "")
+//        appearance.textInputAppearance.placeholderText = NSLocalizedString("Type a message", comment: "")
+//        self.chatInputPresenter = BasicChatInputBarPresenter(chatInputBar: chatInputView, chatInputItems: self.createChatInputItems(), chatInputBarAppearance: appearance)
+//        chatInputView.maxCharactersCount = 1000
+//        return chatInputView
+//    }
+//    
+//    func createChatInputItems() -> [ChatInputItemProtocol] {
+//        var items = [ChatInputItemProtocol]()
+//        items.append(self.createTextInputItem())
+//        items.append(self.createPhotoInputItem())
+//        return items
+//    }
+//    
+//    private func createTextInputItem() -> TextChatInputItem {
+//        let item = TextChatInputItem()
+//        item.textInputHandler = { [weak self] text in
+//            // Your handling logic
+//        }
+//        return item
+//    }
+//    
+//    private func createPhotoInputItem() -> PhotosChatInputItem {
+//        let item = PhotosChatInputItem(presentingController: self)
+//        item.photoInputHandler = { [weak self] image in
+//            // Your handling logic
+//        }
+//        return item
+//    }
+//    
+//     func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
+//        let dateItemPresenter = DateItemPresenterBuider()
+//       //        let textMessagePresenter = TextMessagePresenterBuilder(
+////            viewModelBuilder: DemoTextMessageViewModelBuilder(),
+////            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+////        )
+////        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellAvatarStyle()
+////        
+//        let photoMessagePresenter = PhotoMessagePresenterBuilder(
+//            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
+//            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
 //        )
-//        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellAvatarStyle()
+//        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellAvatarStyle()
 //        
-        let photoMessagePresenter = PhotoMessagePresenterBuilder(
-            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
-            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
-        )
-        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellAvatarStyle()
-        
-        return [
-            DateItem.itemType : [dateItemPresenter],
-         
-//            "text-message-type": [textMessagePresenter],
-//            "photo-message-type": [photoMessagePresenter],
-        ]
-    }
+//        return [
+//            DateItem.itemType : [dateItemPresenter],
+//         
+////            "text-message-type": [textMessagePresenter],
+////            "photo-message-type": [photoMessagePresenter],
+//        ]
+//    }
 
   
     // ==old
-	let messageLayoutCache = NSCache()
 
 //	lazy var titleView: TitleView! = {
 //		let view = TitleView()
 //		return view
 //	}()
-//	
+//
 //	lazy var avatarButton: AvatarButton! = {
 //		let button = AvatarButton()
 //		return button
 //	}()
-//	
+//
 //	override var title: String? {
 //		set {
 //			titleView.titleLabel.text = newValue
@@ -104,34 +103,23 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 //			return titleView.titleLabel.text
 //		}
 //	}
-	
-//	 func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
-//		return [
-//		 DateItem.itemType : [
-//				DateItemPresenterBuider()
-//			],
-//			MessageType.Text.rawValue : [
-//				MessagePresenterBuilder<TextBubbleView, TGTextMessageViewModelBuilder>(
-//					viewModelBuilder: TGTextMessageViewModelBuilder(),
-//					layoutCache: messageLayoutCache
-//				)
-//			]
-//		]
-//	}
-//	
+
+//
 //	 func createChatInputViewController() -> UIViewController {
 //		let inputController = ChatInputViewController()
-//		
+//
 //		inputController.onSendText = { [weak self] text in
 //			self?.sendText(text)
 //		}
-//		
+//
 //		inputController.onChooseAttach = { [weak self] in
 //			self?.showAttachSheet()
 //		}
 //
 //		return inputController
 //	}
+    
+    let messageLayoutCache = NSCache()
     
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String?
