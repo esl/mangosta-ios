@@ -226,7 +226,7 @@ extension XMPPController: XMPPStreamDelegate {
 	func xmppStreamDidConnect(_ stream: XMPPStream!) {
         self.isXmppConnected = true
 		
-        let user = stream.myJID.bare()
+        let user = stream.myJID.bare() as String
 		print("Stream: Connected as user: \(user).")
 		try! stream.authenticate(withPassword: self.password)
 	}
@@ -256,7 +256,7 @@ extension XMPPController: XMPPStreamDelegate {
 	}
     
     func xmppStreamDidChangeMyJID(_ xmppStream: XMPPStream!) {
-        print("Stream: new JID: \(xmppStream.myJID.bare())")
+        print("Stream: new JID: \((xmppStream.myJID.bare() as String))")
     }
 	
 	func goOnline() {
@@ -299,7 +299,7 @@ extension XMPPController: XMPPRosterDelegate {
     }
 	
 	func xmppRoster(_ sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
-		print("Roster: Received presence request from user: \(presence.from().bare())")
+		print("Roster: Received presence request from user: \((presence.from().bare() as String))")
 	}
 }
 

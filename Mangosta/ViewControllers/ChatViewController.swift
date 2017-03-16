@@ -153,7 +153,8 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 			entity = NSEntityDescription.entity(forEntityName: "XMPPRoomLightMessageCoreDataStorageObject", in: groupContext)
 		}
 
-		let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
+    
+		let roomJID = (self.room?.roomJID.bare() as String! ?? self.roomLight?.roomJID.bare() as String!) as String
 
 		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
 		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
@@ -176,7 +177,7 @@ class ChatViewController: NoChatViewController, UIGestureRecognizerDelegate, Tit
 		}
 		
 		let entity = NSEntityDescription.entity(forEntityName: "XMPPMessageArchiving_Message_CoreDataObject", in: messageContext)
-		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare())
+		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare() as String!)
 		let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
 		
 		let request = NSFetchRequest<NSFetchRequestResult>()

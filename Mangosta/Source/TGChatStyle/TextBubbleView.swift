@@ -112,7 +112,7 @@ open class TextBubbleViewStyle: TextBubbleViewStyleProtocol {
 
 // MARK: TextBubbleView
 open class TextBubbleView: UIView, BubbleViewProtocol, UITextViewDelegate {
-    
+
     open static var bubbleIdentifier: String {
         return "TextBubble"
     }
@@ -227,7 +227,8 @@ open class TextBubbleView: UIView, BubbleViewProtocol, UITextViewDelegate {
     }()
     
     fileprivate(set) var isUpdating: Bool = false
-    open func performBatchUpdates(_ updateClosure: @escaping () -> Void, animated: Bool, completion: (() -> Void)?) {
+
+    public func performBatchUpdates(_ updateClosure: @escaping () -> Void, animated: Bool, completion: (() -> Void)?) {
         isUpdating = true
         let updateAndRefreshViews = {
             updateClosure()

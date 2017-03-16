@@ -34,6 +34,10 @@ public protocol SerialTaskQueueProtocol {
 }
 
 public final class SerialTaskQueue: SerialTaskQueueProtocol {
+    public func addTask(_ task: (() -> Void) -> Void) {
+        // TODO: implement
+    }
+
     fileprivate var isBusy = false
     fileprivate var isStopped = true
     fileprivate var tasksQueue = [TaskClosure]()

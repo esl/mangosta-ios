@@ -68,7 +68,7 @@ class RosterViewController: UIViewController, TitleViewModifiable {
 	
 	func addRoster(_ sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
-			guard let userJIDString = jidString, let userJID = XMPPJID.withString(userJIDString) else { return }
+			guard let userJIDString = jidString, let userJID = XMPPJID.init(string: userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.present(alertController, animated: true, completion: nil)
@@ -81,7 +81,7 @@ class RosterViewController: UIViewController, TitleViewModifiable {
 	
 	func createNewFriendChat(_ sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("New Conversation", message: "Enter the JID of the user or group name") { (jidString) in
-			guard let userJIDString = jidString, let userJID = XMPPJID.withString(userJIDString) else { return }
+			guard let userJIDString = jidString, let userJID = XMPPJID.init(string: userJIDString) else { return }
 			self.xmppController.xmppRoster.addUser(userJID, withNickname: nil)
 		}
 		self.present(alertController, animated: true, completion: nil)

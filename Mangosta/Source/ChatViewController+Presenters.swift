@@ -69,11 +69,11 @@ extension NoChatViewController: UICollectionViewDataSource, UICollectionViewDele
             return DummyChatItemPresenter()
         }
 
-        let chatItem = decoratedChatItems[index].chatItem
+        let chatItem = decoratedChatItems[index].chatItem as! UICollectionViewCell
         if let presenter = self.presentersByChatItem.object(forKey: chatItem) as? ChatItemPresenterProtocol {
             return presenter
         }
-        let presenter = self.createPresenterForChatItem(chatItem)
+        let presenter = self.createPresenterForChatItem(chatItem as! ChatItemProtocol)
         self.presentersByChatItem.setObject(presenter, forKey: chatItem)
         return presenter
     }
