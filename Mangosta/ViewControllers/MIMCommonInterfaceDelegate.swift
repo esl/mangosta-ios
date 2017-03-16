@@ -11,8 +11,8 @@ import XMPPFramework
 
 protocol MIMCommunicable {
 	
-	func getMessages(limit: Int?, before: CLong?)
-	func sendMessage(xmppMessage: XMPPMessage)
+	func getMessages(_ limit: Int?, before: CLong?)
+	func sendMessage(_ xmppMessage: XMPPMessage)
 	
 	#if MangostaREST
 	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [Message]
@@ -20,16 +20,16 @@ protocol MIMCommunicable {
 	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [Message]
 	func getRoomDetails(room: XMPPRoom) -> Room // func showMUCDetails()
 	#else
-	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [XMPPMessage]
+	func getMessagesWithUser(_ user: XMPPJID, limit: Int?, before: CLong?) -> [XMPPMessage]
 	func getRooms() -> [XMPPRoom]
-	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom]
-	func getRoomDetails(room: XMPPRoom) -> [String:AnyObject] // func showMUCDetails()
+	func getRoomArchivedMessages(_ room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom]
+	func getRoomDetails(_ room: XMPPRoom) -> [String:AnyObject] // func showMUCDetails()
 	#endif
 	
-	func createRoomWithSubject(room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?)
-	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight)
-	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID)
-	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage)
+	func createRoomWithSubject(_ room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?)
+	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight)
+	func deleteUserFromRoom(_ room: XMPPRoom, user: XMPPJID)
+	func sendMessageToRoom(_ room: XMPPRoom, message: XMPPMessage)
 	 	// func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!)
 	// func addUsers(users: [XMPPJID])
 	// MARK: MainViewController

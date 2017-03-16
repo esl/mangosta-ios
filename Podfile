@@ -12,8 +12,8 @@ def main_app_pods
   pod 'XMPPFramework', :git => "https://github.com/robbiehanson/XMPPFramework.git", :branch => 'master'
   #   pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/' # TODO: Update ELS's fork.
   pod 'MBProgressHUD', '~> 0.9.2'
-  pod 'Chatto', '= 2.1.0'
-  pod 'ChattoAdditions', '= 2.1.0'
+  pod 'Chatto', '= 3.0.1'
+  pod 'ChattoAdditions', '= 3.0.1'
 end
 
 target 'Mangosta' do

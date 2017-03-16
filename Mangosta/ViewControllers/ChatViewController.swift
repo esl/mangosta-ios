@@ -19,68 +19,13 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	weak var room: XMPPRoom?
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
-	var fetchedResultsController: NSFetchedResultsController!
+	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
 	weak var xmppController: XMPPController!
 	var lastID = ""
 	
 	let MIMCommonInterface = MIMMainInterface()
 
-//    var chatInputPresenter: BasicChatInputBarPresenter!
-//    
-//    override func createChatInputView() -> UIView {
-//        let chatInputView = ChatInputBar.loadNib()
-//        var appearance = ChatInputBarAppearance()
-//        appearance.sendButtonAppearance.title = NSLocalizedString("Send", comment: "")
-//        appearance.textInputAppearance.placeholderText = NSLocalizedString("Type a message", comment: "")
-//        self.chatInputPresenter = BasicChatInputBarPresenter(chatInputBar: chatInputView, chatInputItems: self.createChatInputItems(), chatInputBarAppearance: appearance)
-//        chatInputView.maxCharactersCount = 1000
-//        return chatInputView
-//    }
-//    
-//    func createChatInputItems() -> [ChatInputItemProtocol] {
-//        var items = [ChatInputItemProtocol]()
-//        items.append(self.createTextInputItem())
-//        items.append(self.createPhotoInputItem())
-//        return items
-//    }
-//    
-//    private func createTextInputItem() -> TextChatInputItem {
-//        let item = TextChatInputItem()
-//        item.textInputHandler = { [weak self] text in
-//            // Your handling logic
-//        }
-//        return item
-//    }
-//    
-//    private func createPhotoInputItem() -> PhotosChatInputItem {
-//        let item = PhotosChatInputItem(presentingController: self)
-//        item.photoInputHandler = { [weak self] image in
-//            // Your handling logic
-//        }
-//        return item
-//    }
-//    
-//     func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
-//        let dateItemPresenter = DateItemPresenterBuider()
-//       //        let textMessagePresenter = TextMessagePresenterBuilder(
-////            viewModelBuilder: DemoTextMessageViewModelBuilder(),
-////            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
-////        )
-////        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellAvatarStyle()
-////        
-//        let photoMessagePresenter = PhotoMessagePresenterBuilder(
-//            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
-//            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
-//        )
-//        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellAvatarStyle()
-//        
-//        return [
-//            DateItem.itemType : [dateItemPresenter],
-//         
-////            "text-message-type": [textMessagePresenter],
-////            "photo-message-type": [photoMessagePresenter],
-//        ]
-//    }
+	// let messageLayoutCache = NSCache<AnyObject, AnyObject>()
 
   
     // ==old
@@ -138,7 +83,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
 		//wallpaperView.image = UIImage(named: "chat_background")!
 		
-		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
 		
 		if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
             self.title = "\(roomSubject)"
@@ -150,14 +95,14 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 			self.fetchedResultsController = self.createFetchedResultsController()
 		} else {
 			if let rLight = self.roomLight {
-				rLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				rLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 				rLight.getConfiguration()
 			}else {
-				self.room?.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				self.room?.addDelegate(self, delegateQueue: DispatchQueue.main)
 				self.subjectHeight.constant = 0	
 			}
 
-			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.Done, target: self, action: #selector(invite(_:))))
+			rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.done, target: self, action: #selector(invite(_:))))
 			let d = rightBarButtonItems[0]
 			d.tintColor = UIColor(hexString:"009ab5")
 			
@@ -173,41 +118,42 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         
 	}
 	
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
 	
-	override func canBecomeFirstResponder() -> Bool {
+	override var canBecomeFirstResponder : Bool {
 		return true
 	}
 	
-	internal func showChangeSubject(sender: AnyObject?) {
+	internal func showChangeSubject(_ sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
 			if let text = subjectText {
 				self.roomLight?.changeRoomSubject(text)
 			}
 		}
-		self.presentViewController(alertController, animated: true, completion: nil)
+		self.present(alertController, animated: true, completion: nil)
 	}
 	
-	private func createFetchedResultsControllerForGroup() -> NSFetchedResultsController {
+	fileprivate func createFetchedResultsControllerForGroup() -> NSFetchedResultsController<NSFetchRequestResult> {
 		let groupContext: NSManagedObjectContext!
 		let entity: NSEntityDescription?
 		
 		if self.room != nil {
 			groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext
-			entity = NSEntityDescription.entityForName("XMPPRoomMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
+			entity = NSEntityDescription.entity(forEntityName: "XMPPRoomMessageCoreDataStorageObject", in: groupContext)
 		} else {
 			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext
-			entity = NSEntityDescription.entityForName("XMPPRoomLightMessageCoreDataStorageObject", inManagedObjectContext: groupContext)
+			entity = NSEntityDescription.entity(forEntityName: "XMPPRoomLightMessageCoreDataStorageObject", in: groupContext)
 		}
 
-		let roomJID = (self.room?.roomJID.bare() ?? self.roomLight?.roomJID.bare())!
+    
+		let roomJID = (self.room?.roomJID.bare() as String! ?? self.roomLight?.roomJID.bare() as String!) as String
 
 		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
 		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
 
-		let request = NSFetchRequest()
+		let request = NSFetchRequest<NSFetchRequestResult>()
 		request.entity = entity
 		request.predicate = predicate
 		request.sortDescriptors = [sortDescriptor]
@@ -219,16 +165,16 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		return controller
 	}
 	
-	private func createFetchedResultsController() -> NSFetchedResultsController {
+	fileprivate func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
 		guard let messageContext = self.xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext else {
 			return NSFetchedResultsController()
 		}
 		
-		let entity = NSEntityDescription.entityForName("XMPPMessageArchiving_Message_CoreDataObject", inManagedObjectContext: messageContext)
-		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare())
+		let entity = NSEntityDescription.entity(forEntityName: "XMPPMessageArchiving_Message_CoreDataObject", in: messageContext)
+		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare() as String!)
 		let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
 		
-		let request = NSFetchRequest()
+		let request = NSFetchRequest<NSFetchRequestResult>()
 		request.entity = entity
 		request.predicate = predicate
 		request.sortDescriptors = [sortDescriptor]
@@ -240,9 +186,9 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		return controller
 	}
 	
-	internal func invite(sender: AnyObject?) {
+	internal func invite(_ sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Add member", message: "Enter the JID") { (jidString) in
-			guard let userJIDString = jidString, let userJID = XMPPJID.jidWithString(userJIDString) else { return }
+			guard let userJIDString = jidString, let userJID = XMPPJID.init(string: userJIDString) else { return }
 
 			if self.roomLight != nil {
 				self.roomLight!.addUsers([userJID])
@@ -250,10 +196,10 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 				self.room!.inviteUser(userJID, withMessage: self.room!.roomSubject)
 			}
 		}
-		self.presentViewController(alertController, animated: true, completion: nil)
+		self.present(alertController, animated: true, completion: nil)
 	}
 	
-	@IBAction func showMUCDetails(sender: AnyObject) {
+	@IBAction func showMUCDetails(_ sender: AnyObject) {
 
 		if self.roomLight != nil {
 			self.roomLight!.fetchMembersList()
@@ -262,28 +208,28 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		}
 	}
 
-	func showMembersViewController(members: [(String, String)]) {
+	func showMembersViewController(_ members: [(String, String)]) {
 		let storyboard = UIStoryboard(name: "Members", bundle: nil)
 
-		let membersNavController = storyboard.instantiateViewControllerWithIdentifier("members") as! UINavigationController
+		let membersNavController = storyboard.instantiateViewController(withIdentifier: "members") as! UINavigationController
 		let membersController = membersNavController.viewControllers.first! as! MembersViewController
 		membersController.members = members
-		self.navigationController?.presentViewController(membersNavController, animated: true, completion: nil)
+		self.navigationController?.present(membersNavController, animated: true, completion: nil)
 	}
 
-	@IBAction func fetchFormFields(sender: AnyObject) {
+	@IBAction func fetchFormFields(_ sender: AnyObject) {
 		self.xmppController.xmppMessageArchiveManagement.retrieveFormFields()
 	}
 
-	@IBAction func fetchHistory(sender: AnyObject) {
+	@IBAction func fetchHistory(_ sender: AnyObject) {
 		let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-		let fields = [XMPPMessageArchiveManagement.fieldWithVar("with", type: nil, andValue: jid!.bare())]
+		let fields = [XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid!.bare())]
 		let resultSet = XMPPResultSet(max: 5, after: self.lastID)
 		#if MangostaREST
 			// TODO: add before and after
 			MIMCommonInterface.getMessagesWithUser(jid!, limit: nil, before: nil)
 		#endif
-		self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchiveWithFields(fields, withResultSet: resultSet)
+		self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchive(withFields: fields, with: resultSet)
 	}
 
 	deinit {
@@ -291,20 +237,20 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.roomLight?.removeDelegate(self)
 	}
 	
-	func sendMessageToServer(lastMessage: NoChatMessage?) {
+	func sendMessageToServer(_ lastMessage: NoChatMessage?) {
 		
 		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
-		let msg = XMPPMessage(type: type, to: receiverJID, elementID: NSUUID().UUIDString)
+		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
 		
-		msg.addBody(lastMessage?.content)
+		msg?.addBody(lastMessage?.content)
 		if type == "chat" {
-			self.MIMCommonInterface.sendMessage(msg)
+            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
 		}
 		else {
 			// TODO:
 			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-			self.xmppController.xmppStream.sendElement(msg)
+			self.xmppController.xmppStream.send(msg)
 		}
 	}
 }
@@ -313,27 +259,27 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
 extension ChatViewController: XMPPRoomLightDelegate {
 	
-	func xmppRoomLight(sender: XMPPRoomLight, didFetchMembersList items: [DDXMLElement]) {
+	func xmppRoomLight(_ sender: XMPPRoomLight, didFetchMembersList items: [DDXMLElement]) {
 		let members = items.map { (child) -> (String, String) in
-			return (child.attributeForName("affiliation")!.stringValue!, child.stringValue!)
+			return (child.attribute(forName: "affiliation")!.stringValue!, child.stringValue!)
 		}
 		self.showMembersViewController(members)
 	}
 
-	func xmppRoomLight(sender: XMPPRoomLight, configurationChanged message: XMPPMessage) {
+	func xmppRoomLight(_ sender: XMPPRoomLight, configurationChanged message: XMPPMessage) {
 		self.title = sender.subject()
 	}
 
-	func xmppRoomLight(sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
+	func xmppRoomLight(_ sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
 		self.title = sender.subject()
 	}
 }
 
 extension ChatViewController: XMPPRoomExtraActionsDelegate {
-	func xmppRoom(sender: XMPPRoom!, didQueryRoomItems iqResult: XMPPIQ!) {
-		let members = iqResult.elementForName("query")!.children!.map { (child) -> (String, String) in
+	func xmppRoom(_ sender: XMPPRoom!, didQueryRoomItems iqResult: XMPPIQ!) {
+		let members = iqResult.forName("query")!.children!.map { (child) -> (String, String) in
 			let ch = child as! DDXMLElement
-			return (ch.attributeForName("jid")!.stringValue!, ch.attributeForName("name")!.stringValue!)
+			return (ch.attribute(forName: "jid")!.stringValue!, ch.attribute(forName: "name")!.stringValue!)
 		}
 		self.showMembersViewController(members)
 	}
@@ -341,11 +287,11 @@ extension ChatViewController: XMPPRoomExtraActionsDelegate {
 
 extension ChatViewController: NSFetchedResultsControllerDelegate {
 	// MARK: NSFetchedResultsControllerDelegate
-	func controller(controller: NSFetchedResultsController,
-	                didChangeObject anObject: AnyObject,
-	                                atIndexPath indexPath: NSIndexPath?,
-	                                            forChangeType type: NSFetchedResultsChangeType,
-	                                                          newIndexPath: NSIndexPath?) {
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+	                didChange anObject: Any,
+	                                at indexPath: IndexPath?,
+	                                            for type: NSFetchedResultsChangeType,
+	                                                          newIndexPath: IndexPath?) {
 
 		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
 			if mamMessage.body != nil && !mamMessage.isOutgoing {
@@ -358,34 +304,34 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 
 extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 	
-	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWithSet resultSet: XMPPResultSet!) {
-		if let lastID = resultSet.elementForName("last")?.stringValue! {
+	func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWith resultSet: XMPPResultSet!) {
+		if let lastID = resultSet.forName("last")?.stringValue! {
 			self.lastID = lastID
 		}
 	}
 
-	func xmppMessageArchiveManagement(xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
-		let fields = iq.childElement().elementForName("x")!.elementsForName("field").map { (field) -> String in
-			let f = field as! DDXMLElement
-			return "\(f.attributeForName("var")!.stringValue!) \(f.attributeForName("type")!.stringValue!)"
-		}.joinWithSeparator("\n")
+	func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
+		let fields = iq.childElement().forName("x")!.elements(forName: "field").map { (field) -> String in
+			let f = field 
+			return "\(f.attribute(forName: "var")!.stringValue!) \(f.attribute(forName: "type")!.stringValue!)"
+		}.joined(separator: "\n")
 		
-		let alertController = UIAlertController(title: "Forms", message: fields, preferredStyle: UIAlertControllerStyle.Alert)
-		alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-		self.presentViewController(alertController, animated: true, completion: nil)
+		let alertController = UIAlertController(title: "Forms", message: fields, preferredStyle: UIAlertControllerStyle.alert)
+		alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+		self.present(alertController, animated: true, completion: nil)
 	}
 }
 
 extension ChatViewController {
 	
-	func createTextMessage(text text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
+	func createTextMessage(text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
 		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
 		message.content = text
 		return message
 	}
 
 
-	func sendText(text: String) {
+	func sendText(_ text: String) {
 		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
 		
 		// TODO: implement queing offline messages.
@@ -395,27 +341,27 @@ extension ChatViewController {
 	}
 	
 	func showAttachSheet() {
-		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .ActionSheet)
+		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .actionSheet)
 		// TODO: to be implemented  when server guys finish the implemetation of file attachment
-		sheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { _ in
+		sheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
 		}))
 		
-		sheet.addAction(UIAlertAction(title: "Photos", style: .Default, handler: { _ in
+		sheet.addAction(UIAlertAction(title: "Photos", style: .default, handler: { _ in
 		}))
 		
-		sheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+		sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		
-		presentViewController(sheet, animated: true, completion: nil)
+		present(sheet, animated: true, completion: nil)
 	}
 
-	func createMessage(senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
+	func createMessage(_ senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
 		let message = NoChatMessage(
-			msgId: NSUUID().UUIDString,
+			msgId: UUID().uuidString,
 			msgType: msgType,
 			senderId: senderId,
 			isIncoming: isIncoming,
-			date: NSDate(),
-			deliveryStatus: .Delivering,
+			date: Date(),
+			deliveryStatus: .delivering,
 			attachments: [],
 			content: ""
 		)

@@ -9,13 +9,13 @@
 import UIKit
 
 extension UIAlertController {
-	class func textFieldAlertController(title: String?, message: String?, handler: ((String?) -> Void)) -> UIAlertController {
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-		alertController.addTextFieldWithConfigurationHandler(nil)
-		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+	class func textFieldAlertController(_ title: String?, message: String?, handler: @escaping ((String?) -> Void)) -> UIAlertController {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+		alertController.addTextField(configurationHandler: nil)
+		alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
 
-		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-			guard let userJIDString = alertController.textFields?.first?.text where userJIDString.characters.count > 0 else {
+		alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+			guard let userJIDString = alertController.textFields?.first?.text, userJIDString.characters.count > 0 else {
 				handler(nil)
 				return
 			}

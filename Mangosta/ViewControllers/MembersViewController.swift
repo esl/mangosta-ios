@@ -20,21 +20,21 @@ class MembersViewController: UIViewController {
 		self.tableView.dataSource = self
     }
 
-	@IBAction func dismissViewController(sender: AnyObject) {
-		self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+	@IBAction func dismissViewController(_ sender: AnyObject) {
+		self.navigationController?.dismiss(animated: true, completion: nil)
 	}
 }
 
 extension MembersViewController: UITableViewDelegate, UITableViewDataSource {
 	
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return self.members.count
 	}
 	
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let member = self.members[indexPath.row]
-		let cell = tableView.dequeueReusableCellWithIdentifier("memberCell")! as UITableViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "memberCell")! as UITableViewCell
 		
 		cell.textLabel!.text = member.1
 		cell.detailTextLabel!.text = member.0
