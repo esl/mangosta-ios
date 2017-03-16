@@ -25,9 +25,66 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	
 	let MIMCommonInterface = MIMMainInterface()
 
-	// let messageLayoutCache = NSCache<AnyObject, AnyObject>()
+    var messageSender: FakeMessageSender!
+    lazy private var baseMessageHandler: BaseMessageHandler = {
+        return BaseMessageHandler(messageSender: self.messageSender)
+    }()
 
+	let messageLayoutCache = NSCache<AnyObject, AnyObject>()  // TODO: Do we need this?
+    
+    var chatInputPresenter: BasicChatInputBarPresenter!
+    override func createChatInputView() -> UIView {
+        let chatInputView = ChatInputBar.loadNib()
+        var appearance = ChatInputBarAppearance()
+        appearance.sendButtonAppearance.title = NSLocalizedString("Send", comment: "")
+        appearance.textInputAppearance.placeholderText = NSLocalizedString("Type a message", comment: "")
+        self.chatInputPresenter = BasicChatInputBarPresenter(chatInputBar: chatInputView, chatInputItems: self.createChatInputItems(), chatInputBarAppearance: appearance)
+        chatInputView.maxCharactersCount = 1000
+        return chatInputView
+    }
+    
+    func createChatInputItems() -> [ChatInputItemProtocol] {
+        var items = [ChatInputItemProtocol]()
+        items.append(self.createTextInputItem())
+        items.append(self.createPhotoInputItem())
+        return items
+    }
+    
+    private func createTextInputItem() -> TextChatInputItem {
+        let item = TextChatInputItem()
+        item.textInputHandler = { [weak self] text in
+            // Your handling logic
+        }
+        return item
+    }
+    
+    private func createPhotoInputItem() -> PhotosChatInputItem {
+        let item = PhotosChatInputItem(presentingController: self)
+        item.photoInputHandler = { [weak self] image in
+            // Your handling logic
+        }
+        return item
+    }
   
+    override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
+        let textMessagePresenter = TextMessagePresenterBuilder(
+            viewModelBuilder: DemoTextMessageViewModelBuilder(),
+            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+        )
+        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()// BaseMessageCollectionViewCellAvatarStyle()
+        
+        let photoMessagePresenter = PhotoMessagePresenterBuilder(
+            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
+            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
+        )
+        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle() //BaseMessageCollectionViewCellAvatarStyle()
+        
+        return [
+            "text-message-type": [textMessagePresenter],
+            "photo-message-type": [photoMessagePresenter],
+        ]
+    }
+    
     // ==old
 
 //	lazy var titleView: TitleView! = {
@@ -64,8 +121,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 //		return inputController
 //	}
     
-    let messageLayoutCache = NSCache()
-    
+
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String?
     func resetTitleViewTextToOriginal() {
@@ -236,23 +292,23 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.room?.removeDelegate(self)
 		self.roomLight?.removeDelegate(self)
 	}
-	
-	func sendMessageToServer(_ lastMessage: NoChatMessage?) {
-		
-		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-		let type = self.userJID != nil ? "chat" : "groupchat"
-		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
-		
-		msg?.addBody(lastMessage?.content)
-		if type == "chat" {
-            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
-		}
-		else {
-			// TODO:
-			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-			self.xmppController.xmppStream.send(msg)
-		}
-	}
+	// FIXME: uncomment this.
+//	func sendMessageToServer(_ lastMessage: NoChatMessage?) {
+//		
+//		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+//		let type = self.userJID != nil ? "chat" : "groupchat"
+//		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
+//		
+//		msg?.addBody(lastMessage?.content)
+//		if type == "chat" {
+//            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
+//		}
+//		else {
+//			// TODO:
+//			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+//			self.xmppController.xmppStream.send(msg)
+//		}
+//	}
 }
 
 // MARK: ChatDataSourceDelegateProtocol
@@ -295,7 +351,8 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 
 		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
 			if mamMessage.body != nil && !mamMessage.isOutgoing {
-				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
+                // FIXME: uncomment this.
+//				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
 				// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 			}
 		}
@@ -323,22 +380,22 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 }
 
 extension ChatViewController {
-	
-	func createTextMessage(text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
-		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
-		message.content = text
-		return message
-	}
+	// FIXME: uncomment this.
+//	func createTextMessage(text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
+//		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
+//		message.content = text
+//		return message
+//	}
 
 
-	func sendText(_ text: String) {
-		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
-		
-		// TODO: implement queing offline messages.
-		// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-		
-		self.sendMessageToServer(message)
-	}
+//	func sendText(_ text: String) {
+//		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
+//		
+//		// TODO: implement queing offline messages.
+//		// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+//		
+//		self.sendMessageToServer(message)
+//	}
 	
 	func showAttachSheet() {
 		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .actionSheet)
@@ -353,35 +410,35 @@ extension ChatViewController {
 		
 		present(sheet, animated: true, completion: nil)
 	}
-
-	func createMessage(_ senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
-		let message = NoChatMessage(
-			msgId: UUID().uuidString,
-			msgType: msgType,
-			senderId: senderId,
-			isIncoming: isIncoming,
-			date: Date(),
-			deliveryStatus: .delivering,
-			attachments: [],
-			content: ""
-		)
-		
-		return message
-	}
+// FIXME: uncomment this.
+//	func createMessage(_ senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
+//		let message = NoChatMessage(
+//			msgId: UUID().uuidString,
+//			msgType: msgType,
+//			senderId: senderId,
+//			isIncoming: isIncoming,
+//			date: Date(),
+//			deliveryStatus: .delivering,
+//			attachments: [],
+//			content: ""
+//		)
+//		
+//		return message
+//	}
 	
 
 }
-
-class TGTextMessageViewModelBuilder: MessageViewModelBuilderProtocol {
-    
-    private let messageViewModelBuilder = MessageViewModelBuilder()
-    
-    func createMessageViewModel(message message: MessageProtocol) -> MessageViewModelProtocol {
-        let messageViewModel = messageViewModelBuilder.createMessageViewModel(message: message)
-        messageViewModel.status.value = .Success
-        let textMessageViewModel = TextMessageViewModel(text: message.content, messageViewModel: messageViewModel)
-        return textMessageViewModel
-    }
-}
+// FIXME: uncomment this. ???
+//class TGTextMessageViewModelBuilder: MessageViewModelBuilderProtocol {
+//    
+//    private let messageViewModelBuilder = MessageViewModelBuilder()
+//    
+//    func createMessageViewModel(message message: MessageProtocol) -> MessageViewModelProtocol {
+//        let messageViewModel = messageViewModelBuilder.createMessageViewModel(message: message)
+//        messageViewModel.status.value = .Success
+//        let textMessageViewModel = TextMessageViewModel(text: message.content, messageViewModel: messageViewModel)
+//        return textMessageViewModel
+//    }
+//}
 
 

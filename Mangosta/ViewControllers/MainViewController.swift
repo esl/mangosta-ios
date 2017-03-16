@@ -253,25 +253,25 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard indexPath.section <= 1 else { return }
 		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-        // FIXME: this need to be uncommented after upgrading to Swift 3
-//		let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-//
-//		if indexPath.section == 0 {
-//			let room = self.xmppController.roomsLight[indexPath.row]
-//			
-//			chatController.roomLight = room
-//			chatController.xmppController = self.xmppController
-//			
-//		}
-//		else if indexPath.section == 1 {
-//			let useThisIndexPath = IndexPath(row: indexPath.row, section: 0)
-//			let user = self.fetchedResultsController?.object(at: useThisIndexPath) as! XMPPUserCoreDataStorageObject
-//			
-//			chatController.xmppController = self.xmppController
-//			chatController.userJID = user.jid
-//			
-//		}
-//		self.navigationController?.pushViewController(chatController, animated: true)
+        
+		let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+
+		if indexPath.section == 0 {
+			let room = self.xmppController.roomsLight[indexPath.row]
+			
+			chatController.roomLight = room
+			chatController.xmppController = self.xmppController
+			
+		}
+		else if indexPath.section == 1 {
+			let useThisIndexPath = IndexPath(row: indexPath.row, section: 0)
+			let user = self.fetchedResultsController?.object(at: useThisIndexPath) as! XMPPUserCoreDataStorageObject
+			
+			chatController.xmppController = self.xmppController
+			chatController.userJID = user.jid
+			
+		}
+		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 	
 	func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {

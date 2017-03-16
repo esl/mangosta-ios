@@ -23,6 +23,24 @@
 		AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
+		AC6CBDA81E7AFC95005EA75B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC6CBDA91E7AFC96005EA75B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC6CBDAE1E7AFEDA005EA75B /* DemoTextMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDAB1E7AFEDA005EA75B /* DemoTextMessageHandler.swift */; };
+		AC6CBDAF1E7AFEDA005EA75B /* DemoTextMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDAB1E7AFEDA005EA75B /* DemoTextMessageHandler.swift */; };
+		AC6CBDB01E7AFEDA005EA75B /* DemoTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDAC1E7AFEDA005EA75B /* DemoTextMessageModel.swift */; };
+		AC6CBDB11E7AFEDA005EA75B /* DemoTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDAC1E7AFEDA005EA75B /* DemoTextMessageModel.swift */; };
+		AC6CBDB21E7AFEDA005EA75B /* DemoTextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDAD1E7AFEDA005EA75B /* DemoTextMessageViewModel.swift */; };
+		AC6CBDB31E7AFEDA005EA75B /* DemoTextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDAD1E7AFEDA005EA75B /* DemoTextMessageViewModel.swift */; };
+		AC6CBDB71E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDB41E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift */; };
+		AC6CBDB81E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDB41E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift */; };
+		AC6CBDB91E7AFFBD005EA75B /* DemoPhotoMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDB51E7AFFBD005EA75B /* DemoPhotoMessageModel.swift */; };
+		AC6CBDBA1E7AFFBD005EA75B /* DemoPhotoMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDB51E7AFFBD005EA75B /* DemoPhotoMessageModel.swift */; };
+		AC6CBDBB1E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDB61E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift */; };
+		AC6CBDBC1E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDB61E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift */; };
+		AC6CBDBE1E7B0012005EA75B /* BaseMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDBD1E7B0012005EA75B /* BaseMessageHandler.swift */; };
+		AC6CBDBF1E7B0012005EA75B /* BaseMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDBD1E7B0012005EA75B /* BaseMessageHandler.swift */; };
+		AC6CBDC11E7B002D005EA75B /* FakeMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDC01E7B002D005EA75B /* FakeMessageSender.swift */; };
+		AC6CBDC21E7B002D005EA75B /* FakeMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6CBDC01E7B002D005EA75B /* FakeMessageSender.swift */; };
 		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -170,6 +188,14 @@
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
 		AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
+		AC6CBDAB1E7AFEDA005EA75B /* DemoTextMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageHandler.swift; sourceTree = "<group>"; };
+		AC6CBDAC1E7AFEDA005EA75B /* DemoTextMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageModel.swift; sourceTree = "<group>"; };
+		AC6CBDAD1E7AFEDA005EA75B /* DemoTextMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageViewModel.swift; sourceTree = "<group>"; };
+		AC6CBDB41E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageHandler.swift; sourceTree = "<group>"; };
+		AC6CBDB51E7AFFBD005EA75B /* DemoPhotoMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageModel.swift; sourceTree = "<group>"; };
+		AC6CBDB61E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageViewModel.swift; sourceTree = "<group>"; };
+		AC6CBDBD1E7B0012005EA75B /* BaseMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMessageHandler.swift; sourceTree = "<group>"; };
+		AC6CBDC01E7B002D005EA75B /* FakeMessageSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeMessageSender.swift; sourceTree = "<group>"; };
 		AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
 		AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
@@ -416,6 +442,7 @@
 		81F8E8311CA02369008099D1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AC6CBDAA1E7AFE5B005EA75B /* ChatUI */,
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
@@ -440,6 +467,22 @@
 			);
 			name = "XEP-0245";
 			path = ../../Pods/XMPPFramework;
+			sourceTree = "<group>";
+		};
+		AC6CBDAA1E7AFE5B005EA75B /* ChatUI */ = {
+			isa = PBXGroup;
+			children = (
+				AC6CBDC01E7B002D005EA75B /* FakeMessageSender.swift */,
+				AC6CBDBD1E7B0012005EA75B /* BaseMessageHandler.swift */,
+				AC6CBDB41E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift */,
+				AC6CBDB51E7AFFBD005EA75B /* DemoPhotoMessageModel.swift */,
+				AC6CBDB61E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift */,
+				AC6CBDAB1E7AFEDA005EA75B /* DemoTextMessageHandler.swift */,
+				AC6CBDAC1E7AFEDA005EA75B /* DemoTextMessageModel.swift */,
+				AC6CBDAD1E7AFEDA005EA75B /* DemoTextMessageViewModel.swift */,
+			);
+			name = ChatUI;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		AC7482A41E03129400B3AEB8 /* XMPP */ = {
@@ -796,8 +839,11 @@
 				AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
 				ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */,
+				AC6CBDBB1E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
+				AC6CBDC11E7B002D005EA75B /* FakeMessageSender.swift in Sources */,
+				AC6CBDB91E7AFFBD005EA75B /* DemoPhotoMessageModel.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
@@ -806,22 +852,28 @@
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				ACED08311E28242000B3AEB8 /* Settings.swift in Sources */,
+				AC6CBDAE1E7AFEDA005EA75B /* DemoTextMessageHandler.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
 				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
+				AC6CBDB01E7AFEDA005EA75B /* DemoTextMessageModel.swift in Sources */,
+				AC6CBDA81E7AFC95005EA75B /* ChatViewController.swift in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
 				C19BA80A1D26D79D00F5BAB2 /* XMPPCustomRoomLight.m in Sources */,
 				ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
+				AC6CBDBE1E7B0012005EA75B /* BaseMessageHandler.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
 				C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
+				AC6CBDB21E7AFEDA005EA75B /* DemoTextMessageViewModel.swift in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */,
 				C135D92B1CEB4DAD00225EC7 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
 				C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */,
+				AC6CBDB71E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
 				C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,12 +902,14 @@
 				AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
+				AC6CBDBC1E7AFFBD005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
+				AC6CBDB81E7AFFBD005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
 				AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */,
 				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
@@ -866,6 +920,7 @@
 				AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */,
 				AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */,
 				AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */,
+				AC6CBDAF1E7AFEDA005EA75B /* DemoTextMessageHandler.swift in Sources */,
 				AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */,
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
@@ -881,10 +936,13 @@
 				AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */,
 				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
 				AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */,
+				AC6CBDB31E7AFEDA005EA75B /* DemoTextMessageViewModel.swift in Sources */,
+				AC6CBDC21E7B002D005EA75B /* FakeMessageSender.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
+				AC6CBDBA1E7AFFBD005EA75B /* DemoPhotoMessageModel.swift in Sources */,
 				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
 				AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */,
@@ -896,6 +954,7 @@
 				AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */,
 				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
+				AC6CBDB11E7AFEDA005EA75B /* DemoTextMessageModel.swift in Sources */,
 				AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */,
 				AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */,
 				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
@@ -904,7 +963,9 @@
 				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
 				AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */,
 				ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
+				AC6CBDA91E7AFC96005EA75B /* ChatViewController.swift in Sources */,
 				AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */,
+				AC6CBDBF1E7B0012005EA75B /* BaseMessageHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
