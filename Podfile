@@ -11,11 +11,16 @@ def main_app_pods
   # The version pushed to CocoaPods is very out of date, use master branch for now
   pod 'XMPPFramework', :git => "https://github.com/robbiehanson/XMPPFramework.git", :branch => 'master'
   #   pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/' # TODO: Update ELS's fork.
-   pod 'MBProgressHUD', '~> 0.9.2'
+  pod 'MBProgressHUD', '~> 0.9.2'
 end
 
 target 'Mangosta' do
   main_app_pods
+end
+
+target 'Mangosta REST' do
+  main_app_pods
+  pod 'Jayme'
 end
 
 post_install do |installer|

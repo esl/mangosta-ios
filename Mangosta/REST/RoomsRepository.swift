@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import Jayme
 
 class RoomRepository: CRUDRepository {
 	
 	typealias EntityType = Room
-	let backend = NSURLSessionBackend.MongooseREST()
+	let backend = URLSessionBackend.MongooseREST()
 	let name = "rooms"
 	
 	// To create a room use create
@@ -19,41 +20,41 @@ class RoomRepository: CRUDRepository {
 	// To return room's details use findByID
 	
 	
-	func addUserToRoom(entity: EntityType, userJID : String) -> Future<EntityType, JaymeError> {
+	func addUserToRoom(_ entity: EntityType, userJID : String) -> Future<EntityType, JaymeError> {
 		let path = self.name + "/" + entity.id + "/users"
-		let parameter : [String: AnyObject]? = ["name":userJID]
-		return self.backend.futureForPath(path, method: .POST, parameters: parameter)
-			.andThen { DataParser().dictionaryFromData($0.0) }
-			.andThen { EntityParser().entityFromDictionary($0) }
+		let parameter : [String: AnyObject]? = ["name":userJID as AnyObject]
+		return self.backend.future(path: path, method: .POST, parameters: parameter)
+			.andThen { DataParser().dictionary(from: $0.0) }
+			.andThen { EntityParser().entity(from: $0) }
 	}
 	
 	// Removes a user from the room
 	
-	func deleteUserFromRoom(entity: EntityType, userJID : String) -> Future<Void, JaymeError> {
+	func deleteUserFromRoom(_ entity: EntityType, userJID : String) -> Future<Void, JaymeError> {
 		let path = self.name + "/" + entity.id + "/" + userJID
-		return self.backend.futureForPath(path, method: .DELETE, parameters: nil)
+		return self.backend.future(path: path, method: .DELETE, parameters: nil)
 			.map { _ in return }
 	}
 	
-	func getMessagesFromRoom(id: EntityType.IdentifierType, limit: NSNumber?, before: NSNumber?) -> Future<[Message], JaymeError> {
+	func getMessagesFromRoom(_ id: EntityType.IdentifierType, limit: NSNumber?, before: NSNumber?) -> Future<[Message], JaymeError> {
 		let path = self.name + "/" + id + "/messages"
 		var parameters : [String : AnyObject]? = nil
 		if let limit = limit {
-			parameters!["limit"] = limit.integerValue
+			parameters!["limit"] = limit.intValue as AnyObject?
 		}
 		if let before = before {
-			parameters!["before"] = before.longValue
+			parameters!["before"] = before.intValue as AnyObject?
 		}
-		return self.backend.futureForPath(path, method: .GET, parameters: parameters)
-			.andThen { DataParser().dictionariesFromData($0.0) }
-			.andThen { EntityParser().entitiesFromDictionaries($0) }
+		return self.backend.future(path: path, method: .GET, parameters: parameters)
+			.andThen { DataParser().dictionaries(from: $0.0) }
+			.andThen { EntityParser().entities(from: $0) }
 	}
 	
-	func sendMessageToRoom(entity: EntityType, messageBody: String) -> Future<EntityType, JaymeError> {
+	func sendMessageToRoom(_ entity: EntityType, messageBody: String) -> Future<EntityType, JaymeError> {
 		let path = self.name + "/" + entity.id + "/messages"
-		let parameter : [String : AnyObject]? = ["body":messageBody]
-		return self.backend.futureForPath(path, method: .POST, parameters: parameter)
-			.andThen { DataParser().dictionaryFromData($0.0) }
-			.andThen { EntityParser().entityFromDictionary($0) }
+		let parameter : [String : AnyObject]? = ["body":messageBody as AnyObject]
+        return self.backend.future(path: path, method: .POST, parameters: parameter)
+			.andThen { DataParser().dictionary(from: $0.0) }
+			.andThen { EntityParser().entity(from: $0) }
 	}
 }

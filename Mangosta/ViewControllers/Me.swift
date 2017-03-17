@@ -29,8 +29,7 @@ class Me: UITableViewController {
         
         self.presentLogInView()
 		#if MangostaREST
-			appDelegate.mongooseRESTController = nil
-			self.mongooseRESTController = nil
+			AppDelegate().mongooseRESTController = nil
 		#endif
 	}
 	

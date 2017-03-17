@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Jayme
 
 struct User: Identifiable {
 	let id: String
@@ -15,20 +16,20 @@ struct User: Identifiable {
 
 extension User: DictionaryInitializable, DictionaryRepresentable {
 
-	init(dictionary: [String: AnyObject]) throws {
+	init(dictionary: [String: Any]) throws {
 		guard let
 			id = dictionary["id"] as? String,
-			jid = dictionary["jid"] as? String
-			else { throw JaymeError.ParsingError }
+			let jid = dictionary["jid"] as? String
+			else { throw JaymeError.parsingError }
 		self.id = id
 		self.jid = jid
 	}
 
 
-	var dictionaryValue: [String: AnyObject] {
+	var dictionaryValue: [String: Any] {
 		return [
-			"id": self.id,
-			"jid": self.jid
+			"id": self.id as Any,
+			"jid": self.jid as Any
 		]
 	}
 

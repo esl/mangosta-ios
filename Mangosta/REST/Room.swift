@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Jayme
 
 struct Room: Identifiable {
 	let id: String
@@ -17,23 +18,23 @@ struct Room: Identifiable {
 
 extension Room: DictionaryInitializable, DictionaryRepresentable {
 
-	init(dictionary: [String: AnyObject]) throws {
+    init(dictionary: [String: Any]) throws {
 		guard let
 			id = dictionary["id"] as? String,
-			subject = dictionary["subject"] as? String,
-			name = dictionary["name"] as? String,
-			participants = dictionary["participants"] as? [String:String]
-			else { throw JaymeError.ParsingError }
+			let subject = dictionary["subject"] as? String,
+			let name = dictionary["name"] as? String,
+			let participants = dictionary["participants"] as? [String:String]
+			else { throw JaymeError.parsingError }
 		self.id = id
 		self.subject = subject
 		self.name = name
 		self.participants = participants
 	}
 
-	var dictionaryValue: [String: AnyObject] {
+    var dictionaryValue: [String: Any] {
 		return [
-			"subject": self.subject, // FIXME: needs to be implemented at server side.
-			"name": self.name
+			"subject": self.subject as Any, // FIXME: needs to be implemented at server side.
+			"name": self.name as Any
 		]
 	}
 }

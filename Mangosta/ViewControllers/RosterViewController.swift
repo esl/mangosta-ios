@@ -215,7 +215,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		var leaveArray : [UITableViewRowAction] = []
 		let privateChatsIndexPath = IndexPath(row: indexPath.row, section: 0)
-		let delete = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
+		let delete = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Delete") { (UITableViewRowAction, IndexPath) in
 			
 			let rosterContext = self.xmppController.managedObjectContext_roster()
 			

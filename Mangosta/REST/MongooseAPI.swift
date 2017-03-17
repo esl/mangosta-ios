@@ -8,23 +8,24 @@
 
 import Foundation
 import XMPPFramework
+import Jayme
 
-class NSTrustedURLSessionBackendDelegate: NSObject, NSURLSessionDelegate {
-		func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+class NSTrustedURLSessionBackendDelegate: NSObject, URLSessionDelegate {
+		func URLSession(_ session: Foundation.URLSession, task: URLSessionTask, didReceiveChallenge challenge: URLAuthenticationChallenge, completionHandler: (Foundation.URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 			if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
 				// print ("I will accept a self signed certificate")
-				let credential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)
-				completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, credential)
+				let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+				completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, credential)
 			}
 		}
 }
 
-extension NSURLSessionBackend {
-	class func MongooseREST() -> NSURLSessionBackend {
+extension URLSessionBackend {
+	class func MongooseREST() -> URLSessionBackend {
 		let basePath = "https://31.172.186.62:5285/api/"
 		
 		let authModel = AuthenticationModel.load()
-		let username = authModel?.jid.bare()
+		let username = authModel?.jid.bare() as String!
 		let password = authModel?.password
 		
 		let token = username! + ":" + password!
@@ -33,19 +34,13 @@ extension NSURLSessionBackend {
 		               HTTPHeader(field: "Content-Type", value: "application/json"),
 		               HTTPHeader(field: "Authorization", value: "Basic " + token.toBase64())]
 		
-		let configuration = NSURLSessionBackendConfiguration(basePath: basePath, httpHeaders: headers)
+		let configuration = URLSessionBackendConfiguration(basePath: basePath, httpHeaders: headers)
 		let delegate = NSTrustedURLSessionBackendDelegate()
-		let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+		let session = URLSession(configuration: URLSessionConfiguration.default,
 		                           delegate: delegate,
-		                           delegateQueue: NSOperationQueue()
+		                           delegateQueue: OperationQueue()
 		)
-		return NSURLSessionBackend(configuration: configuration, session: session)
-	}
-}
-
-extension MongooseAPI: LoginControllerDelegate {
-	func didPressLogInButton() {
-		self.xmppController = self.referenceForXMPPController()
+		return URLSessionBackend(configuration: configuration, session: session)
 	}
 }
 
@@ -57,9 +52,9 @@ extension String {
 	*/
 	func toBase64() -> String {
 		
-		let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+		let data = self.data(using: String.Encoding.utf8)
 		
-		return data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+		return data!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
 		
 	}
 	
@@ -72,14 +67,13 @@ class MongooseAPI: NSObject {
 	
 	weak var xmppController: XMPPController!
 	
-	let backend = NSURLSessionBackend.MongooseREST()
+	let backend = URLSessionBackend.MongooseREST()
 	
-	let activateLogger = Logger()
+	let activateLogger = Logger.sharedLogger
 	
-	private	func referenceForXMPPController() -> XMPPController {
+	fileprivate	func referenceForXMPPController() -> XMPPController {
 	
-		let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-		return appDelegate.xmppController
+		return XMPPController.sharedInstance
 		
 	}
 }
