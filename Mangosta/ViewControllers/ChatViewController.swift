@@ -44,11 +44,21 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         self.navigationItem.title = originalTitleViewText
     }
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // TODO: move to defaults config.
+        var initialCount = 0
+        let pageSize = 50
+        
+        // Note that the order of this componet is important. First the datasource, then the decorator.
+        if dataSource == nil {
+            dataSource = FakeDataSource(count: initialCount, pageSize: pageSize)
+        }
+        self.messageSender = dataSource.messageSender
         super.chatItemsDecorator = ChatItemsDemoDecorator()
-
+        
         var rightBarButtonItems: [UIBarButtonItem] = []
 
         //wallpaperView.image = UIImage(named: "chat_background")!
@@ -108,21 +118,25 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     }
 
     override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
-        let textMessagePresenter = TextMessagePresenterBuilder(
-            viewModelBuilder: DemoTextMessageViewModelBuilder(),
-            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
-        )
-        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()//
-
-        let photoMessagePresenter = PhotoMessagePresenterBuilder(
-            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
-            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
-        )
-        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle() //BaseMessageCollectionViewCellAvatarStyle()
+//        let textMessagePresenter = TextMessagePresenterBuilder(
+//            viewModelBuilder: DemoTextMessageViewModelBuilder(),
+//            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+//        )
+//        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()//
+//
+//        let photoMessagePresenter = PhotoMessagePresenterBuilder(
+//            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
+//            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
+//        )
+//        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle() //BaseMessageCollectionViewCellAvatarStyle()
 
         return [
-            "text-message-type": [textMessagePresenter],
-            "photo-message-type": [photoMessagePresenter],
+//            DemoTextMessageModel.chatItemType: [
+//                textMessagePresenter
+//            ],
+//            DemoPhotoMessageModel.chatItemType: [
+//                photoMessagePresenter
+//            ],
             SendingStatusModel.chatItemType: [SendingStatusPresenterBuilder()],
             TimeSeparatorModel.chatItemType: [TimeSeparatorPresenterBuilder()]
         ]
@@ -145,7 +159,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     private func createPhotoInputItem() -> PhotosChatInputItem {
         let item = PhotosChatInputItem(presentingController: self)
         item.photoInputHandler = { [weak self] image in
-            self?.dataSource.addPhotoMessage(image)
+            self?.dataSource?.addPhotoMessage(image)
         }
         return item
     }
@@ -406,20 +420,7 @@ extension ChatViewController {
 //		self.sendMessageToServer(message)
 //	}
 
-	func showAttachSheet() {
-		let sheet = UIAlertController(title: "Choose attachment", message: "", preferredStyle: .actionSheet)
-		// TODO: to be implemented  when server guys finish the implemetation of file attachment
-		sheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-		}))
-
-		sheet.addAction(UIAlertAction(title: "Photos", style: .default, handler: { _ in
-		}))
-
-		sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-		present(sheet, animated: true, completion: nil)
-	}
-// FIXME: uncomment this.
+	// FIXME: uncomment this.
 //	func createMessage(_ senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
 //		let message = NoChatMessage(
 //			msgId: UUID().uuidString,
