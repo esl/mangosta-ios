@@ -290,7 +290,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		let resultSet = XMPPResultSet(max: 5, after: self.lastID)
 		#if MangostaREST
 			// TODO: add before and after
-			MIMCommonInterface.getMessagesWithUser(jid!, limit: nil, before: nil)
+			_ = MIMCommonInterface.getMessagesWithUser(user: jid!, limit: nil, before: nil)
 		#endif
 		self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchive(withFields: fields, with: resultSet)
 	}

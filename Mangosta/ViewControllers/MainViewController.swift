@@ -294,7 +294,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		var leaveArray : [UITableViewRowAction] = []
 		if indexPath.section  == 0 {
 			
-			let leave = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Leave") { (UITableViewRowAction, NSIndexPath) in
+			let leave = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Leave") { (UITableViewRowAction, IndexPath) in
 				
 				self.xmppController.roomsLight[indexPath.row].leave()
 			}
@@ -305,7 +305,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			
 		else if indexPath.section == 1 {
 			let privateChatsIndexPath = IndexPath(row: indexPath.row, section: 0)
-			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Delete") { (UITableViewRowAction, NSIndexPath) in
+			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Delete") { (UITableViewRowAction, IndexPath) in
 				
 				let rosterContext = self.xmppController.managedObjectContext_roster()
 				

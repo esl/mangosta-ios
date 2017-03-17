@@ -75,7 +75,11 @@ class FakeMessageFactory {
         let maxText = self.demoTexts.randomItem()
         let length: Int = 10 + Int(arc4random_uniform(300))
         let text = "\(maxText.substring(to: maxText.characters.index(maxText.startIndex, offsetBy: length))) incoming:\(incomingText), #:\(uid)"
-        return Mangosta.createTextMessageModel(uid, text: text, isIncoming: isIncoming)
+        #if MangostaREST
+            return Mangosta_REST.createTextMessageModel(uid, text: text, isIncoming: isIncoming)
+        #else
+            return Mangosta.createTextMessageModel(uid, text: text, isIncoming: isIncoming)
+        #endif
     }
 
     class func createPhotoMessageModel(_ uid: String, isIncoming: Bool) -> DemoPhotoMessageModel {
@@ -102,7 +106,11 @@ class FakeMessageFactory {
         default:
             imageName = "pic-test-3"
         }
-        return Mangosta.createPhotoMessageModel(uid, image: UIImage(named: imageName)!, size: imageSize, isIncoming: isIncoming)
+        #if MangostaREST
+            return Mangosta_REST.createPhotoMessageModel(uid, image: UIImage(named: imageName)!, size: imageSize, isIncoming: isIncoming)
+        #else
+            return Mangosta.createPhotoMessageModel(uid, image: UIImage(named: imageName)!, size: imageSize, isIncoming: isIncoming)
+        #endif
     }
 }
 

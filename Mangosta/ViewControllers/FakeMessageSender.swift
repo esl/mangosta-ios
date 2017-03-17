@@ -32,38 +32,38 @@ public protocol DemoMessageModelProtocol: MessageModelProtocol {
 
 public class FakeMessageSender {
 
-    public var onMessageChanged: ((message: DemoMessageModelProtocol) -> Void)?
+    public var onMessageChanged: ((_ message: DemoMessageModelProtocol) -> Void)?
 
     public func sendMessages(messages: [DemoMessageModelProtocol]) {
         for message in messages {
-            self.fakeMessageStatus(message)
+            self.fakeMessageStatus(message: message)
         }
     }
 
     public func sendMessage( message: DemoMessageModelProtocol) {
-        self.fakeMessageStatus(message)
+        self.fakeMessageStatus(message: message)
     }
 
     private func fakeMessageStatus( message: DemoMessageModelProtocol) {
         switch message.status {
-        case .Success:
+        case .success:
             break
-        case .Failed:
-            self.updateMessage(message, status: .Sending)
-            self.fakeMessageStatus(message)
-        case .Sending:
+        case .failed:
+            self.updateMessage(message, status: .sending)
+            self.fakeMessageStatus(message: message)
+        case .sending:
             switch arc4random_uniform(100) % 5 {
             case 0:
                 if arc4random_uniform(100) % 2 == 0 {
-                    self.updateMessage(message, status: .Failed)
+                    self.updateMessage(message, status: .failed)
                 } else {
-                    self.updateMessage(message, status: .Success)
+                    self.updateMessage(message, status: .success)
                 }
             default:
                 let delaySeconds: Double = Double(arc4random_uniform(1200)) / 1000.0
                 let delayTime = DispatchTime.now() + Double(Int64(delaySeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
                 DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                    self.fakeMessageStatus(message)
+                    self.fakeMessageStatus(message: message)
                 }
             }
         }
