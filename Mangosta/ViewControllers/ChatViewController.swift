@@ -59,7 +59,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         
         var rightBarButtonItems: [UIBarButtonItem] = []
 
-        //wallpaperView.image = UIImage(named: "chat_background")!
+        wallpaperView.image = UIImage(named: "chat_background")!
 
         self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
 
@@ -106,6 +106,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         wallpaperView.contentMode = .scaleAspectFill
         wallpaperView.clipsToBounds = true
         view.addSubview(wallpaperView)
+        view.sendSubview(toBack: wallpaperView)
     }
 
 
