@@ -119,6 +119,8 @@
 		ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACED08311E28242000B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
+		ACF0FAB21E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */; };
+		ACF0FAB31E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */; };
 		B746A60CC34A8AE4580308D8 /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
@@ -229,6 +231,7 @@
 		ACB2D2B81E16ABB000B3AEB8 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightCreateRoomPresenterViewController.swift; sourceTree = "<group>"; };
 		ACED08301E28242000B3AEB8 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Wallpaper.swift"; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
@@ -467,6 +470,7 @@
 				AC3E3FC01E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift */,
 				AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */,
 				AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */,
+				ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */,
 			);
 			name = ChatUI;
 			sourceTree = "<group>";
@@ -893,6 +897,7 @@
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
 				AC3E3FCC1E7C3F19005EA75B /* FakeDataSource.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
+				ACF0FAB21E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */,
 				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				AC3E3FCF1E7C3F19005EA75B /* SlidingDatasSource.swift in Sources */,
 				AC3E3FAF1E7C3DB0005EA75B /* ChatViewController.swift in Sources */,
@@ -978,6 +983,7 @@
 				AC3E3FE61E7C3F32005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				AC3E3FD71E7C3F27005EA75B /* DemoPhotoMessageModel.swift in Sources */,
+				ACF0FAB31E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */,
 				AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */,
 				AC3E3FE11E7C3F32005EA75B /* SlidingDatasSource.swift in Sources */,
 				AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */,

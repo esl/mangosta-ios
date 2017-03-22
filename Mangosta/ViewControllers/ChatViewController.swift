@@ -25,12 +25,15 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
 	let MIMCommonInterface = MIMMainInterface()
 
+    public private(set) var wallpaperView: UIImageView!
+    
     var messageSender: FakeMessageSender!
     var dataSource: FakeDataSource! {
         didSet {
             self.chatDataSource = self.dataSource
         }
     }
+    
     lazy private var baseMessageHandler: BaseMessageHandler = {
         return BaseMessageHandler(messageSender: self.messageSender)
     }()
@@ -48,16 +51,11 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // TODO: move to defaults config.
-        var initialCount = 0
-        let pageSize = 50
-        
-        // Note that the order of this componet is important. First the datasource, then the decorator.
-        if dataSource == nil {
-            dataSource = FakeDataSource(count: initialCount, pageSize: pageSize)
-        }
+        // Note that this componet needs to have. First the datasource and it's messageSender, which was passed on MainViewController, before starting the decorator.
         self.messageSender = dataSource.messageSender
         super.chatItemsDecorator = ChatItemsDemoDecorator()
+        
+        self.addWallpaperView()
         
         var rightBarButtonItems: [UIBarButtonItem] = []
 
@@ -101,10 +99,15 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-	@objc
-    private func addRandomIncomingMessage() {
-        self.dataSource.addRandomIncomingMessage()
+    
+    private func addWallpaperView() {
+        wallpaperView = UIImageView(frame: CGRect.zero)
+        wallpaperView.translatesAutoresizingMaskIntoConstraints = false
+        wallpaperView.contentMode = .scaleAspectFill
+        wallpaperView.clipsToBounds = true
+        view.addSubview(wallpaperView)
     }
+
 
     var chatInputPresenter: BasicChatInputBarPresenter!
     override func createChatInputView() -> UIView {
@@ -118,25 +121,25 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     }
 
     override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
-//        let textMessagePresenter = TextMessagePresenterBuilder(
-//            viewModelBuilder: DemoTextMessageViewModelBuilder(),
-//            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
-//        )
-//        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()//
-//
-//        let photoMessagePresenter = PhotoMessagePresenterBuilder(
-//            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
-//            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
-//        )
-//        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle() //BaseMessageCollectionViewCellAvatarStyle()
+        let textMessagePresenter = TextMessagePresenterBuilder(
+            viewModelBuilder: DemoTextMessageViewModelBuilder(),
+            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+        )
+        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()
+
+        let photoMessagePresenter = PhotoMessagePresenterBuilder(
+            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
+            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
+        )
+        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle()
 
         return [
-//            DemoTextMessageModel.chatItemType: [
-//                textMessagePresenter
-//            ],
-//            DemoPhotoMessageModel.chatItemType: [
-//                photoMessagePresenter
-//            ],
+            DemoTextMessageModel.chatItemType: [
+                textMessagePresenter
+            ],
+            DemoPhotoMessageModel.chatItemType: [
+                photoMessagePresenter
+            ],
             SendingStatusModel.chatItemType: [SendingStatusPresenterBuilder()],
             TimeSeparatorModel.chatItemType: [TimeSeparatorPresenterBuilder()]
         ]
