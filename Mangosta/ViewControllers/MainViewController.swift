@@ -274,7 +274,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
             let initialCount = 0
             let pageSize = 50
             
-            chatController.dataSource = FakeDataSource(count: initialCount, pageSize: pageSize)
+            chatController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
             chatController.messageSender = chatController.dataSource.messageSender
 			
 		}

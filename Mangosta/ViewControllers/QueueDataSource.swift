@@ -25,7 +25,7 @@
 import Foundation
 import Chatto
 
-class FakeDataSource: ChatDataSourceProtocol {
+class QueueDataSource: ChatDataSourceProtocol {
     var nextMessageId: Int = 0
     let preferredMaxWindowSize = 500
 
@@ -33,7 +33,7 @@ class FakeDataSource: ChatDataSourceProtocol {
     init(count: Int, pageSize: Int) {
         self.slidingWindow = SlidingDataSource(count: count, pageSize: pageSize) { () -> ChatItemProtocol in
             defer { self.nextMessageId += 1 }
-            return FakeMessageFactory.createChatItem("\(self.nextMessageId)")
+            return QueueMessageFactory.createChatItem("\(self.nextMessageId)")
         }
     }
 
@@ -41,8 +41,8 @@ class FakeDataSource: ChatDataSourceProtocol {
         self.slidingWindow = SlidingDataSource(items: messages, pageSize: pageSize)
     }
 
-    lazy var messageSender: FakeMessageSender = {
-        let sender = FakeMessageSender()
+    lazy var messageSender: QueueMessageSender = {
+        let sender = QueueMessageSender()
         sender.onMessageChanged = { [weak self] (message) in
             guard let sSelf = self else { return }
             sSelf.delegate?.chatDataSourceDidUpdate(sSelf)
@@ -95,7 +95,7 @@ class FakeDataSource: ChatDataSourceProtocol {
     }
 
     func addRandomIncomingMessage() {
-        let message = FakeMessageFactory.createChatItem("\(self.nextMessageId)", isIncoming: true)
+        let message = QueueMessageFactory.createChatItem("\(self.nextMessageId)", isIncoming: true)
         self.nextMessageId += 1
         self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self)

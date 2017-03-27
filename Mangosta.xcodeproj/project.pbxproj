@@ -27,10 +27,10 @@
 		AC3E3FC71E7C3F19005EA75B /* DemoTextMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB51E7C3F19005EA75B /* DemoTextMessageHandler.swift */; };
 		AC3E3FC81E7C3F19005EA75B /* DemoTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */; };
 		AC3E3FC91E7C3F19005EA75B /* DemoTextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */; };
-		AC3E3FCA1E7C3F19005EA75B /* FakeMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB81E7C3F19005EA75B /* FakeMessageFactory.swift */; };
+		AC3E3FCA1E7C3F19005EA75B /* QueueMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */; };
 		AC3E3FCB1E7C3F19005EA75B /* ChatItemsDemoDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */; };
-		AC3E3FCC1E7C3F19005EA75B /* FakeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBA1E7C3F19005EA75B /* FakeDataSource.swift */; };
-		AC3E3FCD1E7C3F19005EA75B /* FakeMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBB1E7C3F19005EA75B /* FakeMessageSender.swift */; };
+		AC3E3FCC1E7C3F19005EA75B /* QueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */; };
+		AC3E3FCD1E7C3F19005EA75B /* QueueMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */; };
 		AC3E3FCE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */; };
 		AC3E3FCF1E7C3F19005EA75B /* SlidingDatasSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */; };
 		AC3E3FD01E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */; };
@@ -45,10 +45,10 @@
 		AC3E3FD91E7C3F27005EA75B /* DemoTextMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB51E7C3F19005EA75B /* DemoTextMessageHandler.swift */; };
 		AC3E3FDA1E7C3F27005EA75B /* DemoTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */; };
 		AC3E3FDB1E7C3F27005EA75B /* DemoTextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */; };
-		AC3E3FDC1E7C3F27005EA75B /* FakeMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB81E7C3F19005EA75B /* FakeMessageFactory.swift */; };
+		AC3E3FDC1E7C3F27005EA75B /* QueueMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */; };
 		AC3E3FDD1E7C3F27005EA75B /* ChatItemsDemoDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */; };
-		AC3E3FDE1E7C3F32005EA75B /* FakeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBA1E7C3F19005EA75B /* FakeDataSource.swift */; };
-		AC3E3FDF1E7C3F32005EA75B /* FakeMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBB1E7C3F19005EA75B /* FakeMessageSender.swift */; };
+		AC3E3FDE1E7C3F32005EA75B /* QueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */; };
+		AC3E3FDF1E7C3F32005EA75B /* QueueMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */; };
 		AC3E3FE01E7C3F32005EA75B /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */; };
 		AC3E3FE11E7C3F32005EA75B /* SlidingDatasSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */; };
 		AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */; };
@@ -191,14 +191,14 @@
 		AC3E3FB11E7C3F19005EA75B /* BaseMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMessageHandler.swift; sourceTree = "<group>"; };
 		AC3E3FB21E7C3F19005EA75B /* DemoPhotoMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageHandler.swift; sourceTree = "<group>"; };
 		AC3E3FB31E7C3F19005EA75B /* DemoPhotoMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageModel.swift; sourceTree = "<group>"; };
-		AC3E3FB41E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageViewModel.swift; sourceTree = "<group>"; };
+		AC3E3FB41E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DemoPhotoMessageViewModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AC3E3FB51E7C3F19005EA75B /* DemoTextMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageHandler.swift; sourceTree = "<group>"; };
 		AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageModel.swift; sourceTree = "<group>"; };
 		AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageViewModel.swift; sourceTree = "<group>"; };
-		AC3E3FB81E7C3F19005EA75B /* FakeMessageFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeMessageFactory.swift; sourceTree = "<group>"; };
+		AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = QueueMessageFactory.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItemsDemoDecorator.swift; sourceTree = "<group>"; };
-		AC3E3FBA1E7C3F19005EA75B /* FakeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeDataSource.swift; sourceTree = "<group>"; };
-		AC3E3FBB1E7C3F19005EA75B /* FakeMessageSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeMessageSender.swift; sourceTree = "<group>"; };
+		AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueDataSource.swift; sourceTree = "<group>"; };
+		AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = QueueMessageSender.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendingStatusCollectionViewCell.xib; sourceTree = "<group>"; };
 		AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingDatasSource.swift; sourceTree = "<group>"; };
 		AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -460,9 +460,9 @@
 				AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */,
 				AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */,
 				AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */,
-				AC3E3FB81E7C3F19005EA75B /* FakeMessageFactory.swift */,
-				AC3E3FBA1E7C3F19005EA75B /* FakeDataSource.swift */,
-				AC3E3FBB1E7C3F19005EA75B /* FakeMessageSender.swift */,
+				AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */,
+				AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */,
+				AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */,
 				AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */,
 				AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */,
 				AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */,
@@ -870,7 +870,7 @@
 			files = (
 				C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */,
 				AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
-				AC3E3FCD1E7C3F19005EA75B /* FakeMessageSender.swift in Sources */,
+				AC3E3FCD1E7C3F19005EA75B /* QueueMessageSender.swift in Sources */,
 				AC3E3FC71E7C3F19005EA75B /* DemoTextMessageHandler.swift in Sources */,
 				AC3E3FC41E7C3F19005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
 				AC3E3FD11E7C3F19005EA75B /* SendingStatusPresenter.swift in Sources */,
@@ -886,7 +886,7 @@
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
 				AC3E3FD21E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
-				AC3E3FCA1E7C3F19005EA75B /* FakeMessageFactory.swift in Sources */,
+				AC3E3FCA1E7C3F19005EA75B /* QueueMessageFactory.swift in Sources */,
 				AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
@@ -895,7 +895,7 @@
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				AC3E3FC51E7C3F19005EA75B /* DemoPhotoMessageModel.swift in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
-				AC3E3FCC1E7C3F19005EA75B /* FakeDataSource.swift in Sources */,
+				AC3E3FCC1E7C3F19005EA75B /* QueueDataSource.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
 				ACF0FAB21E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */,
 				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
@@ -943,14 +943,14 @@
 			files = (
 				AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */,
 				AC3E3FDD1E7C3F27005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
-				AC3E3FDE1E7C3F32005EA75B /* FakeDataSource.swift in Sources */,
+				AC3E3FDE1E7C3F32005EA75B /* QueueDataSource.swift in Sources */,
 				AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				AC3E3FD51E7C3F1D005EA75B /* BaseMessageHandler.swift in Sources */,
 				AC3E3FE41E7C3F32005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
-				AC3E3FDF1E7C3F32005EA75B /* FakeMessageSender.swift in Sources */,
+				AC3E3FDF1E7C3F32005EA75B /* QueueMessageSender.swift in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
@@ -973,7 +973,7 @@
 				AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
 				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
-				AC3E3FDC1E7C3F27005EA75B /* FakeMessageFactory.swift in Sources */,
+				AC3E3FDC1E7C3F27005EA75B /* QueueMessageFactory.swift in Sources */,
 				AC3E3FB01E7C3DB1005EA75B /* ChatViewController.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,

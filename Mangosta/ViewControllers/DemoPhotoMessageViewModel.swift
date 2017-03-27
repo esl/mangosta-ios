@@ -27,9 +27,9 @@ import ChattoAdditions
 
 class DemoPhotoMessageViewModel: PhotoMessageViewModel<DemoPhotoMessageModel> {
 
-    let fakeImage: UIImage
+    let queueImage: UIImage
     override init(photoMessage: DemoPhotoMessageModel, messageViewModel: MessageViewModelProtocol) {
-        self.fakeImage = photoMessage.image
+        self.queueImage = photoMessage.image
         super.init(photoMessage: photoMessage, messageViewModel: messageViewModel)
         if photoMessage.isIncoming {
             self.image.value = nil
@@ -37,17 +37,17 @@ class DemoPhotoMessageViewModel: PhotoMessageViewModel<DemoPhotoMessageModel> {
     }
 
     override func willBeShown() {
-        self.fakeProgress()
+        self.queueProgress()
     }
 
-    func fakeProgress() {
+    func queueProgress() {
         if [TransferStatus.success, TransferStatus.failed].contains(self.transferStatus.value) {
             return
         }
         if self.transferProgress.value >= 1.0 {
             if arc4random_uniform(100) % 2 == 0 {
                 self.transferStatus.value = .success
-                self.image.value = self.fakeImage
+                self.image.value = self.queueImage
             } else {
                 self.transferStatus.value = .failed
             }
@@ -60,7 +60,7 @@ class DemoPhotoMessageViewModel: PhotoMessageViewModel<DemoPhotoMessageModel> {
         DispatchQueue.main.asyncAfter(deadline: delayTime) {
             let deltaProgress = Double(arc4random_uniform(15)) / 100.0
             self.transferProgress.value = min(self.transferProgress.value + deltaProgress, 1)
-            self.fakeProgress()
+            self.queueProgress()
         }
     }
 }

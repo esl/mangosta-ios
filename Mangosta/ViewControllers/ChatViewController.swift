@@ -33,8 +33,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
     public private(set) var wallpaperView: UIImageView!
     
-    var messageSender: FakeMessageSender!
-    var dataSource: FakeDataSource! {
+    var messageSender: QueueMessageSender!
+    var dataSource: QueueDataSource! {
         didSet {
             self.chatDataSource = self.dataSource
         }

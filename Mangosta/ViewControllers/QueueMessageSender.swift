@@ -30,27 +30,27 @@ public protocol DemoMessageModelProtocol: MessageModelProtocol {
     var status: MessageStatus { get set }
 }
 
-public class FakeMessageSender {
+public class QueueMessageSender {
 
     public var onMessageChanged: ((_ message: DemoMessageModelProtocol) -> Void)?
 
     public func sendMessages(messages: [DemoMessageModelProtocol]) {
         for message in messages {
-            self.fakeMessageStatus(message: message)
+            self.queueMessageStatus(message: message)
         }
     }
 
     public func sendMessage( message: DemoMessageModelProtocol) {
-        self.fakeMessageStatus(message: message)
+        self.queueMessageStatus(message: message)
     }
 
-    private func fakeMessageStatus( message: DemoMessageModelProtocol) {
+    private func queueMessageStatus( message: DemoMessageModelProtocol) {
         switch message.status {
         case .success:
             break
         case .failed:
             self.updateMessage(message, status: .sending)
-            self.fakeMessageStatus(message: message)
+            self.queueMessageStatus(message: message)
         case .sending:
             switch arc4random_uniform(100) % 5 {
             case 0:
@@ -63,7 +63,7 @@ public class FakeMessageSender {
                 let delaySeconds: Double = Double(arc4random_uniform(1200)) / 1000.0
                 let delayTime = DispatchTime.now() + Double(Int64(delaySeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
                 DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                    self.fakeMessageStatus(message: message)
+                    self.queueMessageStatus(message: message)
                 }
             }
         }

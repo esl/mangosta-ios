@@ -52,7 +52,7 @@ func createPhotoMessageModel(_ uid: String, image: UIImage, size: CGSize, isInco
     return photoMessageModel
 }
 
-class FakeMessageFactory {
+class QueueMessageFactory {
     static let demoTexts = [
         "Lorem ipsum dolor sit amet 😇, https://github.com/badoo/Chatto consectetur adipiscing elit , sed do eiusmod tempor incididunt 07400000000 📞 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore https://github.com/badoo/Chatto eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat 07400000000 non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     ]
@@ -128,14 +128,14 @@ extension PhotoMessageModel {
 
 class TutorialMessageFactory {
     static let messages = [
-        ("text", "Welcome to Chatto! A lightweight Swift framework to build chat apps"),
+        ("text", "Test message."),
         ("text", "It calculates sizes in the background for smooth pagination and rotation, and it can deal with thousands of messages with a sliding data source"),
         ("text", "Along with Chatto there's ChattoAdditions, with bubbles and the input component"),
         ("text", "This is a TextMessageCollectionViewCell. It uses UITextView with data detectors so you can interact with urls: https://github.com/badoo/Chatto, phone numbers: 07400000000, dates: 3 jan 2016 and others"),
         ("image", "pic-test-1"),
         ("image", "pic-test-2"),
         ("image", "pic-test-3"),
-        ("text", "Those were some PhotoMessageCollectionViewCell. With some fake data transfer"),
+        ("text", "Those were some PhotoMessageCollectionViewCell. With some queue data transfer"),
         ("text", "Both Text and Photo cells inherit from BaseMessageCollectionViewCell which adds support for a failed icon and a timestamp you can reveal by swiping from the right"),
         ("text", "Each message is paired with a Presenter. Each presenter is responsible to present a message by managing a corresponding UICollectionViewCell. New types of messages can be easily added by creating new types of presenters!"),
         ("text", "Messages have different margins and only some bubbles show a tail. This is done with a decorator that conforms to ChatItemsDecoratorProtocol"),
