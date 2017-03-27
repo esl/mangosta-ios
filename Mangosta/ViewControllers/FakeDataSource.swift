@@ -77,7 +77,7 @@ class FakeDataSource: ChatDataSourceProtocol {
     }
 
     func addTextMessage(_ text: String) {
-        let uid = "\(self.nextMessageId)"
+        let uid = UUID.init().uuidString
         self.nextMessageId += 1
         let message = createTextMessageModel(uid, text: text, isIncoming: false)
         self.messageSender.sendMessage(message: message)
@@ -86,7 +86,7 @@ class FakeDataSource: ChatDataSourceProtocol {
     }
 
     func addPhotoMessage(_ image: UIImage) {
-        let uid = "\(self.nextMessageId)"
+        let uid =  UUID.init().uuidString
         self.nextMessageId += 1
         let message = createPhotoMessageModel(uid, image: image, size: image.size, isIncoming: false)
         self.messageSender.sendMessage(message: message)

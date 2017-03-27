@@ -16,6 +16,12 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
 
+//    override func chatDataSourceDidUpdate(_ chatDataSource: ChatDataSourceProtocol) {
+//        print ("asdlkfjasklfjasdlkjfasdlkfjasdlk")
+//        self.sendMessageToServer(message)
+//        
+//    }
+    
 	weak var room: XMPPRoom?
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
@@ -168,43 +174,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         return item
     }
 
-
-    // ==old
-
-//	lazy var titleView: TitleView! = {
-//		let view = TitleView()
-//		return view
-//	}()
-//
-//	lazy var avatarButton: AvatarButton! = {
-//		let button = AvatarButton()
-//		return button
-//	}()
-//
-//	override var title: String? {
-//		set {
-//			titleView.titleLabel.text = newValue
-//		}
-//		get {
-//			return titleView.titleLabel.text
-//		}
-//	}
-
-//
-//	 func createChatInputViewController() -> UIViewController {
-//		let inputController = ChatInputViewController()
-//
-//		inputController.onSendText = { [weak self] text in
-//			self?.sendText(text)
-//		}
-//
-//		inputController.onChooseAttach = { [weak self] in
-//			self?.showAttachSheet()
-//		}
-//
-//		return inputController
-//	}
-
 	override var canBecomeFirstResponder : Bool {
 		return true
 	}
@@ -319,6 +288,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.room?.removeDelegate(self)
 		self.roomLight?.removeDelegate(self)
 	}
+    
+ 
 	// FIXME: uncomment this.
 //	func sendMessageToServer(_ lastMessage: NoChatMessage?) {
 //
@@ -407,6 +378,7 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 }
 
 extension ChatViewController {
+ 
 	// FIXME: uncomment this.
 //	func createTextMessage(text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
 //		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
