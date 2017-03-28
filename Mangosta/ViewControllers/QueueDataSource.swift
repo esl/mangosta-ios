@@ -26,14 +26,14 @@ import Foundation
 import Chatto
 
 class QueueDataSource: ChatDataSourceProtocol {
-    var nextMessageId: Int = 0
+
     let preferredMaxWindowSize = 500
 
     var slidingWindow: SlidingDataSource<ChatItemProtocol>!
     init(count: Int, pageSize: Int) {
         self.slidingWindow = SlidingDataSource(count: count, pageSize: pageSize) { () -> ChatItemProtocol in
-            defer { self.nextMessageId += 1 }
-            return QueueMessageFactory.createChatItem("\(self.nextMessageId)")
+            let messageId = UUID.init().uuidString
+            return QueueMessageFactory.createChatItem(messageId, text: "Text to include") // FIXME:
         }
     }
 
@@ -78,25 +78,16 @@ class QueueDataSource: ChatDataSourceProtocol {
 
     func addTextMessage(_ text: String) {
         let uid = UUID.init().uuidString
-        self.nextMessageId += 1
         let message = createTextMessageModel(uid, text: text, isIncoming: false)
         self.messageSender.sendMessage(message: message)
         self.slidingWindow.insertItem(message, position: .bottom)
-        self.delegate?.chatDataSourceDidUpdate(self)
+        self.delegate?.chatDataSourceDidUpdate(self) // TODO: create own callback.
     }
 
     func addPhotoMessage(_ image: UIImage) {
         let uid =  UUID.init().uuidString
-        self.nextMessageId += 1
         let message = createPhotoMessageModel(uid, image: image, size: image.size, isIncoming: false)
         self.messageSender.sendMessage(message: message)
-        self.slidingWindow.insertItem(message, position: .bottom)
-        self.delegate?.chatDataSourceDidUpdate(self)
-    }
-
-    func addRandomIncomingMessage() {
-        let message = QueueMessageFactory.createChatItem("\(self.nextMessageId)", isIncoming: true)
-        self.nextMessageId += 1
         self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self)
     }
