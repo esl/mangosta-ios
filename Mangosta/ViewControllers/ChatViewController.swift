@@ -297,13 +297,17 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	                                atIndexPath indexPath: NSIndexPath?,
 	                                            forChangeType type: NSFetchedResultsChangeType,
 	                                                          newIndexPath: NSIndexPath?) {
-
-		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
-			if mamMessage.body != nil && !mamMessage.isOutgoing {
-				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
-				(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-			}
-		}
+        switch anObject {
+        case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
+            let message = createTextMessage(text: privateMessage.body, senderId: privateMessage.bareJidStr, isIncoming: true)
+            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+            
+        case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
+            let message = createTextMessage(text: roomMessage.body(), senderId: roomMessage.nickname(), isIncoming: true)
+            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+            
+        default: break
+        }
 	}
 }
 
