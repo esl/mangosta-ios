@@ -121,8 +121,10 @@ class MainViewController: UIViewController, TitleViewModifiable {
 		alertController.view.tintColor = UIColor(hexString:"009ab5")
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .Default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
-			let roomCreateViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
-			self.presentViewController(roomCreateViewController, animated: true, completion: nil)
+			let roomCreatePresenterViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
+            let roomCreateViewController = roomCreatePresenterViewController.topViewController as! MUCRoomCreateViewController
+            roomCreateViewController.delegate = self
+			self.presentViewController(roomCreatePresenterViewController, animated: true, completion: nil)
 		}
 		alertController.addAction(roomChatAction)
 		
@@ -368,13 +370,17 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 		self.newRoomUsers = users ?? []
 		
 		let jid = XMPPJID.jidWithString(MUCLightServiceName)
-		let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
+		// TODO: [pwe] this module instance only lives for the duration of room creation, being replaced by another one in didDiscoverRooms callback; it would be best to only have one
+        let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        roomLight.activate(xmppController.xmppStream)
 		
 		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
+        
+        roomLight.deactivate()
+        roomLight.removeDelegate(self)
 		
-		self.navigationController?.popViewControllerAnimated(true)
-		
+        dismissViewControllerAnimated(true, completion: nil)
 	}
 }
 // FIXME: create room

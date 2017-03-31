@@ -10,6 +10,7 @@ import UIKit
 import XMPPFramework
 import MBProgressHUD
 
+// TODO: [pwe] this view controller appears not to be used anywhere
 class MUCLightRoomViewController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
