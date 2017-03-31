@@ -1118,6 +1118,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FB21A84DE3DB4A7D04D49713 /* Pods-Mangosta.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1135,6 +1136,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC0B48606E9587DFCED6A206 /* Pods-Mangosta.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
