@@ -269,15 +269,14 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			
 			chatController.xmppController = self.xmppController
 			chatController.userJID = user.jid
-            
-            // TODO: move to defaults config.
-            let initialCount = 0
-            let pageSize = 50
-            
-            chatController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
-            chatController.messageSender = chatController.dataSource.messageSender
-			
 		}
+        // TODO: move to defaults config.
+        let initialCount = 0
+        let pageSize = 50
+        
+        chatController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
+        chatController.messageSender = chatController.dataSource.messageSender
+        
 		self.navigationController?.pushViewController(chatController, animated: true)
 	}
 	
