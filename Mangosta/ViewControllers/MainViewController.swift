@@ -14,7 +14,6 @@ class MainViewController: UIViewController, TitleViewModifiable {
    
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController?
-	var activated = true
 	weak var xmppController: XMPPController!
 	
 	#if MangostaREST // TODO: probably better way.
@@ -104,15 +103,10 @@ class MainViewController: UIViewController, TitleViewModifiable {
 	
 	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
 	@IBAction func activateDeactivate(sender: UIButton) {
-		if activated {
-			self.xmppController.xmppStream.sendElement(XMPPElement.indicateInactiveElement())
-			self.activated = false
-			sender.setTitle("activate", forState: UIControlState.Normal)
-		} else {
-			self.xmppController.xmppStream.sendElement(XMPPElement.indicateActiveElement())
-			self.activated = true
-			sender .setTitle("deactivate", forState: UIControlState.Normal)
-		}
+        xmppController.xmppClientState.active = !xmppController.xmppClientState.active
+        
+        // TODO: [pwe] more robust way to update UI state
+        sender.setTitle(xmppController.xmppClientState.active ? "deactivate" : "activate", forState: .Normal)
 	}
 	
 	func pushMeViewControler(sender: UIBarButtonItem) {
