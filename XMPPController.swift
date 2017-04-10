@@ -41,6 +41,7 @@ class XMPPController: NSObject {
     
     // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
     let xmppClientState: XMPPClientState
+    let xmppPushNotifications: XMPPPushNotifications
     
     let myMicroblogNode = "urn:xmpp:microblog:0"
 
@@ -49,6 +50,8 @@ class XMPPController: NSObject {
     
     var isXmppConnected = false
 		
+    weak var pushNotificationsDelegate: XMPPControllerPushNotificationsDelegate?
+    
     override init() {
         self.xmppStream = XMPPStream()
 		self.xmppReconnect = XMPPReconnect()
@@ -98,6 +101,18 @@ class XMPPController: NSObject {
 		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
         
         self.xmppClientState = XMPPClientState()
+        
+        let pushNotificationsEnvironment: XMPPPushNotificationsEnvironment
+        #if APNS_SANDBOX
+            pushNotificationsEnvironment = .Sandbox
+        #elseif APNS_PRODUCTION
+            pushNotificationsEnvironment = .Production
+        #endif
+        self.xmppPushNotifications = XMPPPushNotifications(
+            pubSubServiceJid: self.xmppPushNotificationsPubSub.serviceJID,
+            nodeName: (UIDevice.currentDevice().identifierForVendor ?? NSUUID()).UUIDString,    // in rare cases where identifierForVendor returns nil, use a temporary UUID for simplicity
+            environment: pushNotificationsEnvironment
+        )
 
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)
@@ -113,6 +128,7 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiving.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
         self.xmppClientState.activate(self.xmppStream)
+        self.xmppPushNotifications.activate(self.xmppStream)
 		
 
 		// Stream Settings
@@ -166,16 +182,10 @@ class XMPPController: NSObject {
 		self.xmppStream.disconnectAfterSending()
 	}
 
-    func setXEP0357() {
-        if let deviceId = NSUserDefaults.standardUserDefaults().objectForKey(Constants.Notifications.DeviceId) as? String {
-            let pubsubJID = XMPPJID.jidWithString("pubsub." + self.xmppStream.hostName)
-            let pubsubNode = deviceId
-            let options = ["push_service": "apns", "device_id": deviceId]
-            let pubsub = XMPPPubSub(serviceJID: pubsubJID)
-            pubsub.createNode(pubsubNode)
-            self.xmppStream.sendElement(XMPPIQ.enableNotificationsElementWithJID(pubsubJID, node: pubsubNode, options: options))
-            XMPPPushXMLNS
-        }
+    func enablePushNotificationsWithDeviceToken(deviceToken: NSData) {
+        let deviceTokenString = UnsafeBufferPointer<UInt8>(start: UnsafePointer(deviceToken.bytes),
+            count: deviceToken.length).map { String(format: "%02x", $0) }.joinWithSeparator("")
+        xmppPushNotifications.enableWithDeviceTokenString(deviceTokenString)
     }
 
     deinit {
@@ -207,6 +217,7 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
         self.xmppClientState.deactivate()
+        self.xmppPushNotifications.deactivate()
         
         self.disconnect()
         
@@ -336,6 +347,9 @@ extension XMPPController: XMPPServiceDiscoveryDelegate {
         for item in items {
             switch item {
             case let xmppElement as DDXMLElement where xmppElement.isPushNotificationFeatureElement():
+                // TODO: [pwe] ideally, we should wait for the device token before proceeding with pubsub node creation
+                xmppPushNotificationsPubSub.createNode(xmppPushNotifications.nodeName)
+                
             default:
                 continue
             }
