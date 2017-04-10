@@ -42,7 +42,7 @@ class MUCRoomCreateViewController: UIViewController {
 	}
 	
 	@IBAction func cancelCreation(sender: UIBarButtonItem) {
-		self.dismissViewControllerAnimated(true, completion: nil)
+		self.dismiss(animated: true, completion: nil)
 	}
 
 	internal func setupFetchedResultsController() {

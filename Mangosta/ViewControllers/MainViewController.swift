@@ -13,7 +13,6 @@ import MBProgressHUD
 class MainViewController: UIViewController, TitleViewModifiable {
    
 	@IBOutlet internal var tableView: UITableView!
-// FIXME: review merge duplicates.
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
 	var activated = true
 	weak var xmppController: XMPPController!
@@ -123,13 +122,10 @@ class MainViewController: UIViewController, TitleViewModifiable {
 		alertController.view.tintColor = UIColor(hexString:"009ab5")
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
-			let roomCreateViewController = storyboard.instantiateViewController(withIdentifier: "MUCLightCreateRoomPresenterViewController") as! UINavigationController
-			self.present(roomCreateViewController, animated: true, completion: nil)
-// FIXME: revise merge Piotr
-			//let roomCreatePresenterViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
-            //let roomCreateViewController = roomCreatePresenterViewController.topViewController as! MUCRoomCreateViewController
+			let roomCreatePresenterViewController = storyboard.instantiateViewController(withIdentifier: "MUCLightCreateRoomPresenterViewController") as! UINavigationController
+            let roomCreateViewController = roomCreatePresenterViewController.topViewController as! MUCRoomCreateViewController
             roomCreateViewController.delegate = self
-			self.presentViewController(roomCreatePresenterViewController, animated: true, completion: nil)
+			self.present(roomCreatePresenterViewController, animated: true, completion: nil)
 		}
 		alertController.addAction(roomChatAction)
 		
@@ -396,7 +392,7 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
         dismiss(animated: true, completion: nil)
 	}
 }
-// FIXME: create room
+
 extension MainViewController: XMPPRoomLightDelegate {
 	
 	func xmppRoomLight(_ sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
