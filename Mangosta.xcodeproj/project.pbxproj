@@ -894,7 +894,6 @@
 				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
 				AC3E3FC31E7C3F19005EA75B /* BaseMessageHandler.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
-				AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */,
 				DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				AC3E3FC61E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
@@ -1137,6 +1136,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
@@ -1155,6 +1155,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
@@ -1224,6 +1225,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaRESTIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
@@ -1243,6 +1245,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaRESTIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
