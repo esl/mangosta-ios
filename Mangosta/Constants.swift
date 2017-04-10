@@ -23,7 +23,6 @@ public struct Constants {
 	public struct Notifications {
 		public static let StreamControllerWasCreated = "StreamControllerWasCreatedNotificationName"
 		public static let RosterWasUpdated = "RosterWasUpdatedNotificationName"
-        public static let DeviceId = "DeviceIdAPNS"
 	}
 	
 	public static func applicationSupportDirectory() -> String {

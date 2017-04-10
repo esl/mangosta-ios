@@ -23,19 +23,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Override point for customization after application launch.
 		let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
 		print("App Path: \(dirPaths)")
-        initializeNotificationServices()
 
         DDLog.addLogger(DDTTYLogger.sharedInstance(), withLevel:  DDLogLevel.Verbose)
+        XMPPController.sharedInstance.pushNotificationsDelegate = self
         XMPPController.sharedInstance.xmppReconnect.manualStart()
         
 		return true
 	}
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let deviceTokenStr = UnsafeBufferPointer<UInt8>(start: UnsafePointer(deviceToken.bytes),
-            count: deviceToken.length).map { String(format: "%02x", $0) }.joinWithSeparator("")
-        NSUserDefaults.standardUserDefaults().setObject(deviceTokenStr, forKey: Constants.Notifications.DeviceId)
-        print("DeviceId: \(deviceTokenStr)")
+        XMPPController.sharedInstance.enablePushNotificationsWithDeviceToken(deviceToken)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -73,6 +70,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func applicationWillTerminate(application: UIApplication) {
 		XMPPController.sharedInstance.disconnect()
 	}
+    
 
+}
 
+extension AppDelegate: XMPPControllerPushNotificationsDelegate {
+    
+    func xmppControllerDidPrepareForPushNotificationsSupport(controller: XMPPController) {
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            self.initializeNotificationServices()
+        }
+    }
 }
