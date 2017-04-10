@@ -11,3 +11,4 @@
 #import "XMPPMessage+XEP_0313.h"
 #import "XMPPCustomRoomLight.h"
 #import "XMPPClientState.h"
+#import "XMPPServiceDiscovery+XEP_0357.h"

@@ -18,6 +18,7 @@ class XMPPController: NSObject {
 	var xmppRoster: XMPPRoster
 	var xmppRosterStorage: XMPPRosterCoreDataStorage
 	var xmppRosterCompletion: RosterCompletion?
+    var xmppServiceDiscovery: XMPPServiceDiscovery
 	var xmppCapabilities: XMPPCapabilities
 	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 
@@ -57,6 +58,9 @@ class XMPPController: NSObject {
 		self.xmppRoster.autoFetchRoster = true
         self.xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = true
 		
+        // Service Discovery
+        self.xmppServiceDiscovery = XMPPServiceDiscovery()
+        
 		// Capabilities
 		self.xmppCapabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
 		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: self.xmppCapabilitiesStorage)
@@ -96,6 +100,7 @@ class XMPPController: NSObject {
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)
 		self.xmppRoster.activate(self.xmppStream)
+        self.xmppServiceDiscovery.activate(self.xmppStream)
 		self.xmppCapabilities.activate(self.xmppStream)
         self.xmppPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
@@ -115,6 +120,7 @@ class XMPPController: NSObject {
         // Add delegates
 		self.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppServiceDiscovery.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppReconnect.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
@@ -176,6 +182,7 @@ class XMPPController: NSObject {
         self.xmppStream.removeDelegate(self)
         self.xmppRoster.removeDelegate(self)
         self.xmppPubSub.removeDelegate(self)
+        self.xmppServiceDiscovery.removeDelegate(self)
         
 		self.roomsLight.forEach { (roomLight) in
 			roomLight.deactivate()
@@ -183,6 +190,7 @@ class XMPPController: NSObject {
         
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
+        self.xmppServiceDiscovery.deactivate()
 		self.xmppCapabilities.deactivate()
         
         self.xmppPubSub.deactivate()
@@ -217,6 +225,7 @@ extension XMPPController: XMPPStreamDelegate {
 		print("Stream: Authenticated")
 		self.goOnline()
         
+        self.xmppServiceDiscovery.discoverInformationAbout(xmppStream.myJID.domainJID()) // TODO: xmppStream.myJID.bareJID()
 	}
 	
 	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
@@ -295,6 +304,18 @@ extension XMPPController: XMPPPubSubDelegate {
     }
     func configureNode(node: String) {
         self.xmppPubSub.configureNode(node, withOptions: ["access_model":"presence"])
+}
+
+extension XMPPController: XMPPServiceDiscoveryDelegate {
+    
+    func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, didDiscoverInformation items: [AnyObject]!) {
+        for item in items {
+            switch item {
+            case let xmppElement as DDXMLElement where xmppElement.isPushNotificationFeatureElement():
+            default:
+                continue
+            }
+        }
     }
 }
 
