@@ -343,7 +343,7 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 	// MARK: NSFetchedResultsControllerDelegate
     
     // FIXME: merge changes from Piotr
-	func controllerOLD(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+	@objc(controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:) func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
 	                didChange anObject: Any,
 	                                at indexPath: IndexPath?,
 	                                            for type: NSFetchedResultsChangeType,

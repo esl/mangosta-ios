@@ -122,7 +122,7 @@ extension BlockingMembersViewController: XMPPBlockingDelegate {
 		MBProgressHUD.hide(for: self.view, animated: true)
 	}
 
-	func xmppBlocking(_ sender: XMPPBlocking!, didReceivedBlockingList blockingList: [AnyObject]!) {
+	private func xmppBlocking(_ sender: XMPPBlocking!, didReceivedBlockingList blockingList: [AnyObject]!) {
 		self.blockingList = blockingList as! [String]
 		self.tableView.reloadData()
 		MBProgressHUD.hide(for: self.view, animated: true)

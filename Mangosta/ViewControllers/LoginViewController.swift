@@ -105,7 +105,7 @@ extension LoginViewController: XMPPStreamDelegate {
         })
         
     }
-    func xmppStreamDidDisconnect(_ sender: XMPPStream!, withError error: NSError!) {
+    func xmppStreamDidDisconnect(_ sender: XMPPStream!, withError error: Error!) {
         self.showError(error?.localizedDescription)
         MBProgressHUD.hide(for: self.view, animated: true)
     }
