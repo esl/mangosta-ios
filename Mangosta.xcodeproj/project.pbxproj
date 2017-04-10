@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DA3EB6DE1F95ABA8052A45D /* Pods_Mangosta_REST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */; };
 		811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
 		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
@@ -59,6 +60,7 @@
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
+		AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -296,6 +298,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DA3EB6DE1F95ABA8052A45D /* Pods_Mangosta_REST.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -992,6 +995,7 @@
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
+				AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */,
 				AC3E3FE61E7C3F32005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				AC3E3FD71E7C3F27005EA75B /* DemoPhotoMessageModel.swift in Sources */,
