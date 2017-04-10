@@ -36,7 +36,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
         self.navigationItem.rightBarButtonItems = [addBlogEntryButton]
         
         self.xmppController = XMPPController.sharedInstance
-        self.xmppController.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppController.xmppPresencePubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         
         MangostaSettings().setNavigationBarColor()
         
@@ -83,7 +83,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
             
             self.showHUDwithMessage("Publishing...")
             if let blogString = typedString {
-                self.xmppController.xmppPubSub.publishToNode(self.xmppController.myMicroblogNode, entry: self.creatEntry(blogString))
+                self.xmppController.xmppPresencePubSub.publishToNode(self.xmppController.myMicroblogNode, entry: self.creatEntry(blogString))
             }
             else {
                 print("BlogEntry: Nothing typed.")
@@ -123,7 +123,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
         
         guard self.xmppController.xmppStream.isAuthenticated() else { return }
         
-        self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
+        self.xmppController?.xmppPresencePubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
         
         self.showHUDwithMessage("Getting MicroBlog list...")
         
@@ -142,7 +142,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
             let attributedTitle = NSAttributedString(string: title as String, attributes: attrsDictionary)
             self.refreshControl!.attributedTitle = attributedTitle
             
-            self.xmppController?.xmppPubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
+            self.xmppController?.xmppPresencePubSub.retrieveItemsFromNode(self.xmppController.myMicroblogNode)
             
         }
     }

@@ -22,7 +22,8 @@ class XMPPController: NSObject {
 	var xmppCapabilities: XMPPCapabilities
 	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 
-    var xmppPubSub: XMPPPubSub
+    var xmppPresencePubSub: XMPPPubSub
+    var xmppPushNotificationsPubSub: XMPPPubSub
     
 	var xmppMUCStorage: XMPPMUCCoreDataStorage
 	var xmppMUCStorer: XMPPMUCStorer
@@ -69,7 +70,8 @@ class XMPPController: NSObject {
         self.xmppCapabilities.myCapabilitiesNode = myMicroblogNode + "+notify"
 		
         // PubSub
-        self.xmppPubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: dispatch_get_main_queue()) // FIME: use pubsub.erlang-solutions.com ??
+        self.xmppPresencePubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: dispatch_get_main_queue()) // FIME: use pubsub.erlang-solutions.com ??
+        self.xmppPushNotificationsPubSub = XMPPPubSub(serviceJID: XMPPJID.jidWithString("push.erlang-solutions.com"), dispatchQueue: dispatch_get_main_queue())
         
 		// Delivery Receips
 		self.xmppMessageDeliveryReceipts = XMPPMessageDeliveryReceipts()
@@ -102,7 +104,8 @@ class XMPPController: NSObject {
 		self.xmppRoster.activate(self.xmppStream)
         self.xmppServiceDiscovery.activate(self.xmppStream)
 		self.xmppCapabilities.activate(self.xmppStream)
-        self.xmppPubSub.activate(self.xmppStream)
+        self.xmppPresencePubSub.activate(self.xmppStream)
+        self.xmppPushNotificationsPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
 		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
@@ -123,7 +126,8 @@ class XMPPController: NSObject {
         self.xmppServiceDiscovery.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
         self.xmppReconnect.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-        self.xmppPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppPresencePubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        self.xmppPushNotificationsPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
 	}
 
     func setStreamCredentials(hostName: String?, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
@@ -181,7 +185,8 @@ class XMPPController: NSObject {
 	func tearDownStream() {
         self.xmppStream.removeDelegate(self)
         self.xmppRoster.removeDelegate(self)
-        self.xmppPubSub.removeDelegate(self)
+        self.xmppPresencePubSub.removeDelegate(self)
+        self.xmppPushNotificationsPubSub.removeDelegate(self)
         self.xmppServiceDiscovery.removeDelegate(self)
         
 		self.roomsLight.forEach { (roomLight) in
@@ -193,7 +198,8 @@ class XMPPController: NSObject {
         self.xmppServiceDiscovery.deactivate()
 		self.xmppCapabilities.deactivate()
         
-        self.xmppPubSub.deactivate()
+        self.xmppPresencePubSub.deactivate()
+        self.xmppPushNotificationsPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
 		self.xmppStreamManagement.deactivate()
@@ -267,7 +273,7 @@ extension XMPPController: XMPPStreamDelegate {
 	}
     
     func createMyPubSubNode() {
-        xmppPubSub.createNode(myMicroblogNode)
+        xmppPresencePubSub.createNode(myMicroblogNode)
     }
 }
 
@@ -295,15 +301,33 @@ extension XMPPController: XMPPRosterDelegate {
 
 extension XMPPController: XMPPPubSubDelegate {
     func xmppPubSub(sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
-        self.configureNode(node)
+        switch sender {
+        case xmppPresencePubSub:
+            self.configurePresenceNode(node)
+        case xmppPushNotificationsPubSub:
+            pushNotificationsDelegate?.xmppControllerDidPrepareForPushNotificationsSupport(self)
+        default:
+            break
+        }
+        
         print("PubSub: Did create node")
     }
     func xmppPubSub(sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
-        self.configureNode(node)
+        switch sender {
+        case xmppPresencePubSub:
+            self.configurePresenceNode(node)
+        case xmppPushNotificationsPubSub where iq.childErrorElement().attributeIntegerValueForName("code") == 409:
+            // assuming 409 means a node had been created earlier
+            pushNotificationsDelegate?.xmppControllerDidPrepareForPushNotificationsSupport(self)
+        default:
+            break
+        }
+        
         print("PubSub: Did not create node: \(iq.stringValue)")
     }
-    func configureNode(node: String) {
-        self.xmppPubSub.configureNode(node, withOptions: ["access_model":"presence"])
+    func configurePresenceNode(node: String) {
+        self.xmppPresencePubSub.configureNode(node, withOptions: ["access_model":"presence"])
+    }
 }
 
 extension XMPPController: XMPPServiceDiscoveryDelegate {
@@ -328,4 +352,9 @@ extension XMPPController {
         return self.xmppCapabilitiesStorage.mainThreadManagedObjectContext
     }
     
+}
+
+protocol XMPPControllerPushNotificationsDelegate: class {
+    
+    func xmppControllerDidPrepareForPushNotificationsSupport(controller: XMPPController)
 }
