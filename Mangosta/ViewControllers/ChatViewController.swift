@@ -341,7 +341,9 @@ extension ChatViewController: XMPPRoomExtraActionsDelegate {
 
 extension ChatViewController: NSFetchedResultsControllerDelegate {
 	// MARK: NSFetchedResultsControllerDelegate
-	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+    
+    // FIXME: merge changes from Piotr
+	func controllerOLD(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
 	                didChange anObject: Any,
 	                                at indexPath: IndexPath?,
 	                                            for type: NSFetchedResultsChangeType,
@@ -354,20 +356,22 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 				// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 			}
 		}
-// FIXME: merge changes from Piotr
-	func controllerBAK(controller: NSFetchedResultsController,
+    }
+	func controller(controller: NSFetchedResultsController<NSFetchRequestResult>,
 	                didChangeObject anObject: AnyObject,
 	                                atIndexPath indexPath: NSIndexPath?,
 	                                            forChangeType type: NSFetchedResultsChangeType,
 	                                                          newIndexPath: NSIndexPath?) {
         switch anObject {
         case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
-            let message = createTextMessage(text: privateMessage.body, senderId: privateMessage.bareJidStr, isIncoming: true)
-            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+           print( "FIXME: uncomment this.")
+            //let message = createTextMessage(text: privateMessage.body, senderId: privateMessage.bareJidStr, isIncoming: true)
+            //(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
             
         case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
-            let message = createTextMessage(text: roomMessage.body(), senderId: roomMessage.nickname(), isIncoming: true)
-            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+             print("FIXME: uncomment this")
+          //  let message = createTextMessage(text: roomMessage.body(), senderId: roomMessage.nickname(), isIncoming: true)
+           // (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
             
         default: break
         }

@@ -179,18 +179,6 @@ class XMPPController: NSObject {
 		self.goOffLine()
 		self.xmppStream.disconnectAfterSending()
 	}
-	
-	func setXEP0352(_ active: Bool) {
-		if activated {
-			self.xmppStream.send(XMPPElement.indicateInactive())
-			self.activated = false
-
-		} else {
-			self.xmppStream.send(XMPPElement.indicateActive())
-			self.activated = true
-		}
-		print("XEP-0352 set to " + (active ? "active":"inactive") + ".")
-	}
 
     deinit {
         self.tearDownStream()
@@ -268,7 +256,7 @@ extension XMPPController: XMPPStreamDelegate {
 		let presence = XMPPPresence()
 		self.xmppStream.send(presence)
         
-        xmppClientState.active = true
+        xmppClientState.isActive = true
         
         self.createMyPubSubNode()
 	}
@@ -277,7 +265,7 @@ extension XMPPController: XMPPStreamDelegate {
 		let presence = XMPPPresence(type: "unavailable")
 		self.xmppStream.send(presence)
         
-        xmppClientState.active = false
+        xmppClientState.isActive = false
         
 	}
     

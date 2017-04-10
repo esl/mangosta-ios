@@ -16,7 +16,6 @@ class MainViewController: UIViewController, TitleViewModifiable {
 // FIXME: review merge duplicates.
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
 	var activated = true
-	var fetchedResultsController: NSFetchedResultsController?
 	weak var xmppController: XMPPController!
 	
 	#if MangostaREST // TODO: probably better way.
@@ -106,10 +105,10 @@ class MainViewController: UIViewController, TitleViewModifiable {
 	
 	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
 	@IBAction func activateDeactivate(sender: UIButton) {
-        xmppController.xmppClientState.active = !xmppController.xmppClientState.active
+        xmppController.xmppClientState.isActive = !xmppController.xmppClientState.isActive
         
         // TODO: [pwe] more robust way to update UI state
-        sender.setTitle(xmppController.xmppClientState.active ? "deactivate" : "activate", forState: .Normal)
+        sender.setTitle(xmppController.xmppClientState.isActive ? "deactivate" : "activate", for: .normal)
 	}
 	
 	func pushMeViewControler(_ sender: UIBarButtonItem) {
@@ -127,8 +126,8 @@ class MainViewController: UIViewController, TitleViewModifiable {
 			let roomCreateViewController = storyboard.instantiateViewController(withIdentifier: "MUCLightCreateRoomPresenterViewController") as! UINavigationController
 			self.present(roomCreateViewController, animated: true, completion: nil)
 // FIXME: revise merge Piotr
-			let roomCreatePresenterViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
-            let roomCreateViewController = roomCreatePresenterViewController.topViewController as! MUCRoomCreateViewController
+			//let roomCreatePresenterViewController = storyboard.instantiateViewControllerWithIdentifier("MUCLightCreateRoomPresenterViewController") as! UINavigationController
+            //let roomCreateViewController = roomCreatePresenterViewController.topViewController as! MUCRoomCreateViewController
             roomCreateViewController.delegate = self
 			self.presentViewController(roomCreatePresenterViewController, animated: true, completion: nil)
 		}
@@ -385,11 +384,8 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 		let jid = XMPPJID.init(string: MUCLightServiceName)
 		let roomLight = XMPPCustomRoomLight(jid: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
-		let jid = XMPPJID.jidWithString(MUCLightServiceName)
-// FIXME: revise changes Piotr Swift 3
 		// TODO: [pwe] this module instance only lives for the duration of room creation, being replaced by another one in didDiscoverRooms callback; it would be best to only have one
-        let roomLight = XMPPCustomRoomLight(JID: jid!, roomname: roomName)
-		roomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
         roomLight.activate(xmppController.xmppStream)
 		
 		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
@@ -397,7 +393,7 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
         roomLight.deactivate()
         roomLight.removeDelegate(self)
 		
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
 	}
 }
 // FIXME: create room
