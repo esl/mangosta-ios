@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TODO: [pwe] this view controller appears not to be used anywhere
 class MUCLightCreateRoomPresenterViewController: UINavigationController {
 	weak var MUCLightDelegate: MUCRoomCreateViewControllerDelegate?
 	

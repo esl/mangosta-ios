@@ -61,12 +61,13 @@ class XMPPController: NSObject {
 
 	var roomsLight = [XMPPRoomLight]()
     
+    // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
+    let xmppClientState: XMPPClientState
+    
     let myMicroblogNode = "urn:xmpp:microblog:0"
 
     var hostPort: UInt16 = 5222
     var password: String = ""
-    
-	var activated = true
     
     var isXmppConnected = false
 		
@@ -113,6 +114,8 @@ class XMPPController: NSObject {
 		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage.sharedInstance()
 		self.xmppMessageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.xmppMessageArchivingStorage)
 		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
+        
+        self.xmppClientState = XMPPClientState()
 
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)
@@ -125,6 +128,7 @@ class XMPPController: NSObject {
 		self.xmppMUCStorer.activate(self.xmppStream)
 		self.xmppMessageArchiving.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
+        self.xmppClientState.activate(self.xmppStream)
 		
 
 		// Stream Settings
@@ -212,6 +216,7 @@ class XMPPController: NSObject {
 		self.xmppMUCStorer.deactivate()
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
+        self.xmppClientState.deactivate()
         
         self.disconnect()
         
@@ -263,7 +268,7 @@ extension XMPPController: XMPPStreamDelegate {
 		let presence = XMPPPresence()
 		self.xmppStream.send(presence)
         
-        self.setXEP0352(true)
+        xmppClientState.active = true
         
         self.createMyPubSubNode()
 	}
@@ -272,7 +277,7 @@ extension XMPPController: XMPPStreamDelegate {
 		let presence = XMPPPresence(type: "unavailable")
 		self.xmppStream.send(presence)
         
-        self.setXEP0352(false)
+        xmppClientState.active = false
         
 	}
     

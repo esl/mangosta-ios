@@ -354,6 +354,23 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 				// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
 			}
 		}
+// FIXME: merge changes from Piotr
+	func controllerBAK(controller: NSFetchedResultsController,
+	                didChangeObject anObject: AnyObject,
+	                                atIndexPath indexPath: NSIndexPath?,
+	                                            forChangeType type: NSFetchedResultsChangeType,
+	                                                          newIndexPath: NSIndexPath?) {
+        switch anObject {
+        case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
+            let message = createTextMessage(text: privateMessage.body, senderId: privateMessage.bareJidStr, isIncoming: true)
+            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+            
+        case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
+            let message = createTextMessage(text: roomMessage.body(), senderId: roomMessage.nickname(), isIncoming: true)
+            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+            
+        default: break
+        }
 	}
 }
 
