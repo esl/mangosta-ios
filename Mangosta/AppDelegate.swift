@@ -40,6 +40,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(error.description)
     }
     
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        // TODO: [pwe] A dedicated payload key for sender's JID delivery
+        guard let senderJidString = ((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String,
+            let senderJid = XMPPJID.jidWithString(senderJidString) else {
+                return
+        }
+        
+        (window?.rootViewController as! TabBarController).handleChatPushNotificationWithRemoteJid(senderJid)
+    }
+    
     func initializeNotificationServices() -> Void {
         let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
