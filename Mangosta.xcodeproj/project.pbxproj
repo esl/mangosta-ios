@@ -854,7 +854,7 @@
 				TargetAttributes = {
 					81ECA34B1C92CDE4000602F2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = ZRK75NDG7H;
+						DevelopmentTeam = RN98T2SU3Z;
 						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -1365,15 +1365,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Mangosta/Mangosta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZRK75NDG7H;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1385,14 +1383,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Mangosta/Mangosta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZRK75NDG7H;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
 				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
