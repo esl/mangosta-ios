@@ -289,24 +289,23 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.roomLight?.removeDelegate(self)
 	}
     
- 
-	// FIXME: uncomment this.
-//	func sendMessageToServer(_ lastMessage: NoChatMessage?) {
-//
-//		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-//		let type = self.userJID != nil ? "chat" : "groupchat"
-//		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
-//
-//		msg?.addBody(lastMessage?.content)
-//		if type == "chat" {
-//            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
-//		}
-//		else {
-//			// TODO:
-//			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-//			self.xmppController.xmppStream.send(msg)
-//		}
-//	}
+  
+	func sendMessageToServer(_ lastMessage: DemoTextMessageModel?) {
+
+		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let type = self.userJID != nil ? "chat" : "groupchat"
+		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
+
+		msg?.addBody(lastMessage?.text)
+		if type == "chat" {
+            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
+		}
+		else {
+			// TODO:
+			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
+			self.xmppController.xmppStream.send(msg)
+		}
+	}
 }
 
 // MARK: ChatDataSourceDelegateProtocol

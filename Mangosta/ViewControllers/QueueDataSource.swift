@@ -82,6 +82,9 @@ class QueueDataSource: ChatDataSourceProtocol {
         self.messageSender.sendMessage(message: message)
         self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self) // TODO: create own callback.
+        if let delegate =  self.delegate as? ChatViewController {
+            delegate.sendMessageToServer(message)
+        }
     }
 
     func addPhotoMessage(_ image: UIImage) {

@@ -41,6 +41,7 @@ public class QueueMessageSender {
     }
 
     public func sendMessage( message: DemoMessageModelProtocol) {
+        
         self.queueMessageStatus(message: message)
     }
 
