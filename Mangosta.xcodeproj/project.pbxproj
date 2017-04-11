@@ -349,8 +349,7 @@
 		814D4CA31C970E5B00AB28FA /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				C1CAEAA81D11DDEE006E2A49 /* XMPPMessage+XEP_0313.h */,
-				C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */,
+				AC77EA1C1E9D1DAC005EA75B /* XEP_0313 */,
 				8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
@@ -497,6 +496,15 @@
 			);
 			name = XMPP;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		AC77EA1C1E9D1DAC005EA75B /* XEP_0313 */ = {
+			isa = PBXGroup;
+			children = (
+				C1CAEAA81D11DDEE006E2A49 /* XMPPMessage+XEP_0313.h */,
+				C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */,
+			);
+			name = XEP_0313;
 			sourceTree = "<group>";
 		};
 		AC9F66351D957E5900B3AEB8 /* REST */ = {
