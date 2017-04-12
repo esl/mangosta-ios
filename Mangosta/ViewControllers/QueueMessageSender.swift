@@ -55,12 +55,13 @@ public class QueueMessageSender {
         case .sending:
             // TODO: adapt this method to resend message
             let controller = ChatViewController()
-            controller.sendMessageToServer(message as! DemoTextMessageModel)
+            controller.sendMessageToServer(message as? DemoTextMessageModel)
             
             // TODO: use message status from xmpp
             let delaySeconds: Double = Double(arc4random_uniform(1200)) / 1000.0
             let delayTime = DispatchTime.now() + Double(Int64(delaySeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                self.updateMessage(message, status: .success)
                 self.queueMessageStatus(message: message)
             }
         }

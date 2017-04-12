@@ -86,6 +86,13 @@ class QueueDataSource: ChatDataSourceProtocol {
             delegate.sendMessageToServer(message)
         }
     }
+    func addIncomingTextMessage(message: DemoTextMessageModel) {
+        // FIXME uuid messages from MAM
+        // let uid = UUID.init().uuidString
+        self.messageSender.sendMessage(message: message)
+        self.slidingWindow.insertItem(message, position: .bottom)
+        self.delegate?.chatDataSourceDidUpdate(self)
+    }
 
     func addPhotoMessage(_ image: UIImage) {
         let uid =  UUID.init().uuidString

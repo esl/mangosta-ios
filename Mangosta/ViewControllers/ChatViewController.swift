@@ -285,12 +285,13 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     
   
 	func sendMessageToServer(_ lastMessage: DemoTextMessageModel?) {
-
+        // TODO: make this funcion aware of picture type message
+        guard let lastMessage = lastMessage else { return } 
 		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
 		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
 
-		msg?.addBody(lastMessage?.text)
+		msg?.addBody(lastMessage.text)
         if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
         else { print("Error sending message: \(msg)") }
 	}
@@ -327,42 +328,26 @@ extension ChatViewController: XMPPRoomExtraActionsDelegate {
 }
 
 extension ChatViewController: NSFetchedResultsControllerDelegate {
-	// MARK: NSFetchedResultsControllerDelegate
+    // MARK: NSFetchedResultsControllerDelegate
     
-    // FIXME: merge changes from Piotr
-	@objc(controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:) func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-	                didChange anObject: Any,
-	                                at indexPath: IndexPath?,
-	                                            for type: NSFetchedResultsChangeType,
-	                                                          newIndexPath: IndexPath?) {
-
-		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
-			if mamMessage.body != nil && !mamMessage.isOutgoing {
-                // FIXME: uncomment this.
-//				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
-				// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-			}
-		}
-    }
-	func controller(controller: NSFetchedResultsController<NSFetchRequestResult>,
-	                didChangeObject anObject: AnyObject,
-	                                atIndexPath indexPath: NSIndexPath?,
-	                                            forChangeType type: NSFetchedResultsChangeType,
-	                                                          newIndexPath: NSIndexPath?) {
+    @objc(controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:) func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                                                                                              didChange anObject: Any,
+                                                                                              at indexPath: IndexPath?,
+                                                                                              for type: NSFetchedResultsChangeType,
+                                                                                              newIndexPath: IndexPath?) {
         switch anObject {
         case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
-           print( "FIXME: uncomment this.")
-            //let message = createTextMessage(text: privateMessage.body, senderId: privateMessage.bareJidStr, isIncoming: true)
-            //(self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+            // FIXME: MAM has no UUID
+            let message = createTextMessageModel(privateMessage.bareJidStr, text: privateMessage.body, isIncoming: true)
+            self.dataSource.addIncomingTextMessage(message: message)
             
         case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
-             print("FIXME: uncomment this")
-          //  let message = createTextMessage(text: roomMessage.body(), senderId: roomMessage.nickname(), isIncoming: true)
-           // (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-            
+            // FIXME: MAM has no UUID
+            let message = createTextMessageModel(roomMessage.roomJID().bare(), text: roomMessage.body(), isIncoming: true)
+            self.dataSource.addIncomingTextMessage(message: message)
         default: break
         }
-	}
+    }
 }
 
 extension ChatViewController: XMPPMessageArchiveManagementDelegate {
@@ -386,6 +371,12 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
     
     func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMAMMessage message: XMPPMessage!) {
         print ("received")
+    }
+}
+
+extension ChatViewController: XMPPStreamDelegate {
+    func xmppStream(_ sender: XMPPStream!, didSend message: XMPPMessage!) {
+        // TODO: set message status to sent
     }
 }
 
