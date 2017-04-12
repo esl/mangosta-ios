@@ -15,28 +15,28 @@ class TabBarController: UITabBarController {
     
 	override func viewDidLoad() {
 		
-		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGrayColor()], forState: UIControlState.Normal)
-		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Selected)
+		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGray], for: UIControlState())
+		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState.selected)
         
-        XMPPController.sharedInstance.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-        XMPPController.sharedInstance.xmppReconnect.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+        XMPPController.sharedInstance.xmppStream.addDelegate(self, delegateQueue: DispatchQueue.main)
+        XMPPController.sharedInstance.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)
       
         super.viewDidLoad()
     }
 }
 extension TabBarController: XMPPStreamDelegate {
-    func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
+    func xmppStream(_ sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
         self.presentLogInView()
     }
     
     func presentLogInView() {
         let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-        let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        let loginController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
         
-        self.presentViewController(loginController, animated: true, completion: nil)
+        self.present(loginController, animated: true, completion: nil)
     }
     
-    func xmppStreamDidAuthenticate(sender: XMPPStream!) {
+    func xmppStreamDidAuthenticate(_ sender: XMPPStream!) {
         if let currentNavigationController = self.selectedViewController as? MangostaNavigationController {
             if let topViewControllerTittleViewModifiable = currentNavigationController.topViewController as? TitleViewModifiable {
                 topViewControllerTittleViewModifiable.resetTitleViewTextToOriginal()
@@ -46,7 +46,7 @@ extension TabBarController: XMPPStreamDelegate {
     
 }
 extension TabBarController: XMPPReconnectDelegate {
-    func xmppReconnect(sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
+    func xmppReconnect(_ sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
         if let currentNavigationController = self.selectedViewController as? MangostaNavigationController {
             if (currentNavigationController.topViewController as? TitleViewModifiable) != nil {
                 let myTitleView = UILabel()

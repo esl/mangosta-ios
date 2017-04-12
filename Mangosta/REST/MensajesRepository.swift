@@ -6,20 +6,21 @@
 //  Copyright © 2016 Inaka. All rights reserved.
 //
 
+import Jayme
 
 class MessageRepository: CRUDRepository {
 	
 	typealias EntityType = Message
-	let backend = NSURLSessionBackend.MongooseREST()
+	let backend = URLSessionBackend.MongooseREST()
 	let name = "messages"
 	
-	func sendMessage(entity: EntityType) -> Future<Void, JaymeError> {
+	func sendMessage(_ entity: EntityType) -> Future<Void, JaymeError> {
 		let path = self.name
-		return self.backend.futureForPath(path, method: .POST, parameters: entity.dictionaryValue)
+		return self.backend.future(path: path, method: .POST, parameters: entity.dictionaryValue)
 			.map { _ in return }
 	}
 
-	func getNMessages(limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
+	func getNMessages(_ limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
 		let path = self.name
 		var parameters: [String : AnyObject] = [:]
 		if let limit = limit {
@@ -28,23 +29,23 @@ class MessageRepository: CRUDRepository {
 		if let before = before {
 			parameters["before"] = before
 		}
-		return self.backend.futureForPath(path, method: .GET, parameters: parameters)
-			.andThen { DataParser().dictionariesFromData($0.0) }
-			.andThen { EntityParser().entitiesFromDictionaries($0) }
+		return self.backend.future(path: path, method: .GET, parameters: parameters)
+			.andThen { DataParser().dictionaries(from: $0.0) }
+			.andThen { EntityParser().entities(from: $0) }
 	}
 	
-	func getNMessagesWithUser(withJID: String, limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
+	func getNMessagesWithUser(_ withJID: String, limit: NSNumber?, before: NSNumber?) -> Future<[EntityType], JaymeError> {
 		let path = self.name + "/" + withJID
 		var parameters: [String : AnyObject]? = nil
 		if let limit = limit {
-			parameters!["limit"] = limit.integerValue
+			parameters!["limit"] = limit.intValue as AnyObject?
 		}
 		if let before = before {
-			parameters!["before"] = before.longValue
+			parameters!["before"] = before.int64Value as AnyObject?
 		}
-		return self.backend.futureForPath(path, method: .GET, parameters: parameters)
-			.andThen { DataParser().dictionariesFromData($0.0) }
-			.andThen { EntityParser().entitiesFromDictionaries($0) }
+		return self.backend.future(path: path, method: .GET, parameters: parameters)
+			.andThen { DataParser().dictionaries(from: $0.0) }
+			.andThen { EntityParser().entities(from: $0) }
 	}
 	
 }

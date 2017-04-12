@@ -10,18 +10,18 @@ import Foundation
 
 public struct ClientState {
 	public enum FeatureAvailability {
-		case Available
-		case Unavailable
+		case available
+		case unavailable
 	}
 	
-	var presence: FeatureAvailability = FeatureAvailability.Unavailable
-	var clientAvailability: FeatureAvailability = FeatureAvailability.Unavailable
+	var presence: FeatureAvailability = FeatureAvailability.unavailable
+	var clientAvailability: FeatureAvailability = FeatureAvailability.unavailable
 	
-	mutating func changePresence(newPresence: FeatureAvailability) {
+	mutating func changePresence(_ newPresence: FeatureAvailability) {
 		self.presence = newPresence
 	}
 	
-	mutating func changeClientAvailability(newAvailability: FeatureAvailability) {
+	mutating func changeClientAvailability(_ newAvailability: FeatureAvailability) {
 		self.clientAvailability = newAvailability
 	}
 }

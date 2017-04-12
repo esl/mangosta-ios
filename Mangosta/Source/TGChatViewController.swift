@@ -224,3 +224,4 @@ class TGTextMessageViewModelBuilder: MessageViewModelBuilderProtocol {
         return textMessageViewModel
     }
 }
+

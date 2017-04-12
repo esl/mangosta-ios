@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DA3EB6DE1F95ABA8052A45D /* Pods_Mangosta_REST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */; };
 		811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
-		81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
 		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
 		814D4CA51C970E6900AB28FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
 		81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */; };
@@ -19,54 +19,48 @@
 		81ECA3701C92CDE5000602F2 /* MangostaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA36F1C92CDE5000602F2 /* MangostaUITests.swift */; };
 		81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
-		81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC3E3FAF1E7C3DB0005EA75B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC3E3FB01E7C3DB1005EA75B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
+		AC3E3FC31E7C3F19005EA75B /* BaseMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB11E7C3F19005EA75B /* BaseMessageHandler.swift */; };
+		AC3E3FC41E7C3F19005EA75B /* DemoPhotoMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB21E7C3F19005EA75B /* DemoPhotoMessageHandler.swift */; };
+		AC3E3FC51E7C3F19005EA75B /* DemoPhotoMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB31E7C3F19005EA75B /* DemoPhotoMessageModel.swift */; };
+		AC3E3FC61E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB41E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift */; };
+		AC3E3FC71E7C3F19005EA75B /* DemoTextMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB51E7C3F19005EA75B /* DemoTextMessageHandler.swift */; };
+		AC3E3FC81E7C3F19005EA75B /* DemoTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */; };
+		AC3E3FC91E7C3F19005EA75B /* DemoTextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */; };
+		AC3E3FCA1E7C3F19005EA75B /* QueueMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */; };
+		AC3E3FCB1E7C3F19005EA75B /* ChatItemsDemoDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */; };
+		AC3E3FCC1E7C3F19005EA75B /* QueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */; };
+		AC3E3FCD1E7C3F19005EA75B /* QueueMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */; };
+		AC3E3FCE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */; };
+		AC3E3FCF1E7C3F19005EA75B /* SlidingDatasSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */; };
+		AC3E3FD01E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */; };
+		AC3E3FD11E7C3F19005EA75B /* SendingStatusPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBF1E7C3F19005EA75B /* SendingStatusPresenter.swift */; };
+		AC3E3FD21E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC01E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift */; };
+		AC3E3FD31E7C3F19005EA75B /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */; };
+		AC3E3FD41E7C3F19005EA75B /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */; };
+		AC3E3FD51E7C3F1D005EA75B /* BaseMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB11E7C3F19005EA75B /* BaseMessageHandler.swift */; };
+		AC3E3FD61E7C3F21005EA75B /* DemoPhotoMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB21E7C3F19005EA75B /* DemoPhotoMessageHandler.swift */; };
+		AC3E3FD71E7C3F27005EA75B /* DemoPhotoMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB31E7C3F19005EA75B /* DemoPhotoMessageModel.swift */; };
+		AC3E3FD81E7C3F27005EA75B /* DemoPhotoMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB41E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift */; };
+		AC3E3FD91E7C3F27005EA75B /* DemoTextMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB51E7C3F19005EA75B /* DemoTextMessageHandler.swift */; };
+		AC3E3FDA1E7C3F27005EA75B /* DemoTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */; };
+		AC3E3FDB1E7C3F27005EA75B /* DemoTextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */; };
+		AC3E3FDC1E7C3F27005EA75B /* QueueMessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */; };
+		AC3E3FDD1E7C3F27005EA75B /* ChatItemsDemoDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */; };
+		AC3E3FDE1E7C3F32005EA75B /* QueueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */; };
+		AC3E3FDF1E7C3F32005EA75B /* QueueMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */; };
+		AC3E3FE01E7C3F32005EA75B /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */; };
+		AC3E3FE11E7C3F32005EA75B /* SlidingDatasSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */; };
+		AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */; };
+		AC3E3FE31E7C3F32005EA75B /* SendingStatusPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FBF1E7C3F19005EA75B /* SendingStatusPresenter.swift */; };
+		AC3E3FE41E7C3F32005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC01E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift */; };
+		AC3E3FE51E7C3F32005EA75B /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */; };
+		AC3E3FE61E7C3F32005EA75B /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */; };
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
-		AC4FE9E51DD0E96D00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
-		AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
-		AC4FE9E71DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DA1DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift */; };
-		AC4FE9E81DD0E96D00B3AEB8 /* NoChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DB1DD0E96D00B3AEB8 /* NoChatViewController.swift */; };
-		AC4FE9E91DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DC1DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift */; };
-		AC4FE9EA1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DD1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift */; };
-		AC4FE9EB1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DE1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift */; };
-		AC4FE9EC1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DF1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift */; };
-		AC4FE9ED1DD0E96D00B3AEB8 /* CollectionChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E01DD0E96D00B3AEB8 /* CollectionChanges.swift */; };
-		AC4FE9EE1DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E11DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift */; };
-		AC4FE9EF1DD0E96D00B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */; };
-		AC4FE9F01DD0E96D00B3AEB8 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */; };
-		AC4FE9F81DD112BD00B3AEB8 /* ChatItemsDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */; };
-		AC4FEA181DD113EC00B3AEB8 /* BubbleViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FA1DD113EC00B3AEB8 /* BubbleViewProtocol.swift */; };
-		AC4FEA191DD113EC00B3AEB8 /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FB1DD113EC00B3AEB8 /* ChatInputViewController.swift */; };
-		AC4FEA1A1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FC1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift */; };
-		AC4FEA1B1DD113EC00B3AEB8 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FD1DD113EC00B3AEB8 /* ChatTextView.swift */; };
-		AC4FEA1C1DD113EC00B3AEB8 /* ClockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FE1DD113EC00B3AEB8 /* ClockProgressView.swift */; };
-		AC4FEA1D1DD113EC00B3AEB8 /* ColorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FF1DD113EC00B3AEB8 /* ColorLabel.swift */; };
-		AC4FEA1E1DD113EC00B3AEB8 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA001DD113EC00B3AEB8 /* ColorUtils.swift */; };
-		AC4FEA1F1DD113EC00B3AEB8 /* DateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA011DD113EC00B3AEB8 /* DateItem.swift */; };
-		AC4FEA201DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA021DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift */; };
-		AC4FEA211DD113EC00B3AEB8 /* DateItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA031DD113EC00B3AEB8 /* DateItemPresenter.swift */; };
-		AC4FEA221DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA041DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift */; };
-		AC4FEA231DD113EC00B3AEB8 /* GrowTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA051DD113EC00B3AEB8 /* GrowTextView.swift */; };
-		AC4FEA241DD113EC00B3AEB8 /* ImageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA061DD113EC00B3AEB8 /* ImageFactory.swift */; };
-		AC4FEA251DD113EC00B3AEB8 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA071DD113EC00B3AEB8 /* ImageUtils.swift */; };
-		AC4FEA261DD113EC00B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA081DD113EC00B3AEB8 /* Info.plist */; };
-		AC4FEA271DD113EC00B3AEB8 /* KeyboardMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */; };
-		AC4FEA281DD113EC00B3AEB8 /* ManualLayoutUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */; };
-		AC4FEA291DD113EC00B3AEB8 /* NoChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */; };
-		AC4FEA2A1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */; };
-		AC4FEA2B1DD113EC00B3AEB8 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */; };
-		AC4FEA2C1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */; };
-		AC4FEA2D1DD113EC00B3AEB8 /* MessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0F1DD113EC00B3AEB8 /* MessageProtocol.swift */; };
-		AC4FEA2E1DD113EC00B3AEB8 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA101DD113EC00B3AEB8 /* MessageViewModel.swift */; };
-		AC4FEA2F1DD113EC00B3AEB8 /* MessageViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA111DD113EC00B3AEB8 /* MessageViewModelProtocol.swift */; };
-		AC4FEA301DD113EC00B3AEB8 /* NoChatTG.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA131DD113EC00B3AEB8 /* NoChatTG.xcassets */; };
-		AC4FEA311DD113EC00B3AEB8 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA141DD113EC00B3AEB8 /* Observable.swift */; };
-		AC4FEA321DD113EC00B3AEB8 /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA151DD113EC00B3AEB8 /* TextBubbleView.swift */; };
-		AC4FEA331DD113EC00B3AEB8 /* TextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */; };
-		AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */; };
-		AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
-		AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
+		AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -77,53 +71,9 @@
 		AC87CAE01DE3673600B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC87CAE11DE3673900B3AEB8 /* SocialMedia.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */; };
 		AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */; };
-		AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */; };
-		AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */; };
-		AC9CE6991DDA401A00B3AEB8 /* ChatViewController+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */; };
-		AC9CE69A1DDA401A00B3AEB8 /* ChatViewController+Presenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */; };
-		AC9CE69B1DDA401A00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DA1DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift */; };
-		AC9CE69C1DDA401A00B3AEB8 /* NoChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DB1DD0E96D00B3AEB8 /* NoChatViewController.swift */; };
-		AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DC1DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift */; };
-		AC9CE69E1DDA401A00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DD1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift */; };
-		AC9CE69F1DDA401A00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DE1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift */; };
-		AC9CE6A01DDA401A00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9DF1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift */; };
-		AC9CE6A11DDA401A00B3AEB8 /* CollectionChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E01DD0E96D00B3AEB8 /* CollectionChanges.swift */; };
-		AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E11DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift */; };
-		AC9CE6A31DDA402100B3AEB8 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA141DD113EC00B3AEB8 /* Observable.swift */; };
-		AC9CE6A41DDA402100B3AEB8 /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA151DD113EC00B3AEB8 /* TextBubbleView.swift */; };
-		AC9CE6A51DDA402100B3AEB8 /* TextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */; };
-		AC9CE6A61DDA402100B3AEB8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */; };
-		AC9CE6A71DDA402600B3AEB8 /* NoChatTG.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA131DD113EC00B3AEB8 /* NoChatTG.xcassets */; };
-		AC9CE6A81DDA403000B3AEB8 /* KeyboardMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */; };
-		AC9CE6A91DDA403000B3AEB8 /* ManualLayoutUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */; };
-		AC9CE6AA1DDA403000B3AEB8 /* NoChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */; };
-		AC9CE6AB1DDA403000B3AEB8 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */; };
-		AC9CE6AC1DDA403000B3AEB8 /* MessagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */; };
-		AC9CE6AD1DDA403000B3AEB8 /* MessagePresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */; };
-		AC9CE6AE1DDA403000B3AEB8 /* MessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA0F1DD113EC00B3AEB8 /* MessageProtocol.swift */; };
-		AC9CE6AF1DDA403000B3AEB8 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA101DD113EC00B3AEB8 /* MessageViewModel.swift */; };
-		AC9CE6B01DDA403000B3AEB8 /* MessageViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA111DD113EC00B3AEB8 /* MessageViewModelProtocol.swift */; };
-		AC9CE6B11DDA403500B3AEB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4FEA081DD113EC00B3AEB8 /* Info.plist */; };
-		AC9CE6B21DDA403E00B3AEB8 /* BubbleViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FA1DD113EC00B3AEB8 /* BubbleViewProtocol.swift */; };
-		AC9CE6B31DDA403E00B3AEB8 /* ChatInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FB1DD113EC00B3AEB8 /* ChatInputViewController.swift */; };
-		AC9CE6B41DDA403E00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FC1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift */; };
-		AC9CE6B51DDA403E00B3AEB8 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FD1DD113EC00B3AEB8 /* ChatTextView.swift */; };
-		AC9CE6B61DDA403E00B3AEB8 /* ClockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FE1DD113EC00B3AEB8 /* ClockProgressView.swift */; };
-		AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9FF1DD113EC00B3AEB8 /* ColorLabel.swift */; };
-		AC9CE6B81DDA403E00B3AEB8 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA001DD113EC00B3AEB8 /* ColorUtils.swift */; };
-		AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA011DD113EC00B3AEB8 /* DateItem.swift */; };
-		AC9CE6BA1DDA403E00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA021DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift */; };
-		AC9CE6BB1DDA403E00B3AEB8 /* DateItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA031DD113EC00B3AEB8 /* DateItemPresenter.swift */; };
-		AC9CE6BC1DDA403E00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA041DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift */; };
-		AC9CE6BD1DDA403E00B3AEB8 /* GrowTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA051DD113EC00B3AEB8 /* GrowTextView.swift */; };
-		AC9CE6BE1DDA403E00B3AEB8 /* ImageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA061DD113EC00B3AEB8 /* ImageFactory.swift */; };
-		AC9CE6BF1DDA403E00B3AEB8 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA071DD113EC00B3AEB8 /* ImageUtils.swift */; };
-		AC9CE6C01DDA404100B3AEB8 /* TGChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */; };
-		AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */; };
 		AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
 		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
-		AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */; };
 		AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
 		AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
 		AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
@@ -135,7 +85,6 @@
 		AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */ = {isa = PBXBuildFile; fileRef = E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */; };
 		AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8011D243AB900F5BAB2 /* XMPPController.swift */; };
 		AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8091D26D79D00F5BAB2 /* XMPPCustomRoomLight.m */; };
-		AC9F66011D957ABD00B3AEB8 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8391CA03F3A008099D1 /* ChatViewController.swift */; };
 		AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813266A21CA18FFF00D4EDC0 /* ClientState.swift */; };
 		AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */; };
 		AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814D4CA41C970E6900AB28FA /* Constants.swift */; };
@@ -153,26 +102,6 @@
 		AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
 		AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
 		AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
-		AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66211D957E5900B3AEB8 /* Backend.swift */; };
-		AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66221D957E5900B3AEB8 /* Compatibility.swift */; };
-		AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */; };
-		AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66241D957E5900B3AEB8 /* DataParser.swift */; };
-		AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */; };
-		AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */; };
-		AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66271D957E5900B3AEB8 /* EntityParser.swift */; };
-		AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66281D957E5900B3AEB8 /* Future.swift */; };
-		AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */; };
-		AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */; };
-		AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */; };
-		AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */; };
-		AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */; };
-		AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662E1D957E5900B3AEB8 /* Logger.swift */; };
-		AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */; };
-		AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */; };
-		AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */; };
-		AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66321D957E5900B3AEB8 /* PageInfo.swift */; };
-		AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66331D957E5900B3AEB8 /* Repository.swift */; };
-		AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66341D957E5900B3AEB8 /* Result.swift */; };
 		AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66361D957E5900B3AEB8 /* JID.swift */; };
 		AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66371D957E5900B3AEB8 /* Message.swift */; };
 		AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */; };
@@ -191,9 +120,9 @@
 		ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
-		ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
-		ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */; };
 		ACED08311E28242000B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
+		ACF0FAB21E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */; };
+		ACF0FAB31E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */; };
 		B746A60CC34A8AE4580308D8 /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
@@ -237,6 +166,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37AF37EA534DB10501DCAA9E /* Pods-Mangosta REST.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta REST.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST.debug.xcconfig"; sourceTree = "<group>"; };
+		42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta_REST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		811C5AB31CAC094D008346FE /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
@@ -259,53 +190,26 @@
 		81F8E8321CA0236A008099D1 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		81F8E8341CA023B1008099D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81F8E8391CA03F3A008099D1 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		AC3E3FB11E7C3F19005EA75B /* BaseMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMessageHandler.swift; sourceTree = "<group>"; };
+		AC3E3FB21E7C3F19005EA75B /* DemoPhotoMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageHandler.swift; sourceTree = "<group>"; };
+		AC3E3FB31E7C3F19005EA75B /* DemoPhotoMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPhotoMessageModel.swift; sourceTree = "<group>"; };
+		AC3E3FB41E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DemoPhotoMessageViewModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AC3E3FB51E7C3F19005EA75B /* DemoTextMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageHandler.swift; sourceTree = "<group>"; };
+		AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageModel.swift; sourceTree = "<group>"; };
+		AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageViewModel.swift; sourceTree = "<group>"; };
+		AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = QueueMessageFactory.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItemsDemoDecorator.swift; sourceTree = "<group>"; };
+		AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueDataSource.swift; sourceTree = "<group>"; };
+		AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = QueueMessageSender.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendingStatusCollectionViewCell.xib; sourceTree = "<group>"; };
+		AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingDatasSource.swift; sourceTree = "<group>"; };
+		AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusCollectionViewCell.swift; sourceTree = "<group>"; };
+		AC3E3FBF1E7C3F19005EA75B /* SendingStatusPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusPresenter.swift; sourceTree = "<group>"; };
+		AC3E3FC01E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorCollectionViewCell.swift; sourceTree = "<group>"; };
+		AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorModel.swift; sourceTree = "<group>"; };
+		AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorPresenter.swift; sourceTree = "<group>"; };
 		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
 		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
-		AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Changes.swift"; sourceTree = "<group>"; };
-		AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Presenters.swift"; sourceTree = "<group>"; };
-		AC4FE9DA1DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Scrolling.swift"; sourceTree = "<group>"; };
-		AC4FE9DB1DD0E96D00B3AEB8 /* NoChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoChatViewController.swift; sourceTree = "<group>"; };
-		AC4FE9DC1DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatItemPresenter.swift; sourceTree = "<group>"; };
-		AC4FE9DD1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewLayout.swift; sourceTree = "<group>"; };
-		AC4FE9DE1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDataSourceProtocol.swift; sourceTree = "<group>"; };
-		AC4FE9DF1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItemProtocolDefinitions.swift; sourceTree = "<group>"; };
-		AC4FE9E01DD0E96D00B3AEB8 /* CollectionChanges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionChanges.swift; sourceTree = "<group>"; };
-		AC4FE9E11DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyChatItemPresenter.swift; sourceTree = "<group>"; };
-		AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC4FE9E31DD0E96D00B3AEB8 /* NoChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoChat.h; sourceTree = "<group>"; };
-		AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerialTaskQueue.swift; sourceTree = "<group>"; };
-		AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItemsDecorator.swift; sourceTree = "<group>"; };
-		AC4FE9FA1DD113EC00B3AEB8 /* BubbleViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleViewProtocol.swift; sourceTree = "<group>"; };
-		AC4FE9FB1DD113EC00B3AEB8 /* ChatInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputViewController.swift; sourceTree = "<group>"; };
-		AC4FE9FC1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItemDecorationAttributes.swift; sourceTree = "<group>"; };
-		AC4FE9FD1DD113EC00B3AEB8 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
-		AC4FE9FE1DD113EC00B3AEB8 /* ClockProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockProgressView.swift; sourceTree = "<group>"; };
-		AC4FE9FF1DD113EC00B3AEB8 /* ColorLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorLabel.swift; sourceTree = "<group>"; };
-		AC4FEA001DD113EC00B3AEB8 /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
-		AC4FEA011DD113EC00B3AEB8 /* DateItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateItem.swift; sourceTree = "<group>"; };
-		AC4FEA021DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateItemCollectionViewCell.swift; sourceTree = "<group>"; };
-		AC4FEA031DD113EC00B3AEB8 /* DateItemPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateItemPresenter.swift; sourceTree = "<group>"; };
-		AC4FEA041DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateItemPresenterBuilder.swift; sourceTree = "<group>"; };
-		AC4FEA051DD113EC00B3AEB8 /* GrowTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowTextView.swift; sourceTree = "<group>"; };
-		AC4FEA061DD113EC00B3AEB8 /* ImageFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFactory.swift; sourceTree = "<group>"; };
-		AC4FEA071DD113EC00B3AEB8 /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
-		AC4FEA081DD113EC00B3AEB8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardMan.swift; sourceTree = "<group>"; };
-		AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualLayoutUtils.swift; sourceTree = "<group>"; };
-		AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoChatMessage.swift; sourceTree = "<group>"; };
-		AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCollectionViewCell.swift; sourceTree = "<group>"; };
-		AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresenter.swift; sourceTree = "<group>"; };
-		AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresenterBuilder.swift; sourceTree = "<group>"; };
-		AC4FEA0F1DD113EC00B3AEB8 /* MessageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageProtocol.swift; sourceTree = "<group>"; };
-		AC4FEA101DD113EC00B3AEB8 /* MessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
-		AC4FEA111DD113EC00B3AEB8 /* MessageViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewModelProtocol.swift; sourceTree = "<group>"; };
-		AC4FEA121DD113EC00B3AEB8 /* NoChatTG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoChatTG.h; sourceTree = "<group>"; };
-		AC4FEA131DD113EC00B3AEB8 /* NoChatTG.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NoChatTG.xcassets; sourceTree = "<group>"; };
-		AC4FEA141DD113EC00B3AEB8 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		AC4FEA151DD113EC00B3AEB8 /* TextBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextBubbleView.swift; sourceTree = "<group>"; };
-		AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewModel.swift; sourceTree = "<group>"; };
-		AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
-		AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGChatViewController.swift; sourceTree = "<group>"; };
 		AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
 		AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
@@ -315,26 +219,6 @@
 		AC90864C1D9EF2BF00B3AEB8 /* XMPPMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XMPPMain.swift; path = Mangosta/Model/XMPPMain.swift; sourceTree = "<group>"; };
 		AC9F661D1D957ABD00B3AEB8 /* Mangosta REST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mangosta REST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC9F661F1D957B9A00B3AEB8 /* REST-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "REST-Info.plist"; path = "Mangosta/REST-Info.plist"; sourceTree = SOURCE_ROOT; };
-		AC9F66211D957E5900B3AEB8 /* Backend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Backend.swift; sourceTree = "<group>"; };
-		AC9F66221D957E5900B3AEB8 /* Compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compatibility.swift; sourceTree = "<group>"; };
-		AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRUDRepository.swift; sourceTree = "<group>"; };
-		AC9F66241D957E5900B3AEB8 /* DataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
-		AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryInitializable.swift; sourceTree = "<group>"; };
-		AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryRepresentable.swift; sourceTree = "<group>"; };
-		AC9F66271D957E5900B3AEB8 /* EntityParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityParser.swift; sourceTree = "<group>"; };
-		AC9F66281D957E5900B3AEB8 /* Future.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
-		AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
-		AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethodName.swift; sourceTree = "<group>"; };
-		AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponseParser.swift; sourceTree = "<group>"; };
-		AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
-		AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JaymeError.swift; sourceTree = "<group>"; };
-		AC9F662E1D957E5900B3AEB8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionBackend.swift; sourceTree = "<group>"; };
-		AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionBackendConfiguration.swift; sourceTree = "<group>"; };
-		AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagedRepository.swift; sourceTree = "<group>"; };
-		AC9F66321D957E5900B3AEB8 /* PageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
-		AC9F66331D957E5900B3AEB8 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		AC9F66341D957E5900B3AEB8 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		AC9F66361D957E5900B3AEB8 /* JID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JID.swift; sourceTree = "<group>"; };
 		AC9F66371D957E5900B3AEB8 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongooseAPI.swift; sourceTree = "<group>"; };
@@ -348,8 +232,8 @@
 		ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
 		ACB2D2B81E16ABB000B3AEB8 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightCreateRoomPresenterViewController.swift; sourceTree = "<group>"; };
-		ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 1to1NoChatItems.swift; sourceTree = "<group>"; };
 		ACED08301E28242000B3AEB8 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Wallpaper.swift"; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
 		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
@@ -382,6 +266,7 @@
 		E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMessageArchivingWithMAM.m; sourceTree = "<group>"; };
 		E094FB591CE107550033E0E0 /* XMPPStreamManagementDiscStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPStreamManagementDiscStorage.h; sourceTree = "<group>"; };
 		E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPStreamManagementDiscStorage.m; sourceTree = "<group>"; };
+		E0ED70069EEE9C42A3458F39 /* Pods-Mangosta REST.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta REST.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST.release.xcconfig"; sourceTree = "<group>"; };
 		FB21A84DE3DB4A7D04D49713 /* Pods-Mangosta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.debug.xcconfig"; sourceTree = "<group>"; };
 		FC0B48606E9587DFCED6A206 /* Pods-Mangosta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -413,6 +298,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DA3EB6DE1F95ABA8052A45D /* Pods_Mangosta_REST.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +310,8 @@
 			children = (
 				FB21A84DE3DB4A7D04D49713 /* Pods-Mangosta.debug.xcconfig */,
 				FC0B48606E9587DFCED6A206 /* Pods-Mangosta.release.xcconfig */,
+				37AF37EA534DB10501DCAA9E /* Pods-Mangosta REST.debug.xcconfig */,
+				E0ED70069EEE9C42A3458F39 /* Pods-Mangosta REST.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -461,8 +349,7 @@
 		814D4CA31C970E5B00AB28FA /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				C1CAEAA81D11DDEE006E2A49 /* XMPPMessage+XEP_0313.h */,
-				C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */,
+				AC77EA1C1E9D1DAC005EA75B /* XEP_0313 */,
 				8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
@@ -511,7 +398,6 @@
 		81ECA34E1C92CDE4000602F2 /* Mangosta */ = {
 			isa = PBXGroup;
 			children = (
-				AC4FE9D71DD0E70700B3AEB8 /* NoChat */,
 				C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */,
 				81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */,
 				C12EA9551CE255C800F29606 /* User Interface */,
@@ -525,7 +411,6 @@
 				814D4CA41C970E6900AB28FA /* Constants.swift */,
 				AC9F66351D957E5900B3AEB8 /* REST */,
 				814D4CA31C970E5B00AB28FA /* Library */,
-				AC9F66201D957E5900B3AEB8 /* Jayme */,
 			);
 			path = Mangosta;
 			sourceTree = "<group>";
@@ -551,6 +436,7 @@
 		81F8E8311CA02369008099D1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AC3E3FE71E7C3F3C005EA75B /* ChatUI */,
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
 				81F8E8321CA0236A008099D1 /* MainViewController.swift */,
@@ -567,6 +453,32 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		AC3E3FE71E7C3F3C005EA75B /* ChatUI */ = {
+			isa = PBXGroup;
+			children = (
+				AC3E3FB11E7C3F19005EA75B /* BaseMessageHandler.swift */,
+				AC3E3FB21E7C3F19005EA75B /* DemoPhotoMessageHandler.swift */,
+				AC3E3FB31E7C3F19005EA75B /* DemoPhotoMessageModel.swift */,
+				AC3E3FB41E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift */,
+				AC3E3FB51E7C3F19005EA75B /* DemoTextMessageHandler.swift */,
+				AC3E3FB61E7C3F19005EA75B /* DemoTextMessageModel.swift */,
+				AC3E3FB71E7C3F19005EA75B /* DemoTextMessageViewModel.swift */,
+				AC3E3FB91E7C3F19005EA75B /* ChatItemsDemoDecorator.swift */,
+				AC3E3FB81E7C3F19005EA75B /* QueueMessageFactory.swift */,
+				AC3E3FBA1E7C3F19005EA75B /* QueueDataSource.swift */,
+				AC3E3FBB1E7C3F19005EA75B /* QueueMessageSender.swift */,
+				AC3E3FBC1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib */,
+				AC3E3FBD1E7C3F19005EA75B /* SlidingDatasSource.swift */,
+				AC3E3FBE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift */,
+				AC3E3FBF1E7C3F19005EA75B /* SendingStatusPresenter.swift */,
+				AC3E3FC01E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift */,
+				AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */,
+				AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */,
+				ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */,
+			);
+			name = ChatUI;
+			sourceTree = "<group>";
+		};
 		AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,68 +487,6 @@
 			);
 			name = "XEP-0245";
 			path = ../../Pods/XMPPFramework;
-			sourceTree = "<group>";
-		};
-		AC4FE9D71DD0E70700B3AEB8 /* NoChat */ = {
-			isa = PBXGroup;
-			children = (
-				AC4FEA351DD1193300B3AEB8 /* TGChatViewController.swift */,
-				AC4FE9F91DD113EC00B3AEB8 /* TGChatStyle */,
-				AC4FE9F71DD112BD00B3AEB8 /* ChatItemsDecorator.swift */,
-				AC4FE9D81DD0E96D00B3AEB8 /* ChatViewController+Changes.swift */,
-				AC4FE9D91DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift */,
-				AC4FE9DA1DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift */,
-				AC4FE9DB1DD0E96D00B3AEB8 /* NoChatViewController.swift */,
-				AC4FE9DC1DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift */,
-				AC4FE9DD1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift */,
-				AC4FE9DE1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift */,
-				AC4FE9DF1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift */,
-				AC4FE9E01DD0E96D00B3AEB8 /* CollectionChanges.swift */,
-				AC4FE9E11DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift */,
-				AC4FE9E21DD0E96D00B3AEB8 /* Info.plist */,
-				AC4FE9E31DD0E96D00B3AEB8 /* NoChat.h */,
-				AC4FE9E41DD0E96D00B3AEB8 /* SerialTaskQueue.swift */,
-				ACE830DA1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift */,
-			);
-			name = NoChat;
-			path = Source;
-			sourceTree = "<group>";
-		};
-		AC4FE9F91DD113EC00B3AEB8 /* TGChatStyle */ = {
-			isa = PBXGroup;
-			children = (
-				AC4FE9FA1DD113EC00B3AEB8 /* BubbleViewProtocol.swift */,
-				AC4FE9FB1DD113EC00B3AEB8 /* ChatInputViewController.swift */,
-				AC4FE9FC1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift */,
-				AC4FE9FD1DD113EC00B3AEB8 /* ChatTextView.swift */,
-				AC4FE9FE1DD113EC00B3AEB8 /* ClockProgressView.swift */,
-				AC4FE9FF1DD113EC00B3AEB8 /* ColorLabel.swift */,
-				AC4FEA001DD113EC00B3AEB8 /* ColorUtils.swift */,
-				AC4FEA011DD113EC00B3AEB8 /* DateItem.swift */,
-				AC4FEA021DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift */,
-				AC4FEA031DD113EC00B3AEB8 /* DateItemPresenter.swift */,
-				AC4FEA041DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift */,
-				AC4FEA051DD113EC00B3AEB8 /* GrowTextView.swift */,
-				AC4FEA061DD113EC00B3AEB8 /* ImageFactory.swift */,
-				AC4FEA071DD113EC00B3AEB8 /* ImageUtils.swift */,
-				AC4FEA081DD113EC00B3AEB8 /* Info.plist */,
-				AC4FEA091DD113EC00B3AEB8 /* KeyboardMan.swift */,
-				AC4FEA0A1DD113EC00B3AEB8 /* ManualLayoutUtils.swift */,
-				AC4FEA0B1DD113EC00B3AEB8 /* NoChatMessage.swift */,
-				AC4FEA0C1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift */,
-				AC4FEA0D1DD113EC00B3AEB8 /* MessagePresenter.swift */,
-				AC4FEA0E1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift */,
-				AC4FEA0F1DD113EC00B3AEB8 /* MessageProtocol.swift */,
-				AC4FEA101DD113EC00B3AEB8 /* MessageViewModel.swift */,
-				AC4FEA111DD113EC00B3AEB8 /* MessageViewModelProtocol.swift */,
-				AC4FEA121DD113EC00B3AEB8 /* NoChatTG.h */,
-				AC4FEA131DD113EC00B3AEB8 /* NoChatTG.xcassets */,
-				AC4FEA141DD113EC00B3AEB8 /* Observable.swift */,
-				AC4FEA151DD113EC00B3AEB8 /* TextBubbleView.swift */,
-				AC4FEA161DD113EC00B3AEB8 /* TextMessageViewModel.swift */,
-				AC4FEA171DD113EC00B3AEB8 /* ThreadHelper.swift */,
-			);
-			path = TGChatStyle;
 			sourceTree = "<group>";
 		};
 		AC7482A41E03129400B3AEB8 /* XMPP */ = {
@@ -648,31 +498,13 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		AC9F66201D957E5900B3AEB8 /* Jayme */ = {
+		AC77EA1C1E9D1DAC005EA75B /* XEP_0313 */ = {
 			isa = PBXGroup;
 			children = (
-				AC9F66211D957E5900B3AEB8 /* Backend.swift */,
-				AC9F66221D957E5900B3AEB8 /* Compatibility.swift */,
-				AC9F66231D957E5900B3AEB8 /* CRUDRepository.swift */,
-				AC9F66241D957E5900B3AEB8 /* DataParser.swift */,
-				AC9F66251D957E5900B3AEB8 /* DictionaryInitializable.swift */,
-				AC9F66261D957E5900B3AEB8 /* DictionaryRepresentable.swift */,
-				AC9F66271D957E5900B3AEB8 /* EntityParser.swift */,
-				AC9F66281D957E5900B3AEB8 /* Future.swift */,
-				AC9F66291D957E5900B3AEB8 /* HTTPHeader.swift */,
-				AC9F662A1D957E5900B3AEB8 /* HTTPMethodName.swift */,
-				AC9F662B1D957E5900B3AEB8 /* HTTPResponseParser.swift */,
-				AC9F662C1D957E5900B3AEB8 /* Identifiable.swift */,
-				AC9F662D1D957E5900B3AEB8 /* JaymeError.swift */,
-				AC9F662E1D957E5900B3AEB8 /* Logger.swift */,
-				AC9F662F1D957E5900B3AEB8 /* NSURLSessionBackend.swift */,
-				AC9F66301D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift */,
-				AC9F66311D957E5900B3AEB8 /* PagedRepository.swift */,
-				AC9F66321D957E5900B3AEB8 /* PageInfo.swift */,
-				AC9F66331D957E5900B3AEB8 /* Repository.swift */,
-				AC9F66341D957E5900B3AEB8 /* Result.swift */,
+				C1CAEAA81D11DDEE006E2A49 /* XMPPMessage+XEP_0313.h */,
+				C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */,
 			);
-			path = Jayme;
+			name = XEP_0313;
 			sourceTree = "<group>";
 		};
 		AC9F66351D957E5900B3AEB8 /* REST */ = {
@@ -696,6 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */,
+				42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -808,10 +641,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AC9F661A1D957ABD00B3AEB8 /* Build configuration list for PBXNativeTarget "Mangosta REST" */;
 			buildPhases = (
+				B1ECC4F6975FDE1867B04793 /* [CP] Check Pods Manifest.lock */,
 				AC9F65F11D957ABD00B3AEB8 /* Sources */,
 				AC9F660B1D957ABD00B3AEB8 /* Frameworks */,
 				AC9F660D1D957ABD00B3AEB8 /* Resources */,
 				AC3A3D9C1DB80AEA00B3AEB8 /* ShellScript */,
+				99DFC97670A3F6F624B07A5D /* [CP] Embed Pods Frameworks */,
+				2FDD0EC4DBEE8A006D8DDB9E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -829,26 +665,27 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Inaka;
 				TargetAttributes = {
 					81ECA34B1C92CDE4000602F2 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = RN98T2SU3Z;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0820;
 					};
 					81ECA35F1C92CDE5000602F2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0820;
 						TestTargetID = 81ECA34B1C92CDE4000602F2;
 					};
 					81ECA36A1C92CDE5000602F2 = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0820;
 						TestTargetID = 81ECA34B1C92CDE4000602F2;
 					};
 					AC9F65EF1D957ABD00B3AEB8 = {
 						DevelopmentTeam = RN98T2SU3Z;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -887,11 +724,9 @@
 				AC87CADF1DE35A7200B3AEB8 /* SocialMedia.storyboard in Resources */,
 				AC8020D71E13F88100B3AEB8 /* Main.storyboard in Resources */,
 				C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */,
-				AC4FEA261DD113EC00B3AEB8 /* Info.plist in Resources */,
-				AC4FE9EF1DD0E96D00B3AEB8 /* Info.plist in Resources */,
-				AC4FEA301DD113EC00B3AEB8 /* NoChatTG.xcassets in Resources */,
 				C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */,
 				C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */,
+				AC3E3FCE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -914,7 +749,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */,
-				AC9CE6A71DDA402600B3AEB8 /* NoChatTG.xcassets in Resources */,
 				ACB2D2B71E1599FC00B3AEB8 /* Me.storyboard in Resources */,
 				AC87CAE11DE3673900B3AEB8 /* SocialMedia.storyboard in Resources */,
 				AC87CAE01DE3673600B3AEB8 /* IM.storyboard in Resources */,
@@ -924,16 +758,30 @@
 				AC8020D81E13F88500B3AEB8 /* Main.storyboard in Resources */,
 				AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */,
 				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
-				AC9CE6971DDA401300B3AEB8 /* Info.plist in Resources */,
 				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
 				AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */,
-				AC9CE6B11DDA403500B3AEB8 /* Info.plist in Resources */,
+				AC3E3FE01E7C3F32005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2FDD0EC4DBEE8A006D8DDB9E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7E863CD5034DCF96CD453549 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -962,6 +810,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta/Pods-Mangosta-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		99DFC97670A3F6F624B07A5D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A0EC5B1B2BEBDE2F6CE565F8 /* [CP] Embed Pods Frameworks */ = {
@@ -1005,6 +868,21 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --path $PROJECT_DIR/Mangosta\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
+		B1ECC4F6975FDE1867B04793 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1012,81 +890,57 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC4FE9EE1DD0E96D00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
 				C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */,
-				AC4FEA2F1DD113EC00B3AEB8 /* MessageViewModelProtocol.swift in Sources */,
 				AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
-				AC4FE9EA1DD0E96D00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */,
+				AC3E3FCD1E7C3F19005EA75B /* QueueMessageSender.swift in Sources */,
+				AC3E3FC71E7C3F19005EA75B /* DemoTextMessageHandler.swift in Sources */,
+				AC3E3FC41E7C3F19005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
+				AC3E3FD11E7C3F19005EA75B /* SendingStatusPresenter.swift in Sources */,
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
 				ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */,
-				AC4FEA251DD113EC00B3AEB8 /* ImageUtils.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
+				AC3E3FC81E7C3F19005EA75B /* DemoTextMessageModel.swift in Sources */,
 				ACA045931D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
-				81473D8D1CC10755006FCEC9 /* MUCRoomViewController.swift in Sources */,
-				AC4FE9EB1DD0E96D00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */,
+				AC3E3FC31E7C3F19005EA75B /* BaseMessageHandler.swift in Sources */,
 				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
-				AC4FEA341DD113EC00B3AEB8 /* ThreadHelper.swift in Sources */,
 				DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
+				AC3E3FC61E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
 				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
+				AC3E3FD21E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
+				AC3E3FCA1E7C3F19005EA75B /* QueueMessageFactory.swift in Sources */,
 				AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */,
-				AC4FEA291DD113EC00B3AEB8 /* NoChatMessage.swift in Sources */,
-				AC4FEA1D1DD113EC00B3AEB8 /* ColorLabel.swift in Sources */,
-				AC4FEA181DD113EC00B3AEB8 /* BubbleViewProtocol.swift in Sources */,
-				AC4FE9E61DD0E96D00B3AEB8 /* ChatViewController+Presenters.swift in Sources */,
-				AC4FE9E71DD0E96D00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
+				AC3E3FD01E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				ACED08311E28242000B3AEB8 /* Settings.swift in Sources */,
-				AC4FEA2B1DD113EC00B3AEB8 /* MessagePresenter.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
-				AC4FEA191DD113EC00B3AEB8 /* ChatInputViewController.swift in Sources */,
-				AC4FEA241DD113EC00B3AEB8 /* ImageFactory.swift in Sources */,
+				AC3E3FC51E7C3F19005EA75B /* DemoPhotoMessageModel.swift in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
-				AC4FEA1E1DD113EC00B3AEB8 /* ColorUtils.swift in Sources */,
+				AC3E3FCC1E7C3F19005EA75B /* QueueDataSource.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
+				ACF0FAB21E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */,
 				E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */,
-				AC4FE9F01DD0E96D00B3AEB8 /* SerialTaskQueue.swift in Sources */,
-				AC4FEA361DD1193300B3AEB8 /* TGChatViewController.swift in Sources */,
-				AC4FEA221DD113EC00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */,
+				AC3E3FCF1E7C3F19005EA75B /* SlidingDatasSource.swift in Sources */,
+				AC3E3FAF1E7C3DB0005EA75B /* ChatViewController.swift in Sources */,
+				AC3E3FCB1E7C3F19005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
-				AC4FEA311DD113EC00B3AEB8 /* Observable.swift in Sources */,
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
-				AC4FEA2D1DD113EC00B3AEB8 /* MessageProtocol.swift in Sources */,
 				C19BA80A1D26D79D00F5BAB2 /* XMPPCustomRoomLight.m in Sources */,
-				AC4FEA281DD113EC00B3AEB8 /* ManualLayoutUtils.swift in Sources */,
+				AC3E3FD31E7C3F19005EA75B /* TimeSeparatorModel.swift in Sources */,
 				ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
-				AC4FE9EC1DD0E96D00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */,
-				81F8E83A1CA03F3A008099D1 /* ChatViewController.swift in Sources */,
-				ACE830DB1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
-				AC4FE9E81DD0E96D00B3AEB8 /* NoChatViewController.swift in Sources */,
-				AC4FEA2C1DD113EC00B3AEB8 /* MessagePresenterBuilder.swift in Sources */,
-				AC4FEA201DD113EC00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
 				C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */,
-				AC4FEA1B1DD113EC00B3AEB8 /* ChatTextView.swift in Sources */,
-				AC4FEA211DD113EC00B3AEB8 /* DateItemPresenter.swift in Sources */,
-				AC4FEA2A1DD113EC00B3AEB8 /* MessageCollectionViewCell.swift in Sources */,
-				AC4FE9E51DD0E96D00B3AEB8 /* ChatViewController+Changes.swift in Sources */,
-				AC4FE9E91DD0E96D00B3AEB8 /* BaseChatItemPresenter.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
-				AC4FEA1C1DD113EC00B3AEB8 /* ClockProgressView.swift in Sources */,
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
-				AC4FE9F81DD112BD00B3AEB8 /* ChatItemsDecorator.swift in Sources */,
+				AC3E3FC91E7C3F19005EA75B /* DemoTextMessageViewModel.swift in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */,
 				C135D92B1CEB4DAD00225EC7 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
+				AC3E3FD41E7C3F19005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */,
-				AC4FEA1F1DD113EC00B3AEB8 /* DateItem.swift in Sources */,
-				AC4FEA271DD113EC00B3AEB8 /* KeyboardMan.swift in Sources */,
 				C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */,
-				AC4FEA321DD113EC00B3AEB8 /* TextBubbleView.swift in Sources */,
-				AC4FEA231DD113EC00B3AEB8 /* GrowTextView.swift in Sources */,
-				AC4FEA2E1DD113EC00B3AEB8 /* MessageViewModel.swift in Sources */,
-				AC4FE9ED1DD0E96D00B3AEB8 /* CollectionChanges.swift in Sources */,
-				AC4FEA1A1DD113EC00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */,
-				AC4FEA331DD113EC00B3AEB8 /* TextMessageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1111,107 +965,63 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */,
-				AC9CE6AB1DDA403000B3AEB8 /* MessageCollectionViewCell.swift in Sources */,
-				AC9CE6BC1DDA403E00B3AEB8 /* DateItemPresenterBuilder.swift in Sources */,
-				AC9CE6AC1DDA403000B3AEB8 /* MessagePresenter.swift in Sources */,
-				AC9F664D1D957E5900B3AEB8 /* PagedRepository.swift in Sources */,
-				AC9CE6AD1DDA403000B3AEB8 /* MessagePresenterBuilder.swift in Sources */,
+				AC3E3FDD1E7C3F27005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
+				AC3E3FDE1E7C3F32005EA75B /* QueueDataSource.swift in Sources */,
+				AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
+				AC3E3FD51E7C3F1D005EA75B /* BaseMessageHandler.swift in Sources */,
+				AC3E3FE41E7C3F32005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
-				AC9CE6C11DDA40B700B3AEB8 /* SerialTaskQueue.swift in Sources */,
-				AC9CE6AE1DDA403000B3AEB8 /* MessageProtocol.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
+				AC3E3FDF1E7C3F32005EA75B /* QueueMessageSender.swift in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
-				AC9F66401D957E5900B3AEB8 /* DataParser.swift in Sources */,
-				AC9F65F51D957ABD00B3AEB8 /* MUCRoomViewController.swift in Sources */,
 				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
+				AC3E3FDB1E7C3F27005EA75B /* DemoTextMessageViewModel.swift in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
-				AC9F663D1D957E5900B3AEB8 /* Backend.swift in Sources */,
 				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
-				AC9CE6B21DDA403E00B3AEB8 /* BubbleViewProtocol.swift in Sources */,
 				AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
-				AC9CE6A31DDA402100B3AEB8 /* Observable.swift in Sources */,
 				AC9F65FA1D957ABD00B3AEB8 /* MUCLightRoomViewController.swift in Sources */,
 				AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */,
-				AC9F664C1D957E5900B3AEB8 /* NSURLSessionBackendConfiguration.swift in Sources */,
 				AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */,
-				AC9CE6991DDA401A00B3AEB8 /* ChatViewController+Changes.swift in Sources */,
+				AC3E3FD61E7C3F21005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
 				AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */,
-				AC9F66461D957E5900B3AEB8 /* HTTPMethodName.swift in Sources */,
-				AC9F66411D957E5900B3AEB8 /* DictionaryInitializable.swift in Sources */,
-				AC9CE6B61DDA403E00B3AEB8 /* ClockProgressView.swift in Sources */,
-				AC9CE6C01DDA404100B3AEB8 /* TGChatViewController.swift in Sources */,
 				AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */,
 				AC9F65FE1D957ABD00B3AEB8 /* XMPPMessageArchivingWithMAM.m in Sources */,
 				ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */,
-				AC9CE6B41DDA403E00B3AEB8 /* ChatItemDecorationAttributes.swift in Sources */,
-				AC9CE6A11DDA401A00B3AEB8 /* CollectionChanges.swift in Sources */,
 				AC9F65FF1D957ABD00B3AEB8 /* XMPPController.swift in Sources */,
+				AC3E3FD81E7C3F27005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
 				ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */,
+				AC3E3FE31E7C3F32005EA75B /* SendingStatusPresenter.swift in Sources */,
 				AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */,
-				AC9CE6A91DDA403000B3AEB8 /* ManualLayoutUtils.swift in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
-				AC9F66491D957E5900B3AEB8 /* JaymeError.swift in Sources */,
 				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
-				AC9F664E1D957E5900B3AEB8 /* PageInfo.swift in Sources */,
-				AC9CE6BA1DDA403E00B3AEB8 /* DateItemCollectionViewCell.swift in Sources */,
-				AC9F66421D957E5900B3AEB8 /* DictionaryRepresentable.swift in Sources */,
-				AC9F66011D957ABD00B3AEB8 /* ChatViewController.swift in Sources */,
-				AC9F664A1D957E5900B3AEB8 /* Logger.swift in Sources */,
-				AC9F663F1D957E5900B3AEB8 /* CRUDRepository.swift in Sources */,
-				AC9F664F1D957E5900B3AEB8 /* Repository.swift in Sources */,
-				AC9CE69A1DDA401A00B3AEB8 /* ChatViewController+Presenters.swift in Sources */,
-				AC9CE6AF1DDA403000B3AEB8 /* MessageViewModel.swift in Sources */,
-				AC57F3BA1E37AFA600B3AEB8 /* XMPPMain.swift in Sources */,
-				AC9CE6B01DDA403000B3AEB8 /* MessageViewModelProtocol.swift in Sources */,
+				AC3E3FDC1E7C3F27005EA75B /* QueueMessageFactory.swift in Sources */,
+				AC3E3FB01E7C3DB1005EA75B /* ChatViewController.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
-				AC9CE6A41DDA402100B3AEB8 /* TextBubbleView.swift in Sources */,
-				ACE830DC1DD50A5F00B3AEB8 /* 1to1NoChatItems.swift in Sources */,
-				AC9CE6B71DDA403E00B3AEB8 /* ColorLabel.swift in Sources */,
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
-				AC9CE6B91DDA403E00B3AEB8 /* DateItem.swift in Sources */,
-				AC9CE6A21DDA401A00B3AEB8 /* DummyChatItemPresenter.swift in Sources */,
-				AC9CE69D1DDA401A00B3AEB8 /* BaseChatItemPresenter.swift in Sources */,
-				AC9CE69B1DDA401A00B3AEB8 /* ChatViewController+Scrolling.swift in Sources */,
-				AC9F66471D957E5900B3AEB8 /* HTTPResponseParser.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
-				AC9F66431D957E5900B3AEB8 /* EntityParser.swift in Sources */,
+				AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */,
+				AC3E3FE61E7C3F32005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
-				AC9CE6BF1DDA403E00B3AEB8 /* ImageUtils.swift in Sources */,
-				AC9CE6A81DDA403000B3AEB8 /* KeyboardMan.swift in Sources */,
-				AC9CE6981DDA401A00B3AEB8 /* ChatItemsDecorator.swift in Sources */,
-				AC9CE6B31DDA403E00B3AEB8 /* ChatInputViewController.swift in Sources */,
-				AC9F664B1D957E5900B3AEB8 /* NSURLSessionBackend.swift in Sources */,
+				AC3E3FD71E7C3F27005EA75B /* DemoPhotoMessageModel.swift in Sources */,
+				ACF0FAB31E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */,
 				AC9F66041D957ABD00B3AEB8 /* Constants.swift in Sources */,
+				AC3E3FE11E7C3F32005EA75B /* SlidingDatasSource.swift in Sources */,
 				AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */,
 				AC9F66061D957ABD00B3AEB8 /* LoginViewController.swift in Sources */,
-				AC9F66501D957E5900B3AEB8 /* Result.swift in Sources */,
+				AC3E3FD91E7C3F27005EA75B /* DemoTextMessageHandler.swift in Sources */,
 				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
-				AC9CE69F1DDA401A00B3AEB8 /* ChatDataSourceProtocol.swift in Sources */,
-				AC9CE69E1DDA401A00B3AEB8 /* ChatCollectionViewLayout.swift in Sources */,
-				AC9CE69C1DDA401A00B3AEB8 /* NoChatViewController.swift in Sources */,
-				AC9CE6A61DDA402100B3AEB8 /* ThreadHelper.swift in Sources */,
+				AC3E3FDA1E7C3F27005EA75B /* DemoTextMessageModel.swift in Sources */,
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
-				AC9CE6A01DDA401A00B3AEB8 /* ChatItemProtocolDefinitions.swift in Sources */,
-				AC9F66481D957E5900B3AEB8 /* Identifiable.swift in Sources */,
-				AC9CE6AA1DDA403000B3AEB8 /* NoChatMessage.swift in Sources */,
-				AC9F66451D957E5900B3AEB8 /* HTTPHeader.swift in Sources */,
 				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
 				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
-				AC9F66441D957E5900B3AEB8 /* Future.swift in Sources */,
-				AC9CE6BD1DDA403E00B3AEB8 /* GrowTextView.swift in Sources */,
-				AC9CE6BB1DDA403E00B3AEB8 /* DateItemPresenter.swift in Sources */,
-				AC9CE6B81DDA403E00B3AEB8 /* ColorUtils.swift in Sources */,
-				AC9CE6BE1DDA403E00B3AEB8 /* ImageFactory.swift in Sources */,
 				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
 				AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */,
-				AC9CE6B51DDA403E00B3AEB8 /* ChatTextView.swift in Sources */,
 				ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
-				AC9F663E1D957E5900B3AEB8 /* Compatibility.swift in Sources */,
-				AC9CE6A51DDA402100B3AEB8 /* TextMessageViewModel.swift in Sources */,
+				AC3E3FE51E7C3F32005EA75B /* TimeSeparatorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1332,16 +1142,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FB21A84DE3DB4A7D04D49713 /* Pods-Mangosta.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1349,15 +1161,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC0B48606E9587DFCED6A206 /* Pods-Mangosta.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = Mangosta/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.Mangosta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1369,7 +1183,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mangosta.app/Mangosta";
 			};
 			name = Debug;
@@ -1382,7 +1196,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mangosta.app/Mangosta";
 			};
 			name = Release;
@@ -1394,7 +1208,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Mangosta;
 				USES_XCTRUNNER = YES;
 			};
@@ -1407,7 +1221,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Mangosta;
 				USES_XCTRUNNER = YES;
 			};
@@ -1415,32 +1229,46 @@
 		};
 		AC9F661B1D957ABD00B3AEB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37AF37EA534DB10501DCAA9E /* Pods-Mangosta REST.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaRESTIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaREST;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		AC9F661C1D957ABD00B3AEB8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E0ED70069EEE9C42A3458F39 /* Pods-Mangosta REST.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaRESTIconWhite;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = "Mangosta/REST-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DDDXML_LIBXML_MODULE_ENABLED $(inherited) \"-D\" \"COCOAPODS\" -D\"MangostaREST\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.inakanetworks.MangostaREST;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mangosta/Library/Mangosta-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};

@@ -22,7 +22,7 @@ class ChatDataSourceInterface: ChatDataSourceProtocol {
 		completion()
 	}
 	
-	func adjustNumberOfMessages(preferredMaxCount preferredMaxCount: Int?, focusPosition: Double, completion:(didAdjust: Bool) -> Void) {
+	func adjustNumberOfMessages(preferredMaxCount preferredMaxCount: Int?, focusPosition: Double, completion:(_ didAdjust: Bool) -> Void) {
 		completion(didAdjust: false)
 	}
 	

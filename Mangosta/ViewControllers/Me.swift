@@ -21,7 +21,7 @@ class Me: UITableViewController {
 		self.accountJID.text = self.xmppController?.xmppStream.myJID?.bare()
 	}
     
-	@IBAction func signOut(sender: AnyObject) {
+	@IBAction func signOut(_ sender: AnyObject) {
 		
         self.xmppController.disconnect()
         
@@ -29,16 +29,15 @@ class Me: UITableViewController {
         
         self.presentLogInView()
 		#if MangostaREST
-			appDelegate.mongooseRESTController = nil
-			self.mongooseRESTController = nil
+			AppDelegate().mongooseRESTController = nil
 		#endif
 	}
 	
 	func presentLogInView() {
 		let storyboard = UIStoryboard(name: "LogIn", bundle: nil)
-		let loginController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+		let loginController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
 		
-		self.navigationController?.presentViewController(loginController, animated: true, completion: nil
+		self.navigationController?.present(loginController, animated: true, completion: nil
 		)
 	}
 }
