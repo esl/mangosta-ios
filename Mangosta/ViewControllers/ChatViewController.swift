@@ -15,12 +15,6 @@ import ChattoAdditions
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
-
-//    override func chatDataSourceDidUpdate(_ chatDataSource: ChatDataSourceProtocol) {
-//        print ("asdlkfjasklfjasdlkjfasdlkfjasdlk")
-//        self.sendMessageToServer(message)
-//        
-//    }
     
 	weak var room: XMPPRoom?
 	weak var roomLight: XMPPRoomLight?
@@ -297,14 +291,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
 
 		msg?.addBody(lastMessage?.text)
-		if type == "chat" {
-            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
-		}
-		else {
-			// TODO:
-			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-			self.xmppController.xmppStream.send(msg)
-		}
+        if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
+        else { print("Error sending message: \(msg)") }
 	}
 }
 
@@ -395,54 +383,9 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 		alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 		self.present(alertController, animated: true, completion: nil)
 	}
+    
+    func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMAMMessage message: XMPPMessage!) {
+        print ("received")
+    }
 }
 
-extension ChatViewController {
- 
-	// FIXME: uncomment this.
-//	func createTextMessage(text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
-//		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
-//		message.content = text
-//		return message
-//	}
-
-
-//	func sendText(_ text: String) {
-//		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
-//
-//		// TODO: implement queing offline messages.
-//		// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-//
-//		self.sendMessageToServer(message)
-//	}
-
-	// FIXME: uncomment this.
-//	func createMessage(_ senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
-//		let message = NoChatMessage(
-//			msgId: UUID().uuidString,
-//			msgType: msgType,
-//			senderId: senderId,
-//			isIncoming: isIncoming,
-//			date: Date(),
-//			deliveryStatus: .delivering,
-//			attachments: [],
-//			content: ""
-//		)
-//
-//		return message
-//	}
-
-
-}
-// FIXME: uncomment this. ???
-//class TGTextMessageViewModelBuilder: MessageViewModelBuilderProtocol {
-//
-//    private let messageViewModelBuilder = MessageViewModelBuilder()
-//
-//    func createMessageViewModel(message message: MessageProtocol) -> MessageViewModelProtocol {
-//        let messageViewModel = messageViewModelBuilder.createMessageViewModel(message: message)
-//        messageViewModel.status.value = .Success
-//        let textMessageViewModel = TextMessageViewModel(text: message.content, messageViewModel: messageViewModel)
-//        return textMessageViewModel
-//    }
-//}

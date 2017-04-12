@@ -41,11 +41,11 @@ public class QueueMessageSender {
     }
 
     public func sendMessage( message: DemoMessageModelProtocol) {
-        
         self.queueMessageStatus(message: message)
     }
 
     private func queueMessageStatus( message: DemoMessageModelProtocol) {
+        // TODO: include status from server
         switch message.status {
         case .success:
             break
@@ -53,19 +53,15 @@ public class QueueMessageSender {
             self.updateMessage(message, status: .sending)
             self.queueMessageStatus(message: message)
         case .sending:
-            switch arc4random_uniform(100) % 5 {
-            case 0:
-                if arc4random_uniform(100) % 2 == 0 {
-                    self.updateMessage(message, status: .failed)
-                } else {
-                    self.updateMessage(message, status: .success)
-                }
-            default:
-                let delaySeconds: Double = Double(arc4random_uniform(1200)) / 1000.0
-                let delayTime = DispatchTime.now() + Double(Int64(delaySeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                    self.queueMessageStatus(message: message)
-                }
+            // TODO: adapt this method to resend message
+            let controller = ChatViewController()
+            controller.sendMessageToServer(message as! DemoTextMessageModel)
+            
+            // TODO: use message status from xmpp
+            let delaySeconds: Double = Double(arc4random_uniform(1200)) / 1000.0
+            let delayTime = DispatchTime.now() + Double(Int64(delaySeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                self.queueMessageStatus(message: message)
             }
         }
     }
