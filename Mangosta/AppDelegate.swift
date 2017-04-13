@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
 		print("App Path: \(dirPaths)")
 
-        DDLog.add(DDTTYLogger.sharedInstance(), with:  DDLogLevel.verbose)
+        DDLog.add(DDTTYLogger.sharedInstance, with: DDLogLevel.verbose)
         XMPPController.sharedInstance.xmppReconnect.manualStart()
         
 		return true
