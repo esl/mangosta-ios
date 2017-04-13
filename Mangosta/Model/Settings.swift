@@ -39,15 +39,15 @@ protocol TitleViewModifiable {
 // RGB hex String without alpha
 extension UIColor {
 	convenience init(hexString:String) {
-		let hexString:NSString = hexString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-		let scanner            = NSScanner(string: hexString as String)
+		let hexString:NSString = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) as NSString
+		let scanner            = Scanner(string: hexString as String)
 		
 		if hexString.hasPrefix("#") {
 			scanner.scanLocation = 1
 		}
 		
 		var color:UInt32 = 0
-		scanner.scanHexInt(&color)
+		scanner.scanHexInt32(&color)
 		
 		let mask = 0x000000FF
 		let r = Int(color >> 16) & mask

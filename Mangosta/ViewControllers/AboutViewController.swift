@@ -18,8 +18,8 @@ class AboutViewController: UIViewController {
         self.versionLabel.text = self.loadVersionAndBuildNumber()
     }
     func loadVersionAndBuildNumber() -> String {
-        let version = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String
-        let build = NSBundle.mainBundle().objectForInfoDictionaryKey(kCFBundleVersionKey as String) as? String
+        let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+        let build = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String
         return "Version " + version! + " Build " + build!
     }
 }

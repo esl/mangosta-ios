@@ -10,10 +10,10 @@ import Foundation
 import XMPPFramework
 
 public typealias VoidCompletion = () -> ()
-public typealias StreamCompletion = ((stream: XMPPStream?) -> ())?
-public typealias BoolCompletion = (success: Bool) -> ()
+public typealias StreamCompletion = ((_ stream: XMPPStream?) -> ())?
+public typealias BoolCompletion = (_ success: Bool) -> ()
 public typealias RoomListCompletion = ([XMPPRoom]?)->()
-public typealias RosterCompletion = ((result: Bool, roster: XMPPRoster) -> Void)
+public typealias RosterCompletion = ((_ result: Bool, _ roster: XMPPRoster) -> Void)
 
 public struct Constants {
 	public struct Preferences {
@@ -26,17 +26,13 @@ public struct Constants {
 	}
 	
 	public static func applicationSupportDirectory() -> String {
-		let cacheDirectories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+		let cacheDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
 		
 		return cacheDirectories.first!
 	}
 }
 
-func delay(delay: Double, closure:()->()) {
-	dispatch_after(
-		dispatch_time(
-			DISPATCH_TIME_NOW,
-			Int64(delay * Double(NSEC_PER_SEC))
-		),
-		dispatch_get_main_queue(), closure)
+func delay(_ delay: Double, closure:@escaping ()->()) {
+	DispatchQueue.main.asyncAfter(
+		deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }

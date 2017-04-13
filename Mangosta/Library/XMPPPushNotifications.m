@@ -7,7 +7,9 @@
 //
 
 #import "XMPPPushNotifications.h"
-//#import "XMPPFramework/XMPPResponseTracker.h"
+#import "XMPPLogging.h"
+#import "XMPPIDTracker.h"
+#import "XMPPIQ+XEP_0357.h"
 
 static const int xmppLogLevel = XMPP_LOG_LEVEL_VERBOSE | XMPP_LOG_FLAG_TRACE;
 

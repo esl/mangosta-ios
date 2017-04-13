@@ -11,29 +11,29 @@ import XMPPFramework
 
 class MIMMainInterface: MIMCommunicable {
 	
-	func getMessages(limit: Int?, before: CLong?) {
+	func getMessages(_ limit: Int?, before: CLong?) {
 		MessageRepository().getNMessages(nil, before: nil).start() {
 			result in
 			switch result {
-			case .Success(let messageList):
+			case .success(let messageList):
 				print("DEBUG MessageList \(messageList)")
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
 		}
 	}
 	
-	func sendMessage(xmppMessage: XMPPMessage) {
-		let message = Message(id: NSUUID().UUIDString, to: xmppMessage.to().bare(), from: "", body: xmppMessage.body(), timestamp: NSNotFound)
+	func sendMessage(_ xmppMessage: XMPPMessage) {
+		let message = Message(id: UUID().uuidString, to: xmppMessage.to().bare(), from: "", body: xmppMessage.body(), timestamp: NSNotFound)
 		MessageRepository().sendMessage(message).start() { result in
 			switch result {
-			case .Success( _):
-				let xmppController = (UIApplication.sharedApplication().delegate as! AppDelegate).xmppController
-				xmppController.xmppMessageArchivingStorage.archiveMessage(xmppMessage, outgoing: true, xmppStream: xmppController.xmppStream)
+			case .success( _):
+				
+				XMPPController.sharedInstance.xmppMessageArchivingStorage.archiveMessage(xmppMessage, outgoing: true, xmppStream: XMPPController.sharedInstance.xmppStream)
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
@@ -43,15 +43,15 @@ class MIMMainInterface: MIMCommunicable {
 	func getMessagesWithUser(user: XMPPJID, limit: Int?, before: CLong?) -> [Message] {
 		var returnist : [Message] = []
 		
-		MessageRepository().getNMessagesWithUser(user.bare(), limit: limit, before: before).start() {
+		MessageRepository().getNMessagesWithUser(user.bare(), limit: limit as NSNumber?, before: before as NSNumber?).start() {
 			result in
 			switch result {
-			case .Success(let messageList):
+			case .success(let messageList):
 				returnist = messageList
 				print ("Message list \(messageList)")
 				// Using xmpp method for retrieval until sse is completed.
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
@@ -65,11 +65,11 @@ class MIMMainInterface: MIMCommunicable {
 		RoomRepository().findAll().start() {
 			result in
 			switch result {
-			case .Success(let rooms):
+			case .success(let rooms):
 				print ("DEBUG room list \(rooms)")
 				roomList = rooms
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
@@ -79,16 +79,16 @@ class MIMMainInterface: MIMCommunicable {
 	
 	func getRoomArchivedMessages(room: XMPPRoom, limit: Int?, before: CLong?) -> [Message] {
 		var messages: [Message] = []
-		let dictionary  : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+		let dictionary  : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject as AnyObject, "name": "" as AnyObject]
 		let thisRoom = try? Room(dictionary: dictionary)
-		RoomRepository().getMessagesFromRoom(thisRoom!.id, limit: limit, before: before).start() {
+		RoomRepository().getMessagesFromRoom(thisRoom!.id, limit: limit as NSNumber?, before: before as NSNumber?).start() {
 			result in
 			switch result {
-			case .Success(let archivedList):
+			case .success(let archivedList):
 				print ("DEBUG archive message list \(archivedList)")
 				messages = archivedList
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
@@ -96,18 +96,18 @@ class MIMMainInterface: MIMCommunicable {
 		return messages
 	}
 	
-	func createRoomWithSubject(room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?) {
+	func createRoomWithSubject(_ room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?) {
 		let roomToCreate = Room(id: "", subject: subject, name: name, participants: ["":""])
 		RoomRepository().create(roomToCreate).start() {
 			result in
 			switch result {
-			case .Success(let roomCreated):
+			case .success(let roomCreated):
 				// NOTE: The current API does not use sse, then the only way to manage incoming messages is to configure a XMPPRoomLight object from the id obtained.
 				print("DEBUG roomCreated: \(roomCreated)")
 				// We get the new id from the server. We recreate muclight room since we cannot assign it.
-				let newRoomLight = XMPPCustomRoomLight(JID: room.roomJID, roomname: room.roomname())
+				let newRoomLight = XMPPCustomRoomLight(jid: room.roomJID, roomname: room.roomname())
 				room.destroyRoom()
-				newRoomLight.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+				newRoomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 				
 				// TODO: implement this here for MucLightfrom activate
 				
@@ -123,7 +123,7 @@ class MIMMainInterface: MIMCommunicable {
 				}
 				
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
@@ -132,13 +132,13 @@ class MIMMainInterface: MIMCommunicable {
 	
 	func getRoomDetails(room: XMPPRoom) -> Room {
 		var detailsDictionary : Room = try! Room(dictionary: [:])
-		RoomRepository().findByID(room.roomJID.bare()).start() {
+		RoomRepository().find(byId: room.roomJID.bare()).start() {
 			result in
 			switch result {
-			case .Success(let details):
+			case .success(let details):
 				detailsDictionary = details
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
@@ -146,48 +146,48 @@ class MIMMainInterface: MIMCommunicable {
 		return detailsDictionary
 	}
 	
-	func inviteUserToRoom(jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight) {
-		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.subject(), "name": ""]
+	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight) {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.subject() as AnyObject, "name": "" as AnyObject]
 		let room = try? Room(dictionary: dictionary)
 		RoomRepository().addUserToRoom(room!, userJID: jid.bare()).start() {
 			result in
 			switch result {
-			case .Success(let userInvited):
+			case .success(let userInvited):
 				print("DEBUG userInvited: \(userInvited)")
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
 		}
 	}
 	
-	func deleteUserFromRoom(room: XMPPRoom, user: XMPPJID) {
-		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+	func deleteUserFromRoom(_ room: XMPPRoom, user: XMPPJID) {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject as AnyObject, "name": "" as AnyObject]
 		let thisRoom = try? Room(dictionary: dictionary)
 		RoomRepository().deleteUserFromRoom(thisRoom!, userJID: user.bare()).start() {
 			result in
 			switch result {
-			case .Success(let userDeleted):
+			case .success(let userDeleted):
 				print("DEBUG userDeleted: \(userDeleted)")
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}
 		}
 	}
 	
-	func sendMessageToRoom(room: XMPPRoom, message: XMPPMessage) {
-		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject, "name": ""]
+	func sendMessageToRoom(_ room: XMPPRoom, message: XMPPMessage) {
+		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.roomSubject as AnyObject, "name": "" as AnyObject]
 		let thisRoom = try? Room(dictionary: dictionary)
 		RoomRepository().sendMessageToRoom(thisRoom!, messageBody: message.body()).start() {
 			result in
 			switch result {
-			case .Success(let messageSent):
+			case .success(let messageSent):
 				print("DEBUG: messageSent: \(messageSent)")
 				break
-			case .Failure(let error):
+			case .failure(let error):
 				print("Error: \(error)")
 				break
 			}

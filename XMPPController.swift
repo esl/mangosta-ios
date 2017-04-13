@@ -8,6 +8,30 @@
 
 import UIKit
 import XMPPFramework
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class XMPPController: NSObject {
 
@@ -73,8 +97,8 @@ class XMPPController: NSObject {
         self.xmppCapabilities.myCapabilitiesNode = myMicroblogNode + "+notify"
 		
         // PubSub
-        self.xmppPresencePubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: dispatch_get_main_queue()) // FIME: use pubsub.erlang-solutions.com ??
-        self.xmppPushNotificationsPubSub = XMPPPubSub(serviceJID: XMPPJID.jidWithString("push.erlang-solutions.com"), dispatchQueue: dispatch_get_main_queue())
+        self.xmppPresencePubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main) // FIME: use pubsub.erlang-solutions.com ??
+        self.xmppPushNotificationsPubSub = XMPPPubSub(serviceJID: XMPPJID(string: "push.erlang-solutions.com"))
         
 		// Delivery Receips
 		self.xmppMessageDeliveryReceipts = XMPPMessageDeliveryReceipts()
@@ -84,7 +108,7 @@ class XMPPController: NSObject {
 		// Message Carbons
 		self.xmppMessageCarbons = XMPPMessageCarbons()
 		self.xmppMessageCarbons.autoEnableMessageCarbons = true
-		self.xmppMessageCarbons.enableMessageCarbons()
+		self.xmppMessageCarbons.enable()
 
 		// Stream Managment
 		self.xmppStreamManagementStorage = XMPPStreamManagementDiscStorage()
@@ -104,13 +128,13 @@ class XMPPController: NSObject {
         
         let pushNotificationsEnvironment: XMPPPushNotificationsEnvironment
         #if APNS_SANDBOX
-            pushNotificationsEnvironment = .Sandbox
+            pushNotificationsEnvironment = .sandbox
         #elseif APNS_PRODUCTION
-            pushNotificationsEnvironment = .Production
+            pushNotificationsEnvironment = .production
         #endif
         self.xmppPushNotifications = XMPPPushNotifications(
             pubSubServiceJid: self.xmppPushNotificationsPubSub.serviceJID,
-            nodeName: (UIDevice.currentDevice().identifierForVendor ?? NSUUID()).UUIDString,    // in rare cases where identifierForVendor returns nil, use a temporary UUID for simplicity
+            nodeName: (UIDevice.current.identifierForVendor ?? UUID()).uuidString,    // in rare cases where identifierForVendor returns nil, use a temporary UUID for simplicity
             environment: pushNotificationsEnvironment
         )
 
@@ -132,22 +156,22 @@ class XMPPController: NSObject {
 		
 
 		// Stream Settings
-		self.xmppStream.startTLSPolicy = XMPPStreamStartTLSPolicy.Allowed
+		self.xmppStream.startTLSPolicy = XMPPStreamStartTLSPolicy.allowed
 
 		super.init()
 		
         // Add delegates
-		self.xmppStream.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-        self.xmppRoster.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-        self.xmppServiceDiscovery.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-		self.xmppStreamManagement.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-        self.xmppReconnect.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-        self.xmppPresencePubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
-        self.xmppPushNotificationsPubSub.addDelegate(self, delegateQueue: dispatch_get_main_queue())
+		self.xmppStream.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppRoster.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppServiceDiscovery.addDelegate(self, delegateQueue: DispatchQueue.main)
+		self.xmppStreamManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppPresencePubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppPushNotificationsPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
 	}
 
-    func setStreamCredentials(hostName: String?, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
-        if let host = hostName where hostName?.characters.count > 0 {
+    func setStreamCredentials(_ hostName: String?, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
+        if let host = hostName, hostName?.characters.count > 0 {
             self.xmppStream.hostName = host
         }
         self.xmppStream.myJID = userJID
@@ -168,7 +192,7 @@ class XMPPController: NSObject {
         self.setStreamCredentials(authModel.serverName, userJID: authModel.jid, password: authModel.password)
         
         do {
-           try self.xmppStream.connectWithTimeout(XMPPStreamTimeoutNone)
+           try self.xmppStream.connect(withTimeout: XMPPStreamTimeoutNone)
         }
         catch {
             return false
@@ -182,10 +206,9 @@ class XMPPController: NSObject {
 		self.xmppStream.disconnectAfterSending()
 	}
 
-    func enablePushNotificationsWithDeviceToken(deviceToken: NSData) {
-        let deviceTokenString = UnsafeBufferPointer<UInt8>(start: UnsafePointer(deviceToken.bytes),
-            count: deviceToken.length).map { String(format: "%02x", $0) }.joinWithSeparator("")
-        xmppPushNotifications.enableWithDeviceTokenString(deviceTokenString)
+    func enablePushNotifications(withDeviceToken deviceToken: Data) {
+        let deviceTokenString = deviceToken.map { String(format: "%02x", $0) } .joined()
+        xmppPushNotifications.enable(withDeviceTokenString: deviceTokenString)
     }
 
     deinit {
@@ -229,31 +252,31 @@ class XMPPController: NSObject {
 
 extension XMPPController: XMPPStreamDelegate {
 
-	func xmppStreamDidConnect(stream: XMPPStream!) {
+	func xmppStreamDidConnect(_ stream: XMPPStream!) {
         self.isXmppConnected = true
 		
-        let user = stream.myJID.bare()
+        let user = stream.myJID.bare() as String
 		print("Stream: Connected as user: \(user).")
-		try! stream.authenticateWithPassword(self.password)
+		try! stream.authenticate(withPassword: self.password)
 	}
 
-	func xmppStreamDidAuthenticate(sender: XMPPStream!) {
-		self.xmppStreamManagement.enableStreamManagementWithResumption(true, maxTimeout: 1000)
+	func xmppStreamDidAuthenticate(_ sender: XMPPStream!) {
+		self.xmppStreamManagement.enable(withResumption: true, maxTimeout: 1000)
 		print("Stream: Authenticated")
 		self.goOnline()
         
-        self.xmppServiceDiscovery.discoverInformationAbout(xmppStream.myJID.domainJID()) // TODO: xmppStream.myJID.bareJID()
+        self.xmppServiceDiscovery.discoverInformationAbout(xmppStream.myJID.domain()) // TODO: xmppStream.myJID.bareJID()
 	}
 	
-	func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
+	func xmppStream(_ sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
 		print("Stream: Fail to Authenticate")
 	}
 	
-    func xmppStreamWasToldToDisconnect(sender: XMPPStream!) {
+    func xmppStreamWasTold(toDisconnect sender: XMPPStream!) {
         print("Stream was told to disconnect.")
     }
     
-	func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
+	func xmppStreamDidDisconnect(_ sender: XMPPStream!, withError error: Error!) {
 		print("Stream: Disconnected")
         if !self.isXmppConnected {
             print("Unable to connect to server. Check xmppStream.hostName")
@@ -262,24 +285,24 @@ extension XMPPController: XMPPStreamDelegate {
         self.isXmppConnected = false
 	}
     
-    func xmppStreamDidChangeMyJID(xmppStream: XMPPStream!) {
-        print("Stream: new JID: \(xmppStream.myJID.bare())")
+    func xmppStreamDidChangeMyJID(_ xmppStream: XMPPStream!) {
+        print("Stream: new JID: \((xmppStream.myJID.bare() as String))")
     }
 	
 	func goOnline() {
 		let presence = XMPPPresence()
-		self.xmppStream.sendElement(presence)
+		self.xmppStream.send(presence)
         
-        xmppClientState.active = true
+        xmppClientState.isActive = true
         
         self.createMyPubSubNode()
 	}
 	
 	func goOffLine() {
 		let presence = XMPPPresence(type: "unavailable")
-		self.xmppStream.sendElement(presence)
+		self.xmppStream.send(presence)
         
-        xmppClientState.active = false
+        xmppClientState.isActive = false
         
 	}
     
@@ -290,28 +313,28 @@ extension XMPPController: XMPPStreamDelegate {
 
 extension XMPPController: XMPPStreamManagementDelegate {
 
-	func xmppStreamManagement(sender: XMPPStreamManagement!, wasEnabled enabled: DDXMLElement!) {
+	func xmppStreamManagement(_ sender: XMPPStreamManagement!, wasEnabled enabled: DDXMLElement!) {
 		print("Stream Management: enabled")
 	}
 
-	func xmppStreamManagement(sender: XMPPStreamManagement!, wasNotEnabled failed: DDXMLElement!) {
+	func xmppStreamManagement(_ sender: XMPPStreamManagement!, wasNotEnabled failed: DDXMLElement!) {
 		print("Stream Management: not enabled")
 	}
 	
 }
 
 extension XMPPController: XMPPRosterDelegate {
-	func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
+	func xmppStream(_ sender: XMPPStream!, didReceive presence: XMPPPresence!) {
         print("Received presence type \(presence.type()) from \(presence.fromStr())")
     }
 	
-	func xmppRoster(sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
-		print("Roster: Received presence request from user: \(presence.from().bare())")
+	func xmppRoster(_ sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
+		print("Roster: Received presence request from user: \((presence.from().bare() as String))")
 	}
 }
 
 extension XMPPController: XMPPPubSubDelegate {
-    func xmppPubSub(sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
+    func xmppPubSub(_ sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
         switch sender {
         case xmppPresencePubSub:
             self.configurePresenceNode(node)
@@ -320,30 +343,28 @@ extension XMPPController: XMPPPubSubDelegate {
         default:
             break
         }
-        
         print("PubSub: Did create node")
     }
-    func xmppPubSub(sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
+    func xmppPubSub(_ sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
         switch sender {
         case xmppPresencePubSub:
             self.configurePresenceNode(node)
-        case xmppPushNotificationsPubSub where iq.childErrorElement().attributeIntegerValueForName("code") == 409:
+        case xmppPushNotificationsPubSub where iq.childErrorElement().attributeIntegerValue(forName: "code") == 409:
             // assuming 409 means a node had been created earlier
             pushNotificationsDelegate?.xmppControllerDidPrepareForPushNotificationsSupport(self)
         default:
             break
         }
-        
         print("PubSub: Did not create node: \(iq.stringValue)")
     }
-    func configurePresenceNode(node: String) {
+    func configurePresenceNode(_ node: String) {
         self.xmppPresencePubSub.configureNode(node, withOptions: ["access_model":"presence"])
     }
 }
 
 extension XMPPController: XMPPServiceDiscoveryDelegate {
     
-    func xmppServiceDiscovery(sender: XMPPServiceDiscovery!, didDiscoverInformation items: [AnyObject]!) {
+    func xmppServiceDiscovery(_ sender: XMPPServiceDiscovery!, didDiscoverInformation items: [Any]!) {
         for item in items {
             switch item {
             case let xmppElement as DDXMLElement where xmppElement.isPushNotificationFeatureElement():
@@ -370,5 +391,5 @@ extension XMPPController {
 
 protocol XMPPControllerPushNotificationsDelegate: class {
     
-    func xmppControllerDidPrepareForPushNotificationsSupport(controller: XMPPController)
+    func xmppControllerDidPrepareForPushNotificationsSupport(_ controller: XMPPController)
 }

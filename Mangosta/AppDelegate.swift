@@ -19,66 +19,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var mongooseRESTController: MongooseAPI!
 	#endif
 	
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
-		let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+		let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
 		print("App Path: \(dirPaths)")
 
-        DDLog.addLogger(DDTTYLogger.sharedInstance(), withLevel:  DDLogLevel.Verbose)
+        DDLog.add(DDTTYLogger.sharedInstance(), with: DDLogLevel.verbose)
         XMPPController.sharedInstance.pushNotificationsDelegate = self
         XMPPController.sharedInstance.xmppReconnect.manualStart()
         
 		return true
 	}
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        XMPPController.sharedInstance.enablePushNotificationsWithDeviceToken(deviceToken)
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        XMPPController.sharedInstance.enablePushNotifications(withDeviceToken: deviceToken)
     }
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Device token for push notifications: FAIL -- ")
-        print(error.description)
+        print(error.localizedDescription)
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         // TODO: [pwe] A dedicated payload key for sender's JID delivery
         guard let senderJidString = ((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String,
-            let senderJid = XMPPJID.jidWithString(senderJidString) else {
+            let senderJid = XMPPJID(string: senderJidString) else {
                 return
         }
         
-        (window?.rootViewController as! TabBarController).handleChatPushNotificationWithRemoteJid(senderJid)
+        (window?.rootViewController as! TabBarController).handleChatPushNotification(withRemoteJid: senderJid)
     }
     
     func initializeNotificationServices() -> Void {
-        let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        let settings = UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
         
         // This is an asynchronous method to retrieve a Device Token
         // Callbacks are in AppDelegate.swift
         // Success = didRegisterForRemoteNotificationsWithDeviceToken
         // Fail = didFailToRegisterForRemoteNotificationsWithError
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+        UIApplication.shared.registerForRemoteNotifications()
     }
 
-	func applicationWillResignActive(application: UIApplication) {
+	func applicationWillResignActive(_ application: UIApplication) {
         
 	}
 
-	func applicationDidEnterBackground(application: UIApplication) {
+	func applicationDidEnterBackground(_ application: UIApplication) {
         XMPPController.sharedInstance.disconnect()
 	}
 
-	func applicationWillEnterForeground(application: UIApplication) {
+	func applicationWillEnterForeground(_ application: UIApplication) {
 		// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 	}
 
-	func applicationDidBecomeActive(application: UIApplication) {
-		XMPPController.sharedInstance.connect()
+	func applicationDidBecomeActive(_ application: UIApplication) {
+		_ = XMPPController.sharedInstance.connect()
 	}
 
-	func applicationWillTerminate(application: UIApplication) {
-		XMPPController.sharedInstance.disconnect()
+	func applicationWillTerminate(_ application: UIApplication) {
+		_ = XMPPController.sharedInstance.disconnect()
 	}
     
 
@@ -86,8 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: XMPPControllerPushNotificationsDelegate {
     
-    func xmppControllerDidPrepareForPushNotificationsSupport(controller: XMPPController) {
-        NSOperationQueue.mainQueue().addOperationWithBlock {
+    func xmppControllerDidPrepareForPushNotificationsSupport(_ controller: XMPPController) {
+        OperationQueue.main.addOperation {
             self.initializeNotificationServices()
         }
     }

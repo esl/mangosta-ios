@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Jayme
 
 struct RoomMessage: Identifiable {
 	let id: String
@@ -20,16 +21,16 @@ struct RoomMessage: Identifiable {
 
 extension RoomMessage: DictionaryInitializable, DictionaryRepresentable {
 
-	init(dictionary: [String: AnyObject]) throws {
+	init(dictionary: [String: Any]) throws {
 		guard let
 			id = dictionary["id"] as? String,
-			from = dictionary["from"] as? String,
-			user = dictionary["user"] as? String,
-			body = dictionary["body"] as? String,
-			timestamp = dictionary["timestamp"] as? String,
-			type = dictionary["type"] as? String,
-			affiliation = dictionary["affiliation"] as? String
-			else { throw JaymeError.ParsingError }
+			let from = dictionary["from"] as? String,
+			let user = dictionary["user"] as? String,
+			let body = dictionary["body"] as? String,
+			let timestamp = dictionary["timestamp"] as? String,
+			let type = dictionary["type"] as? String,
+			let affiliation = dictionary["affiliation"] as? String
+			else { throw JaymeError.parsingError }
 		self.id = id
 		self.from = from
 		self.user = user
@@ -38,13 +39,13 @@ extension RoomMessage: DictionaryInitializable, DictionaryRepresentable {
 		self.type = type
 		self.affiliation = affiliation
 	}
-	var dictionaryValue: [String: AnyObject] {
+    var dictionaryValue: [String: Any] {
 		return [
-			"id": self.id,
-			"from": self.from,
-			"user": self.user,
-			"body": self.body,
-			"affiliation": self.affiliation
+			"id": self.id as Any,
+			"from": self.from as Any,
+			"user": self.user as Any,
+			"body": self.body as Any,
+			"affiliation": self.affiliation as Any
 		]
 	}
 

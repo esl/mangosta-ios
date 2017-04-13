@@ -8,6 +8,7 @@
 
 
 import Foundation
+import Jayme
 
 struct Message: Identifiable {
 
@@ -20,14 +21,14 @@ struct Message: Identifiable {
 
 extension Message: DictionaryInitializable, DictionaryRepresentable {
 	
-	init(dictionary: [String: AnyObject]) throws {
+	init(dictionary: [String: Any]) throws {
 		guard let
 			id = dictionary["id"] as? String,
-			to = dictionary["to"] as? String,
-			body = dictionary["body"] as? String,
-			from = dictionary["from"] as? String,
-			timestamp = dictionary["timestamp"] as? CLong
-			else { throw JaymeError.ParsingError }
+			let to = dictionary["to"] as? String,
+			let body = dictionary["body"] as? String,
+			let from = dictionary["from"] as? String,
+			let timestamp = dictionary["timestamp"] as? CLong
+			else { throw JaymeError.parsingError }
 		self.id = id
 		self.to = to
 		self.from = from
@@ -36,10 +37,10 @@ extension Message: DictionaryInitializable, DictionaryRepresentable {
 	}
 
 	
-	var dictionaryValue: [String: AnyObject] {
+	var dictionaryValue: [String: Any] {
 		return [
-			"to": self.to,
-			"body": self.body
+			"to": self.to as Any,
+			"body": self.body as Any
 		]
 	}
 
