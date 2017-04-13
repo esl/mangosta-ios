@@ -25,29 +25,29 @@
 import Foundation
 import ChattoAdditions
 
-class DemoTextMessageHandler: BaseMessageInteractionHandlerProtocol {
+class TextMessageHandler: BaseMessageInteractionHandlerProtocol {
     private let baseHandler: BaseMessageHandler
     init (baseHandler: BaseMessageHandler) {
         self.baseHandler = baseHandler
     }
 
-    func userDidTapOnFailIcon(viewModel: DemoTextMessageViewModel, failIconView: UIView) {
+    func userDidTapOnFailIcon(viewModel: TextMessageViewModel, failIconView: UIView) {
         self.baseHandler.userDidTapOnFailIcon(viewModel: viewModel)
     }
 
-    func userDidTapOnAvatar(viewModel: DemoTextMessageViewModel) {
+    func userDidTapOnAvatar(viewModel: TextMessageViewModel) {
         self.baseHandler.userDidTapOnAvatar(viewModel: viewModel)
     }
 
-    func userDidTapOnBubble(viewModel: DemoTextMessageViewModel) {
+    func userDidTapOnBubble(viewModel: TextMessageViewModel) {
         self.baseHandler.userDidTapOnBubble(viewModel: viewModel)
     }
 
-    func userDidBeginLongPressOnBubble(viewModel: DemoTextMessageViewModel) {
+    func userDidBeginLongPressOnBubble(viewModel: TextMessageViewModel) {
         self.baseHandler.userDidBeginLongPressOnBubble(viewModel: viewModel)
     }
 
-    func userDidEndLongPressOnBubble(viewModel: DemoTextMessageViewModel) {
+    func userDidEndLongPressOnBubble(viewModel: TextMessageViewModel) {
         self.baseHandler.userDidEndLongPressOnBubble(viewModel: viewModel)
     }
 }

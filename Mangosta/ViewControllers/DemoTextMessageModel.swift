@@ -25,7 +25,7 @@
 import Foundation
 import ChattoAdditions
 
-public class DemoTextMessageModel: TextMessageModel<MessageModel>, DemoMessageModelProtocol {
+public class TextMessageModel: TextMessageModel<MessageModel>, MessageModelProtocol {
     public override init(messageModel: MessageModel, text: String) {
         super.init(messageModel: messageModel, text: text)
     }

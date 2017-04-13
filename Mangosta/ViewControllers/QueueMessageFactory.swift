@@ -33,9 +33,9 @@ extension Array {
     }
 }
 
-func createTextMessageModel(_ uid: String, text: String, isIncoming: Bool) -> DemoTextMessageModel {
+func createTextMessageModel(_ uid: String, text: String, isIncoming: Bool) -> TextMessageModel {
     let messageModel = createMessageModel(uid, isIncoming: isIncoming, type: TextMessageModel<MessageModel>.chatItemType)
-    let textMessageModel = DemoTextMessageModel(messageModel: messageModel, text: text)
+    let textMessageModel = TextMessageModel(messageModel: messageModel, text: text)
     return textMessageModel
 }
 
@@ -46,9 +46,9 @@ func createMessageModel(_ uid: String, isIncoming: Bool, type: String) -> Messag
     return messageModel
 }
 
-func createPhotoMessageModel(_ uid: String, image: UIImage, size: CGSize, isIncoming: Bool) -> DemoPhotoMessageModel {
+func createPhotoMessageModel(_ uid: String, image: UIImage, size: CGSize, isIncoming: Bool) -> PhotoMessageModel {
     let messageModel = createMessageModel(uid, isIncoming: isIncoming, type: PhotoMessageModel<MessageModel>.chatItemType)
-    let photoMessageModel = DemoPhotoMessageModel(messageModel: messageModel, imageSize:size, image: image)
+    let photoMessageModel = PhotoMessageModel(messageModel: messageModel, imageSize:size, image: image)
     return photoMessageModel
 }
 
@@ -58,7 +58,7 @@ class QueueMessageFactory {
         return self.createOutgoingTextMessageModel(uid, text: text)
     }
 
-    class func createOutgoingTextMessageModel(_ uid: String, text: String) -> DemoTextMessageModel {
+    class func createOutgoingTextMessageModel(_ uid: String, text: String) -> TextMessageModel {
         let isIncoming: Bool = false
         
         #if MangostaREST
@@ -68,7 +68,7 @@ class QueueMessageFactory {
         #endif
     }
 
-    class func createPhotoMessageModel(_ uid: String, isIncoming: Bool) -> DemoPhotoMessageModel {
+    class func createPhotoMessageModel(_ uid: String, isIncoming: Bool) -> PhotoMessageModel {
         var imageSize = CGSize.zero
         switch arc4random_uniform(100) % 3 {
         case 0:

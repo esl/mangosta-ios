@@ -86,7 +86,7 @@ class QueueDataSource: ChatDataSourceProtocol {
             delegate.sendMessageToServer(message)
         }
     }
-    func addIncomingTextMessage(message: DemoTextMessageModel) {
+    func addIncomingTextMessage(message: TextMessageModel) {
         // FIXME uuid messages from MAM
         // let uid = UUID.init().uuidString
         self.messageSender.sendMessage(message: message)

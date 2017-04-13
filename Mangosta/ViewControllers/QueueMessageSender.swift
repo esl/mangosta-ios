@@ -26,25 +26,25 @@ import Foundation
 import Chatto
 import ChattoAdditions
 
-public protocol DemoMessageModelProtocol: MessageModelProtocol {
+public protocol MessageModelProtocol: MessageModelProtocol {
     var status: MessageStatus { get set }
 }
 
 public class QueueMessageSender {
 
-    public var onMessageChanged: ((_ message: DemoMessageModelProtocol) -> Void)?
+    public var onMessageChanged: ((_ message: MessageModelProtocol) -> Void)?
 
-    public func sendMessages(messages: [DemoMessageModelProtocol]) {
+    public func sendMessages(messages: [MessageModelProtocol]) {
         for message in messages {
             self.queueMessageStatus(message: message)
         }
     }
 
-    public func sendMessage( message: DemoMessageModelProtocol) {
+    public func sendMessage( message: MessageModelProtocol) {
         self.queueMessageStatus(message: message)
     }
 
-    private func queueMessageStatus( message: DemoMessageModelProtocol) {
+    private func queueMessageStatus( message: MessageModelProtocol) {
         // TODO: include status from server
         switch message.status {
         case .success:
@@ -55,7 +55,7 @@ public class QueueMessageSender {
         case .sending:
             // TODO: adapt this method to resend message
             let controller = ChatViewController()
-            controller.sendMessageToServer(message as? DemoTextMessageModel)
+            controller.sendMessageToServer(message as? TextMessageModel)
             
             // TODO: use message status from xmpp
             let delaySeconds: Double = Double(arc4random_uniform(1200)) / 1000.0
@@ -67,14 +67,14 @@ public class QueueMessageSender {
         }
     }
 
-    private func updateMessage(_ message: DemoMessageModelProtocol, status: MessageStatus) {
+    private func updateMessage(_ message: MessageModelProtocol, status: MessageStatus) {
         if message.status != status {
             message.status = status
             self.notifyMessageChanged(message)
         }
     }
 
-    private func notifyMessageChanged(_ message: DemoMessageModelProtocol) {
+    private func notifyMessageChanged(_ message: MessageModelProtocol) {
         self.onMessageChanged?(message)
     }
 }

@@ -28,8 +28,8 @@ import ChattoAdditions
 
 
 
-public protocol DemoMessageViewModelProtocol {
-    var messageModel: DemoMessageModelProtocol { get }
+public protocol MessageViewModelProtocol {
+    var messageModel: MessageModelProtocol { get }
 }
 
 class BaseMessageHandler {
@@ -38,7 +38,7 @@ class BaseMessageHandler {
     init (messageSender: QueueMessageSender) {
         self.messageSender = messageSender
     }
-    func userDidTapOnFailIcon(viewModel: DemoMessageViewModelProtocol) {
+    func userDidTapOnFailIcon(viewModel: MessageViewModelProtocol) {
         print("userDidTapOnFailIcon")
         self.messageSender.sendMessage(message: viewModel.messageModel)
     }
@@ -47,15 +47,15 @@ class BaseMessageHandler {
         print("userDidTapOnAvatar")
     }
 
-    func userDidTapOnBubble(viewModel: DemoMessageViewModelProtocol) {
+    func userDidTapOnBubble(viewModel: MessageViewModelProtocol) {
         print("userDidTapOnBubble")
     }
 
-    func userDidBeginLongPressOnBubble(viewModel: DemoMessageViewModelProtocol) {
+    func userDidBeginLongPressOnBubble(viewModel: MessageViewModelProtocol) {
         print("userDidBeginLongPressOnBubble")
     }
 
-    func userDidEndLongPressOnBubble(viewModel: DemoMessageViewModelProtocol) {
+    func userDidEndLongPressOnBubble(viewModel: MessageViewModelProtocol) {
         print("userDidEndLongPressOnBubble")
     }
 }

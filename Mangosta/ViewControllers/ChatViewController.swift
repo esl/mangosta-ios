@@ -53,7 +53,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
         // Note that this componet needs to have. First the datasource and it's messageSender, which was passed on MainViewController, before starting the decorator.
         self.messageSender = dataSource.messageSender
-        super.chatItemsDecorator = ChatItemsDemoDecorator()
+        super.chatItemsDecorator = ChatItemsDecorator()
         
         self.addWallpaperView()
         
@@ -123,22 +123,22 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
     override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
         let textMessagePresenter = TextMessagePresenterBuilder(
-            viewModelBuilder: DemoTextMessageViewModelBuilder(),
-            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+            viewModelBuilder: TextMessageViewModelBuilder(),
+            interactionHandler: TextMessageHandler(baseHandler: self.baseMessageHandler)
         )
         textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()
 
         let photoMessagePresenter = PhotoMessagePresenterBuilder(
-            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
-            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
+            viewModelBuilder: PhotoMessageViewModelBuilder(),
+            interactionHandler: PhotoMessageHandler(baseHandler: self.baseMessageHandler)
         )
         photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle()
 
         return [
-            DemoTextMessageModel.chatItemType: [
+            TextMessageModel.chatItemType: [
                 textMessagePresenter
             ],
-            DemoPhotoMessageModel.chatItemType: [
+            PhotoMessageModel.chatItemType: [
                 photoMessagePresenter
             ],
             SendingStatusModel.chatItemType: [SendingStatusPresenterBuilder()],
@@ -284,7 +284,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	}
     
   
-	func sendMessageToServer(_ lastMessage: DemoTextMessageModel?) {
+	func sendMessageToServer(_ lastMessage: TextMessageModel?) {
         // TODO: make this funcion aware of picture type message
         guard let lastMessage = lastMessage else { return } 
 		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID

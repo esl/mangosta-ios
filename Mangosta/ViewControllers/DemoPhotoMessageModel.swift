@@ -25,7 +25,7 @@
 import Foundation
 import ChattoAdditions
 
-public class DemoPhotoMessageModel: PhotoMessageModel<MessageModel>, DemoMessageModelProtocol {
+public class PhotoMessageModel: PhotoMessageModel<MessageModel>, MessageModelProtocol {
     public override init(messageModel: MessageModel, imageSize: CGSize, image: UIImage) {
         super.init(messageModel: messageModel, imageSize: imageSize, image: image)
     }
