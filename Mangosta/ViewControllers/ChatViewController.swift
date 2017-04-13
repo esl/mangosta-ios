@@ -380,3 +380,11 @@ extension ChatViewController: XMPPStreamDelegate {
     }
 }
 
+extension ChatViewController: XMPPHTPPFileUploadDelegate {
+    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload!, didAssign slot: XMPPSlot!) {
+        //
+    }
+    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload!, didFailToAssignSlotWithError iqError: XMPPIQ!) {
+        //
+    }
+}
