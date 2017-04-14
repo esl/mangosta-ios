@@ -75,6 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func applicationDidBecomeActive(_ application: UIApplication) {
 		_ = XMPPController.sharedInstance.connect()
+        
+        // TODO: [pwe] Proper icon badge number management
+        application.applicationIconBadgeNumber = 0
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {
