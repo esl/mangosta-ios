@@ -284,12 +284,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			chatController.xmppController = self.xmppController
 			chatController.userJID = user.jid
 		}
-        // TODO: move to defaults config.
-        let initialCount = 0
-        let pageSize = 50
-        
-        chatController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
-        chatController.messageSender = chatController.dataSource.messageSender
         
 		self.navigationController?.pushViewController(chatController, animated: true)
 	}
@@ -424,6 +418,15 @@ private extension UIStoryboard {
     
     static func instantiateChatViewController() -> ChatViewController {
         let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-        return storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        
+        // TODO: move to defaults config.
+        let initialCount = 0
+        let pageSize = 50
+        
+        chatViewController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
+        chatViewController.messageSender = chatViewController.dataSource.messageSender
+        
+        return chatViewController
     }
 }
