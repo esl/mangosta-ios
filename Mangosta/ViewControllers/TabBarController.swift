@@ -59,3 +59,12 @@ extension TabBarController: XMPPReconnectDelegate {
     }
 }
 
+extension TabBarController {
+    
+    func handleChatPushNotification(withRemoteJid remoteJid: XMPPJID) {
+        let mainViewController = viewControllers!.flatMap { ($0 as? UINavigationController)?.viewControllers[0] as? MainViewController } .first!
+        selectedViewController = mainViewController.navigationController
+        mainViewController.switchToConversation(withRemoteJid: remoteJid)
+    }
+}
+
