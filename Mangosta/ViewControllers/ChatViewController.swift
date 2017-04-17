@@ -337,13 +337,11 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
                                                                                               newIndexPath: IndexPath?) {
         switch anObject {
         case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
-            // FIXME: MAM has no UUID
-            let message = createTextMessageModel(privateMessage.bareJidStr, text: privateMessage.body, isIncoming: true)
+            let message = createTextMessageModel(privateMessage.message.chatId, text: privateMessage.body, isIncoming: true)
             self.dataSource.addIncomingTextMessage(message: message)
             
         case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
-            // FIXME: MAM has no UUID
-            let message = createTextMessageModel(roomMessage.roomJID().bare(), text: roomMessage.body(), isIncoming: true)
+            let message = createTextMessageModel(roomMessage.message().chatId, text: roomMessage.body(), isIncoming: true)
             self.dataSource.addIncomingTextMessage(message: message)
         default: break
         }
@@ -388,3 +386,12 @@ extension ChatViewController: XMPPHTPPFileUploadDelegate {
         //
     }
 }
+private extension XMPPMessage {
+    
+    var chatId: String {
+        // use the stanza id for direct messages or the resultId copied from an enclosing element for messages received via MAM
+        guard let chatId = elementID() ?? resultId() else { fatalError("Cannot extract chat identifier for message: \(self)") }
+        return chatId
+    }
+}
+

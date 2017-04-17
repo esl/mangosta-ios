@@ -101,7 +101,26 @@ class MainViewController: UIViewController, TitleViewModifiable {
 
 		self.navigationController?.present(loginController, animated: true, completion: nil)
 	}
-	
+    
+    func switchToConversation(withRemoteJid remoteJid: XMPPJID) {
+        _ = self.navigationController?.popToViewController(self, animated: false)
+        
+        let chatViewController = UIStoryboard.instantiateChatViewController()
+        chatViewController.xmppController = xmppController
+        
+        if let roomIndex = (xmppController.roomsLight.index { $0.roomJID.bare() as XMPPJID == remoteJid.bare() as XMPPJID }) {
+            tableView.selectRow(at: IndexPath(row: roomIndex, section: 0), animated: false, scrollPosition: .none)
+            chatViewController.roomLight = xmppController.roomsLight[roomIndex]
+        } else if let conversationIndex = (fetchedResultsController?.fetchedObjects?.index { ($0 as! XMPPUserCoreDataStorageObject).jid.bare() as XMPPJID == remoteJid.bare() as XMPPJID}) {
+            tableView.selectRow(at: IndexPath(row: conversationIndex, section: 1), animated: false, scrollPosition: .none)
+            chatViewController.userJID = remoteJid.bare()
+        } else {
+            chatViewController.userJID = remoteJid.bare()
+        }
+        
+        navigationController?.pushViewController(chatViewController, animated: false)
+    }
+    
 	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
 	@IBAction func activateDeactivate(sender: UIButton) {
         xmppController.xmppClientState.isActive = !xmppController.xmppClientState.isActive
@@ -249,10 +268,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard indexPath.section <= 1 else { return }
-		let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-        
-		let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
-
+		let chatController = UIStoryboard.instantiateChatViewController()
+		
 		if indexPath.section == 0 {
 			let room = self.xmppController.roomsLight[indexPath.row]
 			
@@ -267,12 +284,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			chatController.xmppController = self.xmppController
 			chatController.userJID = user.jid
 		}
-        // TODO: move to defaults config.
-        let initialCount = 0
-        let pageSize = 50
-        
-        chatController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
-        chatController.messageSender = chatController.dataSource.messageSender
         
 		self.navigationController?.pushViewController(chatController, animated: true)
 	}
@@ -403,4 +414,19 @@ extension MainViewController: XMPPRoomLightDelegate {
 	}
 }
 
-
+private extension UIStoryboard {
+    
+    static func instantiateChatViewController() -> ChatViewController {
+        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
+        let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        
+        // TODO: move to defaults config.
+        let initialCount = 0
+        let pageSize = 50
+        
+        chatViewController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
+        chatViewController.messageSender = chatViewController.dataSource.messageSender
+        
+        return chatViewController
+    }
+}

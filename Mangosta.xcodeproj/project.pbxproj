@@ -143,6 +143,8 @@
 		C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
 		C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */; };
 		C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
+		DD2226521E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
+		DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */; };
 		DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */ = {isa = PBXBuildFile; fileRef = E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */; };
 		E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */; };
@@ -169,6 +171,7 @@
 		37AF37EA534DB10501DCAA9E /* Pods-Mangosta REST.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta REST.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST.debug.xcconfig"; sourceTree = "<group>"; };
 		42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta_REST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		74B4E27A1E43BDD500E72619 /* Mangosta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mangosta.entitlements; sourceTree = "<group>"; };
 		811C5AB31CAC094D008346FE /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
 		8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -260,6 +263,10 @@
 		C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		C1CAEAA81D11DDEE006E2A49 /* XMPPMessage+XEP_0313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0313.h"; sourceTree = "<group>"; };
 		C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0313.m"; sourceTree = "<group>"; };
+		DD2226501E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPServiceDiscovery+XEP_0357.h"; sourceTree = "<group>"; };
+		DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPServiceDiscovery+XEP_0357.m"; sourceTree = "<group>"; };
+		DD2226561E93A49400F8C04D /* XMPPPushNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPPushNotifications.h; sourceTree = "<group>"; };
+		DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPPushNotifications.m; sourceTree = "<group>"; };
 		DD7C68831E8E381E00C22685 /* XMPPClientState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPClientState.h; sourceTree = "<group>"; };
 		DD7C68841E8E381E00C22685 /* XMPPClientState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPClientState.m; sourceTree = "<group>"; };
 		E037D85A1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMessageArchivingWithMAM.h; sourceTree = "<group>"; };
@@ -357,6 +364,7 @@
 				813266A41CA2B63600D4EDC0 /* XEP-0198 */,
 				AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */,
 				DD7C68821E8E37CE00C22685 /* XEP-0352 */,
+				DD22264C1E9384B200F8C04D /* XEP-0357 */,
 				C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */,
 				C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */,
 				C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */,
@@ -398,6 +406,7 @@
 		81ECA34E1C92CDE4000602F2 /* Mangosta */ = {
 			isa = PBXGroup;
 			children = (
+				74B4E27A1E43BDD500E72619 /* Mangosta.entitlements */,
 				C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */,
 				81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */,
 				C12EA9551CE255C800F29606 /* User Interface */,
@@ -568,6 +577,17 @@
 			name = "XEP-0030";
 			sourceTree = "<group>";
 		};
+		DD22264C1E9384B200F8C04D /* XEP-0357 */ = {
+			isa = PBXGroup;
+			children = (
+				DD2226501E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.h */,
+				DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */,
+				DD2226561E93A49400F8C04D /* XMPPPushNotifications.h */,
+				DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */,
+			);
+			name = "XEP-0357";
+			sourceTree = "<group>";
+		};
 		DD7C68821E8E37CE00C22685 /* XEP-0352 */ = {
 			isa = PBXGroup;
 			children = (
@@ -672,6 +692,11 @@
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = RN98T2SU3Z;
 						LastSwiftMigration = 0820;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					81ECA35F1C92CDE5000602F2 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -925,6 +950,7 @@
 				AC3E3FCF1E7C3F19005EA75B /* SlidingDatasSource.swift in Sources */,
 				AC3E3FAF1E7C3DB0005EA75B /* ChatViewController.swift in Sources */,
 				AC3E3FCB1E7C3F19005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
+				DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
 				C19BA80A1D26D79D00F5BAB2 /* XMPPCustomRoomLight.m in Sources */,
@@ -935,6 +961,7 @@
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
 				AC3E3FC91E7C3F19005EA75B /* DemoTextMessageViewModel.swift in Sources */,
+				DD2226521E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */,
 				C135D92B1CEB4DAD00225EC7 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
@@ -1093,6 +1120,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D APNS_SANDBOX";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1132,6 +1160,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-D APNS_PRODUCTION";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -1145,6 +1174,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mangosta/Mangosta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = Mangosta/Info.plist;
@@ -1164,6 +1194,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = MangostaIconWhite;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mangosta/Mangosta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = RN98T2SU3Z;
 				INFOPLIST_FILE = Mangosta/Info.plist;

@@ -24,11 +24,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
 		print("App Path: \(dirPaths)")
 
-        DDLog.add(DDTTYLogger.sharedInstance(), with:  DDLogLevel.verbose)
+        DDLog.add(DDTTYLogger.sharedInstance, with: DDLogLevel.verbose)
         XMPPController.sharedInstance.xmppReconnect.manualStart()
+        XMPPController.sharedInstance.pushNotificationsDelegate = self
         
 		return true
 	}
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        XMPPController.sharedInstance.enablePushNotifications(withDeviceToken: deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Device token for push notifications: FAIL -- ")
+        print(error.localizedDescription)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        // TODO: [pwe] A dedicated payload key for sender's JID delivery
+        guard let senderJidString = ((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String,
+            let senderJid = XMPPJID(string: senderJidString) else {
+                return
+        }
+        
+        (window?.rootViewController as! TabBarController).handleChatPushNotification(withRemoteJid: senderJid)
+    }
+    
+    func initializeNotificationServices() -> Void {
+        let settings = UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        
+        // This is an asynchronous method to retrieve a Device Token
+        // Callbacks are in AppDelegate.swift
+        // Success = didRegisterForRemoteNotificationsWithDeviceToken
+        // Fail = didFailToRegisterForRemoteNotificationsWithError
+        UIApplication.shared.registerForRemoteNotifications()
+    }
 
 	func applicationWillResignActive(_ application: UIApplication) {
         
@@ -44,11 +75,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func applicationDidBecomeActive(_ application: UIApplication) {
 		_ = XMPPController.sharedInstance.connect()
+        
+        // TODO: [pwe] Proper icon badge number management
+        application.applicationIconBadgeNumber = 0
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {
 		_ = XMPPController.sharedInstance.disconnect()
 	}
+    
 
+}
 
+extension AppDelegate: XMPPControllerPushNotificationsDelegate {
+    
+    func xmppControllerDidPrepareForPushNotificationsSupport(_ controller: XMPPController) {
+        OperationQueue.main.addOperation {
+            self.initializeNotificationServices()
+        }
+    }
 }

@@ -42,10 +42,12 @@ class XMPPController: NSObject {
 	var xmppRoster: XMPPRoster
 	var xmppRosterStorage: XMPPRosterCoreDataStorage
 	var xmppRosterCompletion: RosterCompletion?
+    var xmppServiceDiscovery: XMPPServiceDiscovery
 	var xmppCapabilities: XMPPCapabilities
 	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
 
-    var xmppPubSub: XMPPPubSub
+    var xmppPresencePubSub: XMPPPubSub
+    var xmppPushNotificationsPubSub: XMPPPubSub
     
 	var xmppMUCStorage: XMPPMUCCoreDataStorage
 	var xmppMUCStorer: XMPPMUCStorer
@@ -63,6 +65,7 @@ class XMPPController: NSObject {
     
     // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
     let xmppClientState: XMPPClientState
+    let xmppPushNotifications: XMPPPushNotifications
     
     let myMicroblogNode = "urn:xmpp:microblog:0"
 
@@ -71,6 +74,8 @@ class XMPPController: NSObject {
     
     var isXmppConnected = false
 		
+    weak var pushNotificationsDelegate: XMPPControllerPushNotificationsDelegate?
+    
     override init() {
         self.xmppStream = XMPPStream()
 		self.xmppReconnect = XMPPReconnect()
@@ -81,6 +86,9 @@ class XMPPController: NSObject {
 		self.xmppRoster.autoFetchRoster = true
         self.xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = true
 		
+        // Service Discovery
+        self.xmppServiceDiscovery = XMPPServiceDiscovery()
+        
 		// Capabilities
 		self.xmppCapabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
 		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: self.xmppCapabilitiesStorage)
@@ -89,7 +97,8 @@ class XMPPController: NSObject {
         self.xmppCapabilities.myCapabilitiesNode = myMicroblogNode + "+notify"
 		
         // PubSub
-        self.xmppPubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main) // FIME: use pubsub.erlang-solutions.com ??
+        self.xmppPresencePubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main) // FIME: use pubsub.erlang-solutions.com ??
+        self.xmppPushNotificationsPubSub = XMPPPubSub(serviceJID: XMPPJID(string: "push.erlang-solutions.com"))
         
 		// Delivery Receips
 		self.xmppMessageDeliveryReceipts = XMPPMessageDeliveryReceipts()
@@ -116,12 +125,26 @@ class XMPPController: NSObject {
 		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
         
         self.xmppClientState = XMPPClientState()
+        
+        let pushNotificationsEnvironment: XMPPPushNotificationsEnvironment
+        #if APNS_SANDBOX
+            pushNotificationsEnvironment = .sandbox
+        #elseif APNS_PRODUCTION
+            pushNotificationsEnvironment = .production
+        #endif
+        self.xmppPushNotifications = XMPPPushNotifications(
+            pubSubServiceJid: self.xmppPushNotificationsPubSub.serviceJID,
+            nodeName: (UIDevice.current.identifierForVendor ?? UUID()).uuidString,    // in rare cases where identifierForVendor returns nil, use a temporary UUID for simplicity
+            environment: pushNotificationsEnvironment
+        )
 
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)
 		self.xmppRoster.activate(self.xmppStream)
+        self.xmppServiceDiscovery.activate(self.xmppStream)
 		self.xmppCapabilities.activate(self.xmppStream)
-        self.xmppPubSub.activate(self.xmppStream)
+        self.xmppPresencePubSub.activate(self.xmppStream)
+        self.xmppPushNotificationsPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
 		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
@@ -129,6 +152,7 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiving.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
         self.xmppClientState.activate(self.xmppStream)
+        self.xmppPushNotifications.activate(self.xmppStream)
 		
 
 		// Stream Settings
@@ -139,9 +163,11 @@ class XMPPController: NSObject {
         // Add delegates
 		self.xmppStream.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppRoster.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppServiceDiscovery.addDelegate(self, delegateQueue: DispatchQueue.main)
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)
-        self.xmppPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppPresencePubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppPushNotificationsPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
 	}
 
     func setStreamCredentials(_ hostName: String?, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
@@ -180,6 +206,11 @@ class XMPPController: NSObject {
 		self.xmppStream.disconnectAfterSending()
 	}
 
+    func enablePushNotifications(withDeviceToken deviceToken: Data) {
+        let deviceTokenString = deviceToken.map { String(format: "%02x", $0) } .joined()
+        xmppPushNotifications.enable(withDeviceTokenString: deviceTokenString)
+    }
+
     deinit {
         self.tearDownStream()
     }
@@ -187,7 +218,9 @@ class XMPPController: NSObject {
 	func tearDownStream() {
         self.xmppStream.removeDelegate(self)
         self.xmppRoster.removeDelegate(self)
-        self.xmppPubSub.removeDelegate(self)
+        self.xmppPresencePubSub.removeDelegate(self)
+        self.xmppPushNotificationsPubSub.removeDelegate(self)
+        self.xmppServiceDiscovery.removeDelegate(self)
         
 		self.roomsLight.forEach { (roomLight) in
 			roomLight.deactivate()
@@ -195,9 +228,11 @@ class XMPPController: NSObject {
         
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
+        self.xmppServiceDiscovery.deactivate()
 		self.xmppCapabilities.deactivate()
         
-        self.xmppPubSub.deactivate()
+        self.xmppPresencePubSub.deactivate()
+        self.xmppPushNotificationsPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
 		self.xmppStreamManagement.deactivate()
@@ -205,6 +240,7 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
         self.xmppClientState.deactivate()
+        self.xmppPushNotifications.deactivate()
         
         self.disconnect()
         
@@ -229,6 +265,7 @@ extension XMPPController: XMPPStreamDelegate {
 		print("Stream: Authenticated")
 		self.goOnline()
         
+        self.xmppServiceDiscovery.discoverInformationAbout(xmppStream.myJID.domain()) // TODO: xmppStream.myJID.bareJID()
 	}
 	
 	func xmppStream(_ sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
@@ -270,7 +307,7 @@ extension XMPPController: XMPPStreamDelegate {
 	}
     
     func createMyPubSubNode() {
-        xmppPubSub.createNode(myMicroblogNode)
+        xmppPresencePubSub.createNode(myMicroblogNode)
     }
 }
 
@@ -298,15 +335,46 @@ extension XMPPController: XMPPRosterDelegate {
 
 extension XMPPController: XMPPPubSubDelegate {
     func xmppPubSub(_ sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
-        self.configureNode(node)
+        switch sender {
+        case xmppPresencePubSub:
+            self.configurePresenceNode(node)
+        case xmppPushNotificationsPubSub:
+            pushNotificationsDelegate?.xmppControllerDidPrepareForPushNotificationsSupport(self)
+        default:
+            break
+        }
         print("PubSub: Did create node")
     }
     func xmppPubSub(_ sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
-        self.configureNode(node)
+        switch sender {
+        case xmppPresencePubSub:
+            self.configurePresenceNode(node)
+        case xmppPushNotificationsPubSub where iq.childErrorElement().attributeIntegerValue(forName: "code") == 409:
+            // assuming 409 means a node had been created earlier
+            pushNotificationsDelegate?.xmppControllerDidPrepareForPushNotificationsSupport(self)
+        default:
+            break
+        }
         print("PubSub: Did not create node: \(iq.stringValue)")
     }
-    func configureNode(_ node: String) {
-        self.xmppPubSub.configureNode(node, withOptions: ["access_model":"presence"])
+    func configurePresenceNode(_ node: String) {
+        self.xmppPresencePubSub.configureNode(node, withOptions: ["access_model":"presence"])
+    }
+}
+
+extension XMPPController: XMPPServiceDiscoveryDelegate {
+    
+    func xmppServiceDiscovery(_ sender: XMPPServiceDiscovery!, didDiscoverInformation items: [Any]!) {
+        for item in items {
+            switch item {
+            case let xmppElement as DDXMLElement where xmppElement.isPushNotificationFeatureElement():
+                // TODO: [pwe] ideally, we should wait for the device token before proceeding with pubsub node creation
+                xmppPushNotificationsPubSub.createNode(xmppPushNotifications.nodeName)
+                
+            default:
+                continue
+            }
+        }
     }
 }
 
@@ -319,4 +387,9 @@ extension XMPPController {
         return self.xmppCapabilitiesStorage.mainThreadManagedObjectContext
     }
     
+}
+
+protocol XMPPControllerPushNotificationsDelegate: class {
+    
+    func xmppControllerDidPrepareForPushNotificationsSupport(_ controller: XMPPController)
 }

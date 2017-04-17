@@ -15,12 +15,6 @@ import ChattoAdditions
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
 	@IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
-
-//    override func chatDataSourceDidUpdate(_ chatDataSource: ChatDataSourceProtocol) {
-//        print ("asdlkfjasklfjasdlkjfasdlkfjasdlk")
-//        self.sendMessageToServer(message)
-//        
-//    }
     
 	weak var room: XMPPRoom?
 	weak var roomLight: XMPPRoomLight?
@@ -289,24 +283,18 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.roomLight?.removeDelegate(self)
 	}
     
- 
-	// FIXME: uncomment this.
-//	func sendMessageToServer(_ lastMessage: NoChatMessage?) {
-//
-//		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-//		let type = self.userJID != nil ? "chat" : "groupchat"
-//		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
-//
-//		msg?.addBody(lastMessage?.content)
-//		if type == "chat" {
-//            if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
-//		}
-//		else {
-//			// TODO:
-//			// self.MIMCommonInterface.sendMessageToRoom(self.room!, message: msg)
-//			self.xmppController.xmppStream.send(msg)
-//		}
-//	}
+  
+	func sendMessageToServer(_ lastMessage: DemoTextMessageModel?) {
+        // TODO: make this funcion aware of picture type message
+        guard let lastMessage = lastMessage else { return } 
+		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let type = self.userJID != nil ? "chat" : "groupchat"
+		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
+
+		msg?.addBody(lastMessage.text)
+        if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
+        else { print("Error sending message: \(msg)") }
+	}
 }
 
 // MARK: ChatDataSourceDelegateProtocol
@@ -340,40 +328,24 @@ extension ChatViewController: XMPPRoomExtraActionsDelegate {
 }
 
 extension ChatViewController: NSFetchedResultsControllerDelegate {
-	// MARK: NSFetchedResultsControllerDelegate
-<<<<<<< HEAD
-	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-	                didChange anObject: Any,
-	                                at indexPath: IndexPath?,
-	                                            for type: NSFetchedResultsChangeType,
-	                                                          newIndexPath: IndexPath?) {
-
-		if let mamMessage = anObject as? XMPPMessageArchiving_Message_CoreDataObject {
-			if mamMessage.body != nil && !mamMessage.isOutgoing {
-                // FIXME: uncomment this.
-//				let message = createTextMessage(text: mamMessage.body, senderId: mamMessage.bareJidStr, isIncoming: true)
-				// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-			}
-		}
-=======
-	func controller(controller: NSFetchedResultsController,
-	                didChangeObject anObject: AnyObject,
-	                                atIndexPath indexPath: NSIndexPath?,
-	                                            forChangeType type: NSFetchedResultsChangeType,
-	                                                          newIndexPath: NSIndexPath?) {
+    // MARK: NSFetchedResultsControllerDelegate
+    
+    @objc(controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:) func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                                                                                              didChange anObject: Any,
+                                                                                              at indexPath: IndexPath?,
+                                                                                              for type: NSFetchedResultsChangeType,
+                                                                                              newIndexPath: IndexPath?) {
         switch anObject {
         case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
-            let message = createTextMessage(text: privateMessage.body, senderId: privateMessage.bareJidStr, isIncoming: true)
-            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
+            let message = createTextMessageModel(privateMessage.message.chatId, text: privateMessage.body, isIncoming: true)
+            self.dataSource.addIncomingTextMessage(message: message)
             
         case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
-            let message = createTextMessage(text: roomMessage.body(), senderId: roomMessage.nickname(), isIncoming: true)
-            (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-            
+            let message = createTextMessageModel(roomMessage.message().chatId, text: roomMessage.body(), isIncoming: true)
+            self.dataSource.addIncomingTextMessage(message: message)
         default: break
         }
->>>>>>> master
-	}
+    }
 }
 
 extension ChatViewController: XMPPMessageArchiveManagementDelegate {
@@ -394,54 +366,35 @@ extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 		alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 		self.present(alertController, animated: true, completion: nil)
 	}
+    
+    func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMAMMessage message: XMPPMessage!) {
+        print ("received")
+    }
 }
 
-extension ChatViewController {
- 
-	// FIXME: uncomment this.
-//	func createTextMessage(text: String, senderId: String, isIncoming: Bool) -> NoChatMessage {
-//		let message = createMessage(senderId, isIncoming: isIncoming, msgType: MessageType.Text.rawValue)
-//		message.content = text
-//		return message
-//	}
-
-
-//	func sendText(_ text: String) {
-//		  let message = createTextMessage(text: text, senderId: "outgoing", isIncoming: false)
-//
-//		// TODO: implement queing offline messages.
-//		// FIXME (self.chatDataSource as! ChatDataSourceInterface).addMessages([message])
-//
-//		self.sendMessageToServer(message)
-//	}
-
-	// FIXME: uncomment this.
-//	func createMessage(_ senderId: String, isIncoming: Bool, msgType: String) -> NoChatMessage {
-//		let message = NoChatMessage(
-//			msgId: UUID().uuidString,
-//			msgType: msgType,
-//			senderId: senderId,
-//			isIncoming: isIncoming,
-//			date: Date(),
-//			deliveryStatus: .delivering,
-//			attachments: [],
-//			content: ""
-//		)
-//
-//		return message
-//	}
-
-
+extension ChatViewController: XMPPStreamDelegate {
+    func xmppStream(_ sender: XMPPStream!, didSend message: XMPPMessage!) {
+        // TODO: set message status to sent
+    }
 }
-// FIXME: uncomment this. ???
-//class TGTextMessageViewModelBuilder: MessageViewModelBuilderProtocol {
-//
-//    private let messageViewModelBuilder = MessageViewModelBuilder()
-//
-//    func createMessageViewModel(message message: MessageProtocol) -> MessageViewModelProtocol {
-//        let messageViewModel = messageViewModelBuilder.createMessageViewModel(message: message)
-//        messageViewModel.status.value = .Success
-//        let textMessageViewModel = TextMessageViewModel(text: message.content, messageViewModel: messageViewModel)
-//        return textMessageViewModel
-//    }
-//}
+
+<<<<<<< HEAD
+extension ChatViewController: XMPPHTPPFileUploadDelegate {
+    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload!, didAssign slot: XMPPSlot!) {
+        //
+    }
+    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload!, didFailToAssignSlotWithError iqError: XMPPIQ!) {
+        //
+    }
+}
+=======
+private extension XMPPMessage {
+    
+    var chatId: String {
+        // use the stanza id for direct messages or the resultId copied from an enclosing element for messages received via MAM
+        guard let chatId = elementID() ?? resultId() else { fatalError("Cannot extract chat identifier for message: \(self)") }
+        return chatId
+    }
+}
+
+>>>>>>> master
