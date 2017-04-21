@@ -98,7 +98,7 @@ class XMPPController: NSObject {
 		
         // PubSub
         self.xmppPresencePubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main) // FIME: use pubsub.erlang-solutions.com ??
-        self.xmppPushNotificationsPubSub = XMPPPubSub(serviceJID: XMPPJID(string: "push.erlang-solutions.com"))
+        self.xmppPushNotificationsPubSub = MIMPushNotificationsPubSub(serviceJID: XMPPJID(string: "pubsub.erlang-solutions.com"))
         
 		// Delivery Receips
 		self.xmppMessageDeliveryReceipts = XMPPMessageDeliveryReceipts()
@@ -208,7 +208,8 @@ class XMPPController: NSObject {
 
     func enablePushNotifications(withDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.map { String(format: "%02x", $0) } .joined()
-        xmppPushNotifications.enable(withDeviceTokenString: deviceTokenString)
+        // TODO: [pwe] MIM currently requires explicit `topic` value to be provided when pushing using universal APNS certificates
+        xmppPushNotifications.enable(withDeviceTokenString: deviceTokenString, customOptions: ["topic": Bundle.main.bundleIdentifier!])
     }
 
     deinit {

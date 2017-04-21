@@ -13,3 +13,4 @@
 #import "XMPPClientState.h"
 #import "XMPPPushNotifications.h"
 #import "XMPPServiceDiscovery+XEP_0357.h"
+#import "MIMPushNotificationsPubSub.h"
