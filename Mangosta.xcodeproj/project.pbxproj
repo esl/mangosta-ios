@@ -113,6 +113,8 @@
 		ACA045941D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */; };
 		ACA045961D99C26B00B3AEB8 /* RestMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA045951D99C26B00B3AEB8 /* RestMain.swift */; };
 		ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */; };
+		ACA8EDD01EAAA5D8005EA75B /* k.JPG in Resources */ = {isa = PBXBuildFile; fileRef = ACA8EDCF1EAAA5D8005EA75B /* k.JPG */; };
+		ACA8EDD11EAAA5D8005EA75B /* k.JPG in Resources */ = {isa = PBXBuildFile; fileRef = ACA8EDCF1EAAA5D8005EA75B /* k.JPG */; };
 		ACB2D2B61E1599FC00B3AEB8 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */; };
 		ACB2D2B71E1599FC00B3AEB8 /* Me.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */; };
 		ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB2D2B81E16ABB000B3AEB8 /* Me.swift */; };
@@ -232,6 +234,7 @@
 		ACA0458B1D99951100B3AEB8 /* RoomsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomsRepository.swift; sourceTree = "<group>"; };
 		ACA045921D999B8D00B3AEB8 /* MIMCommonInterfaceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MIMCommonInterfaceDelegate.swift; path = ../ViewControllers/MIMCommonInterfaceDelegate.swift; sourceTree = "<group>"; };
 		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
+		ACA8EDCF1EAAA5D8005EA75B /* k.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = k.JPG; sourceTree = "<group>"; };
 		ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
 		ACB2D2B81E16ABB000B3AEB8 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightCreateRoomPresenterViewController.swift; sourceTree = "<group>"; };
@@ -445,6 +448,7 @@
 		81F8E8311CA02369008099D1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				ACA8EDCF1EAAA5D8005EA75B /* k.JPG */,
 				AC3E3FE71E7C3F3C005EA75B /* ChatUI */,
 				C19BA8031D2563C200F5BAB2 /* TabBarController.swift */,
 				81F8E8341CA023B1008099D1 /* LoginViewController.swift */,
@@ -740,6 +744,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */,
+				ACA8EDD01EAAA5D8005EA75B /* k.JPG in Resources */,
 				C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */,
 				ACB2D2B61E1599FC00B3AEB8 /* Me.storyboard in Resources */,
 				81ECA35A1C92CDE4000602F2 /* LaunchScreen.storyboard in Resources */,
@@ -774,6 +779,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */,
+				ACA8EDD11EAAA5D8005EA75B /* k.JPG in Resources */,
 				ACB2D2B71E1599FC00B3AEB8 /* Me.storyboard in Resources */,
 				AC87CAE11DE3673900B3AEB8 /* SocialMedia.storyboard in Resources */,
 				AC87CAE01DE3673600B3AEB8 /* IM.storyboard in Resources */,

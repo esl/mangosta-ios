@@ -23,6 +23,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	weak var xmppController: XMPPController!
     
     var fileUploadService = XMPPHTTPFileUpload.init()
+    var outgoingFileTransfer = XMPPOutgoingFileTransfer.init(dispatchQueue: DispatchQueue.main)
     
 	var lastID = ""
 
@@ -74,6 +75,9 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         self.fileUploadService?.activate(self.xmppController.xmppStream)
         self.fileUploadService?.addDelegate(self, delegateQueue: DispatchQueue.main)
         
+        self.outgoingFileTransfer?.activate(self.xmppController.xmppStream)
+        self.outgoingFileTransfer?.addDelegate(self, delegateQueue: DispatchQueue.main)
+        
         if self.userJID != nil {
             self.fetchedResultsController = self.createFetchedResultsController()
         } else {
@@ -93,6 +97,9 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         }
 
         rightBarButtonItems.append(UIBarButtonItem(title: "test!", style: UIBarButtonItemStyle.done, target: self, action: #selector(requestSlot(_:))))// TODO: This is just for testing
+        
+        rightBarButtonItems.append(UIBarButtonItem(title: "test2!", style: UIBarButtonItemStyle.done, target: self, action: #selector(sendFilebuttonPressed(_:))))
+        
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
 
         // FIXME: not complete solution
@@ -260,6 +267,24 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         if let image = UIImage.init(named: fileName) {
             if let imgData = UIImagePNGRepresentation(image) {
                 self.fileUploadService?.requestSlot(fromService: jid, filename: fileName, size: UInt(imgData.count), contentType: "image/png", tag: nil)
+            }
+        }
+    }
+   
+    internal func sendFilebuttonPressed(_ sender: AnyObject?) {
+        // TODO calculate var jid
+        guard var jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID else { return }
+        jid = XMPPJID.init(string: "gardano@erlang-solutions.com/SeA")
+        
+        let fileName = "k"
+        if let fileURL = Bundle.main.url(forResource: fileName, withExtension: "JPG") {
+            if  let data = NSData.init(contentsOf: fileURL) {
+                do {
+                    try self.outgoingFileTransfer?.send(data as Data!, named: fileName, toRecipient: jid, description: "TODO put sometextHere?")
+                }
+                catch let error as NSError {
+                    print("There is a problem seding the file due: \(error)")
+                }
             }
         }
     }
