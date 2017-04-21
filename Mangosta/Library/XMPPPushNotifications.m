@@ -39,13 +39,16 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_VERBOSE | XMPP_LOG_FLAG_TRACE;
     return [self initWithDispatchQueue:nil pubSubServiceJid:serviceJid nodeName:nodeName environment:environment];
 }
 
-- (void)enableWithDeviceTokenString:(NSString *)deviceTokenString
+- (void)enableWithDeviceTokenString:(NSString *)deviceTokenString customOptions:(NSDictionary<NSString *,NSString *> *)customOptions
 {
     XMPPLogTrace();
     
     dispatch_async(moduleQueue, ^{
         NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithDictionary:@{ @"service": @"apns",
-                                                                                          @"device_id": deviceTokenString }];
+                                                                                          @"device_id": deviceTokenString}];
+        if (customOptions) {
+            [options addEntriesFromDictionary:customOptions];
+        }
         
         switch (self.environment) {
             case XMPPPushNotificationsEnvironmentProduction:

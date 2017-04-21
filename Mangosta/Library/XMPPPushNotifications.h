@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, XMPPPushNotificationsEnvironment) {
                              environment:(XMPPPushNotificationsEnvironment)environment;
 - (id)init NS_UNAVAILABLE;
 
-- (void)enableWithDeviceTokenString:(NSString *)deviceTokenString;
+- (void)enableWithDeviceTokenString:(NSString *)deviceTokenString customOptions:(nullable NSDictionary<NSString *, NSString *> *)customOptions;
 - (void)disable;
 
 @end
