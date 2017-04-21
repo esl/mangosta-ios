@@ -21,6 +21,9 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
 	weak var xmppController: XMPPController!
+    
+    var fileUploadService = XMPPHTTPFileUpload.init()
+    
 	var lastID = ""
 
 	let MIMCommonInterface = MIMMainInterface()
@@ -68,7 +71,9 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             self.originalTitleViewText = self.title
         }
 
-
+        self.fileUploadService?.activate(self.xmppController.xmppStream)
+        self.fileUploadService?.addDelegate(self, delegateQueue: DispatchQueue.main)
+        
         if self.userJID != nil {
             self.fetchedResultsController = self.createFetchedResultsController()
         } else {
@@ -87,6 +92,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
         }
 
+        rightBarButtonItems.append(UIBarButtonItem(title: "test!", style: UIBarButtonItemStyle.done, target: self, action: #selector(requestSlot(_:))))// TODO: This is just for testing
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
 
         // FIXME: not complete solution
@@ -244,6 +250,19 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		}
 		self.present(alertController, animated: true, completion: nil)
 	}
+    
+    internal func requestSlot(_ sender: AnyObject?) {
+      
+        guard let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID else { return }
+        
+        let fileName = "Gear"
+        let fileURL = Bundle.main.url(forResource: fileName, withExtension: "png")
+        if let image = UIImage.init(named: fileName) {
+            if let imgData = UIImagePNGRepresentation(image) {
+                self.fileUploadService?.requestSlot(fromService: jid, filename: fileName, size: UInt(imgData.count), contentType: "image/png", tag: nil)
+            }
+        }
+    }
 
 	@IBAction func showMUCDetails(_ sender: AnyObject) {
 
@@ -379,11 +398,11 @@ extension ChatViewController: XMPPStreamDelegate {
 }
 
 extension ChatViewController: XMPPHTPPFileUploadDelegate {
-    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload!, didAssign slot: XMPPSlot!) {
-        //
+    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload, didAssign slot: XMPPSlot) {
+        print("Slot request granted: \(slot.description)")
     }
-    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload!, didFailToAssignSlotWithError iqError: XMPPIQ!) {
-        //
+    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload, didFailToAssignSlotWithError iqError: XMPPIQ?) {
+        print("Slot request failed: \(iqError.debugDescription)")
     }
 }
 private extension XMPPMessage {
