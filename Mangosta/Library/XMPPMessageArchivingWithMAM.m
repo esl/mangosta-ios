@@ -32,7 +32,7 @@
 		XMPPMessage *messageFromMessage = [message messageForForwardedArchiveMessage];
 		
 		XMPPMessageAndMAMArchivingCoreDataStorage *storage = (XMPPMessageAndMAMArchivingCoreDataStorage *)xmppMessageArchivingStorage;
-		BOOL outgoing = messageFromMessage.from.user == sender.myJID.user;
+		BOOL outgoing = [messageFromMessage.from.user isEqualToString:sender.myJID.user];
 		[storage archiveMAMMessage:messageFromMessage outgoing:outgoing xmppStream:sender];
 	}
 }
