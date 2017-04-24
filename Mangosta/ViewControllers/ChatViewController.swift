@@ -86,6 +86,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
             self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
         }
+        dataSource.loadLocalArchive(from: fetchedResultsController)
 
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
 
@@ -218,7 +219,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
 		let entity = NSEntityDescription.entity(forEntityName: "XMPPMessageArchiving_Message_CoreDataObject", in: messageContext)
 		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare() as String!)
-		let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+		let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
 
 		let request = NSFetchRequest<NSFetchRequestResult>()
 		request.entity = entity
@@ -391,3 +392,30 @@ private extension XMPPMessage {
     }
 }
 
+private extension QueueDataSource {
+    
+    func loadLocalArchive(from fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
+        for item in fetchedResultsController.fetchedObjects!.mappedChatItems() {
+            slidingWindow.insertItem(item, position: .bottom)
+        }
+        delegate?.chatDataSourceDidUpdate(self, updateType: .firstLoad)
+    }
+}
+
+private extension Sequence where Iterator.Element: NSFetchRequestResult {
+    
+    func mappedChatItems() -> [ChatItemProtocol] {
+        return map {
+            switch $0 {
+            case let privateMessageObject as XMPPMessageArchiving_Message_CoreDataObject:
+                return createTextMessageModel(privateMessageObject.message.chatId, text: privateMessageObject.body, isIncoming: !privateMessageObject.isOutgoing)
+                
+            case let roomMessage as XMPPRoomMessage:
+                return createTextMessageModel(roomMessage.message().chatId, text: roomMessage.body(), isIncoming: !roomMessage.isFromMe())
+                
+            default:
+                fatalError()
+            }
+        }
+    }
+}
