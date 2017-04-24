@@ -13,7 +13,23 @@ import Chatto
 import ChattoAdditions
 
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
-	@IBOutlet weak var subject: UILabel!
+    
+    fileprivate struct HistoryQuery {
+        let messageArchiveManagement: XMPPMessageArchiveManagement
+        let jid: XMPPJID
+        let cutoffDate = Date()
+        
+        func execute(afterId lastId: String = "") {
+            let fields = [
+                XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare()),
+                XMPPMessageArchiveManagement.field(withVar: "end", type: nil, andValue: (cutoffDate as NSDate).xmppDateTimeString())
+            ]
+            let resultSet = XMPPResultSet(max: NSNotFound, after: lastId)
+            messageArchiveManagement.retrieveMessageArchive(withFields: fields, with: resultSet)
+        }
+    }
+    
+    @IBOutlet weak var subject: UILabel!
 	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
     
 	weak var room: XMPPRoom?
@@ -21,7 +37,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
 	weak var xmppController: XMPPController!
-	var lastID = ""
+    fileprivate var historyQuery: HistoryQuery?
     fileprivate var messageInsertions = [Int: DemoTextMessageModel]()
 
 	let MIMCommonInterface = MIMMainInterface()
@@ -82,13 +98,15 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             }
 
             rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.done, target: self, action: #selector(invite(_:))))
-            let d = rightBarButtonItems[0]
-            d.tintColor = UIColor(hexString:"009ab5")
-
+            
             self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
         }
         dataSource.loadLocalArchive(from: fetchedResultsController)
 
+        rightBarButtonItems.append(UIBarButtonItem(title: "History", style: .plain, target: self, action: #selector(fetchHistory(_:))))
+        for barButtonItem in rightBarButtonItems {
+            barButtonItem.tintColor = UIColor(hexString:"009ab5")
+        }
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
 
         // FIXME: not complete solution
@@ -270,14 +288,16 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	}
 
 	@IBAction func fetchHistory(_ sender: AnyObject) {
-		let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-		let fields = [XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid!.bare())]
-		let resultSet = XMPPResultSet(max: 5, after: self.lastID)
-		#if MangostaREST
+		// TODO: [pwe] history should be fetched in batches as the user scrolls to the top
+        // TODO: [pwe] avoiding refetching messages that are already present in the local store
+        guard historyQuery == nil else { return }
+        let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+        historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, jid: jid!)
+        #if MangostaREST
 			// TODO: add before and after
 			_ = MIMCommonInterface.getMessagesWithUser(user: jid!, limit: nil, before: nil)
 		#endif
-		self.xmppController.xmppMessageArchiveManagement.retrieveMessageArchive(withFields: fields, with: resultSet)
+		historyQuery!.execute()
 	}
 
 	deinit {
@@ -374,10 +394,17 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 extension ChatViewController: XMPPMessageArchiveManagementDelegate {
 
 	func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWith resultSet: XMPPResultSet!) {
-		if let lastID = resultSet.forName("last")?.stringValue! {
-			self.lastID = lastID
-		}
-	}
+        // TODO: [pwe] ideally, we should be able to obtain `complete` attribute value from the received `fin` element
+        if let lastID = resultSet.forName("last")?.stringValue! {
+            historyQuery!.execute(afterId: lastID)
+        } else {
+            historyQuery = nil
+        }
+    }
+    
+    func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFailToReceiveMessages error: XMPPIQ!) {
+        historyQuery = nil
+    }
 
 	func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
 		let fields = iq.childElement().forName("x")!.elements(forName: "field").map { (field) -> String in
