@@ -382,8 +382,12 @@ private extension XMPPMessage {
     
     var chatId: String {
         // use the stanza id for direct messages or the resultId copied from an enclosing element for messages received via MAM
-        guard let chatId = elementID() ?? resultId() else { fatalError("Cannot extract chat identifier for message: \(self)") }
-        return chatId
+        guard let chatItemId = elementID() ?? archiveResultId else { fatalError("Cannot extract chat identifier for message: \(self)") }
+        return chatItemId
+    }
+    
+    var archiveResultId: String? {
+        return attributeStringValue(forName: "resultId")
     }
 }
 
