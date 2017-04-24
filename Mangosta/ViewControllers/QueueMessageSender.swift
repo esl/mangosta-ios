@@ -54,8 +54,9 @@ public class QueueMessageSender {
             self.queueMessageStatus(message: message)
         case .sending:
             // TODO: adapt this method to resend message
-            let controller = ChatViewController()
-            controller.sendMessageToServer(message as? DemoTextMessageModel)
+            // sending messages using an unconfigured ChatViewController breaks a lot of things (e.g. errors when saving to the local data store, having the messages pinged back)
+            //let controller = ChatViewController()
+            //controller.sendMessageToServer(message as? DemoTextMessageModel)
             
             // TODO: use message status from xmpp
             let delaySeconds: Double = Double(arc4random_uniform(1200)) / 1000.0
