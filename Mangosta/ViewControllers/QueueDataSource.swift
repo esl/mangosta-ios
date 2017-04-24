@@ -86,9 +86,12 @@ class QueueDataSource: ChatDataSourceProtocol {
             delegate.sendMessageToServer(message)
         }
     }
-    func addIncomingTextMessage(message: DemoTextMessageModel) {
+    func addIncomingTextMessages(messages: [DemoTextMessageModel]) {
+        for message in messages {
+        // TODO: [pwe] does sendMessage really belong here?
         self.messageSender.sendMessage(message: message)
-        self.slidingWindow.insertItem(message, position: .bottom)
+            slidingWindow.insertItem(message, position: .bottom)
+        }
         self.delegate?.chatDataSourceDidUpdate(self)
     }
 

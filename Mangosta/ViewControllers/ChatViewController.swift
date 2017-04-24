@@ -22,6 +22,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
 	weak var xmppController: XMPPController!
 	var lastID = ""
+    fileprivate var messageInsertions = [Int: DemoTextMessageModel]()
 
 	let MIMCommonInterface = MIMMainInterface()
 
@@ -336,16 +337,36 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
                                                                                               at indexPath: IndexPath?,
                                                                                               for type: NSFetchedResultsChangeType,
                                                                                               newIndexPath: IndexPath?) {
+        guard type == .insert, let insertionIndex = newIndexPath?.item else {
+            return
+        }
+        
         switch anObject {
         case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
-            let message = createTextMessageModel(privateMessage.message.chatId, text: privateMessage.body, isIncoming: true)
-            self.dataSource.addIncomingTextMessage(message: message)
+            messageInsertions[insertionIndex] = createTextMessageModel(privateMessage.message.chatItemId, text: privateMessage.body, isIncoming: !privateMessage.isOutgoing)
             
         case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
-            let message = createTextMessageModel(roomMessage.message().chatId, text: roomMessage.body(), isIncoming: true)
-            self.dataSource.addIncomingTextMessage(message: message)
+            messageInsertions[insertionIndex] = createTextMessageModel(roomMessage.message().chatItemId, text: roomMessage.body(), isIncoming: !roomMessage.isFromMe())
+        
         default: break
         }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        let insertionRanges = IndexSet(messageInsertions.keys).rangeView
+        switch insertionRanges.last {
+        case let suffixRange? where insertionRanges.count == 1 && suffixRange.upperBound == controller.fetchedObjects?.count:
+            dataSource.addIncomingTextMessages(messages: messageInsertions.sorted { $0.key < $1.key } .map { $0.value })
+            
+        case _?:
+            // TODO: [pwe] proper support for non-tail message insertions; for now just reset the whole datasource
+            dataSource = QueueDataSource(messages: controller.fetchedObjects!.mappedChatItems(), pageSize: 50)
+            
+        case nil:
+            break
+        }
+        
+        messageInsertions.removeAll()
     }
 }
 
@@ -381,7 +402,12 @@ extension ChatViewController: XMPPStreamDelegate {
 
 private extension XMPPMessage {
     
-    var chatId: String {
+    var isArchived: Bool {
+        // TODO: [pwe] a more robust check?
+        return archiveResultId != nil
+    }
+    
+    var chatItemId: String {
         // use the stanza id for direct messages or the resultId copied from an enclosing element for messages received via MAM
         guard let chatItemId = elementID() ?? archiveResultId else { fatalError("Cannot extract chat identifier for message: \(self)") }
         return chatItemId
@@ -408,10 +434,10 @@ private extension Sequence where Iterator.Element: NSFetchRequestResult {
         return map {
             switch $0 {
             case let privateMessageObject as XMPPMessageArchiving_Message_CoreDataObject:
-                return createTextMessageModel(privateMessageObject.message.chatId, text: privateMessageObject.body, isIncoming: !privateMessageObject.isOutgoing)
+                return createTextMessageModel(privateMessageObject.message.chatItemId, text: privateMessageObject.body, isIncoming: !privateMessageObject.isOutgoing)
                 
             case let roomMessage as XMPPRoomMessage:
-                return createTextMessageModel(roomMessage.message().chatId, text: roomMessage.body(), isIncoming: !roomMessage.isFromMe())
+                return createTextMessageModel(roomMessage.message().chatItemId, text: roomMessage.body(), isIncoming: !roomMessage.isFromMe())
                 
             default:
                 fatalError()
