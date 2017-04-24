@@ -341,11 +341,12 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
             return
         }
         
+        // TODO: [pwe] use the same path for outgoing messages
         switch anObject {
-        case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && !privateMessage.isOutgoing:
+        case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && (!privateMessage.isOutgoing || privateMessage.message.isArchived):
             messageInsertions[insertionIndex] = createTextMessageModel(privateMessage.message.chatItemId, text: privateMessage.body, isIncoming: !privateMessage.isOutgoing)
             
-        case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && !roomMessage.isFromMe():
+        case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && (!roomMessage.isFromMe() || roomMessage.message().isArchived):
             messageInsertions[insertionIndex] = createTextMessageModel(roomMessage.message().chatItemId, text: roomMessage.body(), isIncoming: !roomMessage.isFromMe())
         
         default: break
