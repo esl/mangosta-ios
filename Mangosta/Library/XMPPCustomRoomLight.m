@@ -19,6 +19,7 @@
 
 @implementation XMPPCustomRoomLight
 
+// TODO: [pwe] the handling of MAM messages below is rather messy
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message{
 	
 	XMPPMessage *messageToForwardToSuperClass = message;
@@ -38,12 +39,17 @@
 	} else if([messageToForwardToSuperClass.from.resource isEqualToString:self.xmppStream.myJID.bare] && [messageToForwardToSuperClass elementForName:@"delay"]){
 		NSXMLElement *delayFromOriginal = [messageToForwardToSuperClass elementForName:@"delay"];
 		
-		NSXMLElement *mockMessage = [NSXMLElement elementWithName:@"message" xmlns:@"jabber:client"];
+        NSXMLElement *mockMessage = [NSXMLElement elementWithName:@"message" xmlns:@"jabber:client"];
 		[mockMessage addAttributeWithName:@"to" stringValue:messageToForwardToSuperClass.from.bare];
 		[mockMessage addAttributeWithName:@"from" stringValue:messageToForwardToSuperClass.from.resource];
 		[mockMessage addAttributeWithName:@"type" stringValue:@"groupchat"];
 		[mockMessage addChild:[NSXMLElement elementWithName:@"body" stringValue:messageToForwardToSuperClass.body]];
 		
+        NSString *resultId = [messageToForwardToSuperClass attributeStringValueForName:@"resultId"];
+        if (resultId) {
+            [mockMessage addAttributeWithName:@"resultId" stringValue:resultId];
+        }
+        
 		NSXMLElement *delayElement = [NSXMLElement elementWithName:@"delay" xmlns:@"urn:xmpp:delay"];
 		[delayElement addAttributeWithName:@"stamp" stringValue:[delayFromOriginal attributeStringValueForName:@"stamp"]];
 		[mockMessage addChild:delayElement];
