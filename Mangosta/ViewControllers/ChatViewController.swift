@@ -15,17 +15,28 @@ import ChattoAdditions
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
     
     fileprivate struct HistoryQuery {
+        enum Kind {
+            case privateChat, roomChat
+        }
         let messageArchiveManagement: XMPPMessageArchiveManagement
+        let kind: Kind
         let jid: XMPPJID
         let cutoffDate = Date()
         
         func execute(afterId lastId: String = "") {
-            let fields = [
-                XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare()),
-                XMPPMessageArchiveManagement.field(withVar: "end", type: nil, andValue: (cutoffDate as NSDate).xmppDateTimeString())
-            ]
+            let cutoffDateField = XMPPMessageArchiveManagement.field(withVar: "end", type: nil, andValue: (cutoffDate as NSDate).xmppDateTimeString())!
             let resultSet = XMPPResultSet(max: NSNotFound, after: lastId)
-            messageArchiveManagement.retrieveMessageArchive(withFields: fields, with: resultSet)
+            
+            switch kind {
+            case .privateChat:
+                messageArchiveManagement.retrieveMessageArchive(
+                    withFields: [cutoffDateField, XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare())!],
+                    with: resultSet
+                )
+                
+            case .roomChat:
+                messageArchiveManagement.retrieveMessageArchive(at: jid, withFields: [cutoffDateField], with: resultSet)
+            }
         }
     }
     
@@ -291,11 +302,14 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		// TODO: [pwe] history should be fetched in batches as the user scrolls to the top
         // TODO: [pwe] avoiding refetching messages that are already present in the local store
         guard historyQuery == nil else { return }
-        let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
-        historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, jid: jid!)
+        if let userJid = self.userJID {
+            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .privateChat, jid: userJid)
+        } else {
+            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .roomChat, jid: room?.roomJID ?? roomLight!.roomJID)
+        }
         #if MangostaREST
 			// TODO: add before and after
-			_ = MIMCommonInterface.getMessagesWithUser(user: jid!, limit: nil, before: nil)
+			_ = MIMCommonInterface.getMessagesWithUser(user: historyQuery.jid, limit: nil, before: nil)
 		#endif
 		historyQuery!.execute()
 	}
