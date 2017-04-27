@@ -21,21 +21,32 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         let messageArchiveManagement: XMPPMessageArchiveManagement
         let kind: Kind
         let jid: XMPPJID
+        let startDate: Date?
         let cutoffDate = Date()
         
         func execute(afterId lastId: String = "") {
+            let timeRangeFields: [DDXMLElement]
             let cutoffDateField = XMPPMessageArchiveManagement.field(withVar: "end", type: nil, andValue: (cutoffDate as NSDate).xmppDateTimeString())!
+            if let startDate = self.startDate {
+                timeRangeFields = [
+                    XMPPMessageArchiveManagement.field(withVar: "start", type: nil, andValue: (startDate as NSDate).xmppDateTimeString())!,
+                    cutoffDateField
+                ]
+            } else {
+                timeRangeFields = [cutoffDateField]
+            }
+            
             let resultSet = XMPPResultSet(max: NSNotFound, after: lastId)
             
             switch kind {
             case .privateChat:
                 messageArchiveManagement.retrieveMessageArchive(
-                    withFields: [cutoffDateField, XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare())!],
+                    withFields: timeRangeFields + [cutoffDateField, XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare())!],
                     with: resultSet
                 )
                 
             case .roomChat:
-                messageArchiveManagement.retrieveMessageArchive(at: jid, withFields: [cutoffDateField], with: resultSet)
+                messageArchiveManagement.retrieveMessageArchive(at: jid, withFields: timeRangeFields, with: resultSet)
             }
         }
     }
@@ -113,8 +124,9 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
         }
         dataSource.loadLocalArchive(from: fetchedResultsController)
+        fetchHistory(startingFrom: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
 
-        rightBarButtonItems.append(UIBarButtonItem(title: "History", style: .plain, target: self, action: #selector(fetchHistory(_:))))
+        rightBarButtonItems.append(UIBarButtonItem(title: "History", style: .plain, target: self, action: #selector(historyBarButtonItemTapped(_:))))
         for barButtonItem in rightBarButtonItems {
             barButtonItem.tintColor = UIColor(hexString:"009ab5")
         }
@@ -298,21 +310,25 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.xmppController.xmppMessageArchiveManagement.retrieveFormFields()
 	}
 
-	@IBAction func fetchHistory(_ sender: AnyObject) {
-		// TODO: [pwe] history should be fetched in batches as the user scrolls to the top
+	@IBAction func historyBarButtonItemTapped(_ sender: AnyObject) {
+		fetchHistory()
+	}
+    
+    func fetchHistory(startingFrom startDate: Date? = nil) {
+        // TODO: [pwe] history should be fetched in batches as the user scrolls to the top
         // TODO: [pwe] avoiding refetching messages that are already present in the local store
         guard historyQuery == nil else { return }
         if let userJid = self.userJID {
-            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .privateChat, jid: userJid)
+            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .privateChat, jid: userJid, startDate: startDate)
         } else {
-            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .roomChat, jid: room?.roomJID ?? roomLight!.roomJID)
+            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .roomChat, jid: room?.roomJID ?? roomLight!.roomJID, startDate: startDate)
         }
         #if MangostaREST
-			// TODO: add before and after
-			_ = MIMCommonInterface.getMessagesWithUser(user: historyQuery.jid, limit: nil, before: nil)
-		#endif
-		historyQuery!.execute()
-	}
+            // TODO: add before and after
+            _ = MIMCommonInterface.getMessagesWithUser(user: historyQuery!.jid, limit: nil, before: nil)
+        #endif
+        historyQuery!.execute()
+    }
 
 	deinit {
 		self.room?.removeDelegate(self)
