@@ -8,6 +8,7 @@
 
 #import "XMPPCustomRoomLight.h"
 #import "XMPPFramework/XMPPMessage+XEP0045.h"
+#import "XMPPMessage+XEP_0313.h"
 
 @interface XMPPRoomLight() 
 	
@@ -23,11 +24,10 @@
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message{
 	
 	XMPPMessage *messageToForwardToSuperClass = message;
-	NSXMLElement *forwarded = [[message elementForName:@"result"] elementForName:@"forwarded"];
-	if(forwarded){
-		NSXMLElement *historyMessageElement = [forwarded elementForName:@"message"];
-		messageToForwardToSuperClass = [XMPPMessage messageFromElement:historyMessageElement];
-	}
+    if ([message isMessageArchive]) {
+        // TODO: [pwe] making a copy as a workaround to avoid mutating the original message, see the "messageForForwardedArchiveMessage" implementation for details
+        messageToForwardToSuperClass = [[message copy] messageForForwardedArchiveMessage];
+    }
 	
 	XMPPJID *from = [messageToForwardToSuperClass from];
 	if (![self.roomJID isEqualToJID:from options:XMPPJIDCompareBare]){
