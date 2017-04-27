@@ -143,6 +143,9 @@
 		C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
 		C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */; };
 		C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
+		DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */; };
+		DD1C5D851EB22125004B8669 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
+		DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
 		DD2226521E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
 		DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */; };
 		DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
@@ -1001,9 +1004,11 @@
 				AC3E3FDD1E7C3F27005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
 				AC3E3FDE1E7C3F32005EA75B /* QueueDataSource.swift in Sources */,
 				AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
+				DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */,
 				AC3E3FD51E7C3F1D005EA75B /* BaseMessageHandler.swift in Sources */,
 				AC3E3FE41E7C3F32005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
+				DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				AC3E3FDF1E7C3F32005EA75B /* QueueMessageSender.swift in Sources */,
@@ -1029,6 +1034,7 @@
 				AC9F66001D957ABD00B3AEB8 /* XMPPCustomRoomLight.m in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
 				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
+				DD1C5D851EB22125004B8669 /* MIMPushNotificationsPubSub.m in Sources */,
 				AC3E3FDC1E7C3F27005EA75B /* QueueMessageFactory.swift in Sources */,
 				AC3E3FB01E7C3DB1005EA75B /* ChatViewController.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
