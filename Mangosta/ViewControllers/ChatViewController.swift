@@ -41,7 +41,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             switch kind {
             case .privateChat:
                 messageArchiveManagement.retrieveMessageArchive(
-                    withFields: timeRangeFields + [cutoffDateField, XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare())!],
+                    withFields: timeRangeFields + [XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare())!],
                     with: resultSet
                 )
                 
