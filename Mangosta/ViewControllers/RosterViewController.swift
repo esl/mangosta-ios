@@ -154,7 +154,7 @@ extension RosterViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 
             } else { // no presence information
-                if (user.subscription != nil || user.subscription == "none") && user.ask != nil {
+                if (user.subscription != nil || user.subscription == "none") && user.ask != nil { // TODO: revise. This got broken.
                     if user.ask == "subscribe" {
                         cell?.imageView?.image = UIImage(named: "questionMark")
                     }

@@ -22,8 +22,10 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
 	weak var xmppController: XMPPController!
     
-    var fileUploadService = XMPPHTTPFileUpload.init()
-    var outgoingFileTransfer = XMPPOutgoingFileTransfer.init(dispatchQueue: DispatchQueue.main)
+    var fileTransfer = XMPPFileTransfer.init(dispatchQueue: DispatchQueue.main)
+
+    var outgoingFileTransfer = XMPPOutgoingFileTransfer.init()
+    var incomingFileTransfer = XMPPIncomingFileTransfer.init()
     
 	var lastID = ""
 
@@ -72,11 +74,15 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             self.originalTitleViewText = self.title
         }
 
-        self.fileUploadService?.activate(self.xmppController.xmppStream)
-        self.fileUploadService?.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.fileTransfer?.disableSOCKS5 = false
+        self.fileTransfer?.disableIBB = false
         
         self.outgoingFileTransfer?.activate(self.xmppController.xmppStream)
         self.outgoingFileTransfer?.addDelegate(self, delegateQueue: DispatchQueue.main)
+        
+        self.incomingFileTransfer?.activate(self.xmppController.xmppStream)
+        self.incomingFileTransfer?.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.incomingFileTransfer?.autoAcceptFileTransfers = true
         
         if self.userJID != nil {
             self.fetchedResultsController = self.createFetchedResultsController()
@@ -96,8 +102,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
         }
 
-        rightBarButtonItems.append(UIBarButtonItem(title: "test!", style: UIBarButtonItemStyle.done, target: self, action: #selector(requestSlot(_:))))// TODO: This is just for testing
-        
         rightBarButtonItems.append(UIBarButtonItem(title: "test2!", style: UIBarButtonItemStyle.done, target: self, action: #selector(sendFilebuttonPressed(_:))))
         
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
@@ -258,37 +262,24 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.present(alertController, animated: true, completion: nil)
 	}
     
-    internal func requestSlot(_ sender: AnyObject?) {
-      
-        guard let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID else { return }
-        
-        let fileName = "Gear"
-        let fileURL = Bundle.main.url(forResource: fileName, withExtension: "png")
-        if let image = UIImage.init(named: fileName) {
-            if let imgData = UIImagePNGRepresentation(image) {
-                self.fileUploadService?.requestSlot(fromService: jid, filename: fileName, size: UInt(imgData.count), contentType: "image/png", tag: nil)
-            }
-        }
-    }
-   
     internal func sendFilebuttonPressed(_ sender: AnyObject?) {
         // TODO calculate var jid
-        guard var jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID else { return }
-        jid = XMPPJID.init(string: "gardano@erlang-solutions.com/SeA")
+        guard let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID else { return }
+        let completeJid = XMPPJID.init(string: jid.bare() + "/1234") // some resource
         
-        let fileName = "k"
+        let fileName = "k2"
         if let fileURL = Bundle.main.url(forResource: fileName, withExtension: "JPG") {
             if  let data = NSData.init(contentsOf: fileURL) {
                 do {
-                    try self.outgoingFileTransfer?.send(data as Data!, named: fileName, toRecipient: jid, description: "TODO put sometextHere?")
+                    try self.outgoingFileTransfer?.send(data as Data!, named: fileName, toRecipient: completeJid, description: "TODO put sometextHere?")
                 }
                 catch let error as NSError {
-                    print("There is a problem seding the file due: \(error)")
+                    print("There is a problem sending the file due: \(error)")
                 }
             }
         }
     }
-
+    
 	@IBAction func showMUCDetails(_ sender: AnyObject) {
 
 		if self.roomLight != nil {
@@ -422,12 +413,34 @@ extension ChatViewController: XMPPStreamDelegate {
     }
 }
 
-extension ChatViewController: XMPPHTPPFileUploadDelegate {
-    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload, didAssign slot: XMPPSlot) {
-        print("Slot request granted: \(slot.description)")
+extension ChatViewController: XMPPOutgoingFileTransferDelegate {
+     func xmppOutgoingFileTransfer(_ sender: XMPPOutgoingFileTransfer!, didFailWithError error: Error!) {
+          print("Outgoing file transfer error: \(error)")
     }
-    func xmppHTTPFileUpload(_ sender: XMPPHTTPFileUpload, didFailToAssignSlotWithError iqError: XMPPIQ?) {
-        print("Slot request failed: \(iqError.debugDescription)")
+    
+    
+    func xmppOutgoingFileTransferDidSucceed(_ sender: XMPPOutgoingFileTransfer!) {
+          print("File transfer complete \(sender.outgoingFileName)")
+    }
+    
+    func xmppOutgoingFileTransferIBBClosed(_ sender: XMPPOutgoingFileTransfer!) {
+          print("Outgoing file transfer IBBClosed")
+    }
+}
+
+extension ChatViewController: XMPPIncomingFileTransferDelegate {
+
+     func xmppIncomingFileTransfer(_ sender: XMPPIncomingFileTransfer!, didFailWithError error: Error!) {
+        print("Incoming file transfer failed with error: \(error)")
+    }
+    
+     func xmppIncomingFileTransfer(_ sender: XMPPIncomingFileTransfer!, didReceiveSIOffer offer: XMPPIQ!) {
+        print("Accepting incoming file transfer. Did receive SI offer.")
+        sender.acceptSIOffer(offer)
+    }
+    
+     func xmppIncomingFileTransfer(_ sender: XMPPIncomingFileTransfer!, didSucceedWith data: Data!, named name: String!) {
+        print("Received file \(sender.sid)")
     }
 }
 private extension XMPPMessage {
