@@ -98,6 +98,9 @@ class QueueDataSource: ChatDataSourceProtocol {
         self.messageSender.sendMessage(message: message)
         self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self)
+        if let delegate = self.delegate as? ChatViewController {
+            delegate.sendPhotoMessage(message: message)
+        }
     }
 
     func adjustNumberOfMessages(preferredMaxCount: Int?, focusPosition: Double, completion:((didAdjust: Bool)) -> Void) {

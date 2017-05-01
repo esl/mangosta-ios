@@ -24,8 +24,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     
     var fileTransfer = XMPPFileTransfer.init(dispatchQueue: DispatchQueue.main)
 
-    var outgoingFileTransfer = XMPPOutgoingFileTransfer.init()
-    var incomingFileTransfer = XMPPIncomingFileTransfer.init()
+    var outgoingFileTransfer = XMPPOutgoingFileTransfer.init(dispatchQueue: DispatchQueue.main)
+    var incomingFileTransfer = XMPPIncomingFileTransfer.init(dispatchQueue: DispatchQueue.main)
     
 	var lastID = ""
 
@@ -101,8 +101,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
             self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
         }
-
-        rightBarButtonItems.append(UIBarButtonItem(title: "test2!", style: UIBarButtonItemStyle.done, target: self, action: #selector(sendFilebuttonPressed(_:))))
         
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
 
@@ -262,20 +260,19 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.present(alertController, animated: true, completion: nil)
 	}
     
-    internal func sendFilebuttonPressed(_ sender: AnyObject?) {
+    internal func sendPhotoMessage(message: DemoPhotoMessageModel?) {
         // TODO calculate var jid
         guard let jid = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID else { return }
-        let completeJid = XMPPJID.init(string: jid.bare() + "/1234") // some resource
+        let completeJid = XMPPJID.init(string: jid.bare() + "/") // some foo resource
         
-        let fileName = "k2"
-        if let fileURL = Bundle.main.url(forResource: fileName, withExtension: "JPG") {
-            if  let data = NSData.init(contentsOf: fileURL) {
-                do {
-                    try self.outgoingFileTransfer?.send(data as Data!, named: fileName, toRecipient: completeJid, description: "TODO put sometextHere?")
-                }
-                catch let error as NSError {
-                    print("There is a problem sending the file due: \(error)")
-                }
+        let fileName = "TODO: get image name from Picker" // TODO: get the imagi from UIPickerImage
+        
+        if  let data = UIImagePNGRepresentation((message?.image)!) {
+            do {
+                try self.outgoingFileTransfer?.send(data as Data!, named: fileName, toRecipient: completeJid, description: "TODO put sometextHere?")
+            }
+            catch let error as NSError {
+                print("There is a problem sending the file due: \(error)")
             }
         }
     }
@@ -320,7 +317,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     
   
 	func sendMessageToServer(_ lastMessage: DemoTextMessageModel?) {
-        // TODO: make this funcion aware of picture type message
         guard let lastMessage = lastMessage else { return } 
 		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
@@ -421,6 +417,7 @@ extension ChatViewController: XMPPOutgoingFileTransferDelegate {
     
     func xmppOutgoingFileTransferDidSucceed(_ sender: XMPPOutgoingFileTransfer!) {
           print("File transfer complete \(sender.outgoingFileName)")
+        // TODO: set status of PhotoMessageModel.TransferStatus as successful.
     }
     
     func xmppOutgoingFileTransferIBBClosed(_ sender: XMPPOutgoingFileTransfer!) {

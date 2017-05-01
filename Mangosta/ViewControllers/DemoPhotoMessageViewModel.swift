@@ -45,13 +45,8 @@ class DemoPhotoMessageViewModel: PhotoMessageViewModel<DemoPhotoMessageModel> {
             return
         }
         if self.transferProgress.value >= 1.0 {
-            if arc4random_uniform(100) % 2 == 0 {
-                self.transferStatus.value = .success
-                self.image.value = self.queueImage
-            } else {
-                self.transferStatus.value = .failed
-            }
-
+            self.transferStatus.value = .success
+            self.image.value = self.queueImage
             return
         }
         self.transferStatus.value = .transfering
