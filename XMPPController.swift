@@ -120,7 +120,7 @@ class XMPPController: NSObject {
 		self.xmppMUCStorage = XMPPMUCCoreDataStorage()
 		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMUCStorage)
 		
-		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage.sharedInstance()
+		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage()
 		self.xmppMessageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.xmppMessageArchivingStorage)
 		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
         

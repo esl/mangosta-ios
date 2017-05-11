@@ -61,6 +61,8 @@
 		
 		NSString *resultId = [resultElement attributeStringValueForName:@"id"];
 		
+        // TODO: [pwe] this method is modifying receiver's "internalMessage" element
+        // before fixing, evaluate the impact as it's being called on received messages distributed via multidelegation
 		XMPPMessage *message = [XMPPMessage messageFromElement:internalMessage];
 		if (delayElement) {
 			[message addChild:[delayElement copy]];
