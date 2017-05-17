@@ -2,12 +2,12 @@ PODS:
   - Chatto (3.0.1)
   - ChattoAdditions (3.0.1):
     - Chatto
-  - CocoaAsyncSocket (7.6.0)
-  - CocoaLumberjack (3.1.0):
-    - CocoaLumberjack/Default (= 3.1.0)
-    - CocoaLumberjack/Extensions (= 3.1.0)
-  - CocoaLumberjack/Default (3.1.0)
-  - CocoaLumberjack/Extensions (3.1.0):
+  - CocoaAsyncSocket (7.6.1)
+  - CocoaLumberjack (3.2.0):
+    - CocoaLumberjack/Default (= 3.2.0)
+    - CocoaLumberjack/Extensions (= 3.2.0)
+  - CocoaLumberjack/Default (3.2.0)
+  - CocoaLumberjack/Extensions (3.2.0):
     - CocoaLumberjack/Default
   - Jayme (3.0.0)
   - KissXML (5.2.0)
@@ -24,29 +24,29 @@ DEPENDENCIES:
   - ChattoAdditions (= 3.0.1)
   - Jayme
   - MBProgressHUD (~> 0.9.2)
-  - XMPPFramework (from `https://github.com/pwetrifork/XMPPFramework.git`, branch `muc-light-archiving-fixes`)
+  - XMPPFramework (from `https://github.com/pwetrifork/XMPPFramework.git`, branch `pending-fixes`)
 
 EXTERNAL SOURCES:
   XMPPFramework:
-    :branch: muc-light-archiving-fixes
+    :branch: pending-fixes
     :git: https://github.com/pwetrifork/XMPPFramework.git
 
 CHECKOUT OPTIONS:
   XMPPFramework:
-    :commit: 9c3337173134708ce40d405502e0d4c8586b3714
+    :commit: ffcef2a76defd5b780cf692fdd2b7968a2955759
     :git: https://github.com/pwetrifork/XMPPFramework.git
 
 SPEC CHECKSUMS:
   Chatto: 484273a793e06a33cef2f7e5b5b88a5a375df015
   ChattoAdditions: efd743b47dbd063eac824cd4bd94756cbf503f70
-  CocoaAsyncSocket: b9d5589f07baf9de8f34cc25abd4fcba28f13805
-  CocoaLumberjack: 8311463ddf9ee86a06ef92a071dd656c89244500
+  CocoaAsyncSocket: 7eadd3f59e1a6c84e2aefc93e9ff7b55156fe174
+  CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
   Jayme: 80abd1aabe5a2ed2a7e938d9d77059c0f607b0df
   KissXML: 1c1eeeb6b94e4522cd2f2373e5d0d03c9227738f
   libidn: 90fc1a62b60288dcf543f13f4ebca913f17d829f
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   XMPPFramework: 164ed2ce99e3eb2f358e9f5ca5eeaa8d75339fde
 
-PODFILE CHECKSUM: fb718331cb6dafba9295dfdc1d48e4ec829a304d
+PODFILE CHECKSUM: cf8a7126c574aa42dc72530cac829b7a1b67d61f
 
 COCOAPODS: 1.2.1
