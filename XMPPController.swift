@@ -301,8 +301,6 @@ extension XMPPController: XMPPStreamDelegate {
 		self.xmppStream.send(presence)
         
         xmppClientState.isActive = true
-        
-        self.createMyPubSubNode()
 	}
 	
 	func goOffLine() {
@@ -312,10 +310,6 @@ extension XMPPController: XMPPStreamDelegate {
         xmppClientState.isActive = false
         
 	}
-    
-    func createMyPubSubNode() {
-        xmppPresencePubSub.createNode(myMicroblogNode)
-    }
 }
 
 extension XMPPController: XMPPStreamManagementDelegate {
@@ -343,8 +337,6 @@ extension XMPPController: XMPPRosterDelegate {
 extension XMPPController: XMPPPubSubDelegate {
     func xmppPubSub(_ sender: XMPPPubSub!, didCreateNode node: String!, withResult iq: XMPPIQ!) {
         switch sender {
-        case xmppPresencePubSub:
-            self.configurePresenceNode(node)
         case xmppPushNotificationsPubSub:
             pushNotificationsDelegate?.xmppControllerDidPrepareForPushNotificationsSupport(self)
         default:
@@ -354,8 +346,6 @@ extension XMPPController: XMPPPubSubDelegate {
     }
     func xmppPubSub(_ sender: XMPPPubSub!, didNotCreateNode node: String!, withError iq: XMPPIQ!) {
         switch sender {
-        case xmppPresencePubSub:
-            self.configurePresenceNode(node)
         case xmppPushNotificationsPubSub where iq.childErrorElement().attributeIntegerValue(forName: "code") == 409:
             // assuming 409 means a node had been created earlier
             pushNotificationsDelegate?.xmppControllerDidPrepareForPushNotificationsSupport(self)
@@ -365,7 +355,6 @@ extension XMPPController: XMPPPubSubDelegate {
         print("PubSub: Did not create node: \(iq.stringValue)")
     }
     func configurePresenceNode(_ node: String) {
-        self.xmppPresencePubSub.configureNode(node, withOptions: ["access_model":"presence"])
     }
 }
 
