@@ -128,6 +128,9 @@ class XMPPController: NSObject {
 		self.xmppStreamManagement = XMPPStreamManagement(storage: self.xmppStreamManagementStorage)
 		self.xmppStreamManagement.autoResume = true
         
+        // TODO: [pwe] microblog should not depend on initial presence-based last item delivery each time the app is started
+        self.xmppStreamManagementStorage.removeAll(for: self.xmppStream)
+
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
 
 		self.xmppMUCStorage = XMPPMUCCoreDataStorage()
