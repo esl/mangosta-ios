@@ -45,6 +45,11 @@ class XMPPController: NSObject {
     var xmppServiceDiscovery: XMPPServiceDiscovery
 	var xmppCapabilities: XMPPCapabilities
 	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
+    var xmppCapabilitiesMyFeatures: Set<String> {
+        didSet {
+            xmppCapabilities.recollectMyCapabilities()
+        }
+    }
 
     var xmppPresencePubSub: XMPPPubSub
     var xmppPushNotificationsPubSub: XMPPPubSub
@@ -66,8 +71,6 @@ class XMPPController: NSObject {
     // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
     let xmppClientState: XMPPClientState
     let xmppPushNotifications: XMPPPushNotifications
-    
-    let myMicroblogNode = "urn:xmpp:microblog:0"
 
     var hostPort: UInt16 = 5222
     var password: String = ""
@@ -94,7 +97,8 @@ class XMPPController: NSObject {
 		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: self.xmppCapabilitiesStorage)
 		self.xmppCapabilities.autoFetchHashedCapabilities = true
 		self.xmppCapabilities.autoFetchNonHashedCapabilities = false
-        self.xmppCapabilities.myCapabilitiesNode = myMicroblogNode + "+notify"
+        self.xmppCapabilities.myCapabilitiesNode = "https://github.com/esl/mangosta-ios"
+        self.xmppCapabilitiesMyFeatures = []
 		
         // PubSub
         self.xmppPresencePubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main) // FIME: use pubsub.erlang-solutions.com ??
@@ -114,7 +118,7 @@ class XMPPController: NSObject {
 		self.xmppStreamManagementStorage = XMPPStreamManagementDiscStorage()
 		self.xmppStreamManagement = XMPPStreamManagement(storage: self.xmppStreamManagementStorage)
 		self.xmppStreamManagement.autoResume = true
-
+        
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
 
 		self.xmppMUCStorage = XMPPMUCCoreDataStorage()
@@ -164,6 +168,7 @@ class XMPPController: NSObject {
 		self.xmppStream.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppRoster.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppServiceDiscovery.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppCapabilities.addDelegate(self, delegateQueue: DispatchQueue.main)
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppPresencePubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
@@ -211,7 +216,7 @@ class XMPPController: NSObject {
         // TODO: [pwe] MIM currently requires explicit `topic` value to be provided when pushing using universal APNS certificates
         xmppPushNotifications.enable(withDeviceTokenString: deviceTokenString, customOptions: ["topic": Bundle.main.bundleIdentifier!])
     }
-
+    
     deinit {
         self.tearDownStream()
     }
@@ -222,6 +227,7 @@ class XMPPController: NSObject {
         self.xmppPresencePubSub.removeDelegate(self)
         self.xmppPushNotificationsPubSub.removeDelegate(self)
         self.xmppServiceDiscovery.removeDelegate(self)
+        self.xmppCapabilities.removeDelegate(self)
         
 		self.roomsLight.forEach { (roomLight) in
 			roomLight.deactivate()
@@ -376,6 +382,13 @@ extension XMPPController: XMPPServiceDiscoveryDelegate {
                 continue
             }
         }
+    }
+}
+
+extension XMPPController: XMPPCapabilitiesDelegate {
+    
+    func myFeatures(for sender: XMPPCapabilities!) -> [Any]! {
+        return Array(xmppCapabilitiesMyFeatures)
     }
 }
 
