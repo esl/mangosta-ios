@@ -51,7 +51,7 @@ class XMPPController: NSObject {
         }
     }
 
-    var xmppPresencePubSub: XMPPPubSub
+    var xmppMicrobloggingPubSub: XMPPPubSub
     var xmppPushNotificationsPubSub: XMPPPubSub
     
 	var xmppMUCStorage: XMPPMUCCoreDataStorage
@@ -78,6 +78,15 @@ class XMPPController: NSObject {
     var isXmppConnected = false
 		
     weak var pushNotificationsDelegate: XMPPControllerPushNotificationsDelegate?
+    weak var microbloggingDelegate: XMPPControllerMicrobloggingDelegate? {
+        didSet {
+            if microbloggingDelegate != nil {
+                xmppCapabilitiesMyFeatures.insert(XMPPCapabilitiesMicroblogImplicitSubscription)
+            } else {
+                xmppCapabilitiesMyFeatures.remove(XMPPCapabilitiesMicroblogImplicitSubscription)
+            }
+        }
+    }
     
     override init() {
         self.xmppStream = XMPPStream()
@@ -101,7 +110,7 @@ class XMPPController: NSObject {
         self.xmppCapabilitiesMyFeatures = []
 		
         // PubSub
-        self.xmppPresencePubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main) // FIME: use pubsub.erlang-solutions.com ??
+        self.xmppMicrobloggingPubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main)
         self.xmppPushNotificationsPubSub = MIMPushNotificationsPubSub(serviceJID: XMPPJID(string: "pubsub.erlang-solutions.com"))
         
 		// Delivery Receips
@@ -147,7 +156,7 @@ class XMPPController: NSObject {
 		self.xmppRoster.activate(self.xmppStream)
         self.xmppServiceDiscovery.activate(self.xmppStream)
 		self.xmppCapabilities.activate(self.xmppStream)
-        self.xmppPresencePubSub.activate(self.xmppStream)
+        self.xmppMicrobloggingPubSub.activate(self.xmppStream)
         self.xmppPushNotificationsPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
 		self.xmppMessageCarbons.activate(self.xmppStream)
@@ -171,7 +180,7 @@ class XMPPController: NSObject {
         self.xmppCapabilities.addDelegate(self, delegateQueue: DispatchQueue.main)
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)
-        self.xmppPresencePubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppMicrobloggingPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppPushNotificationsPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
 	}
 
@@ -224,7 +233,7 @@ class XMPPController: NSObject {
 	func tearDownStream() {
         self.xmppStream.removeDelegate(self)
         self.xmppRoster.removeDelegate(self)
-        self.xmppPresencePubSub.removeDelegate(self)
+        self.xmppMicrobloggingPubSub.removeDelegate(self)
         self.xmppPushNotificationsPubSub.removeDelegate(self)
         self.xmppServiceDiscovery.removeDelegate(self)
         self.xmppCapabilities.removeDelegate(self)
@@ -238,7 +247,7 @@ class XMPPController: NSObject {
         self.xmppServiceDiscovery.deactivate()
 		self.xmppCapabilities.deactivate()
         
-        self.xmppPresencePubSub.deactivate()
+        self.xmppMicrobloggingPubSub.deactivate()
         self.xmppPushNotificationsPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppMessageCarbons.deactivate()
@@ -354,7 +363,32 @@ extension XMPPController: XMPPPubSubDelegate {
         }
         print("PubSub: Did not create node: \(iq.stringValue)")
     }
-    func configurePresenceNode(_ node: String) {
+    
+    func xmppPubSub(_ sender: XMPPPubSub!, shouldReceiveForeignMessage message: XMPPMessage!) -> Bool {
+        switch sender {
+        case xmppMicrobloggingPubSub where message.isPubSubItemsEventMessage(fromNode: XMPPPubSubDefaultMicroblogNode):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    func xmppPubSub(_ sender: XMPPPubSub!, didReceive message: XMPPMessage!) {
+        switch sender {
+        case xmppMicrobloggingPubSub:
+            handleMicroblogMessage(message)
+        default:
+            break
+        }
+    }
+    
+    func handleMicroblogMessage(_ message: XMPPMessage) {
+        let microblogEntries = message.pubSubItemsEventPayloads().filter { $0.isMicroblogEntry() }
+        guard !microblogEntries.isEmpty else {
+            return
+        }
+        
+        microbloggingDelegate?.xmppController(self, didReceiveMicroblogEntries: microblogEntries, from: message.from())
     }
 }
 
@@ -395,4 +429,9 @@ extension XMPPController {
 protocol XMPPControllerPushNotificationsDelegate: class {
     
     func xmppControllerDidPrepareForPushNotificationsSupport(_ controller: XMPPController)
+}
+
+protocol XMPPControllerMicrobloggingDelegate: class {
+    
+    func xmppController(_ controller: XMPPController, didReceiveMicroblogEntries microblogEntries: [DDXMLElement], from publisherJID: XMPPJID)
 }
