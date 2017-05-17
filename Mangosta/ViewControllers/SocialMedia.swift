@@ -70,6 +70,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.allowsMultipleSelectionDuringEditing = false
+        self.tableView.estimatedRowHeight = 44
 
         self.tabBarItem.image = UIImage(named: "Social") // FIXME: no image is appearing
         self.tabBarItem.selectedImage = UIImage(named: "Social Filled") // FIXME: no image is appearing
@@ -113,6 +114,7 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCell(withIdentifier: "Social Cell", for: indexPath)
         let entry = model.orderedBlogItems[indexPath.row]
 
+        cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = entry.microblogEntryTitle()
         if let publishedDate = entry.microblogEntryPublishedDate(), let author = entry.microblogEntryAuthorName() {
             cell.detailTextLabel?.text = "\(author) published on \(dateFormatter.string(from: publishedDate))."
