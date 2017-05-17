@@ -14,5 +14,10 @@ extern NSString *const XMPPCapabilitiesMicroblogImplicitSubscription;
 @interface NSXMLElement (XEP_0277)
 
 - (BOOL)isMicroblogEntry;
+- (NSString *)microblogEntryID;
+- (NSString *)microblogEntryTitle;
+- (NSString *)microblogEntryAuthorName;
+- (NSDate *)microblogEntryPublishedDate;
+- (NSDate *)microblogEntryUpdatedDate;
 
 @end

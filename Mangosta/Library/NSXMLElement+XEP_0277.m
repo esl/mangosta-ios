@@ -20,4 +20,29 @@ static NSString *const XMLNamespaceAtom = @"http://www.w3.org/2005/Atom";
     return [self.name isEqualToString:@"entry"] && [self.xmlns isEqualToString:XMLNamespaceAtom];
 }
 
+- (NSString *)microblogEntryID
+{
+    return [self elementForName:@"id"].stringValue;
+}
+
+- (NSString *)microblogEntryTitle
+{
+    return [self elementForName:@"title"].stringValue;
+}
+
+- (NSString *)microblogEntryAuthorName
+{
+    return [[self elementForName:@"author"] elementForName:@"name"].stringValue;
+}
+
+- (NSDate *)microblogEntryPublishedDate
+{
+    return [NSDate dateWithXmppDateTimeString:[self elementForName:@"published"].stringValue];
+}
+
+- (NSDate *)microblogEntryUpdatedDate
+{
+    return [NSDate dateWithXmppDateTimeString:[self elementForName:@"updated"].stringValue];
+}
+
 @end
