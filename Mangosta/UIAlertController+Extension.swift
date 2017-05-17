@@ -24,4 +24,10 @@ extension UIAlertController {
 		alertController.view.setNeedsLayout()
 		return alertController
 	}
+    
+    class func singleActionAlertController(withTitle title: String?, message: String?, actionTitle: String = "OK", handler: ((UIAlertAction) -> ())? = nil) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: actionTitle, style: .default, handler: handler))
+        return alertController
+    }
 }

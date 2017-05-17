@@ -8,8 +8,8 @@ use_frameworks!
 workspace 'Mangosta'
 
 def main_app_pods
-  # Using a fork until https://github.com/robbiehanson/XMPPFramework/pull/913 is accepted
-  pod 'XMPPFramework', :git => "https://github.com/pwetrifork/XMPPFramework.git", :branch => 'muc-light-archiving-fixes'
+  # Using a fork until pending pull requests are accepted
+  pod 'XMPPFramework', :git => "https://github.com/pwetrifork/XMPPFramework.git", :branch => 'pending-fixes'
   # The version pushed to CocoaPods is very out of date, use master branch for now
   #pod 'XMPPFramework', :git => "https://github.com/robbiehanson/XMPPFramework.git", :branch => 'master'
   #   pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/' # TODO: Update ELS's fork.

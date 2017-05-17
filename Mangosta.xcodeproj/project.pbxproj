@@ -148,6 +148,10 @@
 		DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
 		DD2226521E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
 		DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */; };
+		DD4B5BC81EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */; };
+		DD4B5BC91EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */; };
+		DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
+		DD4B5BD11EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
 		DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
 		DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		E037D85C1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m in Sources */ = {isa = PBXBuildFile; fileRef = E037D85B1CEA6042008A7D61 /* XMPPMessageArchivingWithMAM.m */; };
@@ -271,6 +275,10 @@
 		DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPServiceDiscovery+XEP_0357.m"; sourceTree = "<group>"; };
 		DD2226561E93A49400F8C04D /* XMPPPushNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPPushNotifications.h; sourceTree = "<group>"; };
 		DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPPushNotifications.m; sourceTree = "<group>"; };
+		DD4B5BC61EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0060.h"; sourceTree = "<group>"; };
+		DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0060.m"; sourceTree = "<group>"; };
+		DD4B5BCE1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement+XEP_0277.h"; sourceTree = "<group>"; };
+		DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement+XEP_0277.m"; sourceTree = "<group>"; };
 		DD621D1F1EAA47DD0083C977 /* MIMPushNotificationsPubSub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMPushNotificationsPubSub.h; sourceTree = "<group>"; };
 		DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMPushNotificationsPubSub.m; sourceTree = "<group>"; };
 		DD7C68831E8E381E00C22685 /* XMPPClientState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPClientState.h; sourceTree = "<group>"; };
@@ -367,8 +375,10 @@
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
 				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
+				DD4B5BC51EC9AD2800237BB0 /* XEP-0060 */,
 				813266A41CA2B63600D4EDC0 /* XEP-0198 */,
 				AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */,
+				DD4B5BB41EC5A22A00237BB0 /* XEP-0277 */,
 				DD7C68821E8E37CE00C22685 /* XEP-0352 */,
 				DD22264C1E9384B200F8C04D /* XEP-0357 */,
 				C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */,
@@ -594,6 +604,24 @@
 				DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */,
 			);
 			name = "XEP-0357";
+			sourceTree = "<group>";
+		};
+		DD4B5BB41EC5A22A00237BB0 /* XEP-0277 */ = {
+			isa = PBXGroup;
+			children = (
+				DD4B5BCE1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.h */,
+				DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */,
+			);
+			name = "XEP-0277";
+			sourceTree = "<group>";
+		};
+		DD4B5BC51EC9AD2800237BB0 /* XEP-0060 */ = {
+			isa = PBXGroup;
+			children = (
+				DD4B5BC61EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.h */,
+				DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */,
+			);
+			name = "XEP-0060";
 			sourceTree = "<group>";
 		};
 		DD7C68821E8E37CE00C22685 /* XEP-0352 */ = {
@@ -945,6 +973,7 @@
 				AC3E3FD21E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC3E3FCA1E7C3F19005EA75B /* QueueMessageFactory.swift in Sources */,
 				AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */,
+				DD4B5BC81EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				AC3E3FD01E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
@@ -961,6 +990,7 @@
 				AC3E3FCB1E7C3F19005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
 				DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
+				DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */,
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
 				C19BA80A1D26D79D00F5BAB2 /* XMPPCustomRoomLight.m in Sources */,
 				AC3E3FD31E7C3F19005EA75B /* TimeSeparatorModel.swift in Sources */,
@@ -1054,8 +1084,10 @@
 				AC3E3FD91E7C3F27005EA75B /* DemoTextMessageHandler.swift in Sources */,
 				AC9F66571D957E5900B3AEB8 /* User.swift in Sources */,
 				AC3E3FDA1E7C3F27005EA75B /* DemoTextMessageModel.swift in Sources */,
+				DD4B5BC91EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */,
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
 				AC9F66081D957ABD00B3AEB8 /* XMPPMessageAndMAMArchivingCoreDataStorage.m in Sources */,
+				DD4B5BD11EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */,
 				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
 				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
 				AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */,

@@ -14,3 +14,5 @@
 #import "XMPPPushNotifications.h"
 #import "XMPPServiceDiscovery+XEP_0357.h"
 #import "MIMPushNotificationsPubSub.h"
+#import "XMPPMessage+XEP_0060.h"
+#import "NSXMLElement+XEP_0277.h"
