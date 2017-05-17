@@ -226,6 +226,14 @@ class XMPPController: NSObject {
         xmppPushNotifications.enable(withDeviceTokenString: deviceTokenString, customOptions: ["topic": Bundle.main.bundleIdentifier!])
     }
     
+    func publishMicroblogEntry(withTitle title: String) -> String {
+        let now = Date()
+        return xmppMicrobloggingPubSub.publish(
+            toNode: XMPPPubSubDefaultMicroblogNode,
+            entry: .microblogEntry(withTitle: title, authorName: xmppStream.myJID.user, authorJID: xmppStream.myJID, publishedDate: now, updatedDate: now)
+        )
+    }
+
     deinit {
         self.tearDownStream()
     }
@@ -364,6 +372,24 @@ extension XMPPController: XMPPPubSubDelegate {
         print("PubSub: Did not create node: \(iq.stringValue)")
     }
     
+    func xmppPubSub(_ sender: XMPPPubSub!, didPublishToNode node: String!, withResult iq: XMPPIQ!) {
+        switch sender {
+        case xmppMicrobloggingPubSub:
+            microbloggingDelegate?.xmppController(self, didPublishMicroblogEntryWithRequestID: iq.elementID())
+        default:
+            break
+        }
+    }
+    
+    func xmppPubSub(_ sender: XMPPPubSub!, didNotPublishToNode node: String!, withError iq: XMPPIQ!) {
+        switch sender {
+        case xmppMicrobloggingPubSub:
+            microbloggingDelegate?.xmppController(self, didFailToPublishMicroblogEntryWithRequestID: iq.elementID())
+        default:
+            break
+        }
+    }
+    
     func xmppPubSub(_ sender: XMPPPubSub!, shouldReceiveForeignMessage message: XMPPMessage!) -> Bool {
         switch sender {
         case xmppMicrobloggingPubSub where message.isPubSubItemsEventMessage(fromNode: XMPPPubSubDefaultMicroblogNode):
@@ -432,6 +458,11 @@ protocol XMPPControllerPushNotificationsDelegate: class {
 }
 
 protocol XMPPControllerMicrobloggingDelegate: class {
+    
+    func xmppController(_ controller: XMPPController, didPublishMicroblogEntryWithRequestID requestID: String)
+    
+    // TODO: [pwe] deliver error information
+    func xmppController(_ controller: XMPPController, didFailToPublishMicroblogEntryWithRequestID requestID: String)
     
     func xmppController(_ controller: XMPPController, didReceiveMicroblogEntries microblogEntries: [DDXMLElement], from publisherJID: XMPPJID)
 }

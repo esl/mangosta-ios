@@ -36,6 +36,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
     weak var xmppController: XMPPController!
     
     var model = Model()
+    var pendingPublishRequestID: String?
     let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -95,7 +96,7 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
             
             self.showHUDwithMessage("Publishing...")
             if let blogString = typedString {
-                self.xmppController.xmppPresencePubSub.publish(toNode: self.xmppController.myMicroblogNode, entry: self.creatEntry(blogString))
+                self.pendingPublishRequestID = self.xmppController.publishMicroblogEntry(withTitle: blogString)
             }
             else {
                 print("BlogEntry: Nothing typed.")
@@ -104,31 +105,6 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
             
         }
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func creatEntry(_ blogString: String) -> DDXMLElement {
-
-        let entry = DDXMLElement(name: "entry", xmlns: "http://www.w3.org/2005/Atom")
-    
-        let titleNode = DDXMLElement(name: "title", stringValue: blogString)
-        titleNode.addAttribute(withName: "type", stringValue: "text")
-        
-        let authorName = DDXMLElement(name: "name", stringValue: self.xmppController.xmppStream.myJID.user)
-        let authorUri = DDXMLElement(name: "uri", stringValue: "xmpp:"+self.xmppController.xmppStream.myJID.bare())
-        let author = DDXMLElement(name: "author")
-        author.addChild(authorName)
-        author.addChild(authorUri)
-        
-        let now =  (Date() as NSDate).xmppDateTimeString()
-        let published = DDXMLElement(name: "published", stringValue: now)
-        let updated = DDXMLElement(name: "updated", stringValue: now)
-        entry?.addChild(published)
-        entry?.addChild(updated)
-        
-        entry?.addChild(titleNode)
-        entry?.addChild(author)
-        
-        return entry!
     }
 }
 
@@ -170,28 +146,28 @@ extension SocialMediaViewController {
     }
 }
 
-extension SocialMediaViewController: XMPPPubSubDelegate {
-    // TODO: may be not use the following 2
-    func xmppPubSub(_ sender: XMPPPubSub!, didRetrieveSubscriptions iq: XMPPIQ!, forNode node: String!) {
-        print("PubSub: Did retrieve subcriptions")
+extension SocialMediaViewController: XMPPControllerMicrobloggingDelegate {
+    
+    func xmppController(_ controller: XMPPController, didPublishMicroblogEntryWithRequestID requestID: String) {
+        guard requestID == pendingPublishRequestID else {
+            return
+        }
+        
         MBProgressHUD.hide(for: self.view, animated: true)
-    }
-    func xmppPubSub(_ sender: XMPPPubSub!, didNotRetrieveSubscriptions iq: XMPPIQ!) {
-        print("PubSub: Did no retrieve subcriptions")
-        MBProgressHUD.hide(for: self.view, animated: true)
+        pendingPublishRequestID = nil
     }
     
-    func xmppPubSub(_ sender: XMPPPubSub!, didPublishToNode node: String!, withResult iq: XMPPIQ!) {
-        print("PubSub: Did publish to node \(node).")
+    func xmppController(_ controller: XMPPController, didFailToPublishMicroblogEntryWithRequestID requestID: String) {
+        guard requestID == pendingPublishRequestID else {
+            return
+        }
+        
         MBProgressHUD.hide(for: self.view, animated: true)
-    }
-    func xmppPubSub(_ sender: XMPPPubSub!, didNotPublishToNode node: String!, withError iq: XMPPIQ!) {
-        print("PubSub: Did not publish to node \(node) due error: \(iq.childErrorElement())")
-        MBProgressHUD.hide(for: self.view, animated: true)
-    }
-}
+        pendingPublishRequestID = nil
 
-extension SocialMediaViewController: XMPPControllerMicrobloggingDelegate {
+        present(UIAlertController.singleActionAlertController(withTitle: nil, message: "Failed to publish"), animated: true)
+    }
+    
     func xmppController(_ controller: XMPPController, didReceiveMicroblogEntries microblogEntries: [DDXMLElement], from publisherJID: XMPPJID) {
         var areNewEntriesInserted = false
         for item in microblogEntries {
