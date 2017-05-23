@@ -56,7 +56,6 @@ class XMPPController: NSObject {
     
 	var xmppMUCStorage: XMPPMUCCoreDataStorage
 	var xmppMUCStorer: XMPPMUCStorer
-	var xmppMessageArchiving: XMPPMessageArchivingWithMAM
 	var xmppMessageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	var xmppMessageArchiveManagement: XMPPMessageArchiveManagement
 	var xmppRoomLightCoreDataStorage: XMPPRoomLightCoreDataStorage
@@ -67,6 +66,7 @@ class XMPPController: NSObject {
 	var xmppStreamManagementStorage: XMPPStreamManagementDiscStorage
 
 	var roomsLight = [XMPPRoomLight]()
+    var xmppOneToOneChat: XMPPOneToOneChat
     
     // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
     let xmppClientState: XMPPClientState
@@ -131,14 +131,16 @@ class XMPPController: NSObject {
         // TODO: [pwe] microblog should not depend on initial presence-based last item delivery each time the app is started
         self.xmppStreamManagementStorage.removeAll(for: self.xmppStream)
 
+        self.xmppMessageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
+        self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
+        
+        self.xmppOneToOneChat = XMPPOneToOneChat(messageArchivingStorage: self.xmppMessageArchivingStorage)
+        
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
+        self.xmppMessageArchiveManagement.addDelegate(self.xmppOneToOneChat, delegateQueue: self.xmppOneToOneChat.moduleQueue)
 
 		self.xmppMUCStorage = XMPPMUCCoreDataStorage()
 		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMUCStorage)
-		
-		self.xmppMessageArchivingStorage = XMPPMessageAndMAMArchivingCoreDataStorage()
-		self.xmppMessageArchiving = XMPPMessageArchivingWithMAM(messageArchivingStorage: self.xmppMessageArchivingStorage)
-		self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
         
         self.xmppClientState = XMPPClientState()
         
@@ -165,8 +167,8 @@ class XMPPController: NSObject {
 		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
 		self.xmppMUCStorer.activate(self.xmppStream)
-		self.xmppMessageArchiving.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
+        self.xmppOneToOneChat.activate(self.xmppStream)
         self.xmppClientState.activate(self.xmppStream)
         self.xmppPushNotifications.activate(self.xmppStream)
 		
@@ -264,8 +266,8 @@ class XMPPController: NSObject {
 		self.xmppMessageCarbons.deactivate()
 		self.xmppStreamManagement.deactivate()
 		self.xmppMUCStorer.deactivate()
-		self.xmppMessageArchiving.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
+        self.xmppOneToOneChat.deactivate()
         self.xmppClientState.deactivate()
         self.xmppPushNotifications.deactivate()
         
