@@ -65,8 +65,19 @@ class XMPPController: NSObject {
 	var xmppStreamManagement: XMPPStreamManagement
 	var xmppStreamManagementStorage: XMPPStreamManagementDiscStorage
 
-	var roomsLight = [XMPPRoomLight]()
     var xmppOneToOneChat: XMPPOneToOneChat
+    var roomsLight = [XMPPRoomLight]() {
+        willSet {
+            for removedRoom in (roomsLight.filter { !newValue.contains($0) }) {
+                xmppMessageArchiveManagement.removeDelegate(removedRoom)
+            }
+        }
+        didSet {
+            for insertedRoom in (roomsLight.filter { !oldValue.contains($0) }) {
+                xmppMessageArchiveManagement.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
+            }
+        }
+    }
     
     // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
     let xmppClientState: XMPPClientState

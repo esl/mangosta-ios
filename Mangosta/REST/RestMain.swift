@@ -96,7 +96,7 @@ class MIMMainInterface: MIMCommunicable {
 		return messages
 	}
 	
-	func createRoomWithSubject(_ room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?) {
+	func createRoomWithSubject(_ room: XMPPRoomLight, name: String, subject: String, users: [XMPPJID]?) {
 		let roomToCreate = Room(id: "", subject: subject, name: name, participants: ["":""])
 		RoomRepository().create(roomToCreate).start() {
 			result in
@@ -105,7 +105,7 @@ class MIMMainInterface: MIMCommunicable {
 				// NOTE: The current API does not use sse, then the only way to manage incoming messages is to configure a XMPPRoomLight object from the id obtained.
 				print("DEBUG roomCreated: \(roomCreated)")
 				// We get the new id from the server. We recreate muclight room since we cannot assign it.
-				let newRoomLight = XMPPCustomRoomLight(jid: room.roomJID, roomname: room.roomname())
+				let newRoomLight = XMPPRoomLight(jid: room.roomJID, roomname: room.roomname())
 				room.destroyRoom()
 				newRoomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 				
@@ -146,7 +146,7 @@ class MIMMainInterface: MIMCommunicable {
 		return detailsDictionary
 	}
 	
-	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight) {
+	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoomLight) {
 		let dictionary : [String:AnyObject] = ["id": room.roomJID.bare(), "subject":room.subject() as AnyObject, "name": "" as AnyObject]
 		let room = try? Room(dictionary: dictionary)
 		RoomRepository().addUserToRoom(room!, userJID: jid.bare()).start() {

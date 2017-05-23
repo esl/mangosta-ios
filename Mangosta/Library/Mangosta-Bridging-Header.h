@@ -8,7 +8,6 @@
 #import "XMPPStreamManagementDiscStorage.h"
 #import "XMPPOneToOneChat.h"
 #import "XMPPMessage+XEP_0313.h"
-#import "XMPPCustomRoomLight.h"
 #import "XMPPClientState.h"
 #import "XMPPPushNotifications.h"
 #import "XMPPServiceDiscovery+XEP_0357.h"
