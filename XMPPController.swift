@@ -58,7 +58,6 @@ class XMPPController: NSObject {
 	var xmppMessageArchiveManagement: XMPPMessageArchiveManagement
 	var xmppRoomLightCoreDataStorage: XMPPRoomLightCoreDataStorage
 	var xmppMessageDeliveryReceipts: XMPPMessageDeliveryReceipts
-	var xmppMessageCarbons: XMPPMessageCarbons
 
 	var xmppStreamManagement: XMPPStreamManagement
 	var xmppStreamManagementStorage: XMPPStreamManagementDiscStorage
@@ -125,11 +124,6 @@ class XMPPController: NSObject {
 		self.xmppMessageDeliveryReceipts.autoSendMessageDeliveryReceipts = true
 		self.xmppMessageDeliveryReceipts.autoSendMessageDeliveryRequests = true
 
-		// Message Carbons
-		self.xmppMessageCarbons = XMPPMessageCarbons()
-		self.xmppMessageCarbons.autoEnableMessageCarbons = true
-		self.xmppMessageCarbons.enable()
-
 		// Stream Managment
 		self.xmppStreamManagementStorage = XMPPStreamManagementDiscStorage()
 		self.xmppStreamManagement = XMPPStreamManagement(storage: self.xmppStreamManagementStorage)
@@ -166,7 +160,6 @@ class XMPPController: NSObject {
         self.xmppMicrobloggingPubSub.activate(self.xmppStream)
         self.xmppPushNotificationsPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
-		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
         self.xmppOneToOneChat.activate(self.xmppStream)
@@ -263,7 +256,6 @@ class XMPPController: NSObject {
         self.xmppMicrobloggingPubSub.deactivate()
         self.xmppPushNotificationsPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
-		self.xmppMessageCarbons.deactivate()
 		self.xmppStreamManagement.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
         self.xmppOneToOneChat.deactivate()
