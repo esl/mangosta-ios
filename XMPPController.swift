@@ -39,28 +39,23 @@ class XMPPController: NSObject {
     
 	var xmppStream: XMPPStream
 	var xmppReconnect: XMPPReconnect
-	var xmppRoster: XMPPRoster
+    var xmppStreamManagement: XMPPStreamManagement
+	
+    var xmppRoster: XMPPRoster
 	var xmppRosterStorage: XMPPRosterCoreDataStorage
-	var xmppRosterCompletion: RosterCompletion?
+    
     var xmppServiceDiscovery: XMPPServiceDiscovery
 	var xmppCapabilities: XMPPCapabilities
-	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
     var xmppCapabilitiesMyFeatures: Set<String> {
         didSet {
             xmppCapabilities.recollectMyCapabilities()
         }
     }
-
-    var xmppMicrobloggingPubSub: XMPPPubSub
-    var xmppPushNotificationsPubSub: XMPPPubSub
     
 	var xmppMessageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	var xmppMessageArchiveManagement: XMPPMessageArchiveManagement
 	var xmppRoomLightCoreDataStorage: XMPPRoomLightCoreDataStorage
 	var xmppMessageDeliveryReceipts: XMPPMessageDeliveryReceipts
-
-	var xmppStreamManagement: XMPPStreamManagement
-	var xmppStreamManagementStorage: XMPPStreamManagementDiscStorage
 
     var xmppOneToOneChat: XMPPOneToOneChat
     var roomsLight = [XMPPRoomLight]() {
@@ -76,9 +71,11 @@ class XMPPController: NSObject {
         }
     }
     
+    var xmppMicrobloggingPubSub: XMPPPubSub
+    var xmppPushNotificationsPubSub: XMPPPubSub
+    
     let xmppPushNotifications: XMPPPushNotifications
 
-    var hostPort: UInt16 = 5222
     var password: String = ""
     
     var isXmppConnected = false
@@ -108,8 +105,7 @@ class XMPPController: NSObject {
         self.xmppServiceDiscovery = XMPPServiceDiscovery()
         
 		// Capabilities
-		self.xmppCapabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
-		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: self.xmppCapabilitiesStorage)
+		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: XMPPCapabilitiesCoreDataStorage.sharedInstance())
 		self.xmppCapabilities.autoFetchHashedCapabilities = true
 		self.xmppCapabilities.autoFetchNonHashedCapabilities = false
         self.xmppCapabilities.myCapabilitiesNode = "https://github.com/esl/mangosta-ios"
@@ -125,12 +121,11 @@ class XMPPController: NSObject {
 		self.xmppMessageDeliveryReceipts.autoSendMessageDeliveryRequests = true
 
 		// Stream Managment
-		self.xmppStreamManagementStorage = XMPPStreamManagementDiscStorage()
-		self.xmppStreamManagement = XMPPStreamManagement(storage: self.xmppStreamManagementStorage)
+		self.xmppStreamManagement = XMPPStreamManagement(storage: XMPPStreamManagementDiscStorage())
 		self.xmppStreamManagement.autoResume = true
         
         // TODO: [pwe] microblog should not depend on initial presence-based last item delivery each time the app is started
-        self.xmppStreamManagementStorage.removeAll(for: self.xmppStream)
+        self.xmppStreamManagement.storage.removeAll(for: self.xmppStream)
 
         self.xmppMessageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
         self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
@@ -435,11 +430,6 @@ extension XMPPController {
     func managedObjectContext_roster() -> NSManagedObjectContext {
         return self.xmppRosterStorage.mainThreadManagedObjectContext
     }
-    
-    func managedObjectContext_Capabilities() -> NSManagedObjectContext {
-        return self.xmppCapabilitiesStorage.mainThreadManagedObjectContext
-    }
-    
 }
 
 protocol XMPPControllerPushNotificationsDelegate: class {
