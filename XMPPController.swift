@@ -77,8 +77,6 @@ class XMPPController: NSObject {
         }
     }
     
-    // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
-    let xmppClientState: XMPPClientState
     let xmppPushNotifications: XMPPPushNotifications
 
     var hostPort: UInt16 = 5222
@@ -148,8 +146,6 @@ class XMPPController: NSObject {
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
         self.xmppMessageArchiveManagement.addDelegate(self.xmppOneToOneChat, delegateQueue: self.xmppOneToOneChat.moduleQueue)
         
-        self.xmppClientState = XMPPClientState()
-        
         let pushNotificationsEnvironment: XMPPPushNotificationsEnvironment
         #if APNS_SANDBOX
             pushNotificationsEnvironment = .sandbox
@@ -174,7 +170,6 @@ class XMPPController: NSObject {
 		self.xmppStreamManagement.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
         self.xmppOneToOneChat.activate(self.xmppStream)
-        self.xmppClientState.activate(self.xmppStream)
         self.xmppPushNotifications.activate(self.xmppStream)
 		
 
@@ -272,7 +267,6 @@ class XMPPController: NSObject {
 		self.xmppStreamManagement.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
         self.xmppOneToOneChat.deactivate()
-        self.xmppClientState.deactivate()
         self.xmppPushNotifications.deactivate()
         
         self.disconnect()
@@ -325,16 +319,11 @@ extension XMPPController: XMPPStreamDelegate {
 	func goOnline() {
 		let presence = XMPPPresence()
 		self.xmppStream.send(presence)
-        
-        xmppClientState.isActive = true
 	}
 	
 	func goOffLine() {
 		let presence = XMPPPresence(type: "unavailable")
 		self.xmppStream.send(presence)
-        
-        xmppClientState.isActive = false
-        
 	}
 }
 

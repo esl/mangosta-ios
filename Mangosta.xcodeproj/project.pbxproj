@@ -60,7 +60,6 @@
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
-		AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -143,7 +142,6 @@
 		DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
 		DD4B5BD11EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
 		DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
-		DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
 		DDD9126C1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
 		DDD9126F1ED4328600E0E157 /* XMPPRoomLightCoreDataStorage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126E1ED4328600E0E157 /* XMPPRoomLightCoreDataStorage+XEP_0313.m */; };
@@ -270,8 +268,6 @@
 		DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement+XEP_0277.m"; sourceTree = "<group>"; };
 		DD621D1F1EAA47DD0083C977 /* MIMPushNotificationsPubSub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMPushNotificationsPubSub.h; sourceTree = "<group>"; };
 		DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMPushNotificationsPubSub.m; sourceTree = "<group>"; };
-		DD7C68831E8E381E00C22685 /* XMPPClientState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPClientState.h; sourceTree = "<group>"; };
-		DD7C68841E8E381E00C22685 /* XMPPClientState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPClientState.m; sourceTree = "<group>"; };
 		DDD912691ED320A300E0E157 /* XMPPOneToOneChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPOneToOneChat.h; sourceTree = "<group>"; };
 		DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPOneToOneChat.m; sourceTree = "<group>"; };
 		DDD9126D1ED4328600E0E157 /* XMPPRoomLightCoreDataStorage+XEP_0313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoomLightCoreDataStorage+XEP_0313.h"; sourceTree = "<group>"; };
@@ -363,7 +359,6 @@
 				813266A41CA2B63600D4EDC0 /* XEP-0198 */,
 				AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */,
 				DD4B5BB41EC5A22A00237BB0 /* XEP-0277 */,
-				DD7C68821E8E37CE00C22685 /* XEP-0352 */,
 				DD22264C1E9384B200F8C04D /* XEP-0357 */,
 				DDD912691ED320A300E0E157 /* XMPPOneToOneChat.h */,
 				DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */,
@@ -596,15 +591,6 @@
 				DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */,
 			);
 			name = "XEP-0060";
-			sourceTree = "<group>";
-		};
-		DD7C68821E8E37CE00C22685 /* XEP-0352 */ = {
-			isa = PBXGroup;
-			children = (
-				DD7C68831E8E381E00C22685 /* XMPPClientState.h */,
-				DD7C68841E8E381E00C22685 /* XMPPClientState.m */,
-			);
-			name = "XEP-0352";
 			sourceTree = "<group>";
 		};
 		DDD9127D1ED45C6800E0E157 /* Storage */ = {
@@ -952,7 +938,6 @@
 				DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */,
 				DD1EF3C71ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m in Sources */,
 				DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */,
-				DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				DDD9127B1ED45C5700E0E157 /* XMPPRoomLight+XEP_0313.m in Sources */,
 				AC3E3FC61E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
@@ -1055,7 +1040,6 @@
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
-				AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */,
 				AC3E3FE61E7C3F32005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				AC3E3FD71E7C3F27005EA75B /* DemoPhotoMessageModel.swift in Sources */,
