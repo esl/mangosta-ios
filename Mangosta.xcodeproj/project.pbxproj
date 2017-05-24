@@ -93,7 +93,6 @@
 		AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */; };
 		AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
 		AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
-		AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66361D957E5900B3AEB8 /* JID.swift */; };
 		AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66371D957E5900B3AEB8 /* Message.swift */; };
 		AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */; };
@@ -117,7 +116,6 @@
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
 		C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
 		C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
-		C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
 		C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
@@ -240,7 +238,6 @@
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
 		C135D9121CE257B700225EC7 /* LogIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LogIn.storyboard; sourceTree = "<group>"; };
 		C135D9181CE25E2000225EC7 /* Roster.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Roster.storyboard; sourceTree = "<group>"; };
-		C135D91A1CE25FE200225EC7 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		C135D91C1CE39FFD00225EC7 /* Members.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Members.storyboard; sourceTree = "<group>"; };
 		C135D9221CE3A0B400225EC7 /* MembersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		C160B9181CD1371B00ADAD99 /* XMPPServiceDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPServiceDiscovery.h; sourceTree = "<group>"; };
@@ -545,7 +542,6 @@
 				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
 				C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */,
 				AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */,
-				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
 				C1072DAC1CEB91300007B99E /* MUCLight.storyboard */,
 				AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */,
 				C135D91C1CE39FFD00225EC7 /* Members.storyboard */,
@@ -757,7 +753,6 @@
 				AC8020D71E13F88100B3AEB8 /* Main.storyboard in Resources */,
 				C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */,
 				C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */,
-				C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */,
 				AC3E3FCE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -791,7 +786,6 @@
 				AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */,
 				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
 				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
-				AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */,
 				AC3E3FE01E7C3F32005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -409,8 +409,7 @@ extension MainViewController: XMPPRoomLightDelegate {
 private extension UIStoryboard {
     
     static func instantiateChatViewController() -> ChatViewController {
-        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-        let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        let chatViewController = ChatViewController()
         
         // TODO: move to defaults config.
         let initialCount = 0
