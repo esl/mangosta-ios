@@ -26,11 +26,11 @@ class MIMMainInterface: MIMCommunicable {
 	func getRoomArchivedMessages(_ room: XMPPRoom, limit: Int?, before: CLong?) -> [XMPPRoom] {return [] }  // Not implemented func fetchHistory()
 
 	
-	func createRoomWithSubject(_ room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?) {
+	func createRoomWithSubject(_ room: XMPPRoomLight, name: String, subject: String, users: [XMPPJID]?) {
 		// NOTE: name, subjet and user not used in xmpp implementation of this method.
 		room.createRoomLight(withMembersJID: users)
 	}
-	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight) {}
+	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoomLight) {}
 	
 	func getRoomDetails(_ room: XMPPRoom) -> [String:AnyObject] {return [:] } // func showMUCDetails()
 	func deleteUserFromRoom(_ room: XMPPRoom, user: XMPPJID) {}

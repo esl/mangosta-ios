@@ -370,7 +370,7 @@ extension MainViewController: XMPPMUCLightDelegate {
 			let rawName = rawElement.attributeStringValue(forName: "name")
 			let jid = XMPPJID.init(string: rawJid)
 			
-			let r = XMPPCustomRoomLight(roomLightStorage: storage, jid: jid!, roomname: rawName!, dispatchQueue: DispatchQueue.main)
+			let r = XMPPRoomLight(roomLightStorage: storage, jid: jid!, roomname: rawName!, dispatchQueue: DispatchQueue.main)
 			r.activate(self.xmppController.xmppStream)
 			
 			return r
@@ -389,7 +389,7 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 		self.newRoomUsers = users ?? []
 		
 		let jid = XMPPJID.init(string: MUCLightServiceName)
-		let roomLight = XMPPCustomRoomLight(jid: jid!, roomname: roomName)
+		let roomLight = XMPPRoomLight(jid: jid!, roomname: roomName)
 		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
 		// TODO: [pwe] this module instance only lives for the duration of room creation, being replaced by another one in didDiscoverRooms callback; it would be best to only have one
 		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)

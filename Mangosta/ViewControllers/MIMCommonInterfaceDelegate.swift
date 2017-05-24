@@ -26,8 +26,8 @@ protocol MIMCommunicable {
 	func getRoomDetails(_ room: XMPPRoom) -> [String:AnyObject] // func showMUCDetails()
 	#endif
 	
-	func createRoomWithSubject(_ room: XMPPCustomRoomLight, name: String, subject: String, users: [XMPPJID]?)
-	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPCustomRoomLight)
+	func createRoomWithSubject(_ room: XMPPRoomLight, name: String, subject: String, users: [XMPPJID]?)
+	func inviteUserToRoom(_ jid: XMPPJID!, withMessage invitationMessage: String!, room: XMPPRoomLight)
 	func deleteUserFromRoom(_ room: XMPPRoom, user: XMPPJID)
 	func sendMessageToRoom(_ room: XMPPRoom, message: XMPPMessage)
 	 	// func inviteUser(jid: XMPPJID!, withMessage invitationMessage: String!)
