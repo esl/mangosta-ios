@@ -39,31 +39,23 @@ class XMPPController: NSObject {
     
 	var xmppStream: XMPPStream
 	var xmppReconnect: XMPPReconnect
-	var xmppRoster: XMPPRoster
+    var xmppStreamManagement: XMPPStreamManagement
+	
+    var xmppRoster: XMPPRoster
 	var xmppRosterStorage: XMPPRosterCoreDataStorage
-	var xmppRosterCompletion: RosterCompletion?
+    
     var xmppServiceDiscovery: XMPPServiceDiscovery
 	var xmppCapabilities: XMPPCapabilities
-	var xmppCapabilitiesStorage: XMPPCapabilitiesCoreDataStorage
     var xmppCapabilitiesMyFeatures: Set<String> {
         didSet {
             xmppCapabilities.recollectMyCapabilities()
         }
     }
-
-    var xmppMicrobloggingPubSub: XMPPPubSub
-    var xmppPushNotificationsPubSub: XMPPPubSub
     
-	var xmppMUCStorage: XMPPMUCCoreDataStorage
-	var xmppMUCStorer: XMPPMUCStorer
 	var xmppMessageArchivingStorage: XMPPMessageArchivingCoreDataStorage
 	var xmppMessageArchiveManagement: XMPPMessageArchiveManagement
 	var xmppRoomLightCoreDataStorage: XMPPRoomLightCoreDataStorage
 	var xmppMessageDeliveryReceipts: XMPPMessageDeliveryReceipts
-	var xmppMessageCarbons: XMPPMessageCarbons
-
-	var xmppStreamManagement: XMPPStreamManagement
-	var xmppStreamManagementStorage: XMPPStreamManagementDiscStorage
 
     var xmppOneToOneChat: XMPPOneToOneChat
     var roomsLight = [XMPPRoomLight]() {
@@ -79,11 +71,11 @@ class XMPPController: NSObject {
         }
     }
     
-    // TODO: [pwe] consider dropping XEP-0352 on iOS; the XMPP socket is torn down when going into background anyway
-    let xmppClientState: XMPPClientState
+    var xmppMicrobloggingPubSub: XMPPPubSub
+    var xmppPushNotificationsPubSub: XMPPPubSub
+    
     let xmppPushNotifications: XMPPPushNotifications
 
-    var hostPort: UInt16 = 5222
     var password: String = ""
     
     var isXmppConnected = false
@@ -113,8 +105,7 @@ class XMPPController: NSObject {
         self.xmppServiceDiscovery = XMPPServiceDiscovery()
         
 		// Capabilities
-		self.xmppCapabilitiesStorage = XMPPCapabilitiesCoreDataStorage.sharedInstance()
-		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: self.xmppCapabilitiesStorage)
+		self.xmppCapabilities = XMPPCapabilities(capabilitiesStorage: XMPPCapabilitiesCoreDataStorage.sharedInstance())
 		self.xmppCapabilities.autoFetchHashedCapabilities = true
 		self.xmppCapabilities.autoFetchNonHashedCapabilities = false
         self.xmppCapabilities.myCapabilitiesNode = "https://github.com/esl/mangosta-ios"
@@ -129,18 +120,12 @@ class XMPPController: NSObject {
 		self.xmppMessageDeliveryReceipts.autoSendMessageDeliveryReceipts = true
 		self.xmppMessageDeliveryReceipts.autoSendMessageDeliveryRequests = true
 
-		// Message Carbons
-		self.xmppMessageCarbons = XMPPMessageCarbons()
-		self.xmppMessageCarbons.autoEnableMessageCarbons = true
-		self.xmppMessageCarbons.enable()
-
 		// Stream Managment
-		self.xmppStreamManagementStorage = XMPPStreamManagementDiscStorage()
-		self.xmppStreamManagement = XMPPStreamManagement(storage: self.xmppStreamManagementStorage)
+		self.xmppStreamManagement = XMPPStreamManagement(storage: XMPPStreamManagementDiscStorage())
 		self.xmppStreamManagement.autoResume = true
         
         // TODO: [pwe] microblog should not depend on initial presence-based last item delivery each time the app is started
-        self.xmppStreamManagementStorage.removeAll(for: self.xmppStream)
+        self.xmppStreamManagement.storage.removeAll(for: self.xmppStream)
 
         self.xmppMessageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
         self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
@@ -149,11 +134,6 @@ class XMPPController: NSObject {
         
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
         self.xmppMessageArchiveManagement.addDelegate(self.xmppOneToOneChat, delegateQueue: self.xmppOneToOneChat.moduleQueue)
-
-		self.xmppMUCStorage = XMPPMUCCoreDataStorage()
-		self.xmppMUCStorer = XMPPMUCStorer(roomStorage: self.xmppMUCStorage)
-        
-        self.xmppClientState = XMPPClientState()
         
         let pushNotificationsEnvironment: XMPPPushNotificationsEnvironment
         #if APNS_SANDBOX
@@ -175,12 +155,9 @@ class XMPPController: NSObject {
         self.xmppMicrobloggingPubSub.activate(self.xmppStream)
         self.xmppPushNotificationsPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
-		self.xmppMessageCarbons.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
-		self.xmppMUCStorer.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
         self.xmppOneToOneChat.activate(self.xmppStream)
-        self.xmppClientState.activate(self.xmppStream)
         self.xmppPushNotifications.activate(self.xmppStream)
 		
 
@@ -274,12 +251,9 @@ class XMPPController: NSObject {
         self.xmppMicrobloggingPubSub.deactivate()
         self.xmppPushNotificationsPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
-		self.xmppMessageCarbons.deactivate()
 		self.xmppStreamManagement.deactivate()
-		self.xmppMUCStorer.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
         self.xmppOneToOneChat.deactivate()
-        self.xmppClientState.deactivate()
         self.xmppPushNotifications.deactivate()
         
         self.disconnect()
@@ -332,16 +306,11 @@ extension XMPPController: XMPPStreamDelegate {
 	func goOnline() {
 		let presence = XMPPPresence()
 		self.xmppStream.send(presence)
-        
-        xmppClientState.isActive = true
 	}
 	
 	func goOffLine() {
 		let presence = XMPPPresence(type: "unavailable")
 		self.xmppStream.send(presence)
-        
-        xmppClientState.isActive = false
-        
 	}
 }
 
@@ -461,11 +430,6 @@ extension XMPPController {
     func managedObjectContext_roster() -> NSManagedObjectContext {
         return self.xmppRosterStorage.mainThreadManagedObjectContext
     }
-    
-    func managedObjectContext_Capabilities() -> NSManagedObjectContext {
-        return self.xmppCapabilitiesStorage.mainThreadManagedObjectContext
-    }
-    
 }
 
 protocol XMPPControllerPushNotificationsDelegate: class {

@@ -60,7 +60,6 @@
 		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
-		AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
 		AC7B7D3A1DDE33D300B3AEB8 /* IM.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */; };
 		AC7B7D3C1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */; };
@@ -74,11 +73,8 @@
 		AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
 		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
-		AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
 		AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
-		AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
 		AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
-		AC9F65FA1D957ABD00B3AEB8 /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
 		AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */; };
 		AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */; };
@@ -89,7 +85,6 @@
 		AC9F66051D957ABD00B3AEB8 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
 		AC9F66061D957ABD00B3AEB8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8341CA023B1008099D1 /* LoginViewController.swift */; };
 		AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8031D2563C200F5BAB2 /* TabBarController.swift */; };
-		AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
 		AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
 		AC9F660E1D957ABD00B3AEB8 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
 		AC9F660F1D957ABD00B3AEB8 /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
@@ -98,7 +93,6 @@
 		AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */; };
 		AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
 		AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
-		AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		AC9F66511D957E5900B3AEB8 /* JID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66361D957E5900B3AEB8 /* JID.swift */; };
 		AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66371D957E5900B3AEB8 /* Message.swift */; };
 		AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F66381D957E5900B3AEB8 /* MongooseAPI.swift */; };
@@ -115,23 +109,16 @@
 		ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB2D2B81E16ABB000B3AEB8 /* Me.swift */; };
 		ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB2D2B81E16ABB000B3AEB8 /* Me.swift */; };
 		ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
-		ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
-		ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */; };
 		ACED08311E28242000B3AEB8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACED08301E28242000B3AEB8 /* Settings.swift */; };
 		ACF0FAB21E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */; };
 		ACF0FAB31E806CA8005EA75B /* ChatViewController+Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */; };
 		B746A60CC34A8AE4580308D8 /* Pods_Mangosta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */; };
 		C1072DAD1CEB91300007B99E /* MUCLight.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1072DAC1CEB91300007B99E /* MUCLight.storyboard */; };
-		C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */; };
-		C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */ = {isa = PBXBuildFile; fileRef = C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */; };
 		C135D9131CE257B700225EC7 /* LogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9121CE257B700225EC7 /* LogIn.storyboard */; };
 		C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D9181CE25E2000225EC7 /* Roster.storyboard */; };
-		C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91A1CE25FE200225EC7 /* Chat.storyboard */; };
 		C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C135D91C1CE39FFD00225EC7 /* Members.storyboard */; };
 		C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */; };
-		C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */; };
-		C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */; };
 		C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8011D243AB900F5BAB2 /* XMPPController.swift */; };
 		C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19BA8031D2563C200F5BAB2 /* TabBarController.swift */; };
 		C1AEEF321D24038600E25C48 /* BlockingMembers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */; };
@@ -153,7 +140,6 @@
 		DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
 		DD4B5BD11EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
 		DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
-		DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7C68841E8E381E00C22685 /* XMPPClientState.m */; };
 		DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
 		DDD9126C1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
 		DDD9126F1ED4328600E0E157 /* XMPPRoomLightCoreDataStorage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126E1ED4328600E0E157 /* XMPPRoomLightCoreDataStorage+XEP_0313.m */; };
@@ -189,7 +175,6 @@
 		811C5AB31CAC094D008346FE /* AuthenticationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		813266A21CA18FFF00D4EDC0 /* ClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientState.swift; sourceTree = "<group>"; };
 		8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mangosta-Bridging-Header.h"; sourceTree = "<group>"; };
-		81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomViewController.swift; sourceTree = "<group>"; };
 		81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCRoomCreateViewController.swift; sourceTree = "<group>"; };
 		814D4CA41C970E6900AB28FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		814D4CAA1C970F5500AB28FA /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -248,24 +233,15 @@
 		ACA045951D99C26B00B3AEB8 /* RestMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestMain.swift; sourceTree = "<group>"; };
 		ACB2D2B51E1599FC00B3AEB8 /* Me.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Me.storyboard; sourceTree = "<group>"; };
 		ACB2D2B81E16ABB000B3AEB8 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
-		ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightCreateRoomPresenterViewController.swift; sourceTree = "<group>"; };
 		ACED08301E28242000B3AEB8 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		ACF0FAB11E806CA8005EA75B /* ChatViewController+Wallpaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Wallpaper.swift"; sourceTree = "<group>"; };
 		C1072DAC1CEB91300007B99E /* MUCLight.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MUCLight.storyboard; sourceTree = "<group>"; };
-		C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUCLightRoomViewController.swift; sourceTree = "<group>"; };
-		C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoom+ExtraActions.h"; sourceTree = "<group>"; };
-		C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoom+ExtraActions.m"; sourceTree = "<group>"; };
 		C135D9121CE257B700225EC7 /* LogIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LogIn.storyboard; sourceTree = "<group>"; };
 		C135D9181CE25E2000225EC7 /* Roster.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Roster.storyboard; sourceTree = "<group>"; };
-		C135D91A1CE25FE200225EC7 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		C135D91C1CE39FFD00225EC7 /* Members.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Members.storyboard; sourceTree = "<group>"; };
 		C135D9221CE3A0B400225EC7 /* MembersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		C160B9181CD1371B00ADAD99 /* XMPPServiceDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPServiceDiscovery.h; sourceTree = "<group>"; };
 		C160B9191CD1371B00ADAD99 /* XMPPServiceDiscovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPServiceDiscovery.m; sourceTree = "<group>"; };
-		C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCStorer.h; sourceTree = "<group>"; };
-		C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCStorer.m; sourceTree = "<group>"; };
-		C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPMUCCoreDataStorage.h; sourceTree = "<group>"; };
-		C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPMUCCoreDataStorage.m; sourceTree = "<group>"; };
 		C19BA8011D243AB900F5BAB2 /* XMPPController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPController.swift; sourceTree = "<group>"; };
 		C19BA8031D2563C200F5BAB2 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BlockingMembers.storyboard; sourceTree = "<group>"; };
@@ -289,8 +265,6 @@
 		DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement+XEP_0277.m"; sourceTree = "<group>"; };
 		DD621D1F1EAA47DD0083C977 /* MIMPushNotificationsPubSub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMPushNotificationsPubSub.h; sourceTree = "<group>"; };
 		DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMPushNotificationsPubSub.m; sourceTree = "<group>"; };
-		DD7C68831E8E381E00C22685 /* XMPPClientState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPClientState.h; sourceTree = "<group>"; };
-		DD7C68841E8E381E00C22685 /* XMPPClientState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPClientState.m; sourceTree = "<group>"; };
 		DDD912691ED320A300E0E157 /* XMPPOneToOneChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPOneToOneChat.h; sourceTree = "<group>"; };
 		DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPOneToOneChat.m; sourceTree = "<group>"; };
 		DDD9126D1ED4328600E0E157 /* XMPPRoomLightCoreDataStorage+XEP_0313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoomLightCoreDataStorage+XEP_0313.h"; sourceTree = "<group>"; };
@@ -371,16 +345,6 @@
 			path = Subclasses;
 			sourceTree = "<group>";
 		};
-		81473D8E1CC1092D006FCEC9 /* MUC Rooms */ = {
-			isa = PBXGroup;
-			children = (
-				81473D8C1CC10755006FCEC9 /* MUCRoomViewController.swift */,
-				C1072DB31CEBAE7B0007B99E /* MUCLightRoomViewController.swift */,
-				81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */,
-			);
-			name = "MUC Rooms";
-			sourceTree = "<group>";
-		};
 		814D4CA31C970E5B00AB28FA /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,19 +352,13 @@
 				8142B8301CB6C7190095FCF1 /* Mangosta-Bridging-Header.h */,
 				813266A21CA18FFF00D4EDC0 /* ClientState.swift */,
 				C160B9171CD1364A00ADAD99 /* XEP-0030 */,
-				C12EA9511CDD16EF00F29606 /* XEP-0045 */,
 				DD4B5BC51EC9AD2800237BB0 /* XEP-0060 */,
 				813266A41CA2B63600D4EDC0 /* XEP-0198 */,
 				AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */,
 				DD4B5BB41EC5A22A00237BB0 /* XEP-0277 */,
-				DD7C68821E8E37CE00C22685 /* XEP-0352 */,
 				DD22264C1E9384B200F8C04D /* XEP-0357 */,
 				DDD912691ED320A300E0E157 /* XMPPOneToOneChat.h */,
 				DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */,
-				C1665E5E1CD92FE30024A434 /* XMPPMUCStorer.h */,
-				C1665E5F1CD92FE30024A434 /* XMPPMUCStorer.m */,
-				C1665E611CDA3BF20024A434 /* XMPPMUCCoreDataStorage.h */,
-				C1665E621CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -481,8 +439,7 @@
 				81F8E8391CA03F3A008099D1 /* ChatViewController.swift */,
 				AC7B7D3B1DDE4DAF00B3AEB8 /* SocialMedia.swift */,
 				C135D9221CE3A0B400225EC7 /* MembersViewController.swift */,
-				81473D8E1CC1092D006FCEC9 /* MUC Rooms */,
-				ACC255741DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift */,
+				81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */,
 				AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */,
 			);
 			path = ViewControllers;
@@ -576,15 +533,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C12EA9511CDD16EF00F29606 /* XEP-0045 */ = {
-			isa = PBXGroup;
-			children = (
-				C12EA9521CDD172800F29606 /* XMPPRoom+ExtraActions.h */,
-				C12EA9531CDD172800F29606 /* XMPPRoom+ExtraActions.m */,
-			);
-			name = "XEP-0045";
-			sourceTree = "<group>";
-		};
 		C12EA9551CE255C800F29606 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,7 +542,6 @@
 				C135D9181CE25E2000225EC7 /* Roster.storyboard */,
 				C1AEEF311D24038600E25C48 /* BlockingMembers.storyboard */,
 				AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */,
-				C135D91A1CE25FE200225EC7 /* Chat.storyboard */,
 				C1072DAC1CEB91300007B99E /* MUCLight.storyboard */,
 				AC87CADE1DE35A7200B3AEB8 /* SocialMedia.storyboard */,
 				C135D91C1CE39FFD00225EC7 /* Members.storyboard */,
@@ -640,15 +587,6 @@
 				DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */,
 			);
 			name = "XEP-0060";
-			sourceTree = "<group>";
-		};
-		DD7C68821E8E37CE00C22685 /* XEP-0352 */ = {
-			isa = PBXGroup;
-			children = (
-				DD7C68831E8E381E00C22685 /* XMPPClientState.h */,
-				DD7C68841E8E381E00C22685 /* XMPPClientState.m */,
-			);
-			name = "XEP-0352";
 			sourceTree = "<group>";
 		};
 		DDD9127D1ED45C6800E0E157 /* Storage */ = {
@@ -815,7 +753,6 @@
 				AC8020D71E13F88100B3AEB8 /* Main.storyboard in Resources */,
 				C135D91D1CE39FFD00225EC7 /* Members.storyboard in Resources */,
 				C135D9191CE25E2000225EC7 /* Roster.storyboard in Resources */,
-				C135D91B1CE25FE200225EC7 /* Chat.storyboard in Resources */,
 				AC3E3FCE1E7C3F19005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -849,7 +786,6 @@
 				AC9F66121D957ABD00B3AEB8 /* BlockingMembers.storyboard in Resources */,
 				AC9F66141D957ABD00B3AEB8 /* Members.storyboard in Resources */,
 				AC9F66161D957ABD00B3AEB8 /* Roster.storyboard in Resources */,
-				AC9F66171D957ABD00B3AEB8 /* Chat.storyboard in Resources */,
 				AC3E3FE01E7C3F32005EA75B /* SendingStatusCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -996,19 +932,15 @@
 				DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */,
 				DD1EF3C71ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m in Sources */,
 				DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */,
-				C1665E631CDA3BF20024A434 /* XMPPMUCCoreDataStorage.m in Sources */,
-				DD7C68851E8E381E00C22685 /* XMPPClientState.m in Sources */,
 				C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */,
 				DDD9127B1ED45C5700E0E157 /* XMPPRoomLight+XEP_0313.m in Sources */,
 				AC3E3FC61E7C3F19005EA75B /* DemoPhotoMessageViewModel.swift in Sources */,
-				C12EA9541CDD172800F29606 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC90864D1D9EF2BF00B3AEB8 /* XMPPMain.swift in Sources */,
 				AC3E3FD21E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC3E3FCA1E7C3F19005EA75B /* QueueMessageFactory.swift in Sources */,
 				AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */,
 				DD4B5BC81EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */,
 				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
-				C1072DB41CEBAE7B0007B99E /* MUCLightRoomViewController.swift in Sources */,
 				AC3E3FD01E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				ACED08311E28242000B3AEB8 /* Settings.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
@@ -1027,7 +959,6 @@
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
 				DDD912771ED45B9700E0E157 /* XMPPMessageArchivingCoreDataStorage+XEP_0313.m in Sources */,
 				AC3E3FD31E7C3F19005EA75B /* TimeSeparatorModel.swift in Sources */,
-				ACC255751DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
 				813266A31CA18FFF00D4EDC0 /* ClientState.swift in Sources */,
 				C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
@@ -1038,7 +969,6 @@
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
 				C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */,
 				AC3E3FD41E7C3F19005EA75B /* TimeSeparatorPresenter.swift in Sources */,
-				C1665E601CD92FE30024A434 /* XMPPMUCStorer.m in Sources */,
 				C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1078,13 +1008,10 @@
 				AC3E3FDF1E7C3F32005EA75B /* QueueMessageSender.swift in Sources */,
 				DD1EF3CC1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
-				AC9F65F61D957ABD00B3AEB8 /* XMPPMUCCoreDataStorage.m in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
 				AC3E3FDB1E7C3F27005EA75B /* DemoTextMessageViewModel.swift in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
-				AC9F65F81D957ABD00B3AEB8 /* XMPPRoom+ExtraActions.m in Sources */,
 				AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
-				AC9F65FA1D957ABD00B3AEB8 /* MUCLightRoomViewController.swift in Sources */,
 				AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */,
 				AC3E3FD61E7C3F21005EA75B /* DemoPhotoMessageHandler.swift in Sources */,
@@ -1107,7 +1034,6 @@
 				AC9F66021D957ABD00B3AEB8 /* ClientState.swift in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Settings.swift in Sources */,
 				AC9F66031D957ABD00B3AEB8 /* UIAlertController+Extension.swift in Sources */,
-				AC77EA1B1E9C24DC005EA75B /* XMPPClientState.m in Sources */,
 				AC3E3FE61E7C3F32005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				AC7B7D3D1DDE4DAF00B3AEB8 /* SocialMedia.swift in Sources */,
 				AC3E3FD71E7C3F27005EA75B /* DemoPhotoMessageModel.swift in Sources */,
@@ -1123,10 +1049,8 @@
 				AC9F66071D957ABD00B3AEB8 /* TabBarController.swift in Sources */,
 				DDD9126C1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */,
 				DD4B5BD11EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */,
-				AC9F66091D957ABD00B3AEB8 /* XMPPMUCStorer.m in Sources */,
 				AC9F66521D957E5900B3AEB8 /* Message.swift in Sources */,
 				AC9F660A1D957ABD00B3AEB8 /* XMPPServiceDiscovery.m in Sources */,
-				ACC255761DF6D5BF00B3AEB8 /* MUCLightCreateRoomPresenterViewController.swift in Sources */,
 				AC3E3FE51E7C3F32005EA75B /* TimeSeparatorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

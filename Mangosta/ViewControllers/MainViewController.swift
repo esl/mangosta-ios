@@ -120,14 +120,6 @@ class MainViewController: UIViewController, TitleViewModifiable {
         
         navigationController?.pushViewController(chatViewController, animated: false)
     }
-    
-	// TODO: this is for implementing later in the UI: XEP-0352: Client State Indication
-	@IBAction func activateDeactivate(sender: UIButton) {
-        xmppController.xmppClientState.isActive = !xmppController.xmppClientState.isActive
-        
-        // TODO: [pwe] more robust way to update UI state
-        sender.setTitle(xmppController.xmppClientState.isActive ? "deactivate" : "activate", for: .normal)
-	}
 	
 	func pushMeViewControler(_ sender: UIBarButtonItem) {
 		let storyboard = UIStoryboard(name: "Me", bundle: nil)
@@ -417,8 +409,7 @@ extension MainViewController: XMPPRoomLightDelegate {
 private extension UIStoryboard {
     
     static func instantiateChatViewController() -> ChatViewController {
-        let storyboard = UIStoryboard(name: "Chat", bundle: nil)
-        let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        let chatViewController = ChatViewController()
         
         // TODO: move to defaults config.
         let initialCount = 0

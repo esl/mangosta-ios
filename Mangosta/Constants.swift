@@ -12,7 +12,6 @@ import XMPPFramework
 public typealias VoidCompletion = () -> ()
 public typealias StreamCompletion = ((_ stream: XMPPStream?) -> ())?
 public typealias BoolCompletion = (_ success: Bool) -> ()
-public typealias RoomListCompletion = ([XMPPRoom]?)->()
 public typealias RosterCompletion = ((_ result: Bool, _ roster: XMPPRoster) -> Void)
 
 public struct Constants {
