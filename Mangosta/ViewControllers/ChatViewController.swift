@@ -52,9 +52,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     }
     
     @IBOutlet weak var subject: UILabel!
-	@IBOutlet weak var subjectHeight: NSLayoutConstraint!
     
-	weak var room: XMPPRoom?
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
@@ -102,7 +100,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
         self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
 
-        if let roomSubject = (userJID?.user ?? self.room?.roomSubject ?? self.roomLight?.roomname()) {
+        if let roomSubject = (userJID?.user ?? self.roomLight?.roomname()) {
             self.title = "\(roomSubject)"
             self.originalTitleViewText = self.title
         }
@@ -111,13 +109,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         if self.userJID != nil {
             self.fetchedResultsController = self.createFetchedResultsController()
         } else {
-            if let rLight = self.roomLight {
-                rLight.addDelegate(self, delegateQueue: DispatchQueue.main)
-                rLight.getConfiguration()
-            }else {
-                self.room?.addDelegate(self, delegateQueue: DispatchQueue.main)
-                self.subjectHeight.constant = 0
-            }
+            self.roomLight!.addDelegate(self, delegateQueue: DispatchQueue.main)
+            self.roomLight!.getConfiguration()
 
             rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.done, target: self, action: #selector(invite(_:))))
             
@@ -225,19 +218,10 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	}
 
 	fileprivate func createFetchedResultsControllerForGroup() -> NSFetchedResultsController<NSFetchRequestResult> {
-		let groupContext: NSManagedObjectContext!
-		let entity: NSEntityDescription?
+		let groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext!
+        let entity = NSEntityDescription.entity(forEntityName: "XMPPRoomLightMessageCoreDataStorageObject", in: groupContext)
 
-		if self.room != nil {
-			groupContext = self.xmppController.xmppMUCStorage.mainThreadManagedObjectContext
-			entity = NSEntityDescription.entity(forEntityName: "XMPPRoomMessageCoreDataStorageObject", in: groupContext)
-		} else {
-			groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext
-			entity = NSEntityDescription.entity(forEntityName: "XMPPRoomLightMessageCoreDataStorageObject", in: groupContext)
-		}
-
-
-		let roomJID = (self.room?.roomJID.bare() as String! ?? self.roomLight?.roomJID.bare() as String!) as String
+        let roomJID = self.roomLight!.roomJID.bare() as String
 
 		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
 		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
@@ -309,22 +293,14 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		let alertController = UIAlertController.textFieldAlertController("Add member", message: "Enter the JID") { (jidString) in
 			guard let userJIDString = jidString, let userJID = XMPPJID.init(string: userJIDString) else { return }
 
-			if self.roomLight != nil {
-				self.roomLight!.addUsers([userJID])
-			} else {
-				self.room!.inviteUser(userJID, withMessage: self.room!.roomSubject)
-			}
+			self.roomLight!.addUsers([userJID])
 		}
 		self.present(alertController, animated: true, completion: nil)
 	}
 
 	@IBAction func showMUCDetails(_ sender: AnyObject) {
 
-		if self.roomLight != nil {
-			self.roomLight!.fetchMembersList()
-		} else {
-			self.room!.queryRoomItems()
-		}
+		self.roomLight!.fetchMembersList()
 	}
 
 	func showMembersViewController(_ members: [(String, String)]) {
@@ -351,7 +327,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         if let userJid = self.userJID {
             historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .privateChat, jid: userJid, startDate: startDate)
         } else {
-            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .roomChat, jid: room?.roomJID ?? roomLight!.roomJID, startDate: startDate)
+            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .roomChat, jid: roomLight!.roomJID, startDate: startDate)
         }
         #if MangostaREST
             // TODO: add before and after
@@ -361,7 +337,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     }
 
 	deinit {
-		self.room?.removeDelegate(self)
 		self.roomLight?.removeDelegate(self)
 	}
     
@@ -369,7 +344,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	func sendMessageToServer(_ lastMessage: DemoTextMessageModel?) {
         // TODO: make this funcion aware of picture type message
         guard let lastMessage = lastMessage else { return } 
-		let receiverJID = self.userJID ?? self.room?.roomJID ?? self.roomLight?.roomJID
+		let receiverJID = self.userJID ?? self.roomLight?.roomJID
 		let type = self.userJID != nil ? "chat" : "groupchat"
 		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
 
@@ -396,16 +371,6 @@ extension ChatViewController: XMPPRoomLightDelegate {
 
 	func xmppRoomLight(_ sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
 		self.title = sender.subject()
-	}
-}
-
-extension ChatViewController: XMPPRoomExtraActionsDelegate {
-	func xmppRoom(_ sender: XMPPRoom!, didQueryRoomItems iqResult: XMPPIQ!) {
-		let members = iqResult.forName("query")!.children!.map { (child) -> (String, String) in
-			let ch = child as! DDXMLElement
-			return (ch.attribute(forName: "jid")!.stringValue!, ch.attribute(forName: "name")!.stringValue!)
-		}
-		self.showMembersViewController(members)
 	}
 }
 
