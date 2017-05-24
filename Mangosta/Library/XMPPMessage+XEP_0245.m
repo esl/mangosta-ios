@@ -23,11 +23,19 @@
 
 @implementation XMPPMessage (XEP_0245)
 
-- (BOOL)isMessageStartingWithMeCommand {
-	if ([[[[self elementsForName:@"body"] firstObject] stringValue] hasPrefix:@"/me "]) {
-		return YES;
-	}
-	return NO;
+- (XMPPJID *)meCommandSubstitutionUserJID
+{
+    if ([self isGroupChatMessage]) {
+        XMPPJID *userJID = [XMPPJID jidWithString:[self from].resource];
+        return userJID.user ? userJID : nil;
+    } else {
+        return [[self from] bareJID];
+    }
+}
+
+- (NSString *)meCommandDefaultSubstitution
+{
+    return [self meCommandSubstitutionUserJID].user ?: [self isGroupChatMessage] ? [self from].resource : [[self from] bare];
 }
 
 @end

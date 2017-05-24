@@ -9,6 +9,7 @@
 
 @interface XMPPMessage (XEP_0245)
 
-- (BOOL)isMessageStartingWithMeCommand;
+- (XMPPJID *)meCommandSubstitutionUserJID;
+- (NSString *)meCommandDefaultSubstitution;
 
 @end

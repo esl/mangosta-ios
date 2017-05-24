@@ -123,7 +123,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             
             self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
         }
-        dataSource.loadLocalArchive(from: fetchedResultsController)
+        dataSource.loadLocalArchiveItems(fetchedChatItems())
         fetchHistory(startingFrom: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
 
         rightBarButtonItems.append(UIBarButtonItem(title: "History", style: .plain, target: self, action: #selector(historyBarButtonItemTapped(_:))))
@@ -274,6 +274,36 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
 		return controller
 	}
+    
+    fileprivate func fetchedChatItems() -> [ChatItemProtocol] {
+        // TODO: should have a designated chat item type for "me" commands
+        func resolveMeCommand(inMessageBody messageBody: String, for message: XMPPMessage) -> String {
+            guard (messageBody as NSString).hasXMPPMeCommandPrefix() else { return messageBody }
+            let meCommandSubstitution = xmppController.xmppRoster.meCommandSubstitution(for: message) ?? message.meCommandDefaultSubstitution()!
+            return "\(meCommandSubstitution) \((messageBody as NSString).xmppMessageBodyStringByTrimmingMeCommand()!)"
+        }
+        
+        return fetchedResultsController.fetchedObjects!.map {
+            switch $0 {
+            case let privateMessageObject as XMPPMessageArchiving_Message_CoreDataObject:
+                return createTextMessageModel(
+                    privateMessageObject.message.chatItemId,
+                    text: resolveMeCommand(inMessageBody: privateMessageObject.body, for: privateMessageObject.message),
+                    isIncoming: !privateMessageObject.isOutgoing
+                )
+                
+            case let roomMessage as XMPPRoomMessage:
+                return createTextMessageModel(
+                    roomMessage.message().chatItemId,
+                    text: resolveMeCommand(inMessageBody: roomMessage.body(), for: roomMessage.message()),
+                    isIncoming: !roomMessage.isFromMe()
+                )
+                
+            default:
+                fatalError()
+            }
+        }
+    }
 
 	internal func invite(_ sender: AnyObject?) {
 		let alertController = UIAlertController.textFieldAlertController("Add member", message: "Enter the JID") { (jidString) in
@@ -411,7 +441,7 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
             
         case _?:
             // TODO: [pwe] proper support for non-tail message insertions; for now just reset the whole datasource
-            dataSource = QueueDataSource(messages: controller.fetchedObjects!.mappedChatItems(), pageSize: 50)
+            dataSource = QueueDataSource(messages: fetchedChatItems(), pageSize: 50)
             
         case nil:
             break
@@ -478,28 +508,10 @@ private extension XMPPMessage {
 
 private extension QueueDataSource {
     
-    func loadLocalArchive(from fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>) {
-        for item in fetchedResultsController.fetchedObjects!.mappedChatItems() {
+    func loadLocalArchiveItems(_ items: [ChatItemProtocol]) {
+        for item in items {
             slidingWindow.insertItem(item, position: .bottom)
         }
         delegate?.chatDataSourceDidUpdate(self, updateType: .firstLoad)
-    }
-}
-
-private extension Sequence where Iterator.Element: NSFetchRequestResult {
-    
-    func mappedChatItems() -> [ChatItemProtocol] {
-        return map {
-            switch $0 {
-            case let privateMessageObject as XMPPMessageArchiving_Message_CoreDataObject:
-                return createTextMessageModel(privateMessageObject.message.chatItemId, text: privateMessageObject.body, isIncoming: !privateMessageObject.isOutgoing)
-                
-            case let roomMessage as XMPPRoomMessage:
-                return createTextMessageModel(roomMessage.message().chatItemId, text: roomMessage.body(), isIncoming: !roomMessage.isFromMe())
-                
-            default:
-                fatalError()
-            }
-        }
     }
 }
