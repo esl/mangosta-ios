@@ -25,13 +25,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
 	
 	let MIMCommonInterface = MIMMainInterface()
 	
-	var xmppMUCLight: XMPPMUCLight!
-	
-	var newRoomUsers = [XMPPJID]()
-	
 	var localDataSource = NSMutableArray()
-	
-	let MUCLightServiceName = "muclight.erlang-solutions.com" // TODO: use a .plist entry for all constants in this app.
 	
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String? = "Chats"
@@ -43,6 +37,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
 	override func viewDidLoad() {
         
         self.xmppController = XMPPController.sharedInstance
+        self.xmppController.roomListDelegate = self
         
 		let darkGreenColor = "009ab5"
 		let lightGreenColor = "58cfe4"
@@ -88,10 +83,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        guard self.xmppController.xmppStream.isAuthenticated() else { return }
-        
         try! self.fetchedResultsController?.performFetch()
-        self.xmppMUCLight?.discoverRooms(forServiceNamed: MUCLightServiceName)
         super.viewDidAppear(animated)
     }
 	
@@ -175,10 +167,6 @@ class MainViewController: UIViewController, TitleViewModifiable {
 		fetchRequest.sortDescriptors = [sd1, sd2]
 		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
 		self.fetchedResultsController?.delegate = self
-		
-		self.xmppMUCLight = XMPPMUCLight()
-		self.xmppMUCLight.addDelegate(self, delegateQueue: DispatchQueue.main)
-		self.xmppMUCLight.activate(self.xmppController.xmppStream)
 		
 		self.tableView.reloadData()
 	}
@@ -346,63 +334,20 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 	}
 }
 
-extension MainViewController: XMPPMUCLightDelegate {
-	
-	func xmppMUCLight(_ sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
-
-		let storage = self.xmppController.xmppRoomLightCoreDataStorage
-		
-		self.xmppController.roomsLight.forEach { (room) in
-			room.deactivate()
-			room.removeDelegate(self)
-		}
-		
-		self.xmppController.roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
-			let rawJid = rawElement.attributeStringValue(forName: "jid")
-			let rawName = rawElement.attributeStringValue(forName: "name")
-			let jid = XMPPJID.init(string: rawJid)
-			
-			let r = XMPPRoomLight(roomLightStorage: storage, jid: jid!, roomname: rawName!, dispatchQueue: DispatchQueue.main)
-			r.activate(self.xmppController.xmppStream)
-			
-			return r
-		}
-		self.tableView.reloadData()
-	}
-	
-	func xmppMUCLight(_ sender: XMPPMUCLight, changedAffiliation affiliation: String, roomJID: XMPPJID) {
-		self.xmppMUCLight?.discoverRooms(forServiceNamed: MUCLightServiceName)
-	}
+extension MainViewController: XMPPControllerRoomListDelegate {
+    
+    func roomListDidChange(in controller: XMPPController) {
+        OperationQueue.main.addOperation {
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension MainViewController: MUCRoomCreateViewControllerDelegate {
 	
 	func createRoom(_ roomName: String, users: [XMPPJID]?) {
-		self.newRoomUsers = users ?? []
-		
-		let jid = XMPPJID.init(string: MUCLightServiceName)
-		let roomLight = XMPPRoomLight(jid: jid!, roomname: roomName)
-		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
-		// TODO: [pwe] this module instance only lives for the duration of room creation, being replaced by another one in didDiscoverRooms callback; it would be best to only have one
-		roomLight.addDelegate(self, delegateQueue: DispatchQueue.main)
-        roomLight.activate(xmppController.xmppStream)
-		
-		MIMCommonInterface.createRoomWithSubject(roomLight, name: roomName, subject: "", users: self.newRoomUsers) //users will not used  here in the xmpp version of this method.
-        
-        roomLight.deactivate()
-        roomLight.removeDelegate(self)
-		
+		xmppController.addRoom(withName: roomName, initialOccupantJids: users)
         dismiss(animated: true, completion: nil)
-	}
-}
-
-extension MainViewController: XMPPRoomLightDelegate {
-	
-	func xmppRoomLight(_ sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
-		sender.addUsers(self.newRoomUsers)
-		
-		self.xmppMUCLight.discoverRooms(forServiceNamed: MUCLightServiceName)
-		self.tableView.reloadData()
 	}
 }
 

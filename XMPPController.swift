@@ -58,6 +58,8 @@ class XMPPController: NSObject {
 	var xmppMessageDeliveryReceipts: XMPPMessageDeliveryReceipts
 
     var xmppOneToOneChat: XMPPOneToOneChat
+    var xmppMUCLight: XMPPMUCLight
+    let mucLightServiceName = "muclight.erlang-solutions.com" // TODO: service discovery
     var roomsLight = [XMPPRoomLight]() {
         willSet {
             for removedRoom in (roomsLight.filter { !newValue.contains($0) }) {
@@ -68,6 +70,7 @@ class XMPPController: NSObject {
             for insertedRoom in (roomsLight.filter { !oldValue.contains($0) }) {
                 xmppMessageArchiveManagement.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
             }
+            roomListDelegate?.roomListDidChange(in: self)
         }
     }
     
@@ -80,6 +83,7 @@ class XMPPController: NSObject {
     
     var isXmppConnected = false
 		
+    weak var roomListDelegate: XMPPControllerRoomListDelegate?
     weak var pushNotificationsDelegate: XMPPControllerPushNotificationsDelegate?
     weak var microbloggingDelegate: XMPPControllerMicrobloggingDelegate? {
         didSet {
@@ -132,6 +136,7 @@ class XMPPController: NSObject {
         self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
         
         self.xmppOneToOneChat = XMPPOneToOneChat(messageArchivingStorage: self.xmppMessageArchivingStorage)
+        self.xmppMUCLight = XMPPMUCLight()
         
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
         self.xmppMessageArchiveManagement.resultAutomaticPagingPageSize = NSNotFound
@@ -160,6 +165,7 @@ class XMPPController: NSObject {
 		self.xmppStreamManagement.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
         self.xmppOneToOneChat.activate(self.xmppStream)
+        self.xmppMUCLight.activate(self.xmppStream)
         self.xmppPushNotifications.activate(self.xmppStream)
 		
 
@@ -174,6 +180,7 @@ class XMPPController: NSObject {
         self.xmppServiceDiscovery.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppCapabilities.addDelegate(self, delegateQueue: DispatchQueue.main)
 		self.xmppStreamManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
+        self.xmppMUCLight.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppMicrobloggingPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppPushNotificationsPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
@@ -223,6 +230,16 @@ class XMPPController: NSObject {
         
         xmppMessageArchiveManagement.retrieveMessageArchive(at: archiveJid ?? xmppStream.myJID.bare(), withFields: queryFields, with: XMPPResultSet(max: NSNotFound, after: ""))
     }
+
+    func addRoom(withName roomName: String, initialOccupantJids: [XMPPJID]?) {
+        let addedRoom = XMPPRoomLight(jid: XMPPJID(string: mucLightServiceName)!, roomname: roomName)
+        addedRoom.addDelegate(self, delegateQueue: DispatchQueue.main)
+        addedRoom.activate(xmppStream)
+        
+        roomsLight.append(addedRoom)
+        
+        addedRoom.createRoomLight(withMembersJID: initialOccupantJids)
+    }
     
     func enablePushNotifications(withDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.map { String(format: "%02x", $0) } .joined()
@@ -249,6 +266,7 @@ class XMPPController: NSObject {
         self.xmppPushNotificationsPubSub.removeDelegate(self)
         self.xmppServiceDiscovery.removeDelegate(self)
         self.xmppCapabilities.removeDelegate(self)
+        self.xmppMUCLight.removeDelegate(self)
         
 		self.roomsLight.forEach { (roomLight) in
 			roomLight.deactivate()
@@ -265,6 +283,7 @@ class XMPPController: NSObject {
 		self.xmppStreamManagement.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
         self.xmppOneToOneChat.deactivate()
+        self.xmppMUCLight.deactivate()
         self.xmppPushNotifications.deactivate()
         
         self.disconnect()
@@ -291,6 +310,7 @@ extension XMPPController: XMPPStreamDelegate {
 		self.goOnline()
         
         self.xmppServiceDiscovery.discoverInformationAbout(xmppStream.myJID.domain()) // TODO: xmppStream.myJID.bareJID()
+        self.xmppMUCLight.discoverRooms(forServiceNamed: mucLightServiceName)
 	}
 	
 	func xmppStream(_ sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
@@ -345,6 +365,38 @@ extension XMPPController: XMPPRosterDelegate {
 	func xmppRoster(_ sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
 		print("Roster: Received presence request from user: \((presence.from().bare() as String))")
 	}
+}
+
+extension XMPPController: XMPPMUCLightDelegate {
+    
+    func xmppMUCLight(_ sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
+        for room in roomsLight {
+            room.deactivate()
+            room.removeDelegate(self)
+        }
+        
+        roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
+            let rawJid = rawElement.attributeStringValue(forName: "jid")
+            let rawName = rawElement.attributeStringValue(forName: "name")
+            let jid = XMPPJID.init(string: rawJid)
+            
+            let room = XMPPRoomLight(roomLightStorage: xmppRoomLightCoreDataStorage, jid: jid!, roomname: rawName!, dispatchQueue: DispatchQueue.main)
+            room.activate(xmppStream)
+            
+            return room
+        }
+    }
+    
+    func xmppMUCLight(_ sender: XMPPMUCLight, changedAffiliation affiliation: String, roomJID: XMPPJID) {
+        self.xmppMUCLight.discoverRooms(forServiceNamed: mucLightServiceName)
+    }
+}
+
+extension XMPPController: XMPPRoomLightDelegate {
+    
+    func xmppRoomLight(_ sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
+        xmppMUCLight.discoverRooms(forServiceNamed: mucLightServiceName)
+    }
 }
 
 extension XMPPController: XMPPPubSubDelegate {
@@ -432,6 +484,11 @@ extension XMPPController {
     func managedObjectContext_roster() -> NSManagedObjectContext {
         return self.xmppRosterStorage.mainThreadManagedObjectContext
     }
+}
+
+protocol XMPPControllerRoomListDelegate: class {
+    
+    func roomListDidChange(in controller: XMPPController)
 }
 
 protocol XMPPControllerPushNotificationsDelegate: class {
