@@ -14,18 +14,9 @@ class MainViewController: UIViewController, TitleViewModifiable {
    
 	@IBOutlet internal var tableView: UITableView!
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-	var activated = true
 	weak var xmppController: XMPPController!
 	
-	#if MangostaREST // TODO: probably better way.
-	weak var mongooseRESTController : MongooseAPI!
-	#endif
-	
 	let sections = ["Group chats", "Private chats"]
-	
-	let MIMCommonInterface = MIMMainInterface()
-	
-	var localDataSource = NSMutableArray()
 	
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String? = "Chats"
@@ -273,22 +264,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
             break
         }
     }
-    
-	func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-		return true
-	}
-	
-	func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-		// TODO: use safe optionals
-		let item = self.fetchedResultsController?.object(at: sourceIndexPath)
-		var items = self.fetchedResultsController?.fetchedObjects
-		items?.remove(at: sourceIndexPath.row)
-		items?.insert(item!, at: destinationIndexPath.row)
-	}
-	
-	func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-		return true
-	}
 	
 	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		var leaveArray : [UITableViewRowAction] = []
