@@ -306,18 +306,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 		else if indexPath.section == 1 {
 			let privateChatsIndexPath = IndexPath(row: indexPath.row, section: 0)
 			let delete = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Delete") { (UITableViewRowAction, IndexPath) in
-				
-				let rosterContext = self.xmppController.managedObjectContext_roster()
-				
-				if let user = self.fetchedResultsController?.object(at: privateChatsIndexPath) as? XMPPUserCoreDataStorageObject {
-					rosterContext.delete(user as NSManagedObject)
-				}
-				
-				do {
-					try rosterContext.save()
-				} catch {
-					print("Error saving roster context: \(error)")
-				}
+                let user = self.fetchedResultsController?.object(at: privateChatsIndexPath) as! XMPPUser
+				self.xmppController.xmppRoster.removeUser(user.jid())
 			}
 			
 			delete.backgroundColor = UIColor.red
