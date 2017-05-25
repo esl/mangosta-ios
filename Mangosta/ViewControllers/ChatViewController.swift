@@ -14,50 +14,12 @@ import ChattoAdditions
 
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
     
-    fileprivate struct HistoryQuery {
-        enum Kind {
-            case privateChat, roomChat
-        }
-        let messageArchiveManagement: XMPPMessageArchiveManagement
-        let kind: Kind
-        let jid: XMPPJID
-        let startDate: Date?
-        let cutoffDate = Date()
-        
-        func execute(afterId lastId: String = "") {
-            let timeRangeFields: [DDXMLElement]
-            let cutoffDateField = XMPPMessageArchiveManagement.field(withVar: "end", type: nil, andValue: (cutoffDate as NSDate).xmppDateTimeString())!
-            if let startDate = self.startDate {
-                timeRangeFields = [
-                    XMPPMessageArchiveManagement.field(withVar: "start", type: nil, andValue: (startDate as NSDate).xmppDateTimeString())!,
-                    cutoffDateField
-                ]
-            } else {
-                timeRangeFields = [cutoffDateField]
-            }
-            
-            let resultSet = XMPPResultSet(max: NSNotFound, after: lastId)
-            
-            switch kind {
-            case .privateChat:
-                messageArchiveManagement.retrieveMessageArchive(
-                    withFields: timeRangeFields + [XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: jid.bare())!],
-                    with: resultSet
-                )
-                
-            case .roomChat:
-                messageArchiveManagement.retrieveMessageArchive(at: jid, withFields: timeRangeFields, with: resultSet)
-            }
-        }
-    }
-    
     @IBOutlet weak var subject: UILabel!
     
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
 	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
 	weak var xmppController: XMPPController!
-    fileprivate var historyQuery: HistoryQuery?
     fileprivate var messageInsertions = [Int: DemoTextMessageModel]()
 
 	let MIMCommonInterface = MIMMainInterface()
@@ -323,17 +285,15 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     func fetchHistory(startingFrom startDate: Date? = nil) {
         // TODO: [pwe] history should be fetched in batches as the user scrolls to the top
         // TODO: [pwe] avoiding refetching messages that are already present in the local store
-        guard historyQuery == nil else { return }
         if let userJid = self.userJID {
-            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .privateChat, jid: userJid, startDate: startDate)
-        } else {
-            historyQuery = HistoryQuery(messageArchiveManagement: xmppController.xmppMessageArchiveManagement, kind: .roomChat, jid: roomLight!.roomJID, startDate: startDate)
+            xmppController.retrieveMessageHistory(startingAt: startDate, filteredBy: userJid)
+        } else if let roomJid = self.roomLight?.roomJID {
+            xmppController.retrieveMessageHistory(fromArchiveAt: roomJid, startingAt: startDate)
         }
         #if MangostaREST
             // TODO: add before and after
             _ = MIMCommonInterface.getMessagesWithUser(user: historyQuery!.jid, limit: nil, before: nil)
         #endif
-        historyQuery!.execute()
     }
 
 	deinit {
@@ -417,19 +377,6 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
 }
 
 extension ChatViewController: XMPPMessageArchiveManagementDelegate {
-
-	func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFinishReceivingMessagesWith resultSet: XMPPResultSet!) {
-        // TODO: [pwe] ideally, we should be able to obtain `complete` attribute value from the received `fin` element
-        if let lastID = resultSet.forName("last")?.stringValue! {
-            historyQuery!.execute(afterId: lastID)
-        } else {
-            historyQuery = nil
-        }
-    }
-    
-    func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didFailToReceiveMessages error: XMPPIQ!) {
-        historyQuery = nil
-    }
 
 	func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
 		let fields = iq.childElement().forName("x")!.elements(forName: "field").map { (field) -> String in

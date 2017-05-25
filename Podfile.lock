@@ -33,7 +33,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   XMPPFramework:
-    :commit: a9dea90356f59d047726842ef25745d80f20a069
+    :commit: 698bde1e6b49216921f198e0bee2101fde158d6a
     :git: https://github.com/pwetrifork/XMPPFramework.git
 
 SPEC CHECKSUMS:
