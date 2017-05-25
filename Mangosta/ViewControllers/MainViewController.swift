@@ -94,21 +94,38 @@ class MainViewController: UIViewController, TitleViewModifiable {
 		self.navigationController?.present(loginController, animated: true, completion: nil)
 	}
     
-    func switchToConversation(withRemoteJid remoteJid: XMPPJID) {
+    func switchToPrivateChat(with user: XMPPUser, userInitiated isUserInitiated: Bool) {
+        if !isUserInitiated, let chatIndex = (fetchedResultsController?.fetchedObjects?.index { $0 === user }) {
+            tableView.selectRow(at: IndexPath(row: chatIndex, section: 1), animated: false, scrollPosition: .none)
+        }
+        
+        switchToChat { preparedViewController in
+            preparedViewController.userJID = user.jid().bare()
+        }
+    }
+    
+    func switchToGroupChat(in room: XMPPRoomLight, userInitiated isUserInitiated: Bool) {
+        if !isUserInitiated, let roomIndex = xmppController.roomsLight.index(of: room) {
+            tableView.selectRow(at: IndexPath(row: roomIndex, section: 0), animated: false, scrollPosition: .none)
+        }
+        
+        switchToChat { preparedViewController in
+            preparedViewController.roomLight = room
+        }
+    }
+    
+    func switchToChat(withPreparation chatViewControllerPreparation: @escaping (ChatViewController) -> ()) {
         _ = self.navigationController?.popToViewController(self, animated: false)
         
-        let chatViewController = UIStoryboard.instantiateChatViewController()
-        chatViewController.xmppController = xmppController
+        // TODO: move to defaults config.
+        let initialCount = 0
+        let pageSize = 50
         
-        if let roomIndex = (xmppController.roomsLight.index { $0.roomJID.bare() as XMPPJID == remoteJid.bare() as XMPPJID }) {
-            tableView.selectRow(at: IndexPath(row: roomIndex, section: 0), animated: false, scrollPosition: .none)
-            chatViewController.roomLight = xmppController.roomsLight[roomIndex]
-        } else if let conversationIndex = (fetchedResultsController?.fetchedObjects?.index { ($0 as! XMPPUserCoreDataStorageObject).jid.bare() as XMPPJID == remoteJid.bare() as XMPPJID}) {
-            tableView.selectRow(at: IndexPath(row: conversationIndex, section: 1), animated: false, scrollPosition: .none)
-            chatViewController.userJID = remoteJid.bare()
-        } else {
-            chatViewController.userJID = remoteJid.bare()
-        }
+        let chatViewController = ChatViewController()
+        chatViewController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
+        chatViewController.messageSender = chatViewController.dataSource.messageSender
+        chatViewController.xmppController = xmppController
+        chatViewControllerPreparation(chatViewController)
         
         navigationController?.pushViewController(chatViewController, animated: false)
     }
@@ -247,27 +264,16 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard indexPath.section <= 1 else { return }
-		let chatController = UIStoryboard.instantiateChatViewController()
-		
-		if indexPath.section == 0 {
-			let room = self.xmppController.roomsLight[indexPath.row]
-			
-			chatController.roomLight = room
-			chatController.xmppController = self.xmppController
-			
-		}
-		else if indexPath.section == 1 {
-			let useThisIndexPath = IndexPath(row: indexPath.row, section: 0)
-			let user = self.fetchedResultsController?.object(at: useThisIndexPath) as! XMPPUserCoreDataStorageObject
-			
-			chatController.xmppController = self.xmppController
-			chatController.userJID = user.jid
-		}
-        
-		self.navigationController?.pushViewController(chatController, animated: true)
-	}
-	
+        switch indexPath.section {
+        case 0:
+            switchToGroupChat(in: xmppController.roomsLight[indexPath.row], userInitiated: true)
+        case 1:
+            switchToPrivateChat(with: fetchedResultsController!.fetchedObjects![indexPath.row] as! XMPPUser, userInitiated: true)
+        default:
+            break
+        }
+    }
+    
 	func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
 		return true
 	}
@@ -349,20 +355,4 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 		xmppController.addRoom(withName: roomName, initialOccupantJids: users)
         dismiss(animated: true, completion: nil)
 	}
-}
-
-private extension UIStoryboard {
-    
-    static func instantiateChatViewController() -> ChatViewController {
-        let chatViewController = ChatViewController()
-        
-        // TODO: move to defaults config.
-        let initialCount = 0
-        let pageSize = 50
-        
-        chatViewController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
-        chatViewController.messageSender = chatViewController.dataSource.messageSender
-        
-        return chatViewController
-    }
 }

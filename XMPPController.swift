@@ -247,6 +247,16 @@ class XMPPController: NSObject {
         xmppPushNotifications.enable(withDeviceTokenString: deviceTokenString, customOptions: ["topic": Bundle.main.bundleIdentifier!])
     }
     
+    func processPushNotification(from sender: XMPPJID) {
+        if let room = (roomsLight.first { $0.roomJID.isEqual(to: sender, options: XMPPJIDCompareBare) }) {
+            pushNotificationsDelegate?.xmppController(self, didReceiveGroupChatPushNotificationIn: room)
+        } else if let contact = xmppRosterStorage.user(for: sender, xmppStream: xmppStream, managedObjectContext: xmppRosterStorage.managedObjectContext) {
+            pushNotificationsDelegate?.xmppController(self, didReceivePrivateChatPushNotificationFromContact: contact)
+        } else {
+            pushNotificationsDelegate?.xmppController(self, didReceiveChatPushNotificationFromUnknownSenderWithJid: sender)
+        }
+    }
+    
     func publishMicroblogEntry(withTitle title: String) -> String {
         let now = Date()
         return xmppMicrobloggingPubSub.publish(
@@ -494,6 +504,9 @@ protocol XMPPControllerRoomListDelegate: class {
 protocol XMPPControllerPushNotificationsDelegate: class {
     
     func xmppControllerDidPrepareForPushNotificationsSupport(_ controller: XMPPController)
+    func xmppController(_ controller: XMPPController, didReceivePrivateChatPushNotificationFromContact contact: XMPPUser)
+    func xmppController(_ controller: XMPPController, didReceiveGroupChatPushNotificationIn room: XMPPRoomLight)
+    func xmppController(_ controller: XMPPController, didReceiveChatPushNotificationFromUnknownSenderWithJid senderJid: XMPPJID)
 }
 
 protocol XMPPControllerMicrobloggingDelegate: class {
