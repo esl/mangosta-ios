@@ -69,6 +69,11 @@ class MainViewController: UIViewController, TitleViewModifiable {
             self.navigationItem.titleView = titleLabel
             titleLabel.sizeToFit()
         }
+        
+        if let selectedRowIndexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedRowIndexPath, animated: animated)
+        }
+        
         super.viewWillAppear(animated)
     }
     
