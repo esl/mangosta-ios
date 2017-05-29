@@ -16,6 +16,6 @@
 
 @protocol XMPPMessageArchiveManagementAwareRoomStorage <NSObject>
 
-- (void)importRemoteArchiveMessage:(XMPPMessage *)message room:(XMPPRoomLight *)room fromStream:(XMPPStream *)stream;
+- (void)importRemoteArchiveMessage:(XMPPMessage *)message withTimestamp:(NSDate *)archiveTimestamp inRoom:(XMPPRoomLight *)room fromStream:(XMPPStream *)stream;
 
 @end

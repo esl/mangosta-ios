@@ -24,7 +24,8 @@
     }
     
     [(id<XMPPMessageArchiveManagementAwareRoomStorage>)xmppRoomLightStorage importRemoteArchiveMessage:archivedMessage
-                                                                                                  room:self
+                                                                                         withTimestamp:[NSDate dateWithXmppDateTimeString:[message delayStamp]]
+                                                                                                inRoom:self
                                                                                             fromStream:xmppMessageArchiveManagement.xmppStream];
 }
 
