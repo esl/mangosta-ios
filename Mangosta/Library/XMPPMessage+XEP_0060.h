@@ -10,7 +10,7 @@
 
 @interface XMPPMessage (XEP_0060)
 
-- (BOOL)isPubSubItemsEventMessageFromNode:(NSString *)node;
+- (BOOL)isPubSubItemsEventMessage;
 - (NSArray<NSXMLElement *> *)pubSubItemsEventPayloads;
 
 @end

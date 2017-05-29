@@ -113,6 +113,7 @@ class XMPPController: NSObject {
 		
         // PubSub
         self.xmppMicrobloggingPubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main)
+        self.xmppMicrobloggingPubSub.pepNodes = [XMPPPubSubDefaultMicroblogNode]
         self.xmppPushNotificationsPubSub = MIMPushNotificationsPubSub(serviceJID: XMPPJID(string: "pubsub.erlang-solutions.com"))
         
 		// Delivery Receips
@@ -133,6 +134,7 @@ class XMPPController: NSObject {
         self.xmppOneToOneChat = XMPPOneToOneChat(messageArchivingStorage: self.xmppMessageArchivingStorage)
         
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
+        self.xmppMessageArchiveManagement.resultAutomaticPagingPageSize = NSNotFound
         self.xmppMessageArchiveManagement.addDelegate(self.xmppOneToOneChat, delegateQueue: self.xmppOneToOneChat.moduleQueue)
         
         let pushNotificationsEnvironment: XMPPPushNotificationsEnvironment
@@ -213,6 +215,15 @@ class XMPPController: NSObject {
 		self.xmppStream.disconnectAfterSending()
 	}
 
+    func retrieveMessageHistory(fromArchiveAt archiveJid: XMPPJID? = nil, startingAt startDate: Date? = nil, filteredBy filteringJid: XMPPJID? = nil) {
+        let queryFields = [
+            startDate.map { XMPPMessageArchiveManagement.field(withVar: "start", type: nil, andValue: ($0 as NSDate).xmppDateTimeString())!},
+            filteringJid.map { XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: $0.bare())! }
+            ].flatMap { $0 }
+        
+        xmppMessageArchiveManagement.retrieveMessageArchive(at: archiveJid ?? xmppStream.myJID.bare(), withFields: queryFields, with: XMPPResultSet(max: NSNotFound, after: ""))
+    }
+    
     func enablePushNotifications(withDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.map { String(format: "%02x", $0) } .joined()
         // TODO: [pwe] MIM currently requires explicit `topic` value to be provided when pushing using universal APNS certificates
@@ -375,18 +386,9 @@ extension XMPPController: XMPPPubSubDelegate {
         }
     }
     
-    func xmppPubSub(_ sender: XMPPPubSub!, shouldReceiveForeignMessage message: XMPPMessage!) -> Bool {
-        switch sender {
-        case xmppMicrobloggingPubSub where message.isPubSubItemsEventMessage(fromNode: XMPPPubSubDefaultMicroblogNode):
-            return true
-        default:
-            return false
-        }
-    }
-    
     func xmppPubSub(_ sender: XMPPPubSub!, didReceive message: XMPPMessage!) {
         switch sender {
-        case xmppMicrobloggingPubSub:
+        case xmppMicrobloggingPubSub where message.isPubSubItemsEventMessage():
             handleMicroblogMessage(message)
         default:
             break
