@@ -113,6 +113,7 @@ class XMPPController: NSObject {
 		
         // PubSub
         self.xmppMicrobloggingPubSub = XMPPPubSub(serviceJID: nil, dispatchQueue: DispatchQueue.main)
+        self.xmppMicrobloggingPubSub.pepNodes = [XMPPPubSubDefaultMicroblogNode]
         self.xmppPushNotificationsPubSub = MIMPushNotificationsPubSub(serviceJID: XMPPJID(string: "pubsub.erlang-solutions.com"))
         
 		// Delivery Receips
@@ -385,18 +386,9 @@ extension XMPPController: XMPPPubSubDelegate {
         }
     }
     
-    func xmppPubSub(_ sender: XMPPPubSub!, shouldReceiveForeignMessage message: XMPPMessage!) -> Bool {
-        switch sender {
-        case xmppMicrobloggingPubSub where message.isPubSubItemsEventMessage(fromNode: XMPPPubSubDefaultMicroblogNode):
-            return true
-        default:
-            return false
-        }
-    }
-    
     func xmppPubSub(_ sender: XMPPPubSub!, didReceive message: XMPPMessage!) {
         switch sender {
-        case xmppMicrobloggingPubSub:
+        case xmppMicrobloggingPubSub where message.isPubSubItemsEventMessage():
             handleMicroblogMessage(message)
         default:
             break

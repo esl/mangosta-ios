@@ -10,9 +10,9 @@
 
 @implementation XMPPMessage (XEP_0060)
 
-- (BOOL)isPubSubItemsEventMessageFromNode:(NSString *)node
+- (BOOL)isPubSubItemsEventMessage
 {
-    return [[[self pubSubEventItems] attributeStringValueForName:@"node"] isEqualToString:node];
+    return [self pubSubEventItems] != nil;
 }
 
 - (NSArray<NSXMLElement *> *)pubSubItemsEventPayloads
