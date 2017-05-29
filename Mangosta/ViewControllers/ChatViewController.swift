@@ -60,8 +60,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
         wallpaperView.image = UIImage(named: "chat_background")!
 
-        self.xmppController.xmppMessageArchiveManagement.addDelegate(self, delegateQueue: DispatchQueue.main)
-
         if let roomSubject = (userJID?.user ?? self.roomLight?.roomname()) {
             self.title = "\(roomSubject)"
             self.originalTitleViewText = self.title
@@ -274,10 +272,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		self.navigationController?.present(membersNavController, animated: true, completion: nil)
 	}
 
-	@IBAction func fetchFormFields(_ sender: AnyObject) {
-		self.xmppController.xmppMessageArchiveManagement.retrieveFormFields()
-	}
-
 	@IBAction func historyBarButtonItemTapped(_ sender: AnyObject) {
 		fetchHistory()
 	}
@@ -373,24 +367,6 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
         }
         
         messageInsertions.removeAll()
-    }
-}
-
-extension ChatViewController: XMPPMessageArchiveManagementDelegate {
-
-	func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveFormFields iq: XMPPIQ!) {
-		let fields = iq.childElement().forName("x")!.elements(forName: "field").map { (field) -> String in
-			let f = field
-			return "\(f.attribute(forName: "var")!.stringValue!) \(f.attribute(forName: "type")!.stringValue!)"
-		}.joined(separator: "\n")
-
-		let alertController = UIAlertController(title: "Forms", message: fields, preferredStyle: UIAlertControllerStyle.alert)
-		alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-		self.present(alertController, animated: true, completion: nil)
-	}
-    
-    func xmppMessageArchiveManagement(_ xmppMessageArchiveManagement: XMPPMessageArchiveManagement!, didReceiveMAMMessage message: XMPPMessage!) {
-        print ("received")
     }
 }
 
