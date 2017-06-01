@@ -95,9 +95,18 @@ class MainViewController: UIViewController, TitleViewModifiable {
             tableView.selectRow(at: IndexPath(row: chatIndex, section: 1), animated: false, scrollPosition: .none)
         }
         
-        switchToChat { preparedViewController in
-            preparedViewController.userJID = user.jid().bare()
-        }
+        let chatViewController = ChatViewController(
+            modifiableTitle: user.jid().user,
+            chatDataSource: XMPPCoreDataChatDataSource(
+                messageArchivingManagedObjectContext: xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext,
+                userJid: user.jid().bare(),
+                messageContentFilters: [xmppController.xmppRoster]
+            ),
+            messageSender: xmppController.xmppOneToOneChat.session(forUserJID: user.jid().bare()),
+            additionalActions: [XMPPOneToOneChatMessageHistoryFetchAction(xmppController: xmppController, userJid: user.jid().bare())]
+        )
+        
+        switchToChat(with: chatViewController, animated: isUserInitiated)
     }
     
     func switchToGroupChat(in room: XMPPRoomLight, userInitiated isUserInitiated: Bool) {
@@ -105,25 +114,26 @@ class MainViewController: UIViewController, TitleViewModifiable {
             tableView.selectRow(at: IndexPath(row: roomIndex, section: 0), animated: false, scrollPosition: .none)
         }
         
-        switchToChat { preparedViewController in
-            preparedViewController.roomLight = room
-        }
+        let chatViewController = ChatViewController(
+            modifiableTitle: room.roomname(),
+            chatDataSource: XMPPCoreDataChatDataSource(
+                roomStorageManagedObjectContext: xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext,
+                roomJid: room.roomJID,
+                messageContentFilters: [xmppController.xmppRoster]
+            ),
+            messageSender: room,
+            additionalActions: [
+                XMPPRoomChatMessageHistoryFetchAction(xmppController: xmppController, roomJid: room.roomJID),
+                XMPPRoomMemberInviteAction(room: room)
+            ]
+        )
+        
+        switchToChat(with: chatViewController, animated: isUserInitiated)
     }
     
-    func switchToChat(withPreparation chatViewControllerPreparation: @escaping (ChatViewController) -> ()) {
+    func switchToChat(with chatViewController: ChatViewController, animated: Bool) {
         _ = self.navigationController?.popToViewController(self, animated: false)
-        
-        // TODO: move to defaults config.
-        let initialCount = 0
-        let pageSize = 50
-        
-        let chatViewController = ChatViewController()
-        chatViewController.dataSource = QueueDataSource(count: initialCount, pageSize: pageSize)
-        chatViewController.messageSender = chatViewController.dataSource.messageSender
-        chatViewController.xmppController = xmppController
-        chatViewControllerPreparation(chatViewController)
-        
-        navigationController?.pushViewController(chatViewController, animated: false)
+        navigationController?.pushViewController(chatViewController, animated: animated)
     }
 	
 	func pushMeViewControler(_ sender: UIBarButtonItem) {

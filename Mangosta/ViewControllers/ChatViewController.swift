@@ -7,33 +7,15 @@
 //
 
 import UIKit
-import XMPPFramework
 import MBProgressHUD
 import Chatto
 import ChattoAdditions
 
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
     
+    let messageSender: ChatViewControllerMessageSender
+    let additionalActions: [ChatViewControllerAdditionalAction]
     
-	weak var roomLight: XMPPRoomLight?
-	var userJID: XMPPJID?
-	var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
-	weak var xmppController: XMPPController!
-    fileprivate var messageInsertions = [Int: DemoTextMessageModel]()
-
-	let MIMCommonInterface = MIMMainInterface()
-
-    var messageSender: QueueMessageSender!
-    var dataSource: QueueDataSource! {
-        didSet {
-            self.chatDataSource = self.dataSource
-        }
-    }
-    
-    lazy private var baseMessageHandler: BaseMessageHandler = {
-        return BaseMessageHandler(messageSender: self.messageSender)
-    }()
-
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String?
     func resetTitleViewTextToOriginal() {
@@ -41,38 +23,31 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         self.navigationItem.title = originalTitleViewText
     }
 
+    init(modifiableTitle: String, chatDataSource: ChatDataSourceProtocol, messageSender: ChatViewControllerMessageSender, additionalActions: [ChatViewControllerAdditionalAction]) {
+        self.messageSender = messageSender
+        self.additionalActions = additionalActions
+        super.init(nibName: nil, bundle: nil)
+        
+        title = modifiableTitle
+        originalTitleViewText = modifiableTitle
+        
+        self.chatDataSource = chatDataSource
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Note that this componet needs to have. First the datasource and it's messageSender, which was passed on MainViewController, before starting the decorator.
-        self.messageSender = dataSource.messageSender
         super.chatItemsDecorator = ChatItemsDemoDecorator()
         
         self.addWallpaperView()
         
-        var rightBarButtonItems: [UIBarButtonItem] = []
-
-        if let roomSubject = (userJID?.user ?? self.roomLight?.roomname()) {
-            self.title = "\(roomSubject)"
-            self.originalTitleViewText = self.title
+        let rightBarButtonItems = additionalActions.map {
+            UIBarButtonItem(title: $0.label, style: .plain, target: self, action: #selector(additionalActionBarButtonItemTapped(_:)))
         }
-
-
-        if self.userJID != nil {
-            self.fetchedResultsController = self.createFetchedResultsController()
-        } else {
-            self.roomLight!.addDelegate(self, delegateQueue: DispatchQueue.main)
-            self.roomLight!.getConfiguration()
-
-            rightBarButtonItems.append(UIBarButtonItem(title: "Invite", style: UIBarButtonItemStyle.done, target: self, action: #selector(invite(_:))))
-            
-            self.fetchedResultsController = self.createFetchedResultsControllerForGroup()
-        }
-        dataSource.loadLocalArchiveItems(fetchedChatItems())
-        fetchHistory(startingFrom: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
-
-        rightBarButtonItems.append(UIBarButtonItem(title: "History", style: .plain, target: self, action: #selector(historyBarButtonItemTapped(_:))))
         for barButtonItem in rightBarButtonItems {
             barButtonItem.tintColor = UIColor(hexString:"009ab5")
         }
@@ -109,24 +84,20 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
     override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
         let textMessagePresenter = TextMessagePresenterBuilder(
-            viewModelBuilder: DemoTextMessageViewModelBuilder(),
-            interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
+            viewModelBuilder: TextMessageViewModelDefaultBuilder(),
+            interactionHandler: XMPPMessageInteractionHandler<TextMessageViewModel<TextMessageModel<MessageModel>>>()
         )
         textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()
 
         let photoMessagePresenter = PhotoMessagePresenterBuilder(
-            viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
-            interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
+            viewModelBuilder: PhotoMessageViewModelDefaultBuilder(),
+            interactionHandler: XMPPMessageInteractionHandler<PhotoMessageViewModel<PhotoMessageModel<MessageModel>>>()
         )
         photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle()
 
         return [
-            DemoTextMessageModel.chatItemType: [
-                textMessagePresenter
-            ],
-            DemoPhotoMessageModel.chatItemType: [
-                photoMessagePresenter
-            ],
+            MessageModel.textItemType: [textMessagePresenter],
+            MessageModel.photoItemType: [photoMessagePresenter],
             SendingStatusModel.chatItemType: [SendingStatusPresenterBuilder()],
             TimeSeparatorModel.chatItemType: [TimeSeparatorPresenterBuilder()]
         ]
@@ -141,7 +112,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     private func createTextInputItem() -> TextChatInputItem {
         let item = TextChatInputItem()
         item.textInputHandler = { [weak self] text in
-            self?.dataSource.addTextMessage(text)
+            guard let controller = self else { return }
+            controller.messageSender.chatViewController(controller, didRequestToSendMessageWithText: text)
         }
         return item
     }
@@ -149,7 +121,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     private func createPhotoInputItem() -> PhotosChatInputItem {
         let item = PhotosChatInputItem(presentingController: self)
         item.photoInputHandler = { [weak self] image in
-            self?.dataSource?.addPhotoMessage(image)
+            guard let controller = self else { return }
+            controller.messageSender.chatViewController(controller, didRequestToSendMessageWithImage: image)
         }
         return item
     }
@@ -157,233 +130,23 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 	override var canBecomeFirstResponder : Bool {
 		return true
 	}
-
-	internal func showChangeSubject(_ sender: AnyObject?) {
-		let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
-			if let text = subjectText {
-				self.roomLight?.changeRoomSubject(text)
-			}
-		}
-		self.present(alertController, animated: true, completion: nil)
-	}
-
-	fileprivate func createFetchedResultsControllerForGroup() -> NSFetchedResultsController<NSFetchRequestResult> {
-		let groupContext = self.xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext!
-        let entity = NSEntityDescription.entity(forEntityName: "XMPPRoomLightMessageCoreDataStorageObject", in: groupContext)
-
-        let roomJID = self.roomLight!.roomJID.bare() as String
-
-		let predicate = NSPredicate(format: "roomJIDStr = %@", roomJID)
-		let sortDescriptor = NSSortDescriptor(key: "localTimestamp", ascending: true)
-
-		let request = NSFetchRequest<NSFetchRequestResult>()
-		request.entity = entity
-		request.predicate = predicate
-		request.sortDescriptors = [sortDescriptor]
-
-		let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: groupContext, sectionNameKeyPath: nil, cacheName: nil)
-		controller.delegate = self
-		try! controller.performFetch()
-
-		return controller
-	}
-
-	fileprivate func createFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult> {
-		guard let messageContext = self.xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext else {
-			return NSFetchedResultsController()
-		}
-
-		let entity = NSEntityDescription.entity(forEntityName: "XMPPMessageArchiving_Message_CoreDataObject", in: messageContext)
-		let predicate = NSPredicate(format: "bareJidStr = %@", self.userJID!.bare() as String!)
-		let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
-
-		let request = NSFetchRequest<NSFetchRequestResult>()
-		request.entity = entity
-		request.predicate = predicate
-		request.sortDescriptors = [sortDescriptor]
-
-		let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: messageContext, sectionNameKeyPath: nil, cacheName: nil)
-		controller.delegate = self
-		try! controller.performFetch()
-
-		return controller
-	}
     
-    fileprivate func fetchedChatItems() -> [ChatItemProtocol] {
-        // TODO: should have a designated chat item type for "me" commands
-        func resolveMeCommand(inMessageBody messageBody: String, for message: XMPPMessage) -> String {
-            guard (messageBody as NSString).hasXMPPMeCommandPrefix() else { return messageBody }
-            let meCommandSubstitution = xmppController.xmppRoster.meCommandSubstitution(for: message) ?? message.meCommandDefaultSubstitution()!
-            return "\(meCommandSubstitution) \((messageBody as NSString).xmppMessageBodyStringByTrimmingMeCommand()!)"
-        }
-        
-        return fetchedResultsController.fetchedObjects!.map {
-            switch $0 {
-            case let privateMessageObject as XMPPMessageArchiving_Message_CoreDataObject:
-                return createTextMessageModel(
-                    privateMessageObject.message.chatItemId,
-                    text: resolveMeCommand(inMessageBody: privateMessageObject.body, for: privateMessageObject.message),
-                    isIncoming: !privateMessageObject.isOutgoing
-                )
-                
-            case let roomMessage as XMPPRoomMessage:
-                return createTextMessageModel(
-                    roomMessage.message().chatItemId,
-                    text: resolveMeCommand(inMessageBody: roomMessage.body(), for: roomMessage.message()),
-                    isIncoming: !roomMessage.isFromMe()
-                )
-                
-            default:
-                fatalError()
-            }
-        }
-    }
-
-	internal func invite(_ sender: AnyObject?) {
-		let alertController = UIAlertController.textFieldAlertController("Add member", message: "Enter the JID") { (jidString) in
-			guard let userJIDString = jidString, let userJID = XMPPJID.init(string: userJIDString) else { return }
-
-			self.roomLight!.addUsers([userJID])
-		}
-		self.present(alertController, animated: true, completion: nil)
-	}
-
-	@IBAction func showMUCDetails(_ sender: AnyObject) {
-
-		self.roomLight!.fetchMembersList()
-	}
-
-	func showMembersViewController(_ members: [(String, String)]) {
-		let storyboard = UIStoryboard(name: "Members", bundle: nil)
-
-		let membersNavController = storyboard.instantiateViewController(withIdentifier: "members") as! UINavigationController
-		let membersController = membersNavController.viewControllers.first! as! MembersViewController
-		membersController.members = members
-		self.navigationController?.present(membersNavController, animated: true, completion: nil)
-	}
-
-	@IBAction func historyBarButtonItemTapped(_ sender: AnyObject) {
-		fetchHistory()
-	}
-    
-    func fetchHistory(startingFrom startDate: Date? = nil) {
-        // TODO: [pwe] history should be fetched in batches as the user scrolls to the top
-        // TODO: [pwe] avoiding refetching messages that are already present in the local store
-        if let userJid = self.userJID {
-            xmppController.retrieveMessageHistory(startingAt: startDate, filteredBy: userJid)
-        } else if let roomJid = self.roomLight?.roomJID {
-            xmppController.retrieveMessageHistory(fromArchiveAt: roomJid, startingAt: startDate)
-        }
-        #if MangostaREST
-            // TODO: add before and after
-            _ = MIMCommonInterface.getMessagesWithUser(user: historyQuery!.jid, limit: nil, before: nil)
-        #endif
-    }
-
-	deinit {
-		self.roomLight?.removeDelegate(self)
-	}
-    
-  
-	func sendMessageToServer(_ lastMessage: DemoTextMessageModel?) {
-        // TODO: make this funcion aware of picture type message
-        guard let lastMessage = lastMessage else { return } 
-		let receiverJID = self.userJID ?? self.roomLight?.roomJID
-		let type = self.userJID != nil ? "chat" : "groupchat"
-		let msg = XMPPMessage(type: type, to: receiverJID, elementID: UUID().uuidString)
-
-		msg?.addBody(lastMessage.text)
-        if let msg = msg { self.MIMCommonInterface.sendMessage(msg) }
-        else { print("Error sending message: \(msg)") }
-	}
-}
-
-// MARK: ChatDataSourceDelegateProtocol
-
-extension ChatViewController: XMPPRoomLightDelegate {
-
-	func xmppRoomLight(_ sender: XMPPRoomLight, didFetchMembersList items: [DDXMLElement]) {
-		let members = items.map { (child) -> (String, String) in
-			return (child.attribute(forName: "affiliation")!.stringValue!, child.stringValue!)
-		}
-		self.showMembersViewController(members)
-	}
-
-	func xmppRoomLight(_ sender: XMPPRoomLight, configurationChanged message: XMPPMessage) {
-		self.title = sender.subject()
-	}
-
-	func xmppRoomLight(_ sender: XMPPRoomLight, didGetConfiguration iqResult: XMPPIQ) {
-		self.title = sender.subject()
-	}
-}
-
-extension ChatViewController: NSFetchedResultsControllerDelegate {
-    // MARK: NSFetchedResultsControllerDelegate
-    
-    @objc(controller:didChangeObject:atIndexPath:forChangeType:newIndexPath:) func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                                                                                              didChange anObject: Any,
-                                                                                              at indexPath: IndexPath?,
-                                                                                              for type: NSFetchedResultsChangeType,
-                                                                                              newIndexPath: IndexPath?) {
-        guard type == .insert, let insertionIndex = newIndexPath?.item else {
+    @IBAction func additionalActionBarButtonItemTapped(_ sender: UIBarButtonItem) {
+        guard let action = (navigationItem.rightBarButtonItems?.index(of: sender).map { additionalActions[$0] }) else {
             return
         }
-        
-        // TODO: [pwe] use the same path for outgoing messages
-        switch anObject {
-        case let privateMessage as XMPPMessageArchiving_Message_CoreDataObject where privateMessage.body != nil && (!privateMessage.isOutgoing || privateMessage.message.isArchived):
-            messageInsertions[insertionIndex] = createTextMessageModel(privateMessage.message.chatItemId, text: privateMessage.body, isIncoming: !privateMessage.isOutgoing)
-            
-        case let roomMessage as XMPPRoomMessage where roomMessage.body() != nil && (!roomMessage.isFromMe() || roomMessage.message().isArchived):
-            messageInsertions[insertionIndex] = createTextMessageModel(roomMessage.message().chatItemId, text: roomMessage.body(), isIncoming: !roomMessage.isFromMe())
-        
-        default: break
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        let insertionRanges = IndexSet(messageInsertions.keys).rangeView
-        switch insertionRanges.last {
-        case let suffixRange? where insertionRanges.count == 1 && suffixRange.upperBound == controller.fetchedObjects?.count:
-            dataSource.addIncomingTextMessages(messages: messageInsertions.sorted { $0.key < $1.key } .map { $0.value })
-            
-        case _?:
-            // TODO: [pwe] proper support for non-tail message insertions; for now just reset the whole datasource
-            dataSource = QueueDataSource(messages: fetchedChatItems(), pageSize: 50)
-            
-        case nil:
-            break
-        }
-        
-        messageInsertions.removeAll()
+        action.perform(inContextOf: self)
     }
 }
 
-private extension XMPPMessage {
+protocol ChatViewControllerMessageSender: class {
     
-    var isArchived: Bool {
-        // TODO: [pwe] a more robust check?
-        return archiveResultId != nil
-    }
-    
-    var chatItemId: String {
-        // use the stanza id for direct messages or the resultId copied from an enclosing element for messages received via MAM
-        guard let chatItemId = elementID() ?? archiveResultId else { fatalError("Cannot extract chat identifier for message: \(self)") }
-        return chatItemId
-    }
-    
-    var archiveResultId: String? {
-        return attributeStringValue(forName: "resultId")
-    }
+    func chatViewController(_ viewController: ChatViewController, didRequestToSendMessageWithText messageText: String)
+    func chatViewController(_ viewController: ChatViewController, didRequestToSendMessageWithImage messageImage: UIImage)
 }
 
-private extension QueueDataSource {
+protocol ChatViewControllerAdditionalAction {
     
-    func loadLocalArchiveItems(_ items: [ChatItemProtocol]) {
-        for item in items {
-            slidingWindow.insertItem(item, position: .bottom)
-        }
-        delegate?.chatDataSourceDidUpdate(self, updateType: .firstLoad)
-    }
+    var label: String { get }
+    func perform(inContextOf chatViewController: ChatViewController)
 }
