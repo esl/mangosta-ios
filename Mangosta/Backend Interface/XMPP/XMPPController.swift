@@ -64,10 +64,14 @@ class XMPPController: NSObject {
         willSet {
             for removedRoom in (roomsLight.filter { !newValue.contains($0) }) {
                 xmppMessageArchiveManagement.removeDelegate(removedRoom)
+                removedRoom.removeDelegate(self)
+                removedRoom.deactivate()
             }
         }
         didSet {
             for insertedRoom in (roomsLight.filter { !oldValue.contains($0) }) {
+                insertedRoom.activate(xmppStream)
+                insertedRoom.addDelegate(self, delegateQueue: .main)
                 xmppMessageArchiveManagement.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
             }
             roomListDelegate?.roomListDidChange(in: self)
@@ -279,6 +283,8 @@ class XMPPController: NSObject {
         self.xmppMUCLight.removeDelegate(self)
         
 		self.roomsLight.forEach { (roomLight) in
+            self.xmppMessageArchiveManagement.removeDelegate(roomLight)
+            roomLight.removeDelegate(self)
 			roomLight.deactivate()
 		}
         
@@ -380,20 +386,16 @@ extension XMPPController: XMPPRosterDelegate {
 extension XMPPController: XMPPMUCLightDelegate {
     
     func xmppMUCLight(_ sender: XMPPMUCLight, didDiscoverRooms rooms: [DDXMLElement], forServiceNamed serviceName: String) {
-        for room in roomsLight {
-            room.deactivate()
-            room.removeDelegate(self)
-        }
-        
         roomsLight = rooms.map { (rawElement) -> XMPPRoomLight in
             let rawJid = rawElement.attributeStringValue(forName: "jid")
-            let rawName = rawElement.attributeStringValue(forName: "name")
-            let jid = XMPPJID.init(string: rawJid)
+            let rawName = rawElement.attributeStringValue(forName: "name")!
+            let jid = XMPPJID(string: rawJid)!
             
-            let room = XMPPRoomLight(roomLightStorage: xmppRoomLightCoreDataStorage, jid: jid!, roomname: rawName!, dispatchQueue: DispatchQueue.main)
-            room.activate(xmppStream)
-            
-            return room
+            if let existingRoom = (roomsLight.first { $0.roomJID == jid}) {
+                return existingRoom
+            } else {
+                return XMPPRoomLight(roomLightStorage: xmppRoomLightCoreDataStorage, jid: jid, roomname: rawName, dispatchQueue: .main)
+            }
         }
     }
     

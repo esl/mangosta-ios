@@ -129,6 +129,8 @@ class MainViewController: UIViewController, TitleViewModifiable {
         )
         
         switchToChat(with: chatViewController, animated: isUserInitiated)
+        
+        // TODO: handle a scenario where the user is removed from the room while the chat screen is presented
     }
     
     func switchToChat(with chatViewController: ChatViewController, animated: Bool) {
