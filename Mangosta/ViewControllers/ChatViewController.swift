@@ -14,7 +14,6 @@ import ChattoAdditions
 
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
     
-    @IBOutlet weak var subject: UILabel!
     
 	weak var roomLight: XMPPRoomLight?
 	var userJID: XMPPJID?
@@ -24,8 +23,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
 	let MIMCommonInterface = MIMMainInterface()
 
-    public private(set) var wallpaperView: UIImageView!
-    
     var messageSender: QueueMessageSender!
     var dataSource: QueueDataSource! {
         didSet {
@@ -36,8 +33,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     lazy private var baseMessageHandler: BaseMessageHandler = {
         return BaseMessageHandler(messageSender: self.messageSender)
     }()
-
-//	let messageLayoutCache = NSCache<AnyObject, AnyObject>()  // TODO: Do we need this?
 
     // MARK: titleViewModifiable protocol
     var originalTitleViewText: String?
@@ -57,8 +52,6 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         self.addWallpaperView()
         
         var rightBarButtonItems: [UIBarButtonItem] = []
-
-        wallpaperView.image = UIImage(named: "chat_background")!
 
         if let roomSubject = (userJID?.user ?? self.roomLight?.roomname()) {
             self.title = "\(roomSubject)"
@@ -91,16 +84,13 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         MangostaSettings().setNavigationBarColor()
 
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
     
     private func addWallpaperView() {
-        wallpaperView = UIImageView(frame: CGRect.zero)
+        let wallpaperView = UIImageView(frame: CGRect.zero)
         wallpaperView.translatesAutoresizingMaskIntoConstraints = false
         wallpaperView.contentMode = .scaleAspectFill
         wallpaperView.clipsToBounds = true
+        wallpaperView.image = UIImage(named: "chat_background")
         view.addSubview(wallpaperView)
         view.sendSubview(toBack: wallpaperView)
     }
@@ -367,12 +357,6 @@ extension ChatViewController: NSFetchedResultsControllerDelegate {
         }
         
         messageInsertions.removeAll()
-    }
-}
-
-extension ChatViewController: XMPPStreamDelegate {
-    func xmppStream(_ sender: XMPPStream!, didSend message: XMPPMessage!) {
-        // TODO: set message status to sent
     }
 }
 
