@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
         }
         
-        (window?.rootViewController as! TabBarController).handleChatPushNotification(withRemoteJid: senderJid)
+        XMPPController.sharedInstance.processPushNotification(from: senderJid)
     }
     
     func initializeNotificationServices() -> Void {
@@ -93,5 +93,23 @@ extension AppDelegate: XMPPControllerPushNotificationsDelegate {
         OperationQueue.main.addOperation {
             self.initializeNotificationServices()
         }
+    }
+    
+    func xmppController(_ controller: XMPPController, didReceivePrivateChatPushNotificationFromContact contact: XMPPUser) {
+        OperationQueue.main.addOperation {
+            (self.window?.rootViewController as! TabBarController).handlePrivateChatPushNotification(from: contact)
+        }
+    }
+    
+    func xmppController(_ controller: XMPPController, didReceiveGroupChatPushNotificationIn room: XMPPRoomLight) {
+        OperationQueue.main.addOperation {
+            (self.window?.rootViewController as! TabBarController).handleGroupChatPushNotification(in: room)
+        }
+    }
+    
+    func xmppController(_ controller: XMPPController, didReceiveChatPushNotificationFromUnknownSenderWithJid senderJid: XMPPJID) {
+        // TODO: can a room notification arrive before affiliation message?
+        // TODO: handle private chat notifications from senders not on the roster
+        NSLog("Received a push notification from an unknown sender: \(senderJid.full())")
     }
 }

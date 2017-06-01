@@ -7,20 +7,21 @@
 //
 
 #import "XMPPRoster+XEP_0245.h"
-#import "XMPPMessage+XEP_0245.h"
+#import "XMPPStream+XEP_0245.h"
 
 @implementation XMPPRoster (XEP_0245)
 
 - (NSString *)meCommandSubstitutionForMessage:(XMPPMessage *)message
 {
-    XMPPJID *lookupJID = [message meCommandSubstitutionUserJID];
+    NSString *substitutionString = [self.xmppStream meCommandSubstitutionStringForMessage:message];
+    XMPPJID *lookupJID = [XMPPJID jidWithString:[self.xmppStream meCommandSubstitutionStringForMessage:message]];
     if (!lookupJID) {
-        return nil;
+        return substitutionString;
     }
     
-    NSString *substitution;
-    [self.xmppRosterStorage getSubscription:NULL ask:NULL nickname:&substitution groups:NULL forJID:lookupJID xmppStream:self.xmppStream];
-    return substitution;
+    NSString *nickname;
+    [self.xmppRosterStorage getSubscription:NULL ask:NULL nickname:&nickname groups:NULL forJID:lookupJID xmppStream:self.xmppStream];
+    return nickname ?: lookupJID.user;
 }
 
 @end
