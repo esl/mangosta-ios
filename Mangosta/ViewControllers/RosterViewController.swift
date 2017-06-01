@@ -60,11 +60,6 @@ class RosterViewController: UIViewController, TitleViewModifiable {
             titleLabel.sizeToFit()
         }
     }
-    override func viewDidAppear(_ animated: Bool) {
-        try! self.fetchedResultsController?.performFetch()
-        super.viewDidAppear(animated)
-        
-    }
 	
 	func addRoster(_ sender: UIBarButtonItem) {
 		let alertController = UIAlertController.textFieldAlertController("Add Friend", message: "Enter the JID of the user") { (jidString) in
@@ -103,7 +98,7 @@ class RosterViewController: UIViewController, TitleViewModifiable {
 		fetchRequest.sortDescriptors = [sd1, sd2]
 		self.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: rosterContext, sectionNameKeyPath: "sectionNum", cacheName: nil)
 		self.fetchedResultsController?.delegate = self
-		
+		try! self.fetchedResultsController?.performFetch()
 	}
 }
 
