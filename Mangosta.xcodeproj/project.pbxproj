@@ -128,6 +128,8 @@
 		DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */; };
 		DD1C5D851EB22125004B8669 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
 		DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
+		DD1E734F1EDDC0B7009B529B /* XMPPStream+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1E734E1EDDC0B7009B529B /* XMPPStream+XEP_0245.m */; };
+		DD1E73501EDDC0B7009B529B /* XMPPStream+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1E734E1EDDC0B7009B529B /* XMPPStream+XEP_0245.m */; };
 		DD1EF3C71ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1EF3C61ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m */; };
 		DD1EF3C81ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1EF3C61ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m */; };
 		DD1EF3CB1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1EF3CA1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m */; };
@@ -248,6 +250,8 @@
 		C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		C1CAEAA81D11DDEE006E2A49 /* XMPPMessage+XEP_0313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0313.h"; sourceTree = "<group>"; };
 		C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0313.m"; sourceTree = "<group>"; };
+		DD1E734D1EDDC0B7009B529B /* XMPPStream+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPStream+XEP_0245.h"; sourceTree = "<group>"; };
+		DD1E734E1EDDC0B7009B529B /* XMPPStream+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPStream+XEP_0245.m"; sourceTree = "<group>"; };
 		DD1EF3C51ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoster+XEP_0245.h"; sourceTree = "<group>"; };
 		DD1EF3C61ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoster+XEP_0245.m"; sourceTree = "<group>"; };
 		DD1EF3C91ED582D90034F6F3 /* NSString+XMPP_XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XMPP_XEP_0245.h"; sourceTree = "<group>"; };
@@ -474,6 +478,8 @@
 			children = (
 				AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */,
 				AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */,
+				DD1E734D1EDDC0B7009B529B /* XMPPStream+XEP_0245.h */,
+				DD1E734E1EDDC0B7009B529B /* XMPPStream+XEP_0245.m */,
 				DD1EF3C51ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.h */,
 				DD1EF3C61ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m */,
 				DD1EF3C91ED582D90034F6F3 /* NSString+XMPP_XEP_0245.h */,
@@ -966,6 +972,7 @@
 				C19BA8041D2563C200F5BAB2 /* TabBarController.swift in Sources */,
 				AC3E3FD41E7C3F19005EA75B /* TimeSeparatorPresenter.swift in Sources */,
 				C160B91A1CD1371B00ADAD99 /* XMPPServiceDiscovery.m in Sources */,
+				DD1E734F1EDDC0B7009B529B /* XMPPStream+XEP_0245.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1000,6 +1007,7 @@
 				DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */,
 				DDD9127C1ED45C5700E0E157 /* XMPPRoomLight+XEP_0313.m in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
+				DD1E73501EDDC0B7009B529B /* XMPPStream+XEP_0245.m in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
 				AC3E3FDF1E7C3F32005EA75B /* QueueMessageSender.swift in Sources */,
 				DD1EF3CC1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m in Sources */,
