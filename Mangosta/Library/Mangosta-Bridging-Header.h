@@ -10,7 +10,6 @@
 #import "MIMPushNotificationsPubSub.h"
 #import "XMPPMessage+XEP_0060.h"
 #import "NSXMLElement+XEP_0277.h"
-#import "XMPPMessage+XEP_0245.h"
 #import "XMPPStream+XEP_0245.h"
 #import "XMPPRoster+XEP_0245.h"
 #import "NSString+XMPP_XEP_0245.h"

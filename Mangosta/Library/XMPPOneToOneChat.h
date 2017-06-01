@@ -15,7 +15,6 @@
 - (instancetype)initWithMessageArchivingStorage:(id<XMPPMessageArchivingStorage>)messageArchivingStorage dispatchQueue:(dispatch_queue_t)queue NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithMessageArchivingStorage:(id<XMPPMessageArchivingStorage>)messageArchivingStorage;
 
-- (void)sendMessageTo:(XMPPJID *)recipientJID withBody:(NSString *)body;
 - (XMPPOneToOneChatSession *)sessionForUserJID:(XMPPJID *)userJID;
 
 @end

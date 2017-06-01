@@ -60,15 +60,6 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
     return [self initWithMessageArchivingStorage:nil dispatchQueue:nil];
 }
 
-- (void)sendMessageTo:(XMPPJID *)recipientJID withBody:(NSString *)body
-{
-    // TODO: [pwe] bare/full recipient JID, threads according to https://xmpp.org/rfcs/rfc6121.html#message-chat
-    XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"chat" to:recipientJID];
-    [message addBody:body];
-    
-    [self.xmppStream sendElement:message];
-}
-
 - (XMPPOneToOneChatSession *)sessionForUserJID:(XMPPJID *)userJID
 {
     __block XMPPOneToOneChatSession *session;

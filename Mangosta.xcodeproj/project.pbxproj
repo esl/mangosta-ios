@@ -35,7 +35,6 @@
 		AC3E3FE41E7C3F32005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC01E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift */; };
 		AC3E3FE51E7C3F32005EA75B /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */; };
 		AC3E3FE61E7C3F32005EA75B /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */; };
-		AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */; };
 		AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */; };
@@ -52,7 +51,6 @@
 		AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C135D9221CE3A0B400225EC7 /* MembersViewController.swift */; };
 		AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F8E8321CA0236A008099D1 /* MainViewController.swift */; };
 		AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
-		AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */; };
 		AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */; };
 		AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		AC9F65FD1D957ABD00B3AEB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ECA34F1C92CDE4000602F2 /* AppDelegate.swift */; };
@@ -188,8 +186,6 @@
 		AC3E3FC01E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorModel.swift; sourceTree = "<group>"; };
 		AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorPresenter.swift; sourceTree = "<group>"; };
-		AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XMPPMessage+XEP_0245.h"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.h"; sourceTree = "<group>"; };
-		AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XMPPMessage+XEP_0245.m"; path = "../../Mangosta/Library/XMPPMessage+XEP_0245.m"; sourceTree = "<group>"; };
 		AC5D3EA41E1D7B2A00B3AEB8 /* RosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterViewController.swift; sourceTree = "<group>"; };
 		AC7859E11E48E25E00B3AEB8 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		AC7B7D391DDE33D300B3AEB8 /* IM.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IM.storyboard; sourceTree = "<group>"; };
@@ -448,8 +444,6 @@
 		AC4D6A0E1D83198100B3AEB8 /* XEP-0245 */ = {
 			isa = PBXGroup;
 			children = (
-				AC4D6A0C1D83198100B3AEB8 /* XMPPMessage+XEP_0245.h */,
-				AC4D6A0D1D83198100B3AEB8 /* XMPPMessage+XEP_0245.m */,
 				DD1E734D1EDDC0B7009B529B /* XMPPStream+XEP_0245.h */,
 				DD1E734E1EDDC0B7009B529B /* XMPPStream+XEP_0245.m */,
 				DD1EF3C51ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.h */,
@@ -921,7 +915,6 @@
 				AC3E3FD21E7C3F19005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC7859E21E48E25E00B3AEB8 /* AboutViewController.swift in Sources */,
 				DD4B5BC81EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */,
-				AC4D6A101D83366200B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				AC3E3FD01E7C3F19005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				ACED08311E28242000B3AEB8 /* Settings.swift in Sources */,
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
@@ -992,7 +985,6 @@
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
 				AC9F65F71D957ABD00B3AEB8 /* BlockingMembersViewController.swift in Sources */,
-				AC9F65F91D957ABD00B3AEB8 /* XMPPMessage+XEP_0245.m in Sources */,
 				AC9F65FB1D957ABD00B3AEB8 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				AC9F65FC1D957ABD00B3AEB8 /* AuthenticationModel.swift in Sources */,
 				DD1E2C101EDEB4EE0092FE98 /* XMPPRoster+XMPPCoreDataChatDataSourceMessageContentFiltering.swift in Sources */,
