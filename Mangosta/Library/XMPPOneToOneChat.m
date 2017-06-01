@@ -19,6 +19,17 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 @interface XMPPOneToOneChat ()
 
 @property (strong, nonatomic, readonly) id<XMPPMessageArchivingStorage> messageArchivingStorage;
+@property (strong, nonatomic, readonly) NSMutableArray<XMPPOneToOneChatSession *> *sessions;
+
+@end
+
+@interface XMPPOneToOneChatSession ()
+
+@property (strong, nonatomic, readonly) XMPPStream *xmppStream;
+@property (strong, nonatomic, readonly) XMPPJID *userJID;
+
+- (instancetype)initWithStream:(XMPPStream *)xmppStream userJID:(XMPPJID *)userJID;
+- (void)handleIncomingMessage:(XMPPMessage *)message;
 
 @end
 
@@ -29,6 +40,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
     self = [super initWithDispatchQueue:queue];
     if (self) {
         _messageArchivingStorage = messageArchivingStorage;
+        _sessions = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -57,6 +69,30 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
     [self.xmppStream sendElement:message];
 }
 
+- (XMPPOneToOneChatSession *)sessionForUserJID:(XMPPJID *)userJID
+{
+    __block XMPPOneToOneChatSession *session;
+    
+    dispatch_block_t block = ^{
+        NSUInteger existingSessionIndex = [self.sessions indexOfObjectPassingTest:^BOOL(XMPPOneToOneChatSession * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            return [obj.userJID isEqualToJID:userJID options:XMPPJIDCompareBare];
+        }];
+        if (existingSessionIndex != NSNotFound) {
+            session = self.sessions[existingSessionIndex];
+        } else {
+            session = [[XMPPOneToOneChatSession alloc] initWithStream:self.xmppStream userJID:[userJID bareJID]];
+            [self.sessions addObject:session];
+        }
+    };
+    
+    if (dispatch_get_specific(moduleQueueTag))
+        block();
+    else
+        dispatch_sync(moduleQueue, block);
+    
+    return session;
+}
+
 - (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message
 {
     XMPPLogTrace();
@@ -75,7 +111,39 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
         return;
     }
     
-    [self.messageArchivingStorage archiveMessage:message outgoing:NO xmppStream:stream];
+    if (!isOutgoing) {
+        [[self sessionForUserJID:[message from]] handleIncomingMessage:message];
+    }
+    
+    [self.messageArchivingStorage archiveMessage:message outgoing:isOutgoing xmppStream:stream];
+}
+
+@end
+
+@implementation XMPPOneToOneChatSession
+
+- (instancetype)initWithStream:(XMPPStream *)xmppStream userJID:(XMPPJID *)userJID
+{
+    self = [super init];
+    if (self) {
+        _xmppStream = xmppStream;
+        _userJID = userJID;
+    }
+    return self;
+}
+
+- (void)sendMessageWithBody:(NSString *)body
+{
+    // TODO: [pwe] bare/full recipient JID, threads according to https://xmpp.org/rfcs/rfc6121.html#message-chat
+    XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"chat" to:self.userJID];
+    [message addBody:body];
+    
+    [self.xmppStream sendElement:message];
+}
+
+- (void)handleIncomingMessage:(XMPPMessage *)message
+{
+    // TODO
 }
 
 @end
