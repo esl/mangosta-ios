@@ -1,5 +1,5 @@
 //
-//  MIMCommonInterfaceDelegate.swift
+//  MIMCommunicable.swift
 //  Mangosta
 //
 //  Created by Sergio E. Abraham on 9/26/16.
