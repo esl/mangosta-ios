@@ -210,13 +210,8 @@ class XMPPController: NSObject {
         }
 
         self.setStreamCredentials(authModel.serverName, userJID: authModel.jid, password: authModel.password)
+        self.xmppReconnect.manualStart()
         
-        do {
-           try self.xmppStream.connect(withTimeout: XMPPStreamTimeoutNone)
-        }
-        catch {
-            return false
-        }
         return true
 	}
 

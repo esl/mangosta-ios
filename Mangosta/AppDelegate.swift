@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		print("App Path: \(dirPaths)")
 
         DDLog.add(DDTTYLogger.sharedInstance, with: DDLogLevel.verbose)
-        XMPPController.sharedInstance.xmppReconnect.manualStart()
+        XMPPController.sharedInstance.connect()
         XMPPController.sharedInstance.pushNotificationsDelegate = self
         
 		return true
@@ -62,11 +62,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 	func applicationWillResignActive(_ application: UIApplication) {
-        
+        XMPPController.sharedInstance.goOffLine()
 	}
 
 	func applicationDidEnterBackground(_ application: UIApplication) {
-        XMPPController.sharedInstance.disconnect()
+        
 	}
 
 	func applicationWillEnterForeground(_ application: UIApplication) {
@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationDidBecomeActive(_ application: UIApplication) {
-		_ = XMPPController.sharedInstance.connect()
+        XMPPController.sharedInstance.goOnline()
         
         // TODO: [pwe] Proper icon badge number management
         application.applicationIconBadgeNumber = 0
