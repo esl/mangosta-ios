@@ -46,9 +46,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         
         self.addWallpaperView()
         
-        let rightBarButtonItems = additionalActions.map {
-            UIBarButtonItem(title: $0.label, style: .plain, target: self, action: #selector(additionalActionBarButtonItemTapped(_:)))
-        }
+        let rightBarButtonItems = [UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(additionalActionsBarButtonItemTapped(_:)))]
         for barButtonItem in rightBarButtonItems {
             barButtonItem.tintColor = UIColor(hexString:"009ab5")
         }
@@ -139,11 +137,16 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		return true
 	}
     
-    @IBAction func additionalActionBarButtonItemTapped(_ sender: UIBarButtonItem) {
-        guard let action = (navigationItem.rightBarButtonItems?.index(of: sender).map { additionalActions[$0] }) else {
-            return
+    @IBAction func additionalActionsBarButtonItemTapped(_ sender: UIBarButtonItem) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        for additionalAction in additionalActions {
+            actionSheet.addAction(UIAlertAction(title: additionalAction.label, style: .default) { _ in
+                additionalAction.perform(inContextOf: self)
+            })
         }
-        action.perform(inContextOf: self)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 }
 
