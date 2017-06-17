@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2442DE291EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */; };
+		2442DE2A1EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */; };
 		4DA3EB6DE1F95ABA8052A45D /* Pods_Mangosta_REST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */; };
 		811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
@@ -155,6 +157,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPFramework+ChatViewControllerTitleProvider.swift"; sourceTree = "<group>"; };
 		37AF37EA534DB10501DCAA9E /* Pods-Mangosta REST.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta REST.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST.debug.xcconfig"; sourceTree = "<group>"; };
 		42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta_REST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -524,6 +527,7 @@
 		DD1E2C171EDFFBA80092FE98 /* Chat XMPP Interface */ = {
 			isa = PBXGroup;
 			children = (
+				2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */,
 				DD1E73411EDC546D009B529B /* XMPPCoreDataChatDataSource.swift */,
 				DD1E2C0E1EDEB4EE0092FE98 /* XMPPRoster+XMPPCoreDataChatDataSourceMessageContentFiltering.swift */,
 				DD1E2C111EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift */,
@@ -908,6 +912,7 @@
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
 				DD22EA081ECF3903000D006C /* XMPPOneToOneChat+XEP_0313.m in Sources */,
 				ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */,
+				2442DE291EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
 				ACA045931D999B8D00B3AEB8 /* MIMCommunicable.swift in Sources */,
 				DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */,
@@ -978,6 +983,7 @@
 				AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				DD1E2C131EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift in Sources */,
 				DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */,
+				2442DE2A1EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */,
 				AC3E3FE41E7C3F32005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */,

@@ -96,7 +96,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
         }
         
         let chatViewController = ChatViewController(
-            modifiableTitle: user.jid().user,
+            titleProvider: XMPPOneToOneChatTitleProvider(user: user),
             chatDataSource: XMPPCoreDataChatDataSource(
                 messageArchivingManagedObjectContext: xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext,
                 userJid: user.jid().bare(),
@@ -115,7 +115,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
         }
         
         let chatViewController = ChatViewController(
-            modifiableTitle: room.roomname(),
+            titleProvider: XMPPRoomLightChatTitleProvider(room: room),
             chatDataSource: XMPPCoreDataChatDataSource(
                 roomStorageManagedObjectContext: xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext,
                 roomJid: room.roomJID,
@@ -124,7 +124,9 @@ class MainViewController: UIViewController, TitleViewModifiable {
             messageSender: room,
             additionalActions: [
                 XMPPRoomChatMessageHistoryFetchAction(xmppController: xmppController, roomJid: room.roomJID),
-                XMPPRoomMemberInviteAction(room: room)
+                XMPPRoomMemberInviteAction(room: room),
+                XMPPRoomMembersListDisplayAction(room: room),
+                XMPPRoomSubjectChangeAction(room: room)
             ]
         )
         

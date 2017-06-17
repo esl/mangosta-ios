@@ -13,6 +13,7 @@ import ChattoAdditions
 
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
     
+    let titleProvider: ChatViewControllerTitleProvider
     let messageSender: ChatViewControllerMessageSender
     let additionalActions: [ChatViewControllerAdditionalAction]
     
@@ -23,15 +24,15 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         self.navigationItem.title = originalTitleViewText
     }
 
-    init(modifiableTitle: String, chatDataSource: ChatDataSourceProtocol, messageSender: ChatViewControllerMessageSender, additionalActions: [ChatViewControllerAdditionalAction]) {
+    init(titleProvider: ChatViewControllerTitleProvider, chatDataSource: ChatDataSourceProtocol, messageSender: ChatViewControllerMessageSender, additionalActions: [ChatViewControllerAdditionalAction]) {
+        self.titleProvider = titleProvider
         self.messageSender = messageSender
         self.additionalActions = additionalActions
         super.init(nibName: nil, bundle: nil)
         
-        title = modifiableTitle
-        originalTitleViewText = modifiableTitle
-        
         self.chatDataSource = chatDataSource
+        self.titleProvider.delegate = self
+        updateTitle()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,9 +46,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         
         self.addWallpaperView()
         
-        let rightBarButtonItems = additionalActions.map {
-            UIBarButtonItem(title: $0.label, style: .plain, target: self, action: #selector(additionalActionBarButtonItemTapped(_:)))
-        }
+        let rightBarButtonItems = [UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(additionalActionsBarButtonItemTapped(_:)))]
         for barButtonItem in rightBarButtonItems {
             barButtonItem.tintColor = UIColor(hexString:"009ab5")
         }
@@ -108,6 +107,13 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         items.append(self.createPhotoInputItem())
         return items
     }
+    
+    fileprivate func updateTitle() {
+        if navigationItem.titleView == nil && navigationItem.title == originalTitleViewText {
+            navigationItem.title = titleProvider.chatTitle
+        }
+        originalTitleViewText = titleProvider.chatTitle
+    }
 
     private func createTextInputItem() -> TextChatInputItem {
         let item = TextChatInputItem()
@@ -131,12 +137,28 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 		return true
 	}
     
-    @IBAction func additionalActionBarButtonItemTapped(_ sender: UIBarButtonItem) {
-        guard let action = (navigationItem.rightBarButtonItems?.index(of: sender).map { additionalActions[$0] }) else {
-            return
+    @IBAction func additionalActionsBarButtonItemTapped(_ sender: UIBarButtonItem) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        for additionalAction in additionalActions {
+            actionSheet.addAction(UIAlertAction(title: additionalAction.label, style: .default) { _ in
+                additionalAction.perform(inContextOf: self)
+            })
         }
-        action.perform(inContextOf: self)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
+}
+
+protocol ChatViewControllerTitleProvider: class {
+    
+    var chatTitle: String { get }
+    weak var delegate: ChatViewControllerTitleProviderDelegate? { get set }
+}
+
+protocol ChatViewControllerTitleProviderDelegate: class {
+    
+    func chatViewControllerTitleProviderDidChangeTitle(_ titleProvider: ChatViewControllerTitleProvider)
 }
 
 protocol ChatViewControllerMessageSender: class {
@@ -149,4 +171,18 @@ protocol ChatViewControllerAdditionalAction {
     
     var label: String { get }
     func perform(inContextOf chatViewController: ChatViewController)
+}
+
+extension ChatViewControllerTitleProvider {
+    
+    weak var delegate: ChatViewControllerTitleProviderDelegate? {
+        get { fatalError() } set {}
+    }
+}
+
+extension ChatViewController: ChatViewControllerTitleProviderDelegate {
+    
+    func chatViewControllerTitleProviderDidChangeTitle(_ titleProvider: ChatViewControllerTitleProvider) {
+        updateTitle()
+    }
 }
