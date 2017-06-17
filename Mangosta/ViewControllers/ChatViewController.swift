@@ -13,6 +13,7 @@ import ChattoAdditions
 
 class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, TitleViewModifiable {
     
+    let titleProvider: ChatViewControllerTitleProvider
     let messageSender: ChatViewControllerMessageSender
     let additionalActions: [ChatViewControllerAdditionalAction]
     
@@ -23,15 +24,15 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         self.navigationItem.title = originalTitleViewText
     }
 
-    init(modifiableTitle: String, chatDataSource: ChatDataSourceProtocol, messageSender: ChatViewControllerMessageSender, additionalActions: [ChatViewControllerAdditionalAction]) {
+    init(titleProvider: ChatViewControllerTitleProvider, chatDataSource: ChatDataSourceProtocol, messageSender: ChatViewControllerMessageSender, additionalActions: [ChatViewControllerAdditionalAction]) {
+        self.titleProvider = titleProvider
         self.messageSender = messageSender
         self.additionalActions = additionalActions
         super.init(nibName: nil, bundle: nil)
         
-        title = modifiableTitle
-        originalTitleViewText = modifiableTitle
-        
         self.chatDataSource = chatDataSource
+        self.titleProvider.delegate = self
+        updateTitle()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -108,6 +109,13 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         items.append(self.createPhotoInputItem())
         return items
     }
+    
+    fileprivate func updateTitle() {
+        if navigationItem.titleView == nil && navigationItem.title == originalTitleViewText {
+            navigationItem.title = titleProvider.chatTitle
+        }
+        originalTitleViewText = titleProvider.chatTitle
+    }
 
     private func createTextInputItem() -> TextChatInputItem {
         let item = TextChatInputItem()
@@ -139,6 +147,17 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     }
 }
 
+protocol ChatViewControllerTitleProvider: class {
+    
+    var chatTitle: String { get }
+    weak var delegate: ChatViewControllerTitleProviderDelegate? { get set }
+}
+
+protocol ChatViewControllerTitleProviderDelegate: class {
+    
+    func chatViewControllerTitleProviderDidChangeTitle(_ titleProvider: ChatViewControllerTitleProvider)
+}
+
 protocol ChatViewControllerMessageSender: class {
     
     func chatViewController(_ viewController: ChatViewController, didRequestToSendMessageWithText messageText: String)
@@ -149,4 +168,18 @@ protocol ChatViewControllerAdditionalAction {
     
     var label: String { get }
     func perform(inContextOf chatViewController: ChatViewController)
+}
+
+extension ChatViewControllerTitleProvider {
+    
+    weak var delegate: ChatViewControllerTitleProviderDelegate? {
+        get { fatalError() } set {}
+    }
+}
+
+extension ChatViewController: ChatViewControllerTitleProviderDelegate {
+    
+    func chatViewControllerTitleProviderDidChangeTitle(_ titleProvider: ChatViewControllerTitleProvider) {
+        updateTitle()
+    }
 }
