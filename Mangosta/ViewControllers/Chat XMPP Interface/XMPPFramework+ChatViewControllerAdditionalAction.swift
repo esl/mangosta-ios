@@ -12,7 +12,7 @@ import XMPPFramework
 // TODO: [pwe] avoiding refetching messages that are already present in the local store
 class XMPPOneToOneChatMessageHistoryFetchAction: ChatViewControllerAdditionalAction {
     
-    var label: String { return "History" }
+    var label: String { return "Retrieve conversation history" }
     private let xmppController: XMPPController
     private let userJid: XMPPJID
     
@@ -28,7 +28,7 @@ class XMPPOneToOneChatMessageHistoryFetchAction: ChatViewControllerAdditionalAct
 
 class XMPPRoomChatMessageHistoryFetchAction: ChatViewControllerAdditionalAction {
     
-    var label: String { return "History" }
+    var label: String { return "Retrieve conversation history" }
     private let xmppController: XMPPController
     private let roomJid: XMPPJID
     
@@ -44,7 +44,7 @@ class XMPPRoomChatMessageHistoryFetchAction: ChatViewControllerAdditionalAction 
 
 class XMPPRoomMemberInviteAction: ChatViewControllerAdditionalAction {
     
-    var label: String { return "Invite" }
+    var label: String { return "Invite member" }
     private let room: XMPPRoomLight
     
     init(room: XMPPRoomLight) {
@@ -60,7 +60,6 @@ class XMPPRoomMemberInviteAction: ChatViewControllerAdditionalAction {
     }
 }
 
-// TODO: wire to the UI, handle title updates
 class XMPPRoomSubjectChangeAction: ChatViewControllerAdditionalAction {
     
     var label: String { return "Change subject" }
@@ -80,10 +79,9 @@ class XMPPRoomSubjectChangeAction: ChatViewControllerAdditionalAction {
     }
 }
 
-// TODO: wire to the UI
 class XMPPRoomMembersListDisplayAction: ChatViewControllerAdditionalAction, XMPPRoomLightDelegate {
     
-    var label: String { return "Members list" }
+    var label: String { return "View members list" }
     private let room: XMPPRoomLight
     private var membersListPresentingViewController: UIViewController!
     
