@@ -76,7 +76,7 @@ extension XMPPCoreDataChatDataSource: ChatDataSourceProtocol {
     
     func loadNext() {}
     func loadPrevious() {}
-    func adjustNumberOfMessages(preferredMaxCount: Int?, focusPosition: Double, completion:((didAdjust: Bool)) -> Void) { completion(false) }
+    func adjustNumberOfMessages(preferredMaxCount: Int?, focusPosition: Double, completion:(_ didAdjust: Bool) -> Void) { completion(false) }
 }
 
 extension XMPPCoreDataChatDataSource: NSFetchedResultsControllerDelegate {

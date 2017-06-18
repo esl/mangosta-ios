@@ -1,6 +1,6 @@
 PODS:
-  - Chatto (3.0.1)
-  - ChattoAdditions (3.0.1):
+  - Chatto (3.1.0)
+  - ChattoAdditions (3.1.0):
     - Chatto
   - CocoaAsyncSocket (7.6.1)
   - CocoaLumberjack (3.2.0):
@@ -20,8 +20,8 @@ PODS:
     - libidn (~> 1.33.0)
 
 DEPENDENCIES:
-  - Chatto (= 3.0.1)
-  - ChattoAdditions (= 3.0.1)
+  - Chatto (= 3.1.0)
+  - ChattoAdditions (= 3.1.0)
   - Jayme
   - MBProgressHUD (~> 0.9.2)
   - XMPPFramework (from `https://github.com/pwetrifork/XMPPFramework.git`, branch `pending-fixes`)
@@ -37,8 +37,8 @@ CHECKOUT OPTIONS:
     :git: https://github.com/pwetrifork/XMPPFramework.git
 
 SPEC CHECKSUMS:
-  Chatto: 484273a793e06a33cef2f7e5b5b88a5a375df015
-  ChattoAdditions: efd743b47dbd063eac824cd4bd94756cbf503f70
+  Chatto: d959be2d284db62c713c68d7c39f2712ff902fa2
+  ChattoAdditions: 64cfe2d3414a65d2d6bc8a1c5704df491eec28b6
   CocoaAsyncSocket: 7eadd3f59e1a6c84e2aefc93e9ff7b55156fe174
   CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
   Jayme: 80abd1aabe5a2ed2a7e938d9d77059c0f607b0df
@@ -47,6 +47,6 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   XMPPFramework: 164ed2ce99e3eb2f358e9f5ca5eeaa8d75339fde
 
-PODFILE CHECKSUM: cf8a7126c574aa42dc72530cac829b7a1b67d61f
+PODFILE CHECKSUM: 376c168e7d4aec3dac0b701468b1be1b9b57744b
 
 COCOAPODS: 1.2.1
