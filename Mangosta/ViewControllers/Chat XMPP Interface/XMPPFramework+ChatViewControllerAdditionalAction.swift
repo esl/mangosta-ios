@@ -95,8 +95,8 @@ class XMPPRoomMembersListDisplayAction: ChatViewControllerAdditionalAction, XMPP
         room.fetchMembersList()
     }
     
-    func xmppRoomLight(_ sender: XMPPRoomLight, didFetchMembersList items: [DDXMLElement]) {
-        let members = items.map { (child) -> (String, String) in
+    func xmppRoomLight(_ sender: XMPPRoomLight, didFetchMembersList iqResult: XMPPIQ) {
+        let members = sender.knownMembersList().map { (child) -> (String, String) in
             return (child.attribute(forName: "affiliation")!.stringValue!, child.stringValue!)
         }
         showMembersViewController(members)
