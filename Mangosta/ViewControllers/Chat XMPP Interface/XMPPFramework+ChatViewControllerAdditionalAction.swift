@@ -60,9 +60,9 @@ class XMPPRoomMemberInviteAction: ChatViewControllerAdditionalAction {
     }
 }
 
-class XMPPRoomSubjectChangeAction: ChatViewControllerAdditionalAction {
+class XMPPRoomNameChangeAction: ChatViewControllerAdditionalAction {
     
-    var label: String { return "Change subject" }
+    var label: String { return "Change room name" }
     private let room: XMPPRoomLight
     
     init(room: XMPPRoomLight) {
@@ -70,9 +70,9 @@ class XMPPRoomSubjectChangeAction: ChatViewControllerAdditionalAction {
     }
     
     func perform(inContextOf chatViewController: ChatViewController) {
-        let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
-            if let text = subjectText {
-                self.room.changeRoomSubject(text)
+        let alertController = UIAlertController.textFieldAlertController("New room name", message: nil) { (roomNameText) in
+            if let text = roomNameText {
+                self.room.setConfiguration([DDXMLElement(name: "roomname", stringValue: text)])
             }
         }
         chatViewController.present(alertController, animated: true, completion: nil)

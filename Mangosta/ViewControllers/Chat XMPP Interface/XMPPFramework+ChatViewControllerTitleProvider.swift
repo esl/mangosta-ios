@@ -33,6 +33,6 @@ class XMPPRoomLightChatTitleProvider: ChatViewControllerTitleProvider, XMPPRoomL
     }
     
     private func updateChatTitle(with room: XMPPRoomLight) {
-        chatTitle = !room.subject().isEmpty ? room.subject() : room.roomname()
+        chatTitle = room.roomname()
     }
 }
