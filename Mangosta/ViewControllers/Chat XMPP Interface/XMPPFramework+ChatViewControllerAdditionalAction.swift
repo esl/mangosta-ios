@@ -60,9 +60,9 @@ class XMPPRoomMemberInviteAction: ChatViewControllerAdditionalAction {
     }
 }
 
-class XMPPRoomSubjectChangeAction: ChatViewControllerAdditionalAction {
+class XMPPRoomNameChangeAction: ChatViewControllerAdditionalAction {
     
-    var label: String { return "Change subject" }
+    var label: String { return "Change room name" }
     private let room: XMPPRoomLight
     
     init(room: XMPPRoomLight) {
@@ -70,20 +70,21 @@ class XMPPRoomSubjectChangeAction: ChatViewControllerAdditionalAction {
     }
     
     func perform(inContextOf chatViewController: ChatViewController) {
-        let alertController = UIAlertController.textFieldAlertController("Subject", message: nil) { (subjectText) in
-            if let text = subjectText {
-                self.room.changeRoomSubject(text)
+        let alertController = UIAlertController.textFieldAlertController("New room name", message: nil) { (roomNameText) in
+            if let text = roomNameText {
+                self.room.setConfiguration([DDXMLElement(name: "roomname", stringValue: text)])
             }
         }
         chatViewController.present(alertController, animated: true, completion: nil)
     }
 }
 
-class XMPPRoomMembersListDisplayAction: ChatViewControllerAdditionalAction, XMPPRoomLightDelegate {
+class XMPPRoomMembersListManageAction: ChatViewControllerAdditionalAction, XMPPRoomLightDelegate, MembersViewControllerDelegate {
     
     var label: String { return "View members list" }
     private let room: XMPPRoomLight
     private var membersListPresentingViewController: UIViewController!
+    private var membersListViewController: MembersViewController?
     
     init(room: XMPPRoomLight) {
         self.room = room
@@ -92,22 +93,52 @@ class XMPPRoomMembersListDisplayAction: ChatViewControllerAdditionalAction, XMPP
     
     func perform(inContextOf chatViewController: ChatViewController) {
         membersListPresentingViewController = chatViewController
+        showMembersViewController()
         room.fetchMembersList()
     }
     
     func xmppRoomLight(_ sender: XMPPRoomLight, didFetchMembersList iqResult: XMPPIQ) {
-        let members = sender.knownMembersList().map { (child) -> (String, String) in
+        membersListViewController?.configure(with: sender.knownMembersList().map { (child) -> (String, String) in
             return (child.attribute(forName: "affiliation")!.stringValue!, child.stringValue!)
-        }
-        showMembersViewController(members)
+        })
     }
     
-    private func showMembersViewController(_ members: [(String, String)]) {
+    func xmppRoomLight(_ sender: XMPPRoomLight, didFailToChangeAffiliations iq: XMPPIQ) {
+        sender.fetchMembersList()
+    }
+    
+    func membersViewController(_ controller: MembersViewController, canRemoveMemberAtIndex memberIndex: Int) -> Bool {
+        let removedMemberJidString = controller.members[memberIndex].1
+        return room.isOwned && removedMemberJidString != room.xmppStream.myJID.bare()
+    }
+    
+    func membersViewController(_ controller: MembersViewController, willRemoveMemberAtIndex memberIndex: Int) -> Bool {
+        let removedMemberJidString = controller.members[memberIndex].1
+        let memberRemovalAffiliation = DDXMLElement(name: "user", stringValue: removedMemberJidString)
+        memberRemovalAffiliation.addAttribute(withName: "affiliation", stringValue: "none")
+        room.changeAffiliations([memberRemovalAffiliation])
+        return true
+    }
+    
+    func membersViewControllerDidFinish(_ controller: MembersViewController) {
+        membersListPresentingViewController.dismiss(animated: true, completion: nil)
+        membersListViewController = nil
+    }
+    
+    private func showMembersViewController() {
         let storyboard = UIStoryboard(name: "Members", bundle: nil)
         
         let membersNavController = storyboard.instantiateViewController(withIdentifier: "members") as! UINavigationController
         let membersController = membersNavController.viewControllers.first! as! MembersViewController
-        membersController.members = members
+        membersController.delegate = self
         membersListPresentingViewController.present(membersNavController, animated: true, completion: nil)
+        membersListViewController = membersController
+    }
+}
+
+private extension XMPPRoomLight {
+    
+    var isOwned: Bool {
+        return knownMembersList().contains { $0.attributeStringValue(forName: "affiliation") == "owner" && $0.stringValue == xmppStream.myJID.bare() }
     }
 }

@@ -10,10 +10,16 @@ import UIKit
 
 class MembersViewController: UIViewController {
 
-	var members: [(String, String)]!
+    fileprivate(set) var members = [(affiliation: String, jidString: String)]()
+    weak var delegate: MembersViewControllerDelegate?
 	
 	@IBOutlet weak var tableView: UITableView!
 	
+    func configure(with members: [(affiliation: String, jidString: String)]) {
+        self.members = members
+        tableView?.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.tableView.delegate = self
@@ -21,7 +27,7 @@ class MembersViewController: UIViewController {
     }
 
 	@IBAction func dismissViewController(_ sender: AnyObject) {
-		self.navigationController?.dismiss(animated: true, completion: nil)
+        delegate?.membersViewControllerDidFinish(self)
 	}
 }
 
@@ -41,5 +47,26 @@ extension MembersViewController: UITableViewDelegate, UITableViewDataSource {
 		
 		return cell
 	}
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return delegate?.membersViewController(self, canRemoveMemberAtIndex: indexPath.row) ?? false
+    }
 	
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let removeMemberAction = UITableViewRowAction(style: .destructive, title: "Remove") { [weak self] (_, indexPath) in
+            guard let membersViewController = self else { return }
+            if membersViewController.delegate?.membersViewController(membersViewController, willRemoveMemberAtIndex: indexPath.row) == true {
+                membersViewController.members.remove(at: indexPath.row)
+                membersViewController.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+            }
+        }
+        return [removeMemberAction]
+    }
+}
+
+protocol MembersViewControllerDelegate: class {
+    
+    func membersViewController(_ controller: MembersViewController, canRemoveMemberAtIndex memberIndex: Int) -> Bool
+    func membersViewController(_ controller: MembersViewController, willRemoveMemberAtIndex memberIndex: Int) -> Bool
+    func membersViewControllerDidFinish(_ controller: MembersViewController)
 }

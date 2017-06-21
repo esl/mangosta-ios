@@ -404,6 +404,10 @@ extension XMPPController: XMPPRoomLightDelegate {
     func xmppRoomLight(_ sender: XMPPRoomLight, didCreateRoomLight iq: XMPPIQ) {
         xmppMUCLight.discoverRooms(forServiceNamed: mucLightServiceName)
     }
+    
+    func xmppRoomLight(_ sender: XMPPRoomLight, configurationChanged message: XMPPMessage) {
+        roomListDelegate?.roomListDidChange(in: self)
+    }
 }
 
 extension XMPPController: XMPPPubSubDelegate {
