@@ -84,6 +84,7 @@ class XMPPRoomMembersListDisplayAction: ChatViewControllerAdditionalAction, XMPP
     var label: String { return "View members list" }
     private let room: XMPPRoomLight
     private var membersListPresentingViewController: UIViewController!
+    private var membersListViewController: MembersViewController?
     
     init(room: XMPPRoomLight) {
         self.room = room
@@ -92,22 +93,22 @@ class XMPPRoomMembersListDisplayAction: ChatViewControllerAdditionalAction, XMPP
     
     func perform(inContextOf chatViewController: ChatViewController) {
         membersListPresentingViewController = chatViewController
+        showMembersViewController()
         room.fetchMembersList()
     }
     
     func xmppRoomLight(_ sender: XMPPRoomLight, didFetchMembersList iqResult: XMPPIQ) {
-        let members = sender.knownMembersList().map { (child) -> (String, String) in
+        membersListViewController?.configure(with: sender.knownMembersList().map { (child) -> (String, String) in
             return (child.attribute(forName: "affiliation")!.stringValue!, child.stringValue!)
-        }
-        showMembersViewController(members)
+        })
     }
     
-    private func showMembersViewController(_ members: [(String, String)]) {
+    private func showMembersViewController() {
         let storyboard = UIStoryboard(name: "Members", bundle: nil)
         
         let membersNavController = storyboard.instantiateViewController(withIdentifier: "members") as! UINavigationController
         let membersController = membersNavController.viewControllers.first! as! MembersViewController
-        membersController.members = members
         membersListPresentingViewController.present(membersNavController, animated: true, completion: nil)
+        membersListViewController = membersController
     }
 }

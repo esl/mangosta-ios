@@ -10,10 +10,15 @@ import UIKit
 
 class MembersViewController: UIViewController {
 
-	var members: [(String, String)]!
+    fileprivate(set) var members = [(affiliation: String, jidString: String)]()
 	
 	@IBOutlet weak var tableView: UITableView!
 	
+    func configure(with members: [(affiliation: String, jidString: String)]) {
+        self.members = members
+        tableView?.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.tableView.delegate = self
