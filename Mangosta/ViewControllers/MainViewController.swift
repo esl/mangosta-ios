@@ -125,7 +125,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
             additionalActions: [
                 XMPPRoomChatMessageHistoryFetchAction(xmppController: xmppController, roomJid: room.roomJID),
                 XMPPRoomMemberInviteAction(room: room),
-                XMPPRoomMembersListDisplayAction(room: room),
+                XMPPRoomMembersListManageAction(room: room),
                 XMPPRoomSubjectChangeAction(room: room)
             ]
         )
