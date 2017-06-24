@@ -131,7 +131,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 - (void)sendMessageWithBody:(NSString *)body
 {
     // TODO: [pwe] bare/full recipient JID, threads according to https://xmpp.org/rfcs/rfc6121.html#message-chat
-    XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"chat" to:self.userJID];
+    XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"chat" to:self.userJID elementID:[XMPPStream generateUUID]];
     [message addBody:body];
     
     [self.xmppStream sendElement:message];
