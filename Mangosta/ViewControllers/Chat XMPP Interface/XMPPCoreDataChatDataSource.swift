@@ -32,27 +32,38 @@ class XMPPCoreDataChatDataSource : NSObject {
     
     private let textMessageFetchRequestResultProvider: TextMessageFetchRequestResultProvider
     private let roster: XMPPRoster
-        
-    init<MessageResultType: TextMessageFetchRequestResult>(fetchedResultsController: NSFetchedResultsController<MessageResultType>, roster: XMPPRoster) {
+    private let retransmission: XMPPRetransmission
+    
+    init<MessageResultType: TextMessageFetchRequestResult>(fetchedResultsController: NSFetchedResultsController<MessageResultType>, roster: XMPPRoster, retransmission: XMPPRetransmission) {
         textMessageFetchRequestResultProvider = _TextMessageFetchRequestResultProvider(base: fetchedResultsController)
         self.roster = roster
-     
+        self.retransmission = retransmission
+        
         super.init()
         
         fetchedResultsController.delegate = self
         try! fetchedResultsController.performFetch()
+        
+        retransmission.xmppStream.addDelegate(self, delegateQueue: .main)
+        retransmission.addDelegate(self, delegateQueue: .main)
+        
         updateChatItems(with: UpdateType.firstLoad)
     }
     
     fileprivate func updateChatItems(with updateType: UpdateType) {
+        let unconfirmedMessageIds = retransmission.storage.processedMessageIds()
+        
         chatItems = textMessageFetchRequestResultProvider.fetchedObjects!.map { messageResultItem in
+            let isUnconfirmed = messageResultItem.source.elementID() != nil && unconfirmedMessageIds.contains(messageResultItem.source.elementID())
+            let isTransmitted = isUnconfirmed && retransmission.xmppStream.isAuthenticated()
+            
             let baseModel = MessageModel(
                 uid: messageResultItem.uid,
                 senderId: messageResultItem.senderId,
                 type: MessageModel.textItemType,
                 isIncoming: messageResultItem.isIncoming,
                 date: messageResultItem.date,
-                status: .success
+                status: isTransmitted ? .sending : isUnconfirmed ? .failed : .success
             )
             let text = roster.transformedTextContent(for: messageResultItem.source, withTextContent: messageResultItem.text)
             
@@ -78,6 +89,28 @@ extension XMPPCoreDataChatDataSource: ChatDataSourceProtocol {
 extension XMPPCoreDataChatDataSource: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        updateChatItems(with: UpdateType.normal)
+    }
+}
+
+extension XMPPCoreDataChatDataSource: XMPPStreamDelegate {
+    
+    func xmppStreamDidAuthenticate(_ sender: XMPPStream!) {
+        updateChatItems(with: UpdateType.normal)
+    }
+    
+    func xmppStreamDidDisconnect(_ sender: XMPPStream!, withError error: Error!) {
+        updateChatItems(with: UpdateType.normal)
+    }
+}
+
+extension XMPPCoreDataChatDataSource: XMPPRetransmissionDelegate {
+    
+    func xmppRetransmission(_ xmppRetransmission: XMPPRetransmission!, didConfirmTransmissionFor elements: [XMPPElement]!) {
+        updateChatItems(with: UpdateType.normal)
+    }
+    
+    func xmppRetransmission(_ xmppRetransmission: XMPPRetransmission!, didBeginMonitoringTransmissionFor element: XMPPElement!) {
         updateChatItems(with: UpdateType.normal)
     }
 }

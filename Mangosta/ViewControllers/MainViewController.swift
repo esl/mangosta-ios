@@ -101,6 +101,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
                 messageArchivingManagedObjectContext: xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext,
                 userJid: user.jid().bare(),
                 roster: xmppController.xmppRoster,
+                retransmission: xmppController.xmppRetransmission
             ),
             messageSender: xmppController.xmppOneToOneChat.session(forUserJID: user.jid().bare()),
             additionalActions: [XMPPOneToOneChatMessageHistoryFetchAction(xmppController: xmppController, userJid: user.jid().bare())]
@@ -120,6 +121,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
                 roomStorageManagedObjectContext: xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext,
                 roomJid: room.roomJID,
                 roster: xmppController.xmppRoster,
+                retransmission: xmppController.xmppRetransmission
             ),
             messageSender: room,
             additionalActions: [
