@@ -135,9 +135,6 @@ class XMPPController: NSObject {
 		// Stream Managment
 		self.xmppStreamManagement = XMPPStreamManagement(storage: XMPPStreamManagementDiscStorage())
 		self.xmppStreamManagement.autoResume = true
-        
-        // TODO: [pwe] microblog should not depend on initial presence-based last item delivery each time the app is started
-        self.xmppStreamManagement.storage.removeAll(for: self.xmppStream)
         self.xmppRetransmission = XMPPRetransmission(dispatchQueue: .main, storage: XMPPRetransmissionUserDefaultsStorage())
 
         self.xmppMessageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
@@ -329,7 +326,11 @@ extension XMPPController: XMPPStreamDelegate {
 	func xmppStreamDidAuthenticate(_ sender: XMPPStream!) {
 		self.xmppStreamManagement.enable(withResumption: true, maxTimeout: 1000)
 		print("Stream: Authenticated")
-		self.goOnline()
+		
+        // TODO: initial presence should not be sent when the stream was resumed
+        // However, microblog currently has no persistent storage and depends on
+        // initial presence-based last item delivery each time the app is started
+        self.goOnline()
         
         self.xmppServiceDiscovery.discoverInformationAbout(xmppStream.myJID.domain()) // TODO: xmppStream.myJID.bareJID()
         self.xmppMUCLight.discoverRooms(forServiceNamed: mucLightServiceName)
