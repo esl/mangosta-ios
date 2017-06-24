@@ -22,7 +22,11 @@ extension XMPPOneToOneChatSession: ChatViewControllerMessageSender {
 extension XMPPRoomLight: ChatViewControllerMessageSender {
     
     func chatViewController(_ viewController: ChatViewController, didRequestToSendMessageWithText messageText: String) {
-        sendMessage(withBody: messageText)
+        // TODO: encapsulate ID injection in XMPPRoomLight
+        let message = XMPPMessage()!
+        message.addAttribute(withName: "id", stringValue: XMPPStream.generateUUID())
+        message.addChild(DDXMLElement(name: "body", stringValue: messageText))
+        send(message)
     }
     
     func chatViewController(_ viewController: ChatViewController, didRequestToSendMessageWithImage messageImage: UIImage) {

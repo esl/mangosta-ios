@@ -40,6 +40,7 @@ class XMPPController: NSObject {
 	var xmppStream: XMPPStream
 	var xmppReconnect: XMPPReconnect
     var xmppStreamManagement: XMPPStreamManagement
+    var xmppRetransmission: XMPPRetransmission
 	
     var xmppRoster: XMPPRoster
 	var xmppRosterStorage: XMPPRosterCoreDataStorage
@@ -64,6 +65,7 @@ class XMPPController: NSObject {
         willSet {
             for removedRoom in (roomsLight.filter { !newValue.contains($0) }) {
                 xmppMessageArchiveManagement.removeDelegate(removedRoom)
+                xmppRetransmission.removeDelegate(removedRoom)
                 removedRoom.removeDelegate(self)
                 removedRoom.deactivate()
             }
@@ -73,6 +75,7 @@ class XMPPController: NSObject {
                 insertedRoom.activate(xmppStream)
                 insertedRoom.addDelegate(self, delegateQueue: .main)
                 xmppMessageArchiveManagement.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
+                xmppRetransmission.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
             }
             roomListDelegate?.roomListDidChange(in: self)
         }
@@ -132,14 +135,17 @@ class XMPPController: NSObject {
 		// Stream Managment
 		self.xmppStreamManagement = XMPPStreamManagement(storage: XMPPStreamManagementDiscStorage())
 		self.xmppStreamManagement.autoResume = true
-        
-        // TODO: [pwe] microblog should not depend on initial presence-based last item delivery each time the app is started
-        self.xmppStreamManagement.storage.removeAll(for: self.xmppStream)
+        self.xmppRetransmission = XMPPRetransmission(dispatchQueue: .main, storage: XMPPRetransmissionUserDefaultsStorage())
 
         self.xmppMessageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
         self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
         
-        self.xmppOneToOneChat = XMPPOneToOneChat(messageArchivingStorage: self.xmppMessageArchivingStorage)
+        let filteredMessageArchivingStorage = XMPPRetransmissionMessageArchivingStorageFilter(
+            baseStorage: self.xmppMessageArchivingStorage,
+            xmppRetransmission: self.xmppRetransmission
+        )
+        self.xmppOneToOneChat = XMPPOneToOneChat(messageArchivingStorage: filteredMessageArchivingStorage)
+        self.xmppRetransmission.addDelegate(self.xmppOneToOneChat, delegateQueue: self.xmppOneToOneChat.moduleQueue)
         self.xmppMUCLight = XMPPMUCLight()
         
 		self.xmppMessageArchiveManagement = XMPPMessageArchiveManagement()
@@ -167,6 +173,7 @@ class XMPPController: NSObject {
         self.xmppPushNotificationsPubSub.activate(self.xmppStream)
 		self.xmppMessageDeliveryReceipts.activate(self.xmppStream)
 		self.xmppStreamManagement.activate(self.xmppStream)
+        self.xmppRetransmission.activate(self.xmppStream)
 		self.xmppMessageArchiveManagement.activate(self.xmppStream)
         self.xmppOneToOneChat.activate(self.xmppStream)
         self.xmppMUCLight.activate(self.xmppStream)
@@ -292,6 +299,7 @@ class XMPPController: NSObject {
         self.xmppPushNotificationsPubSub.deactivate()
 		self.xmppMessageDeliveryReceipts.deactivate()
 		self.xmppStreamManagement.deactivate()
+        self.xmppRetransmission.deactivate()
 		self.xmppMessageArchiveManagement.deactivate()
         self.xmppOneToOneChat.deactivate()
         self.xmppMUCLight.deactivate()
@@ -318,7 +326,11 @@ extension XMPPController: XMPPStreamDelegate {
 	func xmppStreamDidAuthenticate(_ sender: XMPPStream!) {
 		self.xmppStreamManagement.enable(withResumption: true, maxTimeout: 1000)
 		print("Stream: Authenticated")
-		self.goOnline()
+		
+        // TODO: initial presence should not be sent when the stream was resumed
+        // However, microblog currently has no persistent storage and depends on
+        // initial presence-based last item delivery each time the app is started
+        self.goOnline()
         
         self.xmppServiceDiscovery.discoverInformationAbout(xmppStream.myJID.domain()) // TODO: xmppStream.myJID.bareJID()
         self.xmppMUCLight.discoverRooms(forServiceNamed: mucLightServiceName)
@@ -389,7 +401,8 @@ extension XMPPController: XMPPMUCLightDelegate {
             if let existingRoom = (roomsLight.first { $0.roomJID == jid}) {
                 return existingRoom
             } else {
-                return XMPPRoomLight(roomLightStorage: xmppRoomLightCoreDataStorage, jid: jid, roomname: rawName, dispatchQueue: .main)
+                let filteredRoomLightStorage = XMPPRetransmissionRoomLightStorageFilter(baseStorage: xmppRoomLightCoreDataStorage, xmppRetransmission: xmppRetransmission)
+                return XMPPRoomLight(roomLightStorage: filteredRoomLightStorage, jid: jid, roomname: rawName, dispatchQueue: .main)
             }
         }
     }

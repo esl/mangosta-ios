@@ -7,6 +7,7 @@
 //
 
 #import "XMPPOneToOneChat.h"
+#import "XMPPOneToOneChat+Protected.h"
 
 // Log levels: off, error, warn, info, verbose
 // Log flags: trace
@@ -30,6 +31,23 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 
 - (instancetype)initWithStream:(XMPPStream *)xmppStream userJID:(XMPPJID *)userJID;
 - (void)handleIncomingMessage:(XMPPMessage *)message;
+
+@end
+
+@implementation XMPPOneToOneChat (Protected)
+
+- (void)handleMessage:(XMPPMessage *)message outgoing:(BOOL)isOutgoing inStream:(XMPPStream *)stream
+{
+    if (![message isChatMessage]) {
+        return;
+    }
+    
+    if (!isOutgoing) {
+        [[self sessionForUserJID:[message from]] handleIncomingMessage:message];
+    }
+    
+    [self.messageArchivingStorage archiveMessage:message outgoing:isOutgoing xmppStream:stream];
+}
 
 @end
 
@@ -96,19 +114,6 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
     [self handleMessage:message outgoing:NO inStream:sender];
 }
 
-- (void)handleMessage:(XMPPMessage *)message outgoing:(BOOL)isOutgoing inStream:(XMPPStream *)stream
-{
-    if (![message isChatMessage]) {
-        return;
-    }
-    
-    if (!isOutgoing) {
-        [[self sessionForUserJID:[message from]] handleIncomingMessage:message];
-    }
-    
-    [self.messageArchivingStorage archiveMessage:message outgoing:isOutgoing xmppStream:stream];
-}
-
 @end
 
 @implementation XMPPOneToOneChatSession
@@ -126,7 +131,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 - (void)sendMessageWithBody:(NSString *)body
 {
     // TODO: [pwe] bare/full recipient JID, threads according to https://xmpp.org/rfcs/rfc6121.html#message-chat
-    XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"chat" to:self.userJID];
+    XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"chat" to:self.userJID elementID:[XMPPStream generateUUID]];
     [message addBody:body];
     
     [self.xmppStream sendElement:message];
