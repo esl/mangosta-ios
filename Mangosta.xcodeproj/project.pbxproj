@@ -137,6 +137,10 @@
 		DD4B5BC91EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */; };
 		DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
 		DD4B5BD11EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
+		DD5ECECD1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECECC1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m */; };
+		DD5ECECE1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECECC1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m */; };
+		DD5ECED11EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED01EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m */; };
+		DD5ECED21EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED01EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m */; };
 		DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
 		DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
 		DDD9126C1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
@@ -263,6 +267,11 @@
 		DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0060.m"; sourceTree = "<group>"; };
 		DD4B5BCE1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement+XEP_0277.h"; sourceTree = "<group>"; };
 		DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLElement+XEP_0277.m"; sourceTree = "<group>"; };
+		DD5ECEC71EFD01DD0055A966 /* XMPPRetransmission+XMPPMessageStorageFiltering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRetransmission+XMPPMessageStorageFiltering.h"; sourceTree = "<group>"; };
+		DD5ECECB1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPRetransmissionMessageArchivingStorageFilter.h; sourceTree = "<group>"; };
+		DD5ECECC1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPRetransmissionMessageArchivingStorageFilter.m; sourceTree = "<group>"; };
+		DD5ECECF1EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPRetransmissionRoomLightStorageFilter.h; sourceTree = "<group>"; };
+		DD5ECED01EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPRetransmissionRoomLightStorageFilter.m; sourceTree = "<group>"; };
 		DD621D1F1EAA47DD0083C977 /* MIMPushNotificationsPubSub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMPushNotificationsPubSub.h; sourceTree = "<group>"; };
 		DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMPushNotificationsPubSub.m; sourceTree = "<group>"; };
 		DDD912691ED320A300E0E157 /* XMPPOneToOneChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPOneToOneChat.h; sourceTree = "<group>"; };
@@ -340,9 +349,14 @@
 				E094FB591CE107550033E0E0 /* XMPPStreamManagementDiscStorage.h */,
 				E094FB5A1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m */,
 				DD2542A71EFAE1EF00926E38 /* XMPPRetransmission.h */,
+				DD5ECEC71EFD01DD0055A966 /* XMPPRetransmission+XMPPMessageStorageFiltering.h */,
 				DD2542A81EFAE1EF00926E38 /* XMPPRetransmission.m */,
 				DD2542AF1EFC08EC00926E38 /* XMPPRetransmissionUserDefaultsStorage.h */,
 				DD2542B01EFC08EC00926E38 /* XMPPRetransmissionUserDefaultsStorage.m */,
+				DD5ECECB1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.h */,
+				DD5ECECC1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m */,
+				DD5ECECF1EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.h */,
+				DD5ECED01EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m */,
 				DD2542B31EFC15A500926E38 /* XMPPOneToOneChat+XMPPRetransmissionDelegate.h */,
 				DD2542B41EFC15A500926E38 /* XMPPOneToOneChat+XMPPRetransmissionDelegate.m */,
 				DD2542B71EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.h */,
@@ -961,6 +975,7 @@
 				AC3E3FCB1E7C3F19005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
 				DD1E2C0F1EDEB4EE0092FE98 /* XMPPRoster+XMPPCoreDataChatDataSourceMessageContentFiltering.swift in Sources */,
 				DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */,
+				DD5ECECD1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
 				DD1E2C121EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift in Sources */,
 				DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */,
@@ -969,6 +984,7 @@
 				AC3E3FD31E7C3F19005EA75B /* TimeSeparatorModel.swift in Sources */,
 				C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */,
 				DD1E73481EDD72AD009B529B /* XMPPRoomLightCoreDataStorage+XMPPMessageArchiveManagementAwareRoomStorage.m in Sources */,
+				DD5ECED11EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m in Sources */,
 				814D4CA51C970E6900AB28FA /* Constants.swift in Sources */,
 				DD1E2C151EDFFAD60092FE98 /* XMPPFramework+ChatViewControllerAdditionalAction.swift in Sources */,
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
@@ -1021,6 +1037,7 @@
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
 				DD1E73501EDDC0B7009B529B /* XMPPStream+XEP_0245.m in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
+				DD5ECED21EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m in Sources */,
 				DD1EF3CC1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m in Sources */,
 				ACB2D2BA1E16ABB000B3AEB8 /* Me.swift in Sources */,
 				AC5D3EA61E1D7B3200B3AEB8 /* RosterViewController.swift in Sources */,
@@ -1039,6 +1056,7 @@
 				AC3E3FE31E7C3F32005EA75B /* SendingStatusPresenter.swift in Sources */,
 				DD1E73461EDD4668009B529B /* XMPPMessageInteractionHandler.swift in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
+				DD5ECECE1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */,
 				DD2542AA1EFAE1EF00926E38 /* XMPPRetransmission.m in Sources */,
 				AC9F66561D957E5900B3AEB8 /* Room.swift in Sources */,
 				DD1C5D851EB22125004B8669 /* MIMPushNotificationsPubSub.m in Sources */,

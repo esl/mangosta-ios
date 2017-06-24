@@ -7,6 +7,7 @@
 //
 
 #import "XMPPRetransmission.h"
+#import "XMPPRetransmission+XMPPMessageStorageFiltering.h"
 
 @interface XMPPRetransmission () <XMPPStreamManagementDelegate>
 
@@ -153,6 +154,25 @@
             *stop = YES;
         }
     }];
+    return result;
+}
+
+@end
+
+@implementation XMPPRetransmission (XMPPMessageStorageFiltering)
+
+- (BOOL)isRetransmittingElement:(XMPPElement *)element
+{
+    __block BOOL result;
+    dispatch_block_t block = ^{
+        result = [self idForRetransmittedElement:element] != nil;
+    };
+    
+    if (dispatch_get_specific(moduleQueueTag))
+        block();
+    else
+        dispatch_sync(moduleQueue, block);
+    
     return result;
 }
 
