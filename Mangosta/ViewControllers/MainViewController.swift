@@ -100,7 +100,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
             chatDataSource: XMPPCoreDataChatDataSource(
                 messageArchivingManagedObjectContext: xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext,
                 userJid: user.jid().bare(),
-                messageContentFilters: [xmppController.xmppRoster]
+                roster: xmppController.xmppRoster,
             ),
             messageSender: xmppController.xmppOneToOneChat.session(forUserJID: user.jid().bare()),
             additionalActions: [XMPPOneToOneChatMessageHistoryFetchAction(xmppController: xmppController, userJid: user.jid().bare())]
@@ -119,7 +119,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
             chatDataSource: XMPPCoreDataChatDataSource(
                 roomStorageManagedObjectContext: xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext,
                 roomJid: room.roomJID,
-                messageContentFilters: [xmppController.xmppRoster]
+                roster: xmppController.xmppRoster,
             ),
             messageSender: room,
             additionalActions: [
