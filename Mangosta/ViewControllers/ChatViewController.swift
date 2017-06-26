@@ -44,31 +44,18 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
 
         super.chatItemsDecorator = ChatItemsDemoDecorator()
         
-        self.addWallpaperView()
-        
         let rightBarButtonItems = [UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(additionalActionsBarButtonItemTapped(_:)))]
         for barButtonItem in rightBarButtonItems {
-            barButtonItem.tintColor = UIColor(hexString:"009ab5")
+            barButtonItem.tintColor = .mangostaDarkGreen
         }
         self.navigationItem.rightBarButtonItems = rightBarButtonItems
 
         // FIXME: not complete solution
-        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.737, green: 0.933, blue: 0.969, alpha: 1.00)
+        self.navigationController?.navigationBar.barTintColor = .mangostaVeryLightGreen
 
         MangostaSettings().setNavigationBarColor()
 
     }
-    
-    private func addWallpaperView() {
-        let wallpaperView = UIImageView(frame: CGRect.zero)
-        wallpaperView.translatesAutoresizingMaskIntoConstraints = false
-        wallpaperView.contentMode = .scaleAspectFill
-        wallpaperView.clipsToBounds = true
-        wallpaperView.image = UIImage(named: "chat_background")
-        view.addSubview(wallpaperView)
-        view.sendSubview(toBack: wallpaperView)
-    }
-
 
     var chatInputPresenter: BasicChatInputBarPresenter!
     override func createChatInputView() -> UIView {
@@ -86,14 +73,16 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
             viewModelBuilder: TextMessageViewModelDefaultBuilder(),
             interactionHandler: XMPPMessageInteractionHandler<TextMessageViewModel<TextMessageModel<MessageModel>>>()
         )
-        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle()
+        let baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle(colors: BaseMessageCollectionViewCellDefaultStyle.Colors(incoming: .mangostaVeryLightGreen, outgoing: .mangostaDarkGreen))
+        textMessagePresenter.baseMessageStyle = baseMessageStyle
+        textMessagePresenter.textCellStyle = TextMessageCollectionViewCellDefaultStyle(baseStyle: baseMessageStyle)
 
         let photoMessagePresenter = PhotoMessagePresenterBuilder(
             viewModelBuilder: PhotoMessageViewModelDefaultBuilder(),
             interactionHandler: XMPPMessageInteractionHandler<PhotoMessageViewModel<PhotoMessageModel<MessageModel>>>()
         )
-        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellDefaultStyle()
-
+        photoMessagePresenter.baseCellStyle = baseMessageStyle
+        
         return [
             MessageModel.textItemType: [textMessagePresenter],
             MessageModel.photoItemType: [photoMessagePresenter],

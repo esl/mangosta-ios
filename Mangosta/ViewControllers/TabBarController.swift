@@ -15,8 +15,10 @@ class TabBarController: UITabBarController {
     
 	override func viewDidLoad() {
 		
-		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGray], for: UIControlState())
-		UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState.selected)
+        tabBar.tintColor = .white
+        if #available(iOS 10.0, *) {
+            tabBar.unselectedItemTintColor = .lightGray
+        }
         
         XMPPController.sharedInstance.xmppStream.addDelegate(self, delegateQueue: DispatchQueue.main)
         XMPPController.sharedInstance.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)

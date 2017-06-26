@@ -53,11 +53,8 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
     
 	override func viewDidLoad() {
 	
-        let darkGreenColor = "009ab5"
-        let lightGreenColor = "58cfe4"
-        
-       	let addBlogEntryButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(addBlogButtonPressed(_:)))
-        addBlogEntryButton.tintColor = UIColor(hexString:darkGreenColor)
+        let addBlogEntryButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(addBlogButtonPressed(_:)))
+        addBlogEntryButton.tintColor = .mangostaDarkGreen
         self.navigationItem.rightBarButtonItems = [addBlogEntryButton]
         
         self.xmppController = XMPPController.sharedInstance
@@ -65,17 +62,12 @@ class SocialMediaViewController: UIViewController, TitleViewModifiable {
         
         MangostaSettings().setNavigationBarColor()
         
-        self.tableView.backgroundColor = UIColor(hexString:lightGreenColor)
+        self.tableView.backgroundColor = .mangostaLightGreen
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.allowsMultipleSelectionDuringEditing = false
         self.tableView.estimatedRowHeight = 44
-
-        self.tabBarItem.image = UIImage(named: "Social") // FIXME: no image is appearing
-        self.tabBarItem.selectedImage = UIImage(named: "Social Filled") // FIXME: no image is appearing
-        
-        self.title = self.originalTitleViewText
 	}
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +113,12 @@ extension SocialMediaViewController: UITableViewDataSource, UITableViewDelegate 
         } else {
             cell.detailTextLabel?.text = nil
         }
+        
+        cell.backgroundColor = .mangostaDarkGreen
+        cell.textLabel?.backgroundColor = .mangostaDarkGreen
+        cell.detailTextLabel?.backgroundColor = .mangostaDarkGreen
+        cell.textLabel?.textColor = .white
+        cell.detailTextLabel?.textColor = .white
         
         return cell
     }

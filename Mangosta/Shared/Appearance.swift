@@ -12,7 +12,7 @@ import UIKit
 public struct MangostaSettings {
 
 	public func setNavigationBarColor() {
-		UINavigationBar.appearance().backgroundColor = UIColor(hexString:"009ab5")
+		UINavigationBar.appearance().backgroundColor = .mangostaDarkGreen
 	}
 	
 }
@@ -21,7 +21,7 @@ class MangostaNavigationController: UINavigationController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		MangostaSettings().setNavigationBarColor()
-        self.navigationBar.tintColor = UIColor(hexString: "009ab5")
+        self.navigationBar.tintColor = .mangostaDarkGreen
 	}
 }
 
@@ -34,7 +34,12 @@ protocol TitleViewModifiable {
     func resetTitleViewTextToOriginal()
 }
 
-
+extension UIColor {
+    
+    static let mangostaDarkGreen = UIColor(hexString: "009ab5")
+    static let mangostaLightGreen = UIColor(hexString: "58cfe4")
+    static let mangostaVeryLightGreen = UIColor(red: 0.737, green: 0.933, blue: 0.969, alpha: 1.00)
+}
 
 // RGB hex String without alpha
 extension UIColor {

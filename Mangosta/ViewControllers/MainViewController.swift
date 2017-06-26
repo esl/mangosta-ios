@@ -29,26 +29,18 @@ class MainViewController: UIViewController, TitleViewModifiable {
         
         self.xmppController = XMPPController.sharedInstance
         self.xmppController.roomListDelegate = self
-        
-		let darkGreenColor = "009ab5"
-		let lightGreenColor = "58cfe4"
 	
 		let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(selectChat(_:)))
-		addButton.tintColor = UIColor(hexString:darkGreenColor)
+		addButton.tintColor = .mangostaDarkGreen
 		self.navigationItem.rightBarButtonItems = [addButton]
 		 
 		let meButton = UIBarButtonItem(image: UIImage(named: "Gear"), style: UIBarButtonItemStyle.done, target: self, action: #selector(pushMeViewControler(_:)))
-		meButton.tintColor =  UIColor(hexString:darkGreenColor)
+		meButton.tintColor = .mangostaDarkGreen
 		self.navigationItem.leftBarButtonItem = meButton
 		
 		MangostaSettings().setNavigationBarColor()
 		
-		self.tableView.backgroundColor = UIColor(hexString:lightGreenColor)
-
-        self.tabBarItem.image = UIImage(named: "Chat") // FIXME: no image is appearing
-        self.tabBarItem.selectedImage = UIImage(named: "Chat Filled") // FIXME: no image is appearing
-        
-        self.title = self.originalTitleViewText
+		self.tableView.backgroundColor = .mangostaLightGreen
         
         if AuthenticationModel.load() == nil {
             presentLogInView()
@@ -151,7 +143,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
 	
 	func selectChat(_ sender: UIBarButtonItem) {
 		let alertController = UIAlertController(title: nil, message: "New Chat", preferredStyle: .actionSheet)
-		alertController.view.tintColor = UIColor(hexString:"009ab5")
+		alertController.view.tintColor = .mangostaDarkGreen
 		let roomChatAction = UIAlertAction(title: "New Room Chat", style: .default) { (action) in
 			let storyboard = UIStoryboard(name: "MUCLight", bundle: nil)
 			let roomCreatePresenterViewController = storyboard.instantiateViewController(withIdentifier: "MUCLightCreateRoomPresenterViewController") as! UINavigationController
@@ -231,7 +223,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 		let header = view as? UITableViewHeaderFooterView
 		header?.tintColor = UIColor.white
-		header?.textLabel?.textColor = UIColor(hexString:"009ab5")
+		header?.textLabel?.textColor = .mangostaDarkGreen
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -267,7 +259,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 			}
 		}
 		
-		cell?.backgroundColor = UIColor(hexString:"009ab5")
+		cell?.backgroundColor = .mangostaDarkGreen
 		cell?.textLabel?.textColor = UIColor.white
 		cell?.textLabel?.font = UIFont.boldSystemFont(ofSize: 15.0)
 		cell?.detailTextLabel?.textColor = UIColor.white

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="383-Vt-lBl">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="383-Vt-lBl">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -38,7 +38,7 @@
         <scene sceneID="Sgn-Fc-cuM">
             <objects>
                 <viewControllerPlaceholder storyboardName="IM" referencedIdentifier="Chat" id="8lZ-lh-fcR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="IM" image="Chat Filled" selectedImage="Chat Filled" id="Jsq-Fb-Uiw"/>
+                    <tabBarItem key="tabBarItem" title="" id="Jsq-Fb-Uiw"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y22-2F-EEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -48,16 +48,11 @@
         <scene sceneID="7cg-gm-b4f">
             <objects>
                 <viewControllerPlaceholder storyboardName="SocialMedia" referencedIdentifier="Social Media" id="Hqe-Gx-0K5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Social" image="Social" selectedImage="Social Filled" id="i58-9H-xzB"/>
+                    <tabBarItem key="tabBarItem" title="" id="i58-9H-xzB"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G0K-j0-LNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="612.5" y="148"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Chat Filled" width="29" height="29"/>
-        <image name="Social" width="29" height="29"/>
-        <image name="Social Filled" width="29" height="29"/>
-    </resources>
 </document>
