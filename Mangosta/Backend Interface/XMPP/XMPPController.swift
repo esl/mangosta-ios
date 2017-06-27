@@ -67,6 +67,7 @@ class XMPPController: NSObject {
                 xmppMessageArchiveManagement.removeDelegate(removedRoom)
                 xmppRetransmission.removeDelegate(removedRoom)
                 removedRoom.removeDelegate(self)
+                removedRoom.removeDelegate(self.xmppRoomLightCoreDataStorage)
                 removedRoom.deactivate()
             }
         }
@@ -74,6 +75,7 @@ class XMPPController: NSObject {
             for insertedRoom in (roomsLight.filter { !oldValue.contains($0) }) {
                 insertedRoom.activate(xmppStream)
                 insertedRoom.addDelegate(self, delegateQueue: .main)
+                insertedRoom.addDelegate(self.xmppRoomLightCoreDataStorage, delegateQueue: insertedRoom.moduleQueue)
                 xmppMessageArchiveManagement.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
                 xmppRetransmission.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
             }
@@ -145,6 +147,7 @@ class XMPPController: NSObject {
             xmppRetransmission: self.xmppRetransmission
         )
         self.xmppOneToOneChat = XMPPOneToOneChat(messageArchivingStorage: filteredMessageArchivingStorage)
+        self.xmppOneToOneChat.addDelegate(self.xmppMessageArchivingStorage, delegateQueue: self.xmppOneToOneChat.moduleQueue)
         self.xmppRetransmission.addDelegate(self.xmppOneToOneChat, delegateQueue: self.xmppOneToOneChat.moduleQueue)
         self.xmppMUCLight = XMPPMUCLight()
         

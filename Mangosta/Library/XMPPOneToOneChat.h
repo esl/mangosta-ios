@@ -28,4 +28,8 @@
 
 @end
 
+@protocol XMPPOneToOneChatDelegate <NSObject>
+
 // TODO: the delegate protocol
+
+@end

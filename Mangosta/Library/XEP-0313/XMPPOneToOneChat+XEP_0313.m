@@ -20,12 +20,11 @@
 - (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMAMMessage:(XMPPMessage *)message
 {
     XMPPMessage *archivedMessage = [message messageForForwardedArchiveMessage];
-    if (![archivedMessage isChatMessage] || ![self.messageArchivingStorage conformsToProtocol:@protocol(XMPPMessageArchiveManagementAwareStorage)]) {
+    if (![archivedMessage isChatMessage]) {
         return;
     }
     
-    [(id<XMPPMessageArchiveManagementAwareStorage>)self.messageArchivingStorage importRemoteArchiveMessage:archivedMessage
-                                                                                                fromStream:xmppMessageArchiveManagement.xmppStream];
+    [multicastDelegate xmppOneToOneChat:self didReceiveArchivedMessage:archivedMessage];
 }
 
 @end
