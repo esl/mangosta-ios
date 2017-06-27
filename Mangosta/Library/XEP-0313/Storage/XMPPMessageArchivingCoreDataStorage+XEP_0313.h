@@ -9,6 +9,8 @@
 #import <XMPPFramework/XMPPFramework.h>
 #import "XMPPOneToOneChat+XEP_0313.h"
 
-@interface XMPPMessageArchivingCoreDataStorage (XEP_0313) <XMPPMessageArchiveManagementAwareStorage>
+@interface XMPPMessageArchivingCoreDataStorage (XEP_0313) <XMPPMessageArchiveManagementAwareOneToOneChatDelegate>
+
+- (void)xmppOneToOneChat:(XMPPOneToOneChat *)sender didReceiveArchivedMessage:(XMPPMessage *)message;
 
 @end

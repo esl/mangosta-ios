@@ -14,8 +14,8 @@
 
 @end
 
-@protocol XMPPMessageArchiveManagementAwareStorage <NSObject>
+@protocol XMPPMessageArchiveManagementAwareOneToOneChatDelegate <XMPPOneToOneChatDelegate>
 
-- (void)importRemoteArchiveMessage:(XMPPMessage *)message fromStream:(XMPPStream *)stream;
+- (void)xmppOneToOneChat:(XMPPOneToOneChat *)sender didReceiveArchivedMessage:(XMPPMessage *)message;
 
 @end

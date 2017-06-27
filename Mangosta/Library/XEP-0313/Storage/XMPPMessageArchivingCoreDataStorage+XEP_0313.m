@@ -10,9 +10,9 @@
 
 @implementation XMPPMessageArchivingCoreDataStorage (XEP_0313)
 
-- (void)importRemoteArchiveMessage:(XMPPMessage *)message fromStream:(XMPPStream *)stream
+- (void)xmppOneToOneChat:(XMPPOneToOneChat *)sender didReceiveArchivedMessage:(XMPPMessage *)message
 {
-    XMPPJID *myJid = [self myJIDForXMPPStream:stream];
+    XMPPJID *myJid = [self myJIDForXMPPStream:sender.xmppStream];
     BOOL isOutgoing = [[message from] isEqualToJID:myJid options:XMPPJIDCompareBare];
     
     __block BOOL isUnique;
@@ -21,7 +21,7 @@
     }];
     
     if (isUnique) {
-        [self archiveMessage:message outgoing:isOutgoing xmppStream:stream];
+        [self archiveMessage:message outgoing:isOutgoing xmppStream:sender.xmppStream];
     }
 }
 

@@ -14,7 +14,7 @@
 - (void)xmppMessageArchiveManagement:(XMPPMessageArchiveManagement *)xmppMessageArchiveManagement didReceiveMAMMessage:(XMPPMessage *)message
 {
     XMPPMessage *archivedMessage = [message messageForForwardedArchiveMessage];
-    if (![archivedMessage isGroupChatMessage] || ![xmppRoomLightStorage conformsToProtocol:@protocol(XMPPMessageArchiveManagementAwareRoomStorage)]) {
+    if (![archivedMessage isGroupChatMessage]) {
         return;
     }
     
@@ -22,11 +22,8 @@
     if (![self.roomJID isEqualToJID:from options:XMPPJIDCompareBare]){
         return;
     }
-    
-    [(id<XMPPMessageArchiveManagementAwareRoomStorage>)xmppRoomLightStorage importRemoteArchiveMessage:archivedMessage
-                                                                                         withTimestamp:[NSDate dateWithXmppDateTimeString:[message delayStamp]]
-                                                                                                inRoom:self
-                                                                                            fromStream:xmppMessageArchiveManagement.xmppStream];
+
+    [multicastDelegate xmppRoomLight:self didReceiveArchivedMessage:archivedMessage withTimestamp:[NSDate dateWithXmppDateTimeString:[message delayStamp]]];
 }
 
 @end
