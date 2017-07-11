@@ -334,8 +334,14 @@ private extension XMPPCoreDataChatDataSource {
     convenience init(xmppController: XMPPController, configuration: Configuration, jid: XMPPJID) {
         let baseMessageModelProvider = XMPPCoreDataChatBaseMessageModelProvider(xmppRetransmission: xmppController.xmppRetransmission)
         let textMessageModelProvider = XMPPCoreDataChatDataSourceTextMessageModelProvider(baseProvider: baseMessageModelProvider, xmppRoster: xmppController.xmppRoster)
-        let chatItemBuilders: [XMPPCoreDataChatDataSourceItemBuilder] = [textMessageModelProvider]
-        let chatItemEventSources: [XMPPCoreDataChatDataSourceItemEventSource] = [baseMessageModelProvider]
+        let photoMessageModelProvider = XMPPCoreDataChatDataSourcePhotoMessageModelProvider(
+            baseProvider: baseMessageModelProvider,
+            xmppOutOfBandMessaging: xmppController.xmppOutOfBandMessaging,
+            xmppOutOfBandMessagingStorage: xmppController.xmppOutOfBandMessagingStorage,
+            remotePartyJid: jid
+        )
+        let chatItemBuilders: [XMPPCoreDataChatDataSourceItemBuilder] = [textMessageModelProvider, photoMessageModelProvider]
+        let chatItemEventSources: [XMPPCoreDataChatDataSourceItemEventSource] = [baseMessageModelProvider, photoMessageModelProvider]
         
         switch configuration {
         case .privateChat:

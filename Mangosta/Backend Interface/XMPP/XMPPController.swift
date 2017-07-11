@@ -66,6 +66,7 @@ class XMPPController: NSObject {
             for removedRoom in (roomsLight.filter { !newValue.contains($0) }) {
                 xmppMessageArchiveManagement.removeDelegate(removedRoom)
                 xmppRetransmission.removeDelegate(removedRoom)
+                xmppOutOfBandMessaging.removeDelegate(removedRoom)
                 removedRoom.removeDelegate(self)
                 removedRoom.removeDelegate(self.xmppRoomLightCoreDataStorage)
                 removedRoom.deactivate()
@@ -78,10 +79,15 @@ class XMPPController: NSObject {
                 insertedRoom.addDelegate(self.xmppRoomLightCoreDataStorage, delegateQueue: insertedRoom.moduleQueue)
                 xmppMessageArchiveManagement.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
                 xmppRetransmission.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
+                xmppOutOfBandMessaging.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
             }
             roomListDelegate?.roomListDidChange(in: self)
         }
     }
+    
+    var xmppHttpFileUpload: XMPPHTTPFileUpload
+    var xmppOutOfBandMessaging: XMPPOutOfBandMessaging
+    var xmppOutOfBandMessagingStorage: XMPPOutOfBandMessagingFilesystemStorage
     
     var xmppMicrobloggingPubSub: XMPPPubSub
     var xmppPushNotificationsPubSub: XMPPPubSub
@@ -140,6 +146,7 @@ class XMPPController: NSObject {
         self.xmppRetransmission = XMPPRetransmission(dispatchQueue: .main, storage: XMPPRetransmissionUserDefaultsStorage())
 
         self.xmppMessageArchivingStorage = XMPPMessageArchivingCoreDataStorage()
+        self.xmppMessageArchivingStorage.isOutOfBandMessageArchivingEnabled = true
         self.xmppRoomLightCoreDataStorage = XMPPRoomLightCoreDataStorage()
         
         let filteredMessageArchivingStorage = XMPPRetransmissionMessageArchivingStorageFilter(
@@ -167,6 +174,19 @@ class XMPPController: NSObject {
             environment: pushNotificationsEnvironment
         )
 
+        self.xmppHttpFileUpload = XMPPHTTPFileUpload()
+        self.xmppOutOfBandMessagingStorage = XMPPOutOfBandMessagingFilesystemStorage()
+        self.xmppOutOfBandMessaging = XMPPOutOfBandMessaging(
+            transferHandler: XMPPOutOfBandHTTPTransferHandler(
+                urlSessionConfiguration: .default,
+                xmpphttpFileUpload: self.xmppHttpFileUpload,
+                uploadServiceJID: XMPPJID(string: "upload.erlang-solutions.com")    // TODO: discover service JID
+            ),
+            storage: self.xmppOutOfBandMessagingStorage
+        )
+        self.xmppOutOfBandMessaging.addDelegate(self.xmppOneToOneChat, delegateQueue: self.xmppOneToOneChat.moduleQueue)
+        self.xmppOutOfBandMessaging.addDelegate(self.xmppMUCLight, delegateQueue: self.xmppMUCLight.moduleQueue)
+        
 		// Activate xmpp modules
 		self.xmppReconnect.activate(self.xmppStream)
 		self.xmppRoster.activate(self.xmppStream)
@@ -181,6 +201,8 @@ class XMPPController: NSObject {
         self.xmppOneToOneChat.activate(self.xmppStream)
         self.xmppMUCLight.activate(self.xmppStream)
         self.xmppPushNotifications.activate(self.xmppStream)
+        self.xmppOutOfBandMessaging.activate(self.xmppStream)
+        self.xmppHttpFileUpload.activate(self.xmppStream)
 		
 
 		// Stream Settings
@@ -289,6 +311,7 @@ class XMPPController: NSObject {
         
 		self.roomsLight.forEach { (roomLight) in
             self.xmppMessageArchiveManagement.removeDelegate(roomLight)
+            self.xmppOutOfBandMessaging.removeDelegate(roomLight)
             roomLight.removeDelegate(self)
 			roomLight.deactivate()
 		}
@@ -307,6 +330,8 @@ class XMPPController: NSObject {
         self.xmppOneToOneChat.deactivate()
         self.xmppMUCLight.deactivate()
         self.xmppPushNotifications.deactivate()
+        self.xmppOutOfBandMessaging.deactivate()
+        self.xmppHttpFileUpload.deactivate()
         
         self.disconnect()
         

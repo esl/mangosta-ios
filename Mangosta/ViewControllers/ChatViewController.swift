@@ -78,8 +78,8 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
         textMessagePresenter.textCellStyle = TextMessageCollectionViewCellDefaultStyle(baseStyle: baseMessageStyle)
 
         let photoMessagePresenter = PhotoMessagePresenterBuilder(
-            viewModelBuilder: PhotoMessageViewModelDefaultBuilder(),
-            interactionHandler: XMPPMessageInteractionHandler<PhotoMessageViewModel<PhotoMessageModel<MessageModel>>>()
+            viewModelBuilder: TransferAwarePhotoMessageViewModelDefaultBuilder(),
+            interactionHandler: XMPPMessageInteractionHandler<PhotoMessageViewModel<TransferAwarePhotoMessageModel<MessageModel>>>()
         )
         photoMessagePresenter.baseCellStyle = baseMessageStyle
         
