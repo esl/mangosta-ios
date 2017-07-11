@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2442DE291EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */; };
 		2442DE2A1EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */; };
+		246B753C1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m in Sources */ = {isa = PBXBuildFile; fileRef = 246B753B1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m */; };
+		246B753D1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m in Sources */ = {isa = PBXBuildFile; fileRef = 246B753B1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m */; };
 		4DA3EB6DE1F95ABA8052A45D /* Pods_Mangosta_REST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */; };
 		811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5AB31CAC094D008346FE /* AuthenticationModel.swift */; };
 		81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81473D8F1CC10949006FCEC9 /* MUCRoomCreateViewController.swift */; };
@@ -99,6 +101,8 @@
 		C1AEEF341D24059D00E25C48 /* BlockingMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF331D24059D00E25C48 /* BlockingMembersViewController.swift */; };
 		C1AEEF361D240EB700E25C48 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */; };
 		C1CAEAAA1D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */; };
+		DD1BC86D1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1BC86C1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m */; };
+		DD1BC86E1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1BC86C1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m */; };
 		DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */; };
 		DD1C5D851EB22125004B8669 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
 		DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
@@ -178,6 +182,8 @@
 
 /* Begin PBXFileReference section */
 		2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPFramework+ChatViewControllerTitleProvider.swift"; sourceTree = "<group>"; };
+		246B753A1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessageArchivingCoreDataStorage+XEP_0066.h"; sourceTree = "<group>"; };
+		246B753B1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessageArchivingCoreDataStorage+XEP_0066.m"; sourceTree = "<group>"; };
 		37AF37EA534DB10501DCAA9E /* Pods-Mangosta REST.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta REST.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST.debug.xcconfig"; sourceTree = "<group>"; };
 		42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta_REST.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EDC673E01A9A698EAA88FD /* Pods_Mangosta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mangosta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +249,8 @@
 		C1AEEF351D240EB700E25C48 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		C1CAEAA81D11DDEE006E2A49 /* XMPPMessage+XEP_0313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0313.h"; sourceTree = "<group>"; };
 		C1CAEAA91D11DDEE006E2A49 /* XMPPMessage+XEP_0313.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0313.m"; sourceTree = "<group>"; };
+		DD1BC86B1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPOneToOneChat+XEP_0066.h"; sourceTree = "<group>"; };
+		DD1BC86C1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPOneToOneChat+XEP_0066.m"; sourceTree = "<group>"; };
 		DD1E2C111EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPFramework+ChatViewControllerMessageSender.swift"; sourceTree = "<group>"; };
 		DD1E2C141EDFFAD60092FE98 /* XMPPFramework+ChatViewControllerAdditionalAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPFramework+ChatViewControllerAdditionalAction.swift"; sourceTree = "<group>"; };
 		DD1E73411EDC546D009B529B /* XMPPCoreDataChatDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPCoreDataChatDataSource.swift; sourceTree = "<group>"; };
@@ -616,6 +624,10 @@
 				DD20CA951F03A2100047B6CC /* XMPPOutOfBandMessaging.m */,
 				DD5E99C51F07D7F200524B1D /* XMPPOutOfBandMessagingFilesystemStorage.h */,
 				DD5E99C61F07D7F200524B1D /* XMPPOutOfBandMessagingFilesystemStorage.m */,
+				DD1BC86B1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.h */,
+				DD1BC86C1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m */,
+				246B753A1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.h */,
+				246B753B1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m */,
 			);
 			path = "XEP-0066";
 			sourceTree = "<group>";
@@ -996,6 +1008,7 @@
 				ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */,
 				2442DE291EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */,
 				81F8E8331CA0236A008099D1 /* MainViewController.swift in Sources */,
+				246B753C1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m in Sources */,
 				ACA045931D999B8D00B3AEB8 /* MIMCommunicable.swift in Sources */,
 				DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */,
 				DD1EF3C71ED56C4E0034F6F3 /* XMPPRoster+XEP_0245.m in Sources */,
@@ -1021,6 +1034,7 @@
 				DD50E0DF1F150BEB00F8193C /* XMPPOutOfBandHTTPTransferHandler.m in Sources */,
 				DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */,
 				DD5ECECD1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */,
+				DD1BC86D1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
 				DD1E2C121EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift in Sources */,
 				DD5ECED41EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift in Sources */,
@@ -1072,6 +1086,7 @@
 				DD1E73431EDC546D009B529B /* XMPPCoreDataChatDataSource.swift in Sources */,
 				AC9F65F21D957ABD00B3AEB8 /* XMPPMessage+XEP_0313.m in Sources */,
 				AC3E3FDD1E7C3F27005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
+				DD1BC86E1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m in Sources */,
 				AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
 				DD1E2C131EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift in Sources */,
 				DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */,
@@ -1102,6 +1117,7 @@
 				ACA045941D999B8D00B3AEB8 /* MIMCommunicable.swift in Sources */,
 				DD2542B21EFC08EC00926E38 /* XMPPRetransmissionUserDefaultsStorage.m in Sources */,
 				AC3E3FE31E7C3F32005EA75B /* SendingStatusPresenter.swift in Sources */,
+				246B753D1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m in Sources */,
 				DD1E73461EDD4668009B529B /* XMPPMessageInteractionHandler.swift in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
 				DD5ECECE1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */,

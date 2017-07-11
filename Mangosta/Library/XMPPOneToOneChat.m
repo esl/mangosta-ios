@@ -116,6 +116,21 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 
 @end
 
+@implementation XMPPOneToOneChatSession (Protected)
+
+- (XMPPStream *)oneToOneChatStream
+{
+    return self.xmppStream;
+}
+
+- (XMPPMessage *)outgoingMessage
+{
+    // TODO: [pwe] bare/full recipient JID, threads according to https://xmpp.org/rfcs/rfc6121.html#message-chat
+    return [[XMPPMessage alloc] initWithType:@"chat" to:self.userJID elementID:[XMPPStream generateUUID]];
+}
+
+@end
+
 @implementation XMPPOneToOneChatSession
 
 - (instancetype)initWithStream:(XMPPStream *)xmppStream userJID:(XMPPJID *)userJID
@@ -130,8 +145,7 @@ static const int xmppLogLevel = XMPP_LOG_LEVEL_WARN;
 
 - (void)sendMessageWithBody:(NSString *)body
 {
-    // TODO: [pwe] bare/full recipient JID, threads according to https://xmpp.org/rfcs/rfc6121.html#message-chat
-    XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"chat" to:self.userJID elementID:[XMPPStream generateUUID]];
+    XMPPMessage *message = [self outgoingMessage];
     [message addBody:body];
     
     [self.xmppStream sendElement:message];
