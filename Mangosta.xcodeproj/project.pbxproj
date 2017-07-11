@@ -132,6 +132,8 @@
 		DD1EF3CC1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1EF3CA1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m */; };
 		DD20CA961F03A2100047B6CC /* XMPPOutOfBandMessaging.m in Sources */ = {isa = PBXBuildFile; fileRef = DD20CA951F03A2100047B6CC /* XMPPOutOfBandMessaging.m */; };
 		DD20CA971F03A2100047B6CC /* XMPPOutOfBandMessaging.m in Sources */ = {isa = PBXBuildFile; fileRef = DD20CA951F03A2100047B6CC /* XMPPOutOfBandMessaging.m */; };
+		DD2168121F14AD680052DA19 /* MIMHTTPFileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2168111F14AD680052DA19 /* MIMHTTPFileUpload.m */; };
+		DD2168131F14AD680052DA19 /* MIMHTTPFileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2168111F14AD680052DA19 /* MIMHTTPFileUpload.m */; };
 		DD2226521E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */; };
 		DD2226581E93A49400F8C04D /* XMPPPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2226571E93A49400F8C04D /* XMPPPushNotifications.m */; };
 		DD22EA081ECF3903000D006C /* XMPPOneToOneChat+XEP_0313.m in Sources */ = {isa = PBXBuildFile; fileRef = DD22EA071ECF3903000D006C /* XMPPOneToOneChat+XEP_0313.m */; };
@@ -279,6 +281,8 @@
 		DD1EF3CA1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XMPP_XEP_0245.m"; sourceTree = "<group>"; };
 		DD20CA941F03A2100047B6CC /* XMPPOutOfBandMessaging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPOutOfBandMessaging.h; sourceTree = "<group>"; };
 		DD20CA951F03A2100047B6CC /* XMPPOutOfBandMessaging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPOutOfBandMessaging.m; sourceTree = "<group>"; };
+		DD2168101F14AD680052DA19 /* MIMHTTPFileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMHTTPFileUpload.h; sourceTree = "<group>"; };
+		DD2168111F14AD680052DA19 /* MIMHTTPFileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMHTTPFileUpload.m; sourceTree = "<group>"; };
 		DD2226501E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPServiceDiscovery+XEP_0357.h"; sourceTree = "<group>"; };
 		DD2226511E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPServiceDiscovery+XEP_0357.m"; sourceTree = "<group>"; };
 		DD2226561E93A49400F8C04D /* XMPPPushNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPPushNotifications.h; sourceTree = "<group>"; };
@@ -657,6 +661,8 @@
 		DD21680F1F14AD370052DA19 /* XEP-0363 */ = {
 			isa = PBXGroup;
 			children = (
+				DD2168101F14AD680052DA19 /* MIMHTTPFileUpload.h */,
+				DD2168111F14AD680052DA19 /* MIMHTTPFileUpload.m */,
 				DD50E0DD1F150BEB00F8193C /* XMPPOutOfBandHTTPTransferHandler.h */,
 				DD50E0DE1F150BEB00F8193C /* XMPPOutOfBandHTTPTransferHandler.m */,
 			);
@@ -1076,6 +1082,7 @@
 				81473D901CC10949006FCEC9 /* MUCRoomCreateViewController.swift in Sources */,
 				DD1EF3CB1ED582D90034F6F3 /* NSString+XMPP_XEP_0245.m in Sources */,
 				DD1E73451EDD4668009B529B /* XMPPMessageInteractionHandler.swift in Sources */,
+				DD2168121F14AD680052DA19 /* MIMHTTPFileUpload.m in Sources */,
 				DD2542B51EFC15A500926E38 /* XMPPOneToOneChat+XMPPRetransmissionDelegate.m in Sources */,
 				DD2226521E93A04F00F8C04D /* XMPPServiceDiscovery+XEP_0357.m in Sources */,
 				81F8E8351CA023B1008099D1 /* LoginViewController.swift in Sources */,
@@ -1115,6 +1122,7 @@
 				AC3E3FDD1E7C3F27005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
 				DD1BC86E1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m in Sources */,
 				AC3E3FE21E7C3F32005EA75B /* SendingStatusCollectionViewCell.swift in Sources */,
+				DD2168131F14AD680052DA19 /* MIMHTTPFileUpload.m in Sources */,
 				DD1E2C131EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift in Sources */,
 				DD1A0C671F13603500674FF1 /* XMPPMUCLight+XEP_0066.m in Sources */,
 				DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */,

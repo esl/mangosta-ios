@@ -27,3 +27,4 @@
 #import "XMPPOneToOneChat+XEP_0066.h"
 #import "XMPPMessageArchivingCoreDataStorage+XEP_0066.h"
 #import "XMPPMUCLight+XEP_0066.h"
+#import "MIMHTTPFileUpload.h"

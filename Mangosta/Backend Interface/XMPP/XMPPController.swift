@@ -174,7 +174,7 @@ class XMPPController: NSObject {
             environment: pushNotificationsEnvironment
         )
 
-        self.xmppHttpFileUpload = XMPPHTTPFileUpload()
+        self.xmppHttpFileUpload = MIMHTTPFileUpload()
         self.xmppOutOfBandMessagingStorage = XMPPOutOfBandMessagingFilesystemStorage()
         self.xmppOutOfBandMessaging = XMPPOutOfBandMessaging(
             transferHandler: XMPPOutOfBandHTTPTransferHandler(
