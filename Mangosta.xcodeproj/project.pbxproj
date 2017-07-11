@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		2442DE291EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */; };
 		2442DE2A1EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */; };
+		2451ACB71F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2451ACB61F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift */; };
+		2451ACB81F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2451ACB61F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift */; };
+		2451ACBA1F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2451ACB91F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift */; };
+		2451ACBB1F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2451ACB91F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift */; };
 		246B753C1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m in Sources */ = {isa = PBXBuildFile; fileRef = 246B753B1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m */; };
 		246B753D1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m in Sources */ = {isa = PBXBuildFile; fileRef = 246B753B1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m */; };
 		4DA3EB6DE1F95ABA8052A45D /* Pods_Mangosta_REST.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B6B5A8C0E60D128D86660C /* Pods_Mangosta_REST.framework */; };
@@ -151,10 +155,10 @@
 		DD5ECECE1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECECC1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m */; };
 		DD5ECED11EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED01EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m */; };
 		DD5ECED21EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED01EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m */; };
-		DD5ECED41EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED31EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift */; };
-		DD5ECED51EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED31EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift */; };
-		DD5ECED71EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED61EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift */; };
-		DD5ECED81EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED61EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift */; };
+		DD5ECED41EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED31EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift */; };
+		DD5ECED51EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED31EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift */; };
+		DD5ECED71EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED61EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift */; };
+		DD5ECED81EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5ECED61EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift */; };
 		DD621D211EAA47DD0083C977 /* MIMPushNotificationsPubSub.m in Sources */ = {isa = PBXBuildFile; fileRef = DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */; };
 		DDD9126B1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
 		DDD9126C1ED320A300E0E157 /* XMPPOneToOneChat.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD9126A1ED320A300E0E157 /* XMPPOneToOneChat.m */; };
@@ -184,6 +188,8 @@
 
 /* Begin PBXFileReference section */
 		2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPFramework+ChatViewControllerTitleProvider.swift"; sourceTree = "<group>"; };
+		2451ACB61F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPCoreDataChatDataSourceTextMessageModelProvider.swift; sourceTree = "<group>"; };
+		2451ACB91F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPCoreDataChatBaseMessageModelProvider.swift; sourceTree = "<group>"; };
 		246B753A1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessageArchivingCoreDataStorage+XEP_0066.h"; sourceTree = "<group>"; };
 		246B753B1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessageArchivingCoreDataStorage+XEP_0066.m"; sourceTree = "<group>"; };
 		37AF37EA534DB10501DCAA9E /* Pods-Mangosta REST.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mangosta REST.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mangosta REST/Pods-Mangosta REST.debug.xcconfig"; sourceTree = "<group>"; };
@@ -299,8 +305,8 @@
 		DD5ECECC1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPRetransmissionMessageArchivingStorageFilter.m; sourceTree = "<group>"; };
 		DD5ECECF1EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPRetransmissionRoomLightStorageFilter.h; sourceTree = "<group>"; };
 		DD5ECED01EFD03E80055A966 /* XMPPRetransmissionRoomLightStorageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPRetransmissionRoomLightStorageFilter.m; sourceTree = "<group>"; };
-		DD5ECED31EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift"; sourceTree = "<group>"; };
-		DD5ECED61EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift"; sourceTree = "<group>"; };
+		DD5ECED31EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift"; sourceTree = "<group>"; };
+		DD5ECED61EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift"; sourceTree = "<group>"; };
 		DD621D1F1EAA47DD0083C977 /* MIMPushNotificationsPubSub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIMPushNotificationsPubSub.h; sourceTree = "<group>"; };
 		DD621D201EAA47DD0083C977 /* MIMPushNotificationsPubSub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIMPushNotificationsPubSub.m; sourceTree = "<group>"; };
 		DDD912691ED320A300E0E157 /* XMPPOneToOneChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPOneToOneChat.h; sourceTree = "<group>"; };
@@ -600,8 +606,10 @@
 			children = (
 				2442DE281EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift */,
 				DD1E73411EDC546D009B529B /* XMPPCoreDataChatDataSource.swift */,
-				DD5ECED31EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift */,
-				DD5ECED61EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift */,
+				2451ACB91F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift */,
+				2451ACB61F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift */,
+				DD5ECED31EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift */,
+				DD5ECED61EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift */,
 				DD1E2C111EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift */,
 				DD1E73441EDD4668009B529B /* XMPPMessageInteractionHandler.swift */,
 				DD1E2C141EDFFAD60092FE98 /* XMPPFramework+ChatViewControllerAdditionalAction.swift */,
@@ -1033,7 +1041,7 @@
 				E094FB5B1CE107550033E0E0 /* XMPPStreamManagementDiscStorage.m in Sources */,
 				DD20CA961F03A2100047B6CC /* XMPPOutOfBandMessaging.m in Sources */,
 				811C5AB41CAC094D008346FE /* AuthenticationModel.swift in Sources */,
-				DD5ECED71EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift in Sources */,
+				DD5ECED71EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift in Sources */,
 				81ECA3501C92CDE4000602F2 /* AppDelegate.swift in Sources */,
 				AC3E3FAF1E7C3DB0005EA75B /* ChatViewController.swift in Sources */,
 				AC3E3FCB1E7C3F19005EA75B /* ChatItemsDemoDecorator.swift in Sources */,
@@ -1043,9 +1051,11 @@
 				DD1BC86D1F0F99EF005BAEDA /* XMPPOneToOneChat+XEP_0066.m in Sources */,
 				DD1A0C661F13603500674FF1 /* XMPPMUCLight+XEP_0066.m in Sources */,
 				AC5D3EA51E1D7B2A00B3AEB8 /* RosterViewController.swift in Sources */,
+				2451ACB71F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift in Sources */,
 				DD1E2C121EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift in Sources */,
-				DD5ECED41EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift in Sources */,
+				DD5ECED41EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift in Sources */,
 				DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */,
+				2451ACBA1F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift in Sources */,
 				C19BA8021D243AB900F5BAB2 /* XMPPController.swift in Sources */,
 				DDD912771ED45B9700E0E157 /* XMPPMessageArchivingCoreDataStorage+XEP_0313.m in Sources */,
 				AC3E3FD31E7C3F19005EA75B /* TimeSeparatorModel.swift in Sources */,
@@ -1098,12 +1108,13 @@
 				DD1E2C131EDEE30E0092FE98 /* XMPPFramework+ChatViewControllerMessageSender.swift in Sources */,
 				DD1A0C671F13603500674FF1 /* XMPPMUCLight+XEP_0066.m in Sources */,
 				DD1C5D841EB2211C004B8669 /* XMPPPushNotifications.m in Sources */,
-				DD5ECED51EFD43460055A966 /* XMPPCoreDataChatDataSource+XMPPMessageArchiving_Message_CoreDataObject.swift in Sources */,
+				DD5ECED51EFD43460055A966 /* XMPPMessageArchiving_Message_CoreDataObject+XMPPCoreDataChatDataSource.swift in Sources */,
 				2442DE2A1EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */,
 				AC3E3FE41E7C3F32005EA75B /* TimeSeparatorCollectionViewCell.swift in Sources */,
 				AC9F65F31D957ABD00B3AEB8 /* MembersViewController.swift in Sources */,
 				DD1C5D861EB22171004B8669 /* XMPPServiceDiscovery+XEP_0357.m in Sources */,
 				DDD9127C1ED45C5700E0E157 /* XMPPRoomLight+XEP_0313.m in Sources */,
+				2451ACBB1F08FA8F0095510B /* XMPPCoreDataChatBaseMessageModelProvider.swift in Sources */,
 				ACA045981D9ACCC800B3AEB8 /* RoomsRepository.swift in Sources */,
 				DD1E73501EDDC0B7009B529B /* XMPPStream+XEP_0245.m in Sources */,
 				AC9F65F41D957ABD00B3AEB8 /* MainViewController.swift in Sources */,
@@ -1134,9 +1145,10 @@
 				DD1C5D851EB22125004B8669 /* MIMPushNotificationsPubSub.m in Sources */,
 				AC3E3FB01E7C3DB1005EA75B /* ChatViewController.swift in Sources */,
 				ACA0458A1D99906900B3AEB8 /* MensajesRepository.swift in Sources */,
-				DD5ECED81EFD43F90055A966 /* XMPPCoreDataChatDataSource+XMPPRoomLightMessageCoreDataStorageObject.swift in Sources */,
+				DD5ECED81EFD43F90055A966 /* XMPPRoomLightMessageCoreDataStorageObject+XMPPCoreDataChatDataSource.swift in Sources */,
 				AC9F66531D957E5900B3AEB8 /* MongooseAPI.swift in Sources */,
 				DD50E0E01F150BEB00F8193C /* XMPPOutOfBandHTTPTransferHandler.m in Sources */,
+				2451ACB81F08FA5E0095510B /* XMPPCoreDataChatDataSourceTextMessageModelProvider.swift in Sources */,
 				DDD912781ED45B9700E0E157 /* XMPPMessageArchivingCoreDataStorage+XEP_0313.m in Sources */,
 				DD2542BA1EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.m in Sources */,
 				ACB9196E1E329C0500B3AEB8 /* Appearance.swift in Sources */,

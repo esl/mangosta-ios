@@ -89,12 +89,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
         
         let chatViewController = ChatViewController(
             titleProvider: XMPPOneToOneChatTitleProvider(user: user),
-            chatDataSource: XMPPCoreDataChatDataSource(
-                messageArchivingManagedObjectContext: xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext,
-                userJid: user.jid().bare(),
-                roster: xmppController.xmppRoster,
-                retransmission: xmppController.xmppRetransmission
-            ),
+            chatDataSource: XMPPCoreDataChatDataSource(xmppController: xmppController, configuration: .privateChat, jid: user.jid().bare()),
             messageSender: xmppController.xmppOneToOneChat.session(forUserJID: user.jid().bare()),
             additionalActions: [XMPPOneToOneChatMessageHistoryFetchAction(xmppController: xmppController, userJid: user.jid().bare())]
         )
@@ -109,12 +104,7 @@ class MainViewController: UIViewController, TitleViewModifiable {
         
         let chatViewController = ChatViewController(
             titleProvider: XMPPRoomLightChatTitleProvider(room: room),
-            chatDataSource: XMPPCoreDataChatDataSource(
-                roomStorageManagedObjectContext: xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext,
-                roomJid: room.roomJID,
-                roster: xmppController.xmppRoster,
-                retransmission: xmppController.xmppRetransmission
-            ),
+            chatDataSource: XMPPCoreDataChatDataSource(xmppController: xmppController, configuration: .groupChat, jid: room.roomJID),
             messageSender: room,
             additionalActions: [
                 XMPPRoomChatMessageHistoryFetchAction(xmppController: xmppController, roomJid: room.roomJID),
@@ -333,4 +323,32 @@ extension MainViewController: MUCRoomCreateViewControllerDelegate {
 		xmppController.addRoom(withName: roomName, initialOccupantJids: users)
         dismiss(animated: true, completion: nil)
 	}
+}
+
+private extension XMPPCoreDataChatDataSource {
+    
+    enum Configuration {
+        case privateChat, groupChat
+    }
+    
+    convenience init(xmppController: XMPPController, configuration: Configuration, jid: XMPPJID) {
+        let baseMessageModelProvider = XMPPCoreDataChatBaseMessageModelProvider(xmppRetransmission: xmppController.xmppRetransmission)
+        let textMessageModelProvider = XMPPCoreDataChatDataSourceTextMessageModelProvider(baseProvider: baseMessageModelProvider, xmppRoster: xmppController.xmppRoster)
+        let chatItemBuilders: [XMPPCoreDataChatDataSourceItemBuilder] = [textMessageModelProvider]
+        let chatItemEventSources: [XMPPCoreDataChatDataSourceItemEventSource] = [baseMessageModelProvider]
+        
+        switch configuration {
+        case .privateChat:
+            self.init(
+                fetchedResultsController: XMPPMessageArchiving_Message_CoreDataObject.chatDataSourceFetchedResultsController(with: xmppController.xmppMessageArchivingStorage.mainThreadManagedObjectContext, userJid: jid),
+                chatItemBuilders: chatItemBuilders, chatItemEventSources: chatItemEventSources
+            )
+            
+        case .groupChat:
+            self.init(
+                fetchedResultsController: XMPPRoomLightMessageCoreDataStorageObject.chatDataSourceFetchedResultsController(with: xmppController.xmppRoomLightCoreDataStorage.mainThreadManagedObjectContext, roomJid: jid),
+                chatItemBuilders: chatItemBuilders, chatItemEventSources: chatItemEventSources
+            )
+        }
+    }
 }
