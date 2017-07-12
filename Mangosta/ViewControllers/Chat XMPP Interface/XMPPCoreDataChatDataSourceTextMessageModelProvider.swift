@@ -21,7 +21,7 @@ class XMPPCoreDataChatDataSourceTextMessageModelProvider: NSObject, XMPPCoreData
     }
     
     func chatItems(at position: XMPPCoreDataChatDataSource.ItemPosition, in messageFetchRequestResults: [MessageFetchRequestResult]) -> [ChatItemProtocol] {
-        guard case let .attachedTo(index) = position, messageFetchRequestResults[index].source.body() != nil else {
+        guard case let .attachedTo(index) = position, let body = messageFetchRequestResults[index].source.body(), !body.isEmpty else {
             return []
         }
         

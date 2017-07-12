@@ -8,6 +8,8 @@
 
 #import "XMPPMUCLight+XEP_0066.h"
 
+// TODO: the implementations here contain repeated framework logic
+
 @implementation XMPPMUCLight (XEP_0066)
 
 - (void)xmppOutOfBandMessaging:(XMPPOutOfBandMessaging *)xmppOutOfBandMessaging didReceiveOutOfBandDataMessage:(XMPPMessage *)message
@@ -40,6 +42,7 @@
     NSAssert(outOfBandMessaging, @"XMPPOutOfBandMessaging module not currently registered");
     
     XMPPMessage *message = [[XMPPMessage alloc] initWithType:@"groupchat" to:self.roomJID elementID:[XMPPStream generateUUID]];
+    [message addBody:@""];  // we still want at least an empty body so the message is stored in archives etc.
     [outOfBandMessaging submitOutgoingMessage:message withOutOfBandData:outOfBandData MIMEType:MIMEType];
 }
 

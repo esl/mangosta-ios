@@ -35,7 +35,7 @@
     }];
     NSAssert(outOfBandMessaging, @"XMPPOutOfBandMessaging module not currently registered");
     
-    [outOfBandMessaging submitOutgoingMessage:[self outgoingMessage] withOutOfBandData:outOfBandData MIMEType:MIMEType];
+    [outOfBandMessaging submitOutgoingMessage:[self outgoingMessageWithBody:@""] withOutOfBandData:outOfBandData MIMEType:MIMEType];
 }
 
 @end

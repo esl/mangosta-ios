@@ -18,6 +18,6 @@
 
 @property (nonatomic, readonly) XMPPStream *oneToOneChatStream;
 
-- (XMPPMessage *)outgoingMessage;
+- (XMPPMessage *)outgoingMessageWithBody:(NSString *)body;
 
 @end
