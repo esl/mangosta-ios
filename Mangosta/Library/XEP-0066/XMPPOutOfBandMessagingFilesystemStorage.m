@@ -120,6 +120,10 @@
             continue;
         }
         
+        if ([message outOfBandURL]) {
+            continue;
+        }
+        
         [pendingMessages addObject:message];
     }
     
