@@ -30,6 +30,7 @@ class TransferAwarePhotoMessageViewModelDefaultBuilder<MessageModelT: MessageMod
 protocol PhotoMessageTransferMonitor {
     
     func setObserver(_ observer: PhotoMessageTransferObserver)
+    func retryTransfer()
 }
 
 protocol PhotoMessageTransferObserver {

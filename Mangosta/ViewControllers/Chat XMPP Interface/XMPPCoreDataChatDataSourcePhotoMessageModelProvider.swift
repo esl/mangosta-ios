@@ -18,16 +18,49 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
         
         class Static: TransferMonitor, PhotoMessageTransferMonitor {
             
-            private let status: TransferStatus
+            private enum Outcome {
+                case pending(isFailed: Bool, message: XMPPMessage, modelProvider: Unowned<XMPPCoreDataChatDataSourcePhotoMessageModelProvider>)
+                case completed
+            }
             
-            init(direction: TransferDirection, status: TransferStatus) {
-                self.status = status
+            private let outcome: Outcome
+            
+            init(successfulOutcomeFor direction: TransferDirection) {
+                outcome = .completed
+                super.init(direction: direction)
+            }
+            
+            init (pendingOutcomeFor direction: TransferDirection, isFailed: Bool, message: XMPPMessage, modelProvider: XMPPCoreDataChatDataSourcePhotoMessageModelProvider) {
+                outcome = .pending(isFailed: isFailed, message: message, modelProvider: Unowned(value: modelProvider))
                 super.init(direction: direction)
             }
             
             override func setObserver(_ observer: PhotoMessageTransferObserver) {
                 super.setObserver(observer)
-                observer.notify(ofCurrentStatus: status)
+                
+                switch outcome {
+                case .pending(let isFailed, _, _):
+                    observer.notify(ofCurrentStatus: isFailed ? .failed : .idle)
+                    
+                case .completed:
+                    observer.notify(ofCurrentStatus: .success)
+                }
+            }
+            
+            func retryTransfer() {
+                switch (direction, outcome) {
+                case (.upload, .pending(_, let message, let modelProvider)):
+                    guard let messageId = message.elementID(), let entry = modelProvider.value.xmppOutOfBandMessagingStorage.entry(forTransferIdentifier: messageId) else {
+                        return
+                    }
+                    modelProvider.value.xmppOutOfBandMessaging.submitOutgoingMessage(message, withOutOfBandData: entry.data, mimeType: entry.mimeType)
+                    
+                case (.download, .pending(_, let message, let modelProvider)):
+                    modelProvider.value.xmppOutOfBandMessaging.retrieveOutOfBandData(for: message)
+                    
+                case (_, .completed):
+                    break
+                }
             }
         }
         
@@ -66,6 +99,10 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
                 self.observer = observer
                 observer.notify(ofCurrentStatus: .transfering)
                 observer.notify(ofCurrentProgress: progress.fractionCompleted)
+            }
+            
+            func retryTransfer() {
+                // nop
             }
         }
         
@@ -171,9 +208,12 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
         if let progress = xmppOutOfBandMessaging.dataTransferProgress(for: message) {
             transferMonitor = TransferMonitor.Dynamic(direction: direction, progress: progress)
         } else if xmppOutOfBandMessaging.dataTransferError(for: message) != nil {
-            transferMonitor = TransferMonitor.Static(direction: direction, status: .failed)
+            transferMonitor = TransferMonitor.Static(pendingOutcomeFor: direction, isFailed: true, message: message, modelProvider: self)
+        } else if entry?.isTransferComplete == true {
+            transferMonitor = TransferMonitor.Static(successfulOutcomeFor: direction)
         } else {
-            transferMonitor = TransferMonitor.Static(direction: direction, status: entry?.isTransferComplete == true ? .success : .idle)
+            let isFailed = direction == .upload // there are no idle uploads, only successful/failed ones
+            transferMonitor = TransferMonitor.Static(pendingOutcomeFor: direction, isFailed: isFailed, message: message, modelProvider: self)
         }
         
         return (thumbnail, transferMonitor)
@@ -222,4 +262,8 @@ private extension Data {
             .flatMap { CGImageSourceCreateThumbnailAtIndex($0, 0, options as CFDictionary) }
             .flatMap { UIImage(cgImage: $0, scale: screen.scale, orientation: .up) }
     }
+}
+
+private struct Unowned<T: AnyObject> {
+    unowned let value: T
 }

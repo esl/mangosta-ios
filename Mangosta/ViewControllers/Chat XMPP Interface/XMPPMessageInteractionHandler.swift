@@ -8,7 +8,7 @@
 
 import ChattoAdditions
 
-class XMPPMessageInteractionHandler<ViewModel: MessageViewModelProtocol>: BaseMessageInteractionHandlerProtocol {
+class XMPPTextMessageInteractionHandler<ViewModel: TextMessageViewModelProtocol>: BaseMessageInteractionHandlerProtocol {
     
     // TODO
     func userDidTapOnFailIcon(viewModel: ViewModel, failIconView: UIView) {}
@@ -16,4 +16,48 @@ class XMPPMessageInteractionHandler<ViewModel: MessageViewModelProtocol>: BaseMe
     func userDidTapOnBubble(viewModel: ViewModel) {}
     func userDidBeginLongPressOnBubble(viewModel: ViewModel) {}
     func userDidEndLongPressOnBubble(viewModel: ViewModel) {}
+}
+
+class XMPPPhotoMessageInteractionHandler: BaseMessageInteractionHandlerProtocol {
+    
+    private unowned let contextViewController: UIViewController
+    
+    init(contextViewController: UIViewController) {
+        self.contextViewController = contextViewController
+    }
+    
+    func userDidTapOnFailIcon(viewModel: PhotoMessageViewModel<TransferAwarePhotoMessageModel<MessageModel>>, failIconView: UIView) {
+        guard viewModel.transferStatus.value != .success else {
+            // the icon can be shown after a successful HTTP upload when sending fails for the message itself
+            return
+        }
+        
+        let message: String
+        switch viewModel.transferDirection.value {
+        case .upload:
+            message = NSLocalizedString("Upload failed", comment: "")
+        case .download:
+            message = NSLocalizedString("Download failed", comment: "")
+        }
+        
+        let retryConfirmationSheet = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        retryConfirmationSheet.addAction(UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
+            viewModel._photoMessage.transferMonitor.retryTransfer()
+        })
+        retryConfirmationSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
+        
+        contextViewController.present(retryConfirmationSheet, animated: true, completion: nil)
+    }
+    
+    func userDidTapOnBubble(viewModel: PhotoMessageViewModel<TransferAwarePhotoMessageModel<MessageModel>>) {
+        guard viewModel.transferStatus.value == .idle else {
+            return
+        }
+        viewModel._photoMessage.transferMonitor.retryTransfer()
+    }
+    
+    // TODO
+    func userDidTapOnAvatar(viewModel: PhotoMessageViewModel<TransferAwarePhotoMessageModel<MessageModel>>) {}
+    func userDidBeginLongPressOnBubble(viewModel: PhotoMessageViewModel<TransferAwarePhotoMessageModel<MessageModel>>) {}
+    func userDidEndLongPressOnBubble(viewModel: PhotoMessageViewModel<TransferAwarePhotoMessageModel<MessageModel>>) {}
 }
