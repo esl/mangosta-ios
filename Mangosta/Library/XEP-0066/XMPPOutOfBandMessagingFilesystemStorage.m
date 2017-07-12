@@ -176,7 +176,7 @@
     }
     
     NSURL *indexURL = [self indexURLForKey:transferIdentifier];
-    NSURL *collectionItemURL = [[self collectionURLForKey:[[message to] bare]] URLByAppendingPathComponent:dataFileURL.lastPathComponent];
+    NSURL *collectionItemURL = [[self collectionURLForKey:[[message to] bare]] URLByAppendingPathComponent:indexURL.lastPathComponent];
     
     for (NSURL *symbolicLinkURL in @[indexURL, collectionItemURL]) {
         NSURL *symbolicLinkDirectoryURL = symbolicLinkURL.URLByDeletingLastPathComponent;
