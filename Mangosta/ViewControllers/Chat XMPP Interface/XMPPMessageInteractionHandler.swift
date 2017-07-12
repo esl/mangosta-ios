@@ -27,8 +27,8 @@ class XMPPPhotoMessageInteractionHandler: BaseMessageInteractionHandlerProtocol 
     }
     
     func userDidTapOnFailIcon(viewModel: PhotoMessageViewModel<TransferAwarePhotoMessageModel<MessageModel>>, failIconView: UIView) {
-        guard viewModel.transferStatus.value != .success else {
-            // the icon can be shown after a successful HTTP upload when sending fails for the message itself
+        guard case let .pending(isTransferFailed: true, retryInitiator) = viewModel._photoMessage.transferMonitor.state else {
+            // the icon can also be shown after a successful HTTP upload when sending fails for the message itself
             return
         }
         
@@ -42,7 +42,7 @@ class XMPPPhotoMessageInteractionHandler: BaseMessageInteractionHandlerProtocol 
         
         let retryConfirmationSheet = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
         retryConfirmationSheet.addAction(UIAlertAction(title: NSLocalizedString("Retry", comment: ""), style: .default) { _ in
-            viewModel._photoMessage.transferMonitor.retryTransfer()
+            retryInitiator.invoke()
         })
         retryConfirmationSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         
@@ -53,7 +53,6 @@ class XMPPPhotoMessageInteractionHandler: BaseMessageInteractionHandlerProtocol 
         guard viewModel.transferStatus.value == .idle else {
             return
         }
-        viewModel._photoMessage.transferMonitor.retryTransfer()
     }
     
     // TODO

@@ -20,13 +20,43 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
             
             private enum Outcome {
                 case pending(isFailed: Bool, message: XMPPMessage, modelProvider: Unowned<XMPPCoreDataChatDataSourcePhotoMessageModelProvider>)
-                case completed
+                case successful(previewFileUrl: URL)
+            }
+            
+            private struct Initiator: PhotoMessageTransferInitiator {
+                
+                let direction: TransferDirection
+                let message: XMPPMessage
+                unowned let modelProvider: XMPPCoreDataChatDataSourcePhotoMessageModelProvider
+                
+                func invoke() {
+                    switch direction {
+                    case .upload:
+                        guard let messageId = message.elementID(), let entry = modelProvider.xmppOutOfBandMessagingStorage.entry(forTransferIdentifier: messageId) else {
+                            return
+                        }
+                        modelProvider.xmppOutOfBandMessaging.submitOutgoingMessage(message, withOutOfBandData: entry.data, mimeType: entry.mimeType)
+                        
+                    case .download:
+                        modelProvider.xmppOutOfBandMessaging.retrieveOutOfBandData(for: message)
+                    }
+                }
             }
             
             private let outcome: Outcome
             
-            init(successfulOutcomeFor direction: TransferDirection) {
-                outcome = .completed
+            var state: PhotoMessageTransferMonitorState {
+                switch outcome {
+                case let .pending(isFailed, message, modelProviderWrapper):
+                    return .pending(isTransferFailed: isFailed, Initiator(direction: direction, message: message, modelProvider: modelProviderWrapper.value))
+                    
+                case .successful(let previewFileUrl):
+                    return .done(previewFileUrl: previewFileUrl)
+                }
+            }
+            
+            init(successfulOutcomeFor direction: TransferDirection, previewFileUrl: URL) {
+                outcome = .successful(previewFileUrl: previewFileUrl)
                 super.init(direction: direction)
             }
             
@@ -42,24 +72,8 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
                 case .pending(let isFailed, _, _):
                     observer.notify(ofCurrentStatus: isFailed ? .failed : .idle)
                     
-                case .completed:
+                case .successful:
                     observer.notify(ofCurrentStatus: .success)
-                }
-            }
-            
-            func retryTransfer() {
-                switch (direction, outcome) {
-                case (.upload, .pending(_, let message, let modelProvider)):
-                    guard let messageId = message.elementID(), let entry = modelProvider.value.xmppOutOfBandMessagingStorage.entry(forTransferIdentifier: messageId) else {
-                        return
-                    }
-                    modelProvider.value.xmppOutOfBandMessaging.submitOutgoingMessage(message, withOutOfBandData: entry.data, mimeType: entry.mimeType)
-                    
-                case (.download, .pending(_, let message, let modelProvider)):
-                    modelProvider.value.xmppOutOfBandMessaging.retrieveOutOfBandData(for: message)
-                    
-                case (_, .completed):
-                    break
                 }
             }
         }
@@ -70,6 +84,8 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
             
             private let progress: Progress
             private var observer: PhotoMessageTransferObserver?
+
+            var state: PhotoMessageTransferMonitorState { return .working }
             
             init(direction: TransferDirection, progress: Progress) {
                 self.progress = progress
@@ -99,10 +115,6 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
                 self.observer = observer
                 observer.notify(ofCurrentStatus: .transfering)
                 observer.notify(ofCurrentProgress: progress.fractionCompleted)
-            }
-            
-            func retryTransfer() {
-                // nop
             }
         }
         
@@ -209,8 +221,8 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
             transferMonitor = TransferMonitor.Dynamic(direction: direction, progress: progress)
         } else if xmppOutOfBandMessaging.dataTransferError(for: message) != nil {
             transferMonitor = TransferMonitor.Static(pendingOutcomeFor: direction, isFailed: true, message: message, modelProvider: self)
-        } else if entry?.isTransferComplete == true {
-            transferMonitor = TransferMonitor.Static(successfulOutcomeFor: direction)
+        } else if let entry = entry, entry.isTransferComplete {
+            transferMonitor = TransferMonitor.Static(successfulOutcomeFor: direction, previewFileUrl: entry.fileURL)
         } else {
             let isFailed = direction == .upload // there are no idle uploads, only successful/failed ones
             transferMonitor = TransferMonitor.Static(pendingOutcomeFor: direction, isFailed: isFailed, message: message, modelProvider: self)

@@ -29,8 +29,20 @@ class TransferAwarePhotoMessageViewModelDefaultBuilder<MessageModelT: MessageMod
 
 protocol PhotoMessageTransferMonitor {
     
+    var state: PhotoMessageTransferMonitorState { get }
     func setObserver(_ observer: PhotoMessageTransferObserver)
-    func retryTransfer()
+}
+
+enum PhotoMessageTransferMonitorState {
+    
+    case pending(isTransferFailed: Bool, PhotoMessageTransferInitiator)
+    case working
+    case done(previewFileUrl: URL)
+}
+
+protocol PhotoMessageTransferInitiator {
+    
+    func invoke()
 }
 
 protocol PhotoMessageTransferObserver {
