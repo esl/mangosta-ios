@@ -12,15 +12,34 @@ import XMPPFramework
 
 class XMPPCoreDataChatDataSource : NSObject {
 
-    private class TextMessageFetchRequestResultProvider {
+    enum ItemPosition {
         
-        var fetchedObjects: [TextMessageFetchRequestResult]? { fatalError("Abstract property") }
+        case attachedTo(messageFetchRequestResultIndex: Int)
+        case tail
+    }
+
+    class ItemEventSink: NSObject {
+        
+        private unowned let dataSource: XMPPCoreDataChatDataSource
+        
+        fileprivate init(dataSource: XMPPCoreDataChatDataSource) {
+            self.dataSource = dataSource
+        }
+        
+        func invalidateCurrentChatItems() {
+            dataSource.updateChatItems(with: UpdateType.normal)
+        }
     }
     
-    private class _TextMessageFetchRequestResultProvider<ResultType: TextMessageFetchRequestResult>: TextMessageFetchRequestResultProvider {
+    private class MessageFetchRequestResultProvider {
+        
+        var fetchedObjects: [MessageFetchRequestResult]? { fatalError("Abstract property") }
+    }
+    
+    private class _MessageFetchRequestResultProvider<ResultType: MessageFetchRequestResult>: MessageFetchRequestResultProvider {
         
         let base: NSFetchedResultsController<ResultType>
-        override var fetchedObjects: [TextMessageFetchRequestResult]? { return base.fetchedObjects }
+        override var fetchedObjects: [MessageFetchRequestResult]? { return base.fetchedObjects }
         
         init(base: NSFetchedResultsController<ResultType>) {
             self.base = base
@@ -30,49 +49,51 @@ class XMPPCoreDataChatDataSource : NSObject {
     private(set) var chatItems = [ChatItemProtocol]()
     weak var delegate: ChatDataSourceDelegateProtocol?
     
-    private let textMessageFetchRequestResultProvider: TextMessageFetchRequestResultProvider
-    private let roster: XMPPRoster
-    private let retransmission: XMPPRetransmission
+    private let messageFetchRequestResultProvider: MessageFetchRequestResultProvider
+    private let chatItemBuilders: [XMPPCoreDataChatDataSourceItemBuilder]
+    private var chatItemEventSink: ItemEventSink!
     
-    init<MessageResultType: TextMessageFetchRequestResult>(fetchedResultsController: NSFetchedResultsController<MessageResultType>, roster: XMPPRoster, retransmission: XMPPRetransmission) {
-        textMessageFetchRequestResultProvider = _TextMessageFetchRequestResultProvider(base: fetchedResultsController)
-        self.roster = roster
-        self.retransmission = retransmission
+    init<MessageResultType: MessageFetchRequestResult>(fetchedResultsController: NSFetchedResultsController<MessageResultType>, chatItemBuilders: [XMPPCoreDataChatDataSourceItemBuilder], chatItemEventSources: [XMPPCoreDataChatDataSourceItemEventSource]) {
+        messageFetchRequestResultProvider = _MessageFetchRequestResultProvider(base: fetchedResultsController)
+        self.chatItemBuilders = chatItemBuilders
         
         super.init()
         
         fetchedResultsController.delegate = self
         try! fetchedResultsController.performFetch()
         
-        retransmission.xmppStream.addDelegate(self, delegateQueue: .main)
-        retransmission.addDelegate(self, delegateQueue: .main)
+        chatItemEventSink = ItemEventSink(dataSource: self)
+        for eventSource in chatItemEventSources {
+            eventSource.startObservingChatItemEvents(with: chatItemEventSink)
+        }
         
         updateChatItems(with: UpdateType.firstLoad)
     }
     
     fileprivate func updateChatItems(with updateType: UpdateType) {
-        let unconfirmedMessageIds = retransmission.storage.processedMessageIds()
+        let messageFetchRequestResults = messageFetchRequestResultProvider.fetchedObjects!
+        let positions = messageFetchRequestResults.indices.map { ItemPosition.attachedTo(messageFetchRequestResultIndex: $0) } + [.tail]
         
-        chatItems = textMessageFetchRequestResultProvider.fetchedObjects!.map { messageResultItem in
-            let isUnconfirmed = messageResultItem.source.elementID() != nil && unconfirmedMessageIds.contains(messageResultItem.source.elementID())
-            let isTransmitted = isUnconfirmed && retransmission.xmppStream.isAuthenticated()
-            
-            let baseModel = MessageModel(
-                uid: messageResultItem.uid,
-                senderId: messageResultItem.senderId,
-                type: MessageModel.textItemType,
-                isIncoming: messageResultItem.isIncoming,
-                date: messageResultItem.date,
-                status: isTransmitted ? .sending : isUnconfirmed ? .failed : .success
-            )
-            let text = roster.transformedTextContent(for: messageResultItem.source, withTextContent: messageResultItem.text)
-            
-            return TextMessageModel(messageModel: baseModel, text: text)
+        chatItems = positions.flatMap { position in
+            chatItemBuilders.flatMap { builder in
+                builder.chatItems(at: position, in: messageFetchRequestResults)
+            }
         }
         
         delegate?.chatDataSourceDidUpdate(self, updateType: updateType)
     }
 }
+
+protocol XMPPCoreDataChatDataSourceItemBuilder {
+    
+    func chatItems(at position: XMPPCoreDataChatDataSource.ItemPosition, in messageFetchRequestResults: [MessageFetchRequestResult]) -> [ChatItemProtocol]
+}
+
+protocol XMPPCoreDataChatDataSourceItemEventSource {
+    
+    func startObservingChatItemEvents(with sink: XMPPCoreDataChatDataSource.ItemEventSink)
+}
+
 
 extension XMPPCoreDataChatDataSource: ChatDataSourceProtocol {
     
@@ -93,29 +114,8 @@ extension XMPPCoreDataChatDataSource: NSFetchedResultsControllerDelegate {
     }
 }
 
-extension XMPPCoreDataChatDataSource: XMPPStreamDelegate {
-    
-    func xmppStreamDidAuthenticate(_ sender: XMPPStream!) {
-        updateChatItems(with: UpdateType.normal)
-    }
-    
-    func xmppStreamDidDisconnect(_ sender: XMPPStream!, withError error: Error!) {
-        updateChatItems(with: UpdateType.normal)
-    }
-}
 
-extension XMPPCoreDataChatDataSource: XMPPRetransmissionDelegate {
-    
-    func xmppRetransmission(_ xmppRetransmission: XMPPRetransmission!, didConfirmTransmissionFor elements: [XMPPElement]!) {
-        updateChatItems(with: UpdateType.normal)
-    }
-    
-    func xmppRetransmission(_ xmppRetransmission: XMPPRetransmission!, didBeginMonitoringTransmissionFor element: XMPPElement!) {
-        updateChatItems(with: UpdateType.normal)
-    }
-}
-
-protocol BaseMessageFetchRequestResult: NSFetchRequestResult {
+protocol MessageFetchRequestResult: NSFetchRequestResult {
     
     var source: XMPPMessage { get }
     var uid: String { get }
@@ -124,38 +124,7 @@ protocol BaseMessageFetchRequestResult: NSFetchRequestResult {
     var date: Date { get }
 }
 
-extension BaseMessageFetchRequestResult where Self: NSManagedObject {
+extension MessageFetchRequestResult where Self: NSManagedObject {
     
     var uid: String { return objectID.uriRepresentation().absoluteString }
-}
-
-protocol TextMessageFetchRequestResult: BaseMessageFetchRequestResult {
-    
-    var text: String { get }
-}
-
-private extension XMPPRoster {
-    
-    func transformedTextContent(for message: XMPPMessage, withTextContent textContent: String) -> String {
-        // TODO: should have a designated chat item type for "me" commands
-        if (textContent as NSString).hasXMPPMeCommandPrefix(), let substitution = meCommandSubstitution(for: message) {
-            return "\(substitution) \((textContent as NSString).xmppMessageBodyStringByTrimmingMeCommand()!)"
-        } else {
-            return textContent
-        }
-    }
-}
-
-private extension XMPPRetransmissionStorage {
-    
-    func processedMessageIds() -> Set<String> {
-        var processedMessageIds = Set<String>()
-        enumerateMonitoredElements { (_, element, _) in
-            guard let message = element as? XMPPMessage, let messageId = message.elementID() else {
-                return
-            }
-            processedMessageIds.insert(messageId)
-        }
-        return processedMessageIds
-    }
 }

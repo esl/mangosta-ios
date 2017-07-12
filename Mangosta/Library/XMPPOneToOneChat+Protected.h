@@ -13,3 +13,11 @@
 - (void)handleMessage:(XMPPMessage *)message outgoing:(BOOL)isOutgoing inStream:(XMPPStream *)stream;
 
 @end
+
+@interface XMPPOneToOneChatSession (Protected)
+
+@property (nonatomic, readonly) XMPPStream *oneToOneChatStream;
+
+- (XMPPMessage *)outgoingMessageWithBody:(NSString *)body;
+
+@end

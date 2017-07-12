@@ -7,6 +7,7 @@
 //
 
 import XMPPFramework
+import MobileCoreServices
 
 extension XMPPOneToOneChatSession: ChatViewControllerMessageSender {
     
@@ -15,7 +16,8 @@ extension XMPPOneToOneChatSession: ChatViewControllerMessageSender {
     }
     
     func chatViewController(_ viewController: ChatViewController, didRequestToSendMessageWithImage messageImage: UIImage) {
-        // TODO
+        // TODO: Chatto's default provider only delivers decompressed UIImage, ideally we'd like to receive the original compressed data here
+        sendMessage(with: messageImage)
     }
 }
 
@@ -30,6 +32,35 @@ extension XMPPRoomLight: ChatViewControllerMessageSender {
     }
     
     func chatViewController(_ viewController: ChatViewController, didRequestToSendMessageWithImage messageImage: UIImage) {
-        // TODO
+        // TODO: Chatto's default provider only delivers decompressed UIImage, ideally we'd like to receive the original compressed data here
+        sendMessage(with: messageImage)
     }
 }
+
+private protocol OutOfBandDataMessageSender {
+    
+    func sendMessage(withOutOfBandData: Data!, mimeType: String!)
+}
+
+extension OutOfBandDataMessageSender {
+    
+    func sendMessage(with image: UIImage) {
+        let data: Data
+        let utType: CFString
+        if let utTypeIn = image.cgImage?.utType, utTypeIn == kUTTypePNG {
+            data = UIImagePNGRepresentation(image)!
+            utType = kUTTypePNG
+        } else {
+            data = UIImageJPEGRepresentation(image, 1)!
+            utType = kUTTypeJPEG
+        }
+        
+        guard let mimeType = UTTypeCopyPreferredTagWithClass(utType, kUTTagClassMIMEType)?.takeRetainedValue() else {
+            return
+        }
+        sendMessage(withOutOfBandData: data, mimeType: mimeType as String)
+    }
+}
+
+extension XMPPOneToOneChatSession: OutOfBandDataMessageSender {}
+extension XMPPRoomLight: OutOfBandDataMessageSender {}
