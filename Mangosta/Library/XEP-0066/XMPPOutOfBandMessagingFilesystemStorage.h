@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, XMPPOutOfBandMessagingFilesystemStorageEntryKind) {
 @interface XMPPOutOfBandMessagingFilesystemStorageEntry : NSObject
 
 @property (assign, nonatomic, readonly) XMPPOutOfBandMessagingFilesystemStorageEntryKind kind;
-@property (copy, nonatomic, readonly) NSData *data;
+@property (strong, nonatomic, readonly) NSURL *fileURL;
 @property (copy, nonatomic, readonly) NSString *MIMEType;
 @property (assign, nonatomic, readonly, getter=isTransferComplete) BOOL transferComplete;
 

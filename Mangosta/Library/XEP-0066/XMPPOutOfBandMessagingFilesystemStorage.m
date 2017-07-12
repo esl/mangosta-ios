@@ -18,7 +18,7 @@
 
 @interface XMPPOutOfBandMessagingFilesystemStorageEntry ()
 
-- (instancetype)initWithKind:(XMPPOutOfBandMessagingFilesystemStorageEntryKind)kind data:(NSData *)data MIMEType:(NSString *)MIMEType transferComplete:(BOOL)isTransferComplete;
+- (instancetype)initWithKind:(XMPPOutOfBandMessagingFilesystemStorageEntryKind)kind fileURL:(NSURL *)fileURL MIMEType:(NSString *)MIMEType transferComplete:(BOOL)isTransferComplete;
 
 @end
 
@@ -81,22 +81,10 @@
         return nil;
     }
     
+    NSString *entryMIMEType = dataFileURL.inferredMIMEType;
     BOOL isEntryTransferComplete = [self.fileManager fileExistsAtPath:dataFileURL.URLByAppendingCompletionMarkerPathExtension.path];
     
-    NSData *entryData;
-    if (entryKind == XMPPOutOfBandMessagingFilesystemStorageEntryKindUpload || isEntryTransferComplete) {
-        NSError *error;
-        entryData = [[NSData alloc] initWithContentsOfURL:dataFileURL options:NSDataReadingMappedIfSafe error:&error];
-        if (!entryData) {
-            [self reportError:error];
-            return nil;
-        }
-    } else {
-        entryData = nil;
-    }
-    NSString *entryMIMEType = dataFileURL.inferredMIMEType;
-    
-    return [[XMPPOutOfBandMessagingFilesystemStorageEntry alloc] initWithKind:entryKind data:entryData MIMEType:entryMIMEType transferComplete:isEntryTransferComplete];
+    return [[XMPPOutOfBandMessagingFilesystemStorageEntry alloc] initWithKind:entryKind fileURL:dataFileURL MIMEType:entryMIMEType transferComplete:isEntryTransferComplete];
 }
 
 - (NSArray<XMPPMessage *> *)pendingMessagesForDestinationJID:(XMPPJID *)destinationJID
@@ -313,12 +301,12 @@
 
 @implementation XMPPOutOfBandMessagingFilesystemStorageEntry
 
-- (instancetype)initWithKind:(XMPPOutOfBandMessagingFilesystemStorageEntryKind)kind data:(NSData *)data MIMEType:(NSString *)MIMEType transferComplete:(BOOL)isTransferComplete
+- (instancetype)initWithKind:(XMPPOutOfBandMessagingFilesystemStorageEntryKind)kind fileURL:(NSURL *)fileURL MIMEType:(NSString *)MIMEType transferComplete:(BOOL)isTransferComplete
 {
     self = [super init];
     if (self) {
         _kind = kind;
-        _data = [data copy];
+        _fileURL = fileURL;
         _MIMEType = [MIMEType copy];
         _transferComplete = isTransferComplete;
     }

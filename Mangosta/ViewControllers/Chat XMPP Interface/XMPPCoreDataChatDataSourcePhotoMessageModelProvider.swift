@@ -247,6 +247,10 @@ private extension XMPPOutOfBandMessagingFilesystemStorageEntry {
         }
         return UTTypeConformsTo(uti, kUTTypeImage)
     }
+    
+    var data: Data? {
+        return kind == .upload || isTransferComplete ? try? Data(contentsOf: fileURL, options: .mappedIfSafe) : nil
+    }
 }
 
 private extension Data {
