@@ -202,10 +202,10 @@ class XMPPCoreDataChatDataSourcePhotoMessageModelProvider: NSObject, XMPPCoreDat
             thumbnailCache.setObject(generatedThumbnail, forKey: messageId as NSString)
         } else if entry?.data != nil {
             // data is there but file type unsupported
-            thumbnail = UIImage(named: "About_mongooseim_logo__2White")!
+            thumbnail = UIImage(named: "ic_attachment_black")!.bma_tintWithColor(.mangostaLightGreen)
         } else {
             // transfer still in progres/failed
-            thumbnail = UIImage(named: "questionMark")!
+            thumbnail = UIImage(named: "ic_file_download_black")!.bma_tintWithColor(.mangostaLightGreen)
         }
         
         let direction: TransferDirection
