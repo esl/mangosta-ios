@@ -24,17 +24,17 @@ DEPENDENCIES:
   - ChattoAdditions (= 3.1.0)
   - Jayme
   - MBProgressHUD (~> 0.9.2)
-  - XMPPFramework (from `https://github.com/pwetrifork/XMPPFramework.git`, branch `pending-fixes`)
+  - XMPPFramework (from `https://github.com/esl/XMPPFramework.git`, branch `pending-fixes`)
 
 EXTERNAL SOURCES:
   XMPPFramework:
     :branch: pending-fixes
-    :git: https://github.com/pwetrifork/XMPPFramework.git
+    :git: https://github.com/esl/XMPPFramework.git
 
 CHECKOUT OPTIONS:
   XMPPFramework:
     :commit: ea09c6f3d32704556514a550d0024036dad70a44
-    :git: https://github.com/pwetrifork/XMPPFramework.git
+    :git: https://github.com/esl/XMPPFramework.git
 
 SPEC CHECKSUMS:
   Chatto: d959be2d284db62c713c68d7c39f2712ff902fa2
@@ -47,6 +47,6 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   XMPPFramework: 164ed2ce99e3eb2f358e9f5ca5eeaa8d75339fde
 
-PODFILE CHECKSUM: 376c168e7d4aec3dac0b701468b1be1b9b57744b
+PODFILE CHECKSUM: 82727a9540aa00aa10cc5fff5212e80b3369064a
 
 COCOAPODS: 1.2.1

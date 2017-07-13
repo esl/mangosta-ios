@@ -2,17 +2,15 @@ source 'https://github.com/CocoaPods/Specs.git'
 #source 'ssh://git@github.com/private-specs-registry.git'
 # got this structure from https://github.com/robbiehanson/XMPPFramework/issues/688
 
-platform :ios, '8.0'
+platform :ios, '9.3'
 use_frameworks!
 
 workspace 'Mangosta'
 
 def main_app_pods
   # Using a fork until pending pull requests are accepted
-  pod 'XMPPFramework', :git => "https://github.com/pwetrifork/XMPPFramework.git", :branch => 'pending-fixes'
-  # The version pushed to CocoaPods is very out of date, use master branch for now
-  #pod 'XMPPFramework', :git => "https://github.com/robbiehanson/XMPPFramework.git", :branch => 'master'
-  #   pod 'XMPPFramework', git: 'https://github.com/esl/XMPPFramework/' # TODO: Update ELS's fork.
+  pod 'XMPPFramework', :git => "https://github.com/esl/XMPPFramework.git", :branch => 'pending-fixes'
+  #pod 'XMPPFramework', '~> 3.7.0'
   pod 'MBProgressHUD', '~> 0.9.2'
   pod 'Chatto', '= 3.1.0’
   pod 'ChattoAdditions', '= 3.1.0’
