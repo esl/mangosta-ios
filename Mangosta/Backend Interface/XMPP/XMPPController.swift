@@ -74,12 +74,14 @@ class XMPPController: NSObject {
         }
         didSet {
             for insertedRoom in (roomsLight.filter { !oldValue.contains($0) }) {
+                insertedRoom.shouldStoreAffiliationChangeMessages = true
                 insertedRoom.activate(xmppStream)
                 insertedRoom.addDelegate(self, delegateQueue: .main)
                 insertedRoom.addDelegate(self.xmppRoomLightCoreDataStorage, delegateQueue: insertedRoom.moduleQueue)
                 xmppMessageArchiveManagement.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
                 xmppRetransmission.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
                 xmppOutOfBandMessaging.addDelegate(insertedRoom, delegateQueue: insertedRoom.moduleQueue)
+                retrieveMessageHistory(fromArchiveAt: insertedRoom.roomJID, lastPageOnly: true)
             }
             roomListDelegate?.roomListDidChange(in: self)
         }
@@ -220,13 +222,15 @@ class XMPPController: NSObject {
         self.xmppReconnect.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppMicrobloggingPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
         self.xmppPushNotificationsPubSub.addDelegate(self, delegateQueue: DispatchQueue.main)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(xmppRosterStorageManagedObjectContextObjectsDidChange(notification:)), name: .NSManagedObjectContextObjectsDidChange, object: self.managedObjectContext_roster())
 	}
 
     func setStreamCredentials(_ hostName: String?, userJID: XMPPJID, hostPort: UInt16 = 5222, password: String) {
         if let host = hostName, hostName?.characters.count > 0 {
             self.xmppStream.hostName = host
         }
-        self.xmppStream.myJID = userJID
+        self.xmppStream.myJID = UIDevice.current.identifierForVendor.map { userJID.withNewResource($0.uuidString) } ?? userJID
         self.xmppStream.hostPort = hostPort
         self.password = password
     }
@@ -253,13 +257,15 @@ class XMPPController: NSObject {
 		self.xmppStream.disconnectAfterSending()
 	}
 
-    func retrieveMessageHistory(fromArchiveAt archiveJid: XMPPJID? = nil, startingAt startDate: Date? = nil, filteredBy filteringJid: XMPPJID? = nil) {
+    func retrieveMessageHistory(fromArchiveAt archiveJid: XMPPJID? = nil, startingAt startDate: Date? = nil, filteredBy filteringJid: XMPPJID? = nil, lastPageOnly: Bool = false) {
         let queryFields = [
             startDate.map { XMPPMessageArchiveManagement.field(withVar: "start", type: nil, andValue: ($0 as NSDate).xmppDateTimeString())!},
             filteringJid.map { XMPPMessageArchiveManagement.field(withVar: "with", type: nil, andValue: $0.bare())! }
             ].flatMap { $0 }
         
-        xmppMessageArchiveManagement.retrieveMessageArchive(at: archiveJid ?? xmppStream.myJID.bare(), withFields: queryFields, with: XMPPResultSet(max: NSNotFound, after: ""))
+        let resultSet = lastPageOnly ? XMPPResultSet(max: NSNotFound, before: "") : XMPPResultSet(max: NSNotFound, after: "")
+        
+        xmppMessageArchiveManagement.retrieveMessageArchive(at: archiveJid ?? xmppStream.myJID.bare(), withFields: queryFields, with: resultSet)
     }
 
     func addRoom(withName roomName: String, initialOccupantJids: [XMPPJID]?) {
@@ -315,6 +321,8 @@ class XMPPController: NSObject {
             roomLight.removeDelegate(self)
 			roomLight.deactivate()
 		}
+        
+        NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextObjectsDidChange, object: self.managedObjectContext_roster())
         
 		self.xmppReconnect.deactivate()
 		self.xmppRoster.deactivate()
@@ -416,6 +424,15 @@ extension XMPPController: XMPPRosterDelegate {
 	func xmppRoster(_ sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
 		print("Roster: Received presence request from user: \((presence.from().bare() as String))")
 	}
+    
+    func xmppRosterStorageManagedObjectContextObjectsDidChange(notification: Notification) {
+        guard let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> else {
+            return
+        }
+        for user in (insertedObjects.flatMap { $0 as? XMPPUserCoreDataStorageObject }) {
+            retrieveMessageHistory(filteredBy: user.jid, lastPageOnly: true)
+        }
+    }
 }
 
 extension XMPPController: XMPPMUCLightDelegate {

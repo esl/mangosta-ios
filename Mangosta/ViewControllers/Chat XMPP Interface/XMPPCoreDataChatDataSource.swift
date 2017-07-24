@@ -122,6 +122,9 @@ protocol MessageFetchRequestResult: NSFetchRequestResult {
     var senderId: String { get }
     var isIncoming: Bool { get }
     var date: Date { get }
+    
+    func isChatOriginContinuityMaintained(with other: MessageFetchRequestResult) -> Bool
+    func isChatOriginContinuityMaintained(inStreamWithLocalJid streamLocalJid: XMPPJID) -> Bool
 }
 
 extension MessageFetchRequestResult where Self: NSManagedObject {
