@@ -21,7 +21,7 @@ extension XMPPMessageArchiving_Message_CoreDataObject {
 extension XMPPMessageArchiving_Message_CoreDataObject: MessageFetchRequestResult {
     
     var source: XMPPMessage { return message }
-    var senderId: String { return bareJidStr }
+    var senderId: String { return isOutgoing ? streamBareJidStr : bareJidStr }
     var isIncoming: Bool { return !isOutgoing }
     var date: Date { return timestamp }
     
