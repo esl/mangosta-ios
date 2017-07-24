@@ -71,7 +71,7 @@ class ChatViewController: BaseChatViewController, UIGestureRecognizerDelegate, T
     override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
         let textMessagePresenter = TextMessagePresenterBuilder(
             viewModelBuilder: TextMessageViewModelDefaultBuilder(),
-            interactionHandler: XMPPTextMessageInteractionHandler<TextMessageViewModel<TextMessageModel<MessageModel>>>()
+            interactionHandler: XMPPTextMessageInteractionHandler(contextViewController: self)
         )
         let baseMessageStyle = BaseMessageCollectionViewCellDefaultStyle(colors: BaseMessageCollectionViewCellDefaultStyle.Colors(incoming: .mangostaVeryLightGreen, outgoing: .mangostaDarkGreen))
         textMessagePresenter.baseMessageStyle = baseMessageStyle

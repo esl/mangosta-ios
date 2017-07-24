@@ -10,14 +10,33 @@ import ChattoAdditions
 import QuickLook
 import XMPPFramework
 
-class XMPPTextMessageInteractionHandler<ViewModel: TextMessageViewModelProtocol>: BaseMessageInteractionHandlerProtocol {
+class XMPPTextMessageInteractionHandler: BaseMessageInteractionHandlerProtocol {
+    
+    private unowned let contextViewController: UIViewController
+    
+    init(contextViewController: UIViewController) {
+        self.contextViewController = contextViewController
+    }
+    
+    func userDidTapOnBubble(viewModel: TextMessageViewModel<CorrectionAwareTextMessageModel<MessageModel>>) {
+        guard let correctionHandler = viewModel.textMessage.correctionHandler else {
+            return
+        }
+        
+        let messageCorrectionAlert = UIAlertController.textFieldAlertController(nil, message: NSLocalizedString("Edit message", comment: "")) {
+            if let correctedText = $0 {
+                correctionHandler.sendCorrection(withText: correctedText)
+            }
+        }
+        messageCorrectionAlert.textFields?.first!.text = correctionHandler.currentText
+        contextViewController.present(messageCorrectionAlert, animated: true, completion: nil)
+    }
     
     // TODO
-    func userDidTapOnFailIcon(viewModel: ViewModel, failIconView: UIView) {}
-    func userDidTapOnAvatar(viewModel: ViewModel) {}
-    func userDidTapOnBubble(viewModel: ViewModel) {}
-    func userDidBeginLongPressOnBubble(viewModel: ViewModel) {}
-    func userDidEndLongPressOnBubble(viewModel: ViewModel) {}
+    func userDidTapOnFailIcon(viewModel: TextMessageViewModel<CorrectionAwareTextMessageModel<MessageModel>>, failIconView: UIView) {}
+    func userDidTapOnAvatar(viewModel: TextMessageViewModel<CorrectionAwareTextMessageModel<MessageModel>>) {}
+    func userDidBeginLongPressOnBubble(viewModel: TextMessageViewModel<CorrectionAwareTextMessageModel<MessageModel>>) {}
+    func userDidEndLongPressOnBubble(viewModel: TextMessageViewModel<CorrectionAwareTextMessageModel<MessageModel>>) {}
 }
 
 class XMPPPhotoMessageInteractionHandler: NSObject, BaseMessageInteractionHandlerProtocol, QLPreviewControllerDelegate {
