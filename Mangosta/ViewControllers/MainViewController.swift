@@ -333,7 +333,12 @@ private extension XMPPCoreDataChatDataSource {
     
     convenience init(xmppController: XMPPController, configuration: Configuration, jid: XMPPJID) {
         let baseMessageModelProvider = XMPPCoreDataChatBaseMessageModelProvider(xmppRetransmission: xmppController.xmppRetransmission)
-        let textMessageModelProvider = XMPPCoreDataChatDataSourceTextMessageModelProvider(baseProvider: baseMessageModelProvider, xmppRoster: xmppController.xmppRoster)
+        let textMessageModelProvider = XMPPCoreDataChatDataSourceTextMessageModelProvider(
+            baseProvider: baseMessageModelProvider,
+            xmppRoster: xmppController.xmppRoster,
+            xmppStream: xmppController.xmppStream,
+            correctionRecipientJid: jid
+        )
         let photoMessageModelProvider = XMPPCoreDataChatDataSourcePhotoMessageModelProvider(
             baseProvider: baseMessageModelProvider,
             xmppOutOfBandMessaging: xmppController.xmppOutOfBandMessaging,

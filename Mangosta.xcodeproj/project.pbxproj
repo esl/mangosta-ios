@@ -145,6 +145,8 @@
 		DD2542B61EFC15A500926E38 /* XMPPOneToOneChat+XMPPRetransmissionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2542B41EFC15A500926E38 /* XMPPOneToOneChat+XMPPRetransmissionDelegate.m */; };
 		DD2542B91EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2542B81EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.m */; };
 		DD2542BA1EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2542B81EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.m */; };
+		DD2B519D1F1CD8A2008C4A05 /* CorrectionAwareTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2B519C1F1CD8A1008C4A05 /* CorrectionAwareTextMessageModel.swift */; };
+		DD2B519E1F1CD8A2008C4A05 /* CorrectionAwareTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2B519C1F1CD8A1008C4A05 /* CorrectionAwareTextMessageModel.swift */; };
 		DD4B5BC81EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */; };
 		DD4B5BC91EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */; };
 		DD4B5BD01EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5BCF1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.m */; };
@@ -298,6 +300,7 @@
 		DD2542B71EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPRoomLight+XMPPRetransmissionDelegate.h"; sourceTree = "<group>"; };
 		DD2542B81EFC161400926E38 /* XMPPRoomLight+XMPPRetransmissionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPRoomLight+XMPPRetransmissionDelegate.m"; sourceTree = "<group>"; };
 		DD2542BB1EFC1BAF00926E38 /* XMPPOneToOneChat+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XMPPOneToOneChat+Protected.h"; sourceTree = "<group>"; };
+		DD2B519C1F1CD8A1008C4A05 /* CorrectionAwareTextMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrectionAwareTextMessageModel.swift; sourceTree = "<group>"; };
 		DD4B5BC61EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0060.h"; sourceTree = "<group>"; };
 		DD4B5BC71EC9AD5B00237BB0 /* XMPPMessage+XEP_0060.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0060.m"; sourceTree = "<group>"; };
 		DD4B5BCE1EC9D8A200237BB0 /* NSXMLElement+XEP_0277.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLElement+XEP_0277.h"; sourceTree = "<group>"; };
@@ -522,6 +525,7 @@
 				AC3E3FC11E7C3F19005EA75B /* TimeSeparatorModel.swift */,
 				AC3E3FC21E7C3F19005EA75B /* TimeSeparatorPresenter.swift */,
 				DD550E7B1F0A849F00719044 /* TransferAwarePhotoMessageModel.swift */,
+				DD2B519C1F1CD8A1008C4A05 /* CorrectionAwareTextMessageModel.swift */,
 			);
 			path = "Chat UI Extensions";
 			sourceTree = "<group>";
@@ -1032,6 +1036,7 @@
 				AC3E3FD11E7C3F19005EA75B /* SendingStatusPresenter.swift in Sources */,
 				DD1E73421EDC546D009B529B /* XMPPCoreDataChatDataSource.swift in Sources */,
 				C135D9231CE3A0B400225EC7 /* MembersViewController.swift in Sources */,
+				DD2B519D1F1CD8A2008C4A05 /* CorrectionAwareTextMessageModel.swift in Sources */,
 				DD22EA081ECF3903000D006C /* XMPPOneToOneChat+XEP_0313.m in Sources */,
 				ACB2D2B91E16ABB000B3AEB8 /* Me.swift in Sources */,
 				2442DE291EF56A8B00A6BA20 /* XMPPFramework+ChatViewControllerTitleProvider.swift in Sources */,
@@ -1158,6 +1163,7 @@
 				AC3E3FE31E7C3F32005EA75B /* SendingStatusPresenter.swift in Sources */,
 				246B753D1F10B9740066E61C /* XMPPMessageArchivingCoreDataStorage+XEP_0066.m in Sources */,
 				DD1E73461EDD4668009B529B /* XMPPMessageInteractionHandler.swift in Sources */,
+				DD2B519E1F1CD8A2008C4A05 /* CorrectionAwareTextMessageModel.swift in Sources */,
 				AC9F66551D957E5900B3AEB8 /* Room Message.swift in Sources */,
 				DD5ECECE1EFD03BE0055A966 /* XMPPRetransmissionMessageArchivingStorageFilter.m in Sources */,
 				DD2542AA1EFAE1EF00926E38 /* XMPPRetransmission.m in Sources */,
