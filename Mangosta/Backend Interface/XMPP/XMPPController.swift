@@ -230,7 +230,7 @@ class XMPPController: NSObject {
         if let host = hostName, hostName?.characters.count > 0 {
             self.xmppStream.hostName = host
         }
-        self.xmppStream.myJID = userJID
+        self.xmppStream.myJID = UIDevice.current.identifierForVendor.map { userJID.withNewResource($0.uuidString) } ?? userJID
         self.xmppStream.hostPort = hostPort
         self.password = password
     }
