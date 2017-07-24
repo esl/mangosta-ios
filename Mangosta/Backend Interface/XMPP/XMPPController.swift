@@ -74,6 +74,7 @@ class XMPPController: NSObject {
         }
         didSet {
             for insertedRoom in (roomsLight.filter { !oldValue.contains($0) }) {
+                insertedRoom.shouldStoreAffiliationChangeMessages = true
                 insertedRoom.activate(xmppStream)
                 insertedRoom.addDelegate(self, delegateQueue: .main)
                 insertedRoom.addDelegate(self.xmppRoomLightCoreDataStorage, delegateQueue: insertedRoom.moduleQueue)
