@@ -24,4 +24,22 @@ extension XMPPRoomLightMessageCoreDataStorageObject: MessageFetchRequestResult {
     var senderId: String { return nickname ?? roomJIDStr }
     var isIncoming: Bool { return !isFromMe }
     var date: Date { return localTimestamp }
+    
+    func isChatOriginContinuityMaintained(with other: MessageFetchRequestResult) -> Bool {
+        guard senderId != other.senderId else {
+            return true
+        }
+        
+        guard let affiliationsElement = other.source.forName("x", xmlns: "urn:xmpp:muclight:0#affiliations") else {
+            return true
+        }
+        
+        return !affiliationsElement.elements(forName: "user").contains { userElement in
+            ["member", "owner"].contains(userElement.attributeStringValue(forName: "affiliation")!) && userElement.stringValue == senderId
+        }
+    }
+    
+    func isChatOriginContinuityMaintained(inStreamWithLocalJid streamLocalJid: XMPPJID) -> Bool {
+        return senderId == streamLocalJid.bare()
+    }
 }
